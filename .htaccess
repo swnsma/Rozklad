@@ -2,4 +2,4 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^([\w])/([\w])/([\w])/((.*)+)$ /index.php\?model=$1&controller=$2&action=$3&param=$4 [L]
+RewriteRule ^([a-zA-Z0-9_-]*)/([a-zA-Z0-9_-]*)/([a-zA-Z0-9_-]*)/((.*)+)$ /index.php\?model=$1&controller=$2&action=$3&param=$4 [L]
