@@ -10,17 +10,12 @@ class Rozklad {
                 require $file;
                 $controller = new $url[0];
             } else {
-<<<<<<< Updated upstream
-                require '../controllers/error.php';
-                new Error();
-=======
                 require 'controllers/error.php';
                 $controller = new Error();
->>>>>>> Stashed changes
             }
             $controller->loadModel($url[0]);
         } else {
-            require '../controllers/index.php';
+            require 'controllers/index.php';
             new Index();
         }
     }

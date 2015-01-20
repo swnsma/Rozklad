@@ -1,10 +1,5 @@
 <?php
 
-<<<<<<< Updated upstream
-require '../libs/View.php';
-
-=======
->>>>>>> Stashed changes
 class Controller {
     function __construct() {
         $this->view = new View();
