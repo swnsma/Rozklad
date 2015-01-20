@@ -10,11 +10,11 @@ class Rozklad {
                 require $file;
                 new $url[0];
             } else {
-                require 'controllers/error.php';
+                require '../controllers/error.php';
                 new Error();
             }
         } else {
-            require 'controllers/index.php';
+            require '../controllers/index.php';
             new Index();
         }
     }

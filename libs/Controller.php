@@ -1,6 +1,6 @@
 <?php
 
-require 'libs/View.php';
+require '../libs/View.php';
 
 class Controller {
     function __construct() {

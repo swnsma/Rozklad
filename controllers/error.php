@@ -1,6 +1,6 @@
 <?php
 
-require 'libs/Controller.php';
+require '../libs/Controller.php';
 
 class Error extends Controller {
     function __construct() {

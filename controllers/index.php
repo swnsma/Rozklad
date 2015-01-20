@@ -1,6 +1,6 @@
 <?php
 
-require 'libs/Controller.php';
+require '../libs/Controller.php';
 
 class Index extends Controller {
     function __construct() {
