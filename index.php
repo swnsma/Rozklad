@@ -1,8 +1,7 @@
 <?php
 
-print $_GET['model'] . '<br />';
-print $_GET['controller'] . '<br />';
-print $_GET['action'] . '<br />';
-print $_GET['param'] . '<br />';
+require_once __DIR__ . '/libs/Rozklad.php';
+
+$app = new Rozklad();
 
 ?>
