@@ -1,6 +1,10 @@
 <?php
 
-require_once __DIR__ . '/libs/Rozklad.php';
+require_once 'libs/Rozklad.php';
+require_once 'libs/Controller.php';
+require_once 'libs/Model.php';
+require_once 'libs/View.php';
+require_once 'libs/database.php';
 
 $app = new Rozklad();
 
