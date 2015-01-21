@@ -8,4 +8,11 @@ require_once 'libs/database.php';
 
 $app = new Rozklad();
 
+try {
+    $db = new DataBase();
+} catch(PDOException $e) {
+    print 'erty';
+}
+
+
 ?>
