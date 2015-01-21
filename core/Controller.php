@@ -10,7 +10,7 @@ abstract class Controller {
         if (file_exists($path)) {
             require $path;
             $modelName = $name . '_model';
-            $this->model = $modelName();
+            $this->model = new $modelName();
         }
     }
 }
