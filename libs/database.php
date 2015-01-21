@@ -8,5 +8,4 @@ class DataBase extends PDO {
     }
 }
 
-
 ?>
