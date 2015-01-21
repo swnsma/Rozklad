@@ -1,11 +1,10 @@
 <?php
 
-require_once 'conf/conf.php';
+define ('DOCUMENT_ROOT', __DIR__);
 
 class DataBase extends PDO {
     function __construct() {
-        //parent::__construct('mysql:host=' . DB_SERVER . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
-        parent::__construct('sqlite:app_date/rozklad-db.sql');
+        parent::__construct('sqlite:' . DOCUMENT_ROOT . '/../app_date/db.sqlite');
         $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 }
