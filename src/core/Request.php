@@ -6,11 +6,11 @@
  * Time: 23:40
  */
 class Request{
-    protected static $string = '';
-    private function __construct(){
+    private static $string = '';
+    protected function __construct(){
 
     }
-    private function __clone(){
+    protected function __clone(){
 
     }
     public static function input($string){
