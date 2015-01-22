@@ -6,7 +6,7 @@ abstract class Model {
     private $dataResult;
 
     public function __construct($select=false) {
-        $this->db = new DataBase();
+        $this->db = DataBase::getInstance();
         $modelName = get_class($this);
         $arrExp = explode('_', $modelName);//імя таблиці
         $tableName = strtolower($arrExp[1]);
