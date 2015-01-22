@@ -7,14 +7,14 @@ abstract class Model {
 
     public function __construct($select=false) {
         $this->db = DataBase::getInstance();
-        $modelName = get_class($this);
+        /*$modelName = get_class($this);
         $arrExp = explode('_', $modelName);//імя таблиці
         $tableName = strtolower($arrExp[1]);
         $this->table = $tableName;
         var_dump($this->table);
 //        var_dump($this->db->query('SELECT * from role')->fetchAll(PDO::FETCH_ASSOC));
         $sql = $this->_getSelect($select);
-        if($sql) $this->_getResult("SELECT * FROM $this->table" . $sql);
+        if($sql) $this->_getResult("SELECT * FROM $this->table" . $sql);*/
     }
 
     public function getDate() { return null; }
