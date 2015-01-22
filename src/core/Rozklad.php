@@ -2,9 +2,7 @@
 
 class Rozklad {
     function __construct() {
-        print_r($_GET);
         if (isset($_GET['url'])) {
-            print $_GET['url'];
             $url = explode('/', rtrim($_GET['url'], '/'));
 
             $file = __DIR__ . '/../controllers/' . $url[0] . '.php';
@@ -18,7 +16,6 @@ class Rozklad {
             $controller->loadModel($url[0]);
         } else {
             require __DIR__ . '/../controllers/index.php';
-            print 12345;
             new Index();
         }
     }

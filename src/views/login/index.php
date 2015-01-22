@@ -8,8 +8,8 @@
 </fb:login-button>
 
 <div id="status"></div>
-<script src="test/public/js/vendor/jquery-2.1.1.js"></script>
-<script src="test/public/js/app/common.js"></script>
-<script src="test/public/js/app/login.js"></script>
+<script src="public/js/vendor/jquery-2.1.1.js"></script>
+<script src="public/js/app/common.js"></script>
+<script src="public/js/app/login.js"></script>
 </body>
 </html>
