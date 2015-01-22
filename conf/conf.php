@@ -23,7 +23,7 @@ function baseConfig(){
         fclose($file);
         $file=fopen($path.'/install_'.$buff2.'.sql', 'r');
         try{
-        $DBH=new PDO("sqlite: ../SQL/data/rozklad.sqlite");
+        $DBH=new DataBase();//переделать
             while($buff=fgets($file, 1000)){
                 if(preg_match('/DROP/', $buff)){
                     $DBH->query($buff);
@@ -42,3 +42,4 @@ function baseConfig(){
         }
     }
 }
+baseConfig();
