@@ -3,7 +3,8 @@
 class Index extends Controller {
     function __construct() {
         parent::__construct();
-        $this->view->render('index/index');
+        $data = $this->loadModel('login');
+        $this->view->render('index/index', $data);
     }
 }
 

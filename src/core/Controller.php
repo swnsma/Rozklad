@@ -6,12 +6,14 @@ abstract class Controller {
     }
 
     public function loadModel($name) {
-        $path = __DIR__ . '/../models/'. $name . '_model.php';
+        $path = __DIR__ . '/../models/model_'. $name . '.php';
         if (file_exists($path)) {
             require $path;
             $modelName = $name . '_model';
             $this->model = new $modelName();
+            return  $this->model->getData();
         }
+        return null;
     }
 }
 

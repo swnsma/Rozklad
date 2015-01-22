@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>dd</title>
 </head>
 <!--тут-->
 <script type="text/javascript">
@@ -13,6 +13,7 @@
 </script>
 <!-- -->
 <body>
+<?php print $data ?>
 <fb:login-button id="fbLogin" scope="public_profile,email" onlogin="auth_fb.checkLoginState();">
 </fb:login-button>
 

@@ -8,12 +8,11 @@ class Rozklad {
             $file = __DIR__ . '/../controllers/' . $url[0] . '.php';
             if (file_exists($file)) {
                 require $file;
-                $controller = new $url[0];
+                new $url[0];
             } else {
                 require __DIR__ . '/../controllers/error.php';
-                $controller = new Error();
+                new Error();
             }
-            $controller->loadModel($url[0]);
         } else {
             require __DIR__ . '/../controllers/index.php';
             new Index();

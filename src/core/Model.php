@@ -17,6 +17,8 @@ abstract class Model {
         if($sql) $this->_getResult("SELECT * FROM $this->table" . $sql);
     }
 
+    public function getDate() { return null; }
+
     // отримати імя таблиці
     public function getTableName() {
         return $this->table;

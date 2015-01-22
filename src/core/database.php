@@ -1,8 +1,6 @@
 <?php
 
-define ('DOCUMENT_ROOT', __DIR__);
-
-class DataBase/* extends PDO*/ {
+class DataBase {
     private static $instance=null;
     private function __construct() {
 
