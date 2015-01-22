@@ -5,7 +5,7 @@ require_once 'core/Controller.php';
 require_once 'core/Model.php';
 require_once 'core/View.php';
 require_once 'core/database.php';
-require_once 'models/model_role.php';
+require_once 'models/role_model.php';
 $app = new Rozklad();
 
 $select = array(

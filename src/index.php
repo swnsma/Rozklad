@@ -5,7 +5,7 @@ require_once __DIR__ . '/core/Controller.php';
 require_once __DIR__ . '/core/Model.php';
 require_once __DIR__ . '/core/View.php';
 require_once __DIR__ . '/core/database.php';
-require_once __DIR__ . '/models/model_role.php';
+require_once __DIR__ . '/models/role_model.php';
 
 $app = new Rozklad();
 
