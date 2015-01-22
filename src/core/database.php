@@ -12,7 +12,7 @@ class DataBase/* extends PDO*/ {
     }
     public static function getInstance(){
         if(!self::$instance){
-            self::$instance = new PDO('sqlite:' . DOCUMENT_ROOT . '/../sql/data/rozklad.sqlite');
+            self::$instance = new PDO('sqlite:' . __DIR__ . '/../sql/data/rozklad.sqlite');
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         return self::$instance;

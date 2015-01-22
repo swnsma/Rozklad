@@ -4,9 +4,12 @@
     <title>Login</title>
 </head>
 <body>
-<fb:login-button id="fb_login" scope="public_profile,email" onlogin="auth_fb.checkLoginState();">
+<fb:login-button id="fbLogin" scope="public_profile,email" onlogin="auth_fb.checkLoginState();">
 </fb:login-button>
 
-<script src="public/js/app/login.js"></script>
+<div id="status"></div>
+<script src="test/public/js/vendor/jquery-2.1.1.js"></script>
+<script src="test/public/js/app/common.js"></script>
+<script src="test/public/js/app/login.js"></script>
 </body>
 </html>
