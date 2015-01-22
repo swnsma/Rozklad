@@ -15,8 +15,8 @@ try {
     print_r($db->query('SELECT * from role')->fetchAll(PDO::FETCH_ASSOC));
 } catch(PDOException $e) {
     print 'error';
-}
-*/
+}*/
+
 
 
 ?>
