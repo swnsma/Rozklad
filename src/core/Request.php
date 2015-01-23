@@ -24,6 +24,8 @@ class Request {
                         $this->data[$url[$i]] = null;
                     }
                 }
+            } else {
+                $this->action = 'index';
             }
         } else {
             $this->controller = 'index';
