@@ -13,6 +13,5 @@ class Calendar extends Controller {
         $data = $this->loadModel('calendar');
         $this->view->render('calendar/index', $data);
     }
-
 }
 ?>
