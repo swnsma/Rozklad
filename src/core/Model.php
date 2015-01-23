@@ -1,10 +1,8 @@
 <?php
-abstract class Model {
-
+abstract class Model extends magic_object{
     protected $db;
     protected $table;
     private $dataResult;
-
     public function __construct($select=false) {
         $this->db = DataBase::getInstance();
         /*$modelName = get_class($this);
@@ -16,27 +14,21 @@ abstract class Model {
         $sql = $this->_getSelect($select);
         if($sql) $this->_getResult("SELECT * FROM $this->table" . $sql);*/
     }
-
     public function getDate() { return null; }
-
     // отримати імя таблиці
     public function getTableName() {
         return $this->table;
     }
-
     // отримати всі записи
     function getAllRows(){
         if(!isset($this->dataResult) OR empty($this->dataResult)) return false;
         return $this->dataResult;
     }
-
     //отримати один запис
     function getOneRow(){
         if(!isset($this->dataResult) OR empty($this->dataResult)) return false;
         return $this->dataResult[0];
     }
-
-
     function fetchOne(){
         if(!isset($this->dataResult) OR empty($this->dataResult)) return false;
         foreach($this->dataResult[0] as $key => $val){
@@ -44,7 +36,6 @@ abstract class Model {
         }
         return true;
     }
-
     // отримати запис по id
     function getRowById($id){
         try{
@@ -57,7 +48,6 @@ abstract class Model {
         }
         return $row;
     }
-
     // запись в базу данных
     public function save() {
         $arrayAllFields = array_keys($this->fieldsTable());
@@ -82,10 +72,8 @@ abstract class Model {
             echo '<br/>Error sql : ' . "'INSERT INTO $this->table ($forQueryFields) values ($forQueryPlace)'";
             exit();
         }
-
         return $result;
     }
-
     // составление запроса к базе данных
     private function _getSelect($select) {
         if(is_array($select)){
@@ -93,7 +81,6 @@ abstract class Model {
             foreach($allQuery as $key => $val){
                 $allQuery[$key] = strtoupper($val);
             }
-
             $querySql = "";
             if(in_array("WHERE", $allQuery)){
                 foreach($select as $key => $val){
@@ -102,7 +89,6 @@ abstract class Model {
                     }
                 }
             }
-
             if(in_array("GROUP", $allQuery)){
                 foreach($select as $key => $val){
                     if(strtoupper($key) == "GROUP"){
@@ -110,7 +96,6 @@ abstract class Model {
                     }
                 }
             }
-
             if(in_array("ORDER", $allQuery)){
                 foreach($select as $key => $val){
                     if(strtoupper($key) == "ORDER"){
@@ -118,7 +103,6 @@ abstract class Model {
                     }
                 }
             }
-
             if(in_array("LIMIT", $allQuery)){
                 foreach($select as $key => $val){
                     if(strtoupper($key) == "LIMIT"){
@@ -126,12 +110,10 @@ abstract class Model {
                     }
                 }
             }
-
             return $querySql;
         }
         return false;
     }
-
     // выполнение запроса к базе данных
     private function _getResult($sql){
         try{
@@ -143,10 +125,8 @@ abstract class Model {
             echo $e->getMessage();
             exit;
         }
-
         return $rows;
     }
-
     // уделение записей из базы данных по условию
     public function deleteBySelect($select){
         $sql = $this->_getSelect($select);
@@ -160,11 +140,9 @@ abstract class Model {
         }
         return $result;
     }
-
     // уделение строки из базы данных
     public function deleteRow(){
         $arrayAllFields = array_keys($this->fieldsTable());
-
         foreach($arrayAllFields as $key => $val){
             $arrayAllFields[$key] = strtoupper($val);
         }
@@ -191,7 +169,6 @@ abstract class Model {
         }
         return $result;
     }
-
     // обновление записи. Происходит по ID
     public function update(){
         $arrayAllFields = array_keys($this->fieldsTable());
@@ -213,9 +190,7 @@ abstract class Model {
             echo "ID table `$this->table` not found!";
             exit;
         }
-
         $strForSet = implode(', ', $arrayForSet);
-
         try {
             $db = $this->db;
             $stmt = $db->prepare("UPDATE $this->table SET $strForSet WHERE `id` = $whereID");
@@ -227,7 +202,5 @@ abstract class Model {
         }
         return $result;
     }
-
 }
-
 ?>

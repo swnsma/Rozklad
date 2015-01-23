@@ -8,6 +8,7 @@
 
 class Calendar extends Controller {
     public static $role='teacher';
+    public static $id=1;
     function __construct() {
         parent::__construct();
         $data = $this->loadModel('calendar');

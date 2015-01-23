@@ -7,7 +7,7 @@
 
     <link rel='stylesheet' href='public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
     <link rel='stylesheet' href='public/js/vendor/jQuery/jquery-ui.min.css'/>
-    <link rel='stylesheet' href='public/css/calendar/common.css'/>";
+    <link rel='stylesheet' href='public/css/calendar/common.css'/>
 
 
 </head>
