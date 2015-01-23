@@ -1,0 +1,25 @@
+body{
+    width: 400px;
+    margin: auto;
+    color: #ffffff;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.button-block a{
+    display: inline-block;
+}
+
+.btn {
+    width: 100%;
+}
+
+.panel-body > a:first-of-type{
+    margin-bottom: 10px;
+}

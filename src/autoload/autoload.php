@@ -11,11 +11,9 @@ function __autoload($className) {
             case 'controller':
                 $folder = 'controllers';
                 break;
-
             case 'model':
                 $folder = 'models';
                 break;
-
             default:
                 $folder = 'classes';
                 break;
