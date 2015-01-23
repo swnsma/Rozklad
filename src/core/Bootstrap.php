@@ -2,7 +2,7 @@
 
 class Bootstrap {
     function __construct() {
-        if (isset($_GET['url'])) {
+        /*if (isset($_GET['url'])) {
             $url = explode('/', rtrim($_GET['url'], '/'));
 
             $file = __DIR__ . '/../controllers/' . $url[0] . '.php';
@@ -16,7 +16,19 @@ class Bootstrap {
         } else {
             require __DIR__ . '/../controllers/index.php';
             new Index();
+        }*/
+
+        $request = Request::getInstance();
+        $controller = $request->getController();
+        $file = __DIR__ . '/../controllers/' . $controller . '.php';
+        if (file_exists($file)) {
+            require $file;
+            new $controller;
+        } else {
+            require __DIR__ . '/../controllers/error.php';
+            new Error();
         }
+
     }
 }
 
