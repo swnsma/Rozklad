@@ -1,4 +1,11 @@
-.htaccess->index.php -> new Bootstrap ->
-do{
-    controller -> model -> controller -> view ->...
-}while(true);
+.htaccess->
+index.php->
+bootstrap.php->
+Request.php->
+(parse URI)->
+return <controller>->
+controller->
+new model->
+get data->
+new view->
+render
