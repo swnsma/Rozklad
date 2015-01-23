@@ -1,0 +1,28 @@
+body{
+
+}
+
+.popup{
+    padding: 16px 0;
+    box-shadow: 2px 2px 0 rgba(0,0,0,.7);
+    border: 1px solid #666;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 280px;
+    display: none;
+}
+.popup .content{
+
+}
+.padding28{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.popup .content h2{
+    font-size: 2em;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    border-bottom: 1px solid #eeeeee;
+}
