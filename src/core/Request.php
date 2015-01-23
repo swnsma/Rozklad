@@ -12,8 +12,8 @@ class Request {
     }
 
     private function parseGet() {
-        $url = explode('/', rtrim($_GET['url'], '/'));
-        if (isset($url[0])) {
+        if (isset($_GET['url'])) {
+            $url = explode('/', rtrim($_GET['url'], '/'));
             $this->controller = $url[0];
             if (isset($url[1])) {
                 $this->action = $url[1];
@@ -24,6 +24,8 @@ class Request {
                         $this->data[$url[$i]] = null;
                     }
                 }
+            } else {
+                $this->action = 'index';
             }
         } else {
             $this->controller = 'index';
