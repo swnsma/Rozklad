@@ -1,6 +1,6 @@
 <?php
 
-class Rozklad {
+class Bootstrap {
     function __construct() {
         if (isset($_GET['url'])) {
             $url = explode('/', rtrim($_GET['url'], '/'));
