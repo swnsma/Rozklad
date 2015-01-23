@@ -6,8 +6,8 @@
  * Time: 23:56
  */
 abstract class Response{
-    private $array_var= Array();
-    private $array_function= Array();
+    protected $array_var= Array();
+    protected $array_function= Array();
     public function __construct(){
 
     }
