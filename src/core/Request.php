@@ -29,6 +29,7 @@ class Request {
             }
         } else {
             $this->controller = 'index';
+            $this->action = 'index';
         }
     }
 

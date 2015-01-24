@@ -7,11 +7,12 @@ class Bootstrap {
         $file = __DIR__ . '/../controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require $file;
-            new $controller;
+            $c = new $controller;
         } else {
             require __DIR__ . '/../controllers/error.php';
-            new Error();
+            $c = new Error();
         }
+        $c->run($request->getAction());
 
     }
 }

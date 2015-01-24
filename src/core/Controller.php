@@ -15,6 +15,10 @@ abstract class Controller {
         }
         return null;
     }
+
+    public function run($actionName) {
+        $this->$actionName();
+    }
 }
 
 ?>

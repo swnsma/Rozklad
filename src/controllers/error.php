@@ -3,7 +3,10 @@
 class Error extends Controller {
     function __construct() {
         parent::__construct();
-        $data = $this->loadModel('login');
+    }
+
+    function index() {
+        $data = $this->loadModel('index');
         $this->view->render('error/index', $data);
     }
 }

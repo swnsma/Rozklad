@@ -11,6 +11,9 @@ class Calendar extends Controller {
     public static $id=1;
     function __construct() {
         parent::__construct();
+    }
+
+    function index() {
         $data = $this->loadModel('calendar');
         $this->view->render('calendar/index', $data);
     }
