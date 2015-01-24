@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <title>Calendar|Rozklad</title>
 
-    <link rel='stylesheet' href='public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
-    <link rel='stylesheet' href='public/js/vendor/jQuery/jquery-ui.min.css'/>
-    <link rel='stylesheet' href='public/css/calendar/common.css'/>
+    <link rel='stylesheet' href='http://rozklad.loc:83/src/public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
+    <link rel='stylesheet' href='http://rozklad.loc:83/src/public/js/vendor/jQuery/jquery-ui.min.css'/>
+    <link rel='stylesheet' href='http://rozklad.loc:83/src/public/css/calendar/common.css'/>
 
 
 </head>
@@ -32,18 +32,18 @@ if(Calendar::$role=='teacher')
 
 
 
-<script src='public/js/vendor/jQuery/jquery-2.1.1.js'></script>
-<script src='public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
-<script src='public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
+<script src='http://rozklad.loc:83/src/public/js/vendor/jQuery/jquery-2.1.1.js'></script>
+<script src='http://rozklad.loc:83/src/public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
+<script src='http://rozklad.loc:83/src/public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
 
 
-<script src='public/js/app/calendar/Calendar.js'></script>
+<script src='http://rozklad.loc:83/src/public/js/app/calendar/Calendar.js'></script>
 <?php
 if(Calendar::$role=='teacher')
 {
-    echo "<script src='public/js/app/calendar/teacher.js'></script>";
+    echo "<script src='http://rozklad.loc:83/src/public/js/app/calendar/teacher.js'></script>";
 }else{
-    echo "<script src='public/js/app/calendar/student.js'></script>";
+    echo "<script src='http://rozklad.loc:83/src/public/js/app/calendar/student.js'></script>";
 }
 ?>
 
