@@ -3,35 +3,51 @@
 <head>
     <title>dd</title>
 </head>
-<!--тут-->
-<script type="text/javascript">
-    (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-    })();
-</script>
-<!-- -->
 <body>
 <?php print $data ?>
+<!--- FACEBOOK -->
 <fb:login-button id="fbLogin" scope="public_profile,email" onlogin="auth_fb.checkLoginState();">
 </fb:login-button>
-
-<!--тут-->
-
-<span id="signinButton">
-  <span
-      class="g-signin"
-      data-callback="signinCallback"
-      data-clientid="CLIENT_ID"
-      data-cookiepolicy="single_host_origin"
-      data-requestvisibleactions="http://schemas.google.com/AddActivity"
-      data-scope="https://www.googleapis.com/auth/plus.login">
-  </span>
-</span>
-<!-- -->
 <div id="status"></div>
-<script src="public/js/vendor/jquery-2.1.1.js"></script>
+<!-- FACEBOOK end -->
+<!--GOOGlE -->
+
+<div id="gConnect">
+    <button class="g-signin"
+            data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+            data-requestvisibleactions="http://schemas.google.com/AddActivity"
+            data-clientId="955464663389-olgqchpjmpqnhugedsdj7tc6ak08ns0f.apps.googleusercontent.com"
+            data-callback="onSignInCallback"
+            data-theme="dark"
+            data-cookiepolicy="single_host_origin">
+    </button>
+</div>
+<div id="authOps" style="display:none">
+    <h2>User is now signed in to the app using Google+</h2>
+    <p>If the user chooses to disconnect, the app must delete all stored
+        information retrieved from Google for the given user.</p>
+    <button id="disconnect" >Disconnect your Google account from this app</button>
+
+    <h2>User's profile information</h2>
+    <div id="profile"></div>
+
+    <h2>User's friends that are visible to this app</h2>
+    <div id="visiblePeople"></div>
+
+    <h2>Authentication Logs</h2>
+    <pre id="authResult"></pre>
+</div>
+<div id="loaderror">
+    This section will be hidden by JQuery. If you can see this message, you
+    may be viewing the file rather than running a web server.<br />
+    The sample must be run from http or https. See instructions at
+    <a href="https://developers.google.com/+/quickstart/javascript">
+        https://developers.google.com/+/quickstart/javascript</a>.
+</div>
+
+<!-- GOOGLE END -->
+<script src="https://apis.google.com/js/client:platform.js" async defer></script>
+<script src="public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script src="public/js/app/common.js"></script>
 <script src="public/js/app/login.js"></script>
 </body>

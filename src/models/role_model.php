@@ -1,5 +1,5 @@
 <?php
-class Model_role extends Model {
+class RoleModel extends Model {
 
     public $id;
     public $title;

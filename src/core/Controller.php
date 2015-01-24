@@ -9,9 +9,9 @@ abstract class Controller {
         $path = __DIR__ . '/../models/'. $name . '_model.php';
         if (file_exists($path)) {
             require $path;
-            $modelName = $name . '_model';
-            $this->model = new $modelName();
-            return  $this->model->getData();
+            $modelName = ucfirst($name) . 'Model';
+            $this->model = new $modelName;
+            return $this->model->getData();
         }
         return null;
     }
