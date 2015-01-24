@@ -6,8 +6,11 @@ class Index extends Controller {
     }
 
     function index() {
-        $data = $this->loadModel('index');
-        $this->view->render('index/index', $data);
+        $model = $this->loadModel('index');
+
+        $data = 'hi';
+
+        $this->view->renderHtml('index/index', $data);
     }
 }
 

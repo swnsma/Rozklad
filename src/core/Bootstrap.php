@@ -5,12 +5,12 @@ class Bootstrap {
         $request = Request::getInstance();
         $controller = $request->getController();
         $module = $request->getModule();
-        $file = __DIR__ . '/../controllers/' . $module . '/' . $controller . '.php';
+        $file = DOCUMENT_ROOT . 'controllers/' . $module . '/' . $controller . '.php';
         if (file_exists($file)) {
-            require $file;
+            require_once $file;
             $c = new $controller;
         } else {
-            require __DIR__ . '/../controllers/app/error.php';
+            require_once DOCUMENT_ROOT . 'controllers/app/error.php';
             $c = new Error();
         }
         $c->run($request->getAction());

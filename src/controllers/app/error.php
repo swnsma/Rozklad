@@ -6,8 +6,11 @@ class Error extends Controller {
     }
 
     function index() {
-        $data = $this->loadModel('index');
-        $this->view->render('error/index', $data);
+        $model = $this->loadModel('index');
+
+        $data = 'hi';
+
+        $this->view->renderHtml('error/index', $data);
     }
 }
 

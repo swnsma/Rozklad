@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/magic_object.php';
+include DOCUMENT_ROOT . 'core/magic_object.php';
 abstract class Model extends magic_object{
     protected $db;
     protected $table;
@@ -15,7 +15,7 @@ abstract class Model extends magic_object{
 //        $sql = $this->_getSelect($select);
 //        if($sql) $this->_getResult("SELECT * FROM $this->table" . $sql);
     }
-    public function getDate() { return null; }
+
     // отримати імя таблиці
     public function getTableName() {
         return $this->table;
