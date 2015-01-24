@@ -23,7 +23,7 @@ if(Calendar::$role=='teacher')
     <h2 class='padding28'> Создать Занятие </h2>
     </div>
     </div>
-    <link rel='stylesheet' href='public/css/calendar/popup.css'/>
+    <link rel='stylesheet' href='http://rozklad.loc:83/public/css/calendar/popup.css'/>
     ";
 }
 ?>
