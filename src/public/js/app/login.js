@@ -16,7 +16,7 @@ var auth_fb = (function() {
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '386967351480465',
+            appId      : '1536442079974268',
             cookie     : true,
             xfbml      : true,
             version    : 'v2.1'
