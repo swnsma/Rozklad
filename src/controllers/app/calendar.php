@@ -14,8 +14,11 @@ class Calendar extends Controller {
     }
 
     function index() {
-        $data = $this->loadModel('calendar');
-        $this->view->render('calendar/index', $data);
+        $model = $this->loadModel('calendar');
+
+        $data = 'hi';
+
+        $this->view->renderHtml('calendar/index', $data);
     }
 }
 ?>

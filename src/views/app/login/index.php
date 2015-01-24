@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>dd</title>
+    <title>Login</title>
 </head>
 <body>
-<?php print $data ?>
+
 <!--- FACEBOOK -->
 <fb:login-button id="fbLogin" scope="public_profile,email" onlogin="auth_fb.checkLoginState();">
 </fb:login-button>

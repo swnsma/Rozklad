@@ -1,3 +1,10 @@
+function Auth() {}
+
+Auth.prototype.check_user = function(token) {
+
+};
+
+
 var auth_fb = (function() {
 
     function statusChangeCallback(response) {
@@ -149,8 +156,6 @@ var auth_gm = (function() {
 $(document).ready(function() {
     $('#disconnect').click(auth_gm.disconnect);
     $('#loaderror').hide();
-    if ($('[data-clientid="955464663389-olgqchpjmpqnhugedsdj7tc6ak08ns0f.apps.googleusercontent.com"]').length > 0) {
-    }
 });
 
 function onSignInCallback(authResult) {

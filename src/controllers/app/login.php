@@ -7,8 +7,15 @@ class Login extends Controller {
     }
 
     public function index() {
-        $data = $this->loadModel('login');
-        $this->view->render('login/index', $data);
+        $model = $this->loadModel('login');
+
+        $data = 'hi'; //викликаємо портрібні функції поделі
+
+        $this->view->renderHtml('login/index', $data);
+    }
+
+    public function check_user() {
+        //$this->view->renderJson();
     }
 }
 

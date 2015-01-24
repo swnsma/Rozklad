@@ -10,13 +10,13 @@ abstract class Controller {
         if (file_exists($path)) {
             require_once $path;
             $modelName = ucfirst($name) . 'Model';
-            $this->model = new $modelName;
-            return $this->model->getData();
+            //$this->model = new $modelName;
+            return new $modelName;
         }
         return null;
     }
 
-    public function run($actionName) {
+    public function run($actionName = 'index') {
         $this->$actionName();
     }
 }
