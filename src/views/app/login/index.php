@@ -47,9 +47,9 @@
 
 <!-- GOOGLE END -->
 <script src="https://apis.google.com/js/client:platform.js" async defer></script>
-<script src="public/js/vendor/jQuery/jquery-2.1.1.js"></script>
-<script src="public/js/app/common.js"></script>
-<script src="public/js/app/login.js"></script>
+<script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+<script src="<?php print URL; ?>public/js/app/common.js"></script>
+<script src="<?php print URL; ?>public/js/app/login.js"></script>
 </body>
 
 </html>
