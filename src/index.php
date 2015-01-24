@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . '/core/Bootstrap.php';
-require_once __DIR__ . '/core/Controller.php';
-require_once __DIR__ . '/core/Model.php';
-require_once __DIR__ . '/core/View.php';
-require_once __DIR__ . '/core/database.php';
-require_once __DIR__ . '/core/Request.php';
-require_once __DIR__ . '/conf/conf.php';
+require_once 'conf/conf.php';
+require_once 'core/Bootstrap.php';
+require_once 'core/Controller.php';
+require_once 'core/Model.php';
+require_once 'core/View.php';
+require_once 'core/database.php';
+require_once 'core/Request.php';
 
 $app = new Bootstrap();
 

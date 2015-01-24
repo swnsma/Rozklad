@@ -6,9 +6,9 @@ abstract class Controller {
     }
 
     public function loadModel($name) {
-        $path = __DIR__ . '/../models/'. Request::getInstance()->getModule() . '/'. $name . '_model.php';
+        $path = DOCUMENT_ROOT . 'models/'. Request::getInstance()->getModule() . '/'. $name . '_model.php';
         if (file_exists($path)) {
-            require $path;
+            require_once $path;
             $modelName = ucfirst($name) . 'Model';
             $this->model = new $modelName;
             return $this->model->getData();

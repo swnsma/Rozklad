@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/magic_object.php';
+include DOCUMENT_ROOT . 'core/magic_object.php';
 abstract class Model extends magic_object{
     protected $db;
     protected $table;
