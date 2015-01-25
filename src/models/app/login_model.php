@@ -41,8 +41,8 @@ class LoginModel extends Model {
             $data = $r->execute(array(
                 ':token' => $token
             ));
-            $data = $data->fetchAll(PDO::FETCH_ASSOC)['id'];
-            return $data[0];
+            $data = $data->fetchAll(PDO::FETCH_ASSOC);
+            return $data['id'][0];
         } catch(PDOException $e) {
             return null;
         }
