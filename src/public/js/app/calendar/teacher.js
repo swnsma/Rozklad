@@ -207,9 +207,10 @@ function addLesson(calendar,id,popup){
             data: {
                 start: startFun(),
                 end: endFun(),
-                title: title
+                title: title.replace('/','-')
             },
             success: function(id){
+
                 debugger;
                 alert(id);
                 $calendar.fullCalendar('renderEvent',{
@@ -221,7 +222,7 @@ function addLesson(calendar,id,popup){
                 });
             },
             error: function(er) {
-                alert(er);
+                //alert(er);
             }
 
         });
@@ -260,6 +261,7 @@ function Calendar_teacher(id,popup){
             'top':y
         });
     };
+
     $calendar.fullCalendar(this.option);
 }
 $(document).ready(function() {

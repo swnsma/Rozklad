@@ -2,6 +2,7 @@
  * Created by Таня on 23.01.2015.
  */
 function Calendar(id){
+    var urls=url+'app/calendar/addFullEvent';
     //var calendar = $(id);
     this.option={
         //editable: true,
@@ -20,7 +21,20 @@ function Calendar(id){
             week: "Неделя",
             day: "День"
         },
-        timeFormat: 'H(:mm)'// uppercase H for 24-hour clock
+        timeFormat: 'H(:mm)',// uppercase H for 24-hour clock
+
+    eventSources: [{
+        url: urls,
+        type: 'POST',
+        success:function(data){
+            debugger;
+            alert(data);
+
+        },
+        error: function() {
+            alert('Ошибка соединения с источником данных!');
+        }
+    }]
         //eventClick: function(event, element) {
         //    debugger;
         //    event.title = "CLICKED!";

@@ -27,10 +27,16 @@ class Calendar extends Controller {
         $end= $req->getParam(2);
         $id=$this->model->addLesson($title,$start,$end);
         if($id==null){
-
+            echo 'Ошибка';
         }else{
             $this->view->renderJson(array('id' => $id));
         }
+    }
+
+    public function addFullEvent(){
+        $this->model = $this->loadModel('lesson');
+        $id=$this->model->getAllEvent();
+        $this->view->renderJson($id);
     }
 }
 ?>
