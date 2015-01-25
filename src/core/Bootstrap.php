@@ -1,6 +1,7 @@
 <?php
+require_once DOCUMENT_ROOT . 'core/magic_object.php';
 
-class Bootstrap {
+class Bootstrap extends  MagicObject{
     function __construct() {
         $request = Request::getInstance();
         $controller = $request->getController();

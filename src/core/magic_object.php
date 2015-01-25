@@ -5,7 +5,7 @@
  * Date: 22.01.2015
  * Time: 23:56
  */
-abstract class magic_object{
+abstract class MagicObject{
     protected $array_var= Array();
     protected $array_function= Array();
     public function __construct(){

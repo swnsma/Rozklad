@@ -1,6 +1,6 @@
 <?php
-
-class Cookie {
+require_once DOCUMENT_ROOT . 'core/magic_object.php';
+class Cookie extends MagicObject {
     public static function get($key) {
         return $_COOKIE[$key];
     }

@@ -8,7 +8,6 @@ class Login extends Controller {
 
     public function index() {
         $data = 'hi'; //викликаємо портрібні функції поделі
-
         $this->view->renderHtml('login/index', $data);
     }
 

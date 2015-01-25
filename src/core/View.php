@@ -1,6 +1,6 @@
 <?php
-
-class View {
+require_once DOCUMENT_ROOT . 'core/magic_object.php';
+class View extends MagicObject {
     function __construct() {}
 
     public function renderHtml($name, $data = null) {
