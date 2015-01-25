@@ -26,3 +26,45 @@ body{
     margin: 0;
     border-bottom: 1px solid #eeeeee;
 }
+.input-span{
+    border: none;
+    outline: none;
+    display: inline;
+    max-width: 30px;
+}
+.input-create-lesson{
+    width: 85%;
+    border: none;
+    outline: none;
+    border-bottom: 1px dashed #016d92;
+}
+
+.width15px{
+    width: 15px;
+}
+.data-ivent{
+    display: inline-block;
+}
+.data-ivent >*{
+    border-bottom: 1px dashed #016d92;
+    padding-bottom: 1px;
+}
+
+.create-lesson .inner-wrapper{
+    display: table;
+    margin-top: 10px;
+    width: 100%;
+}
+.create-lesson .inner-wrapper .tr-create-lesson{
+    display: table-row;
+}
+.create-lesson .inner-wrapper .tr-create-lesson>*{
+    display: table-cell;
+}
+.create-lesson .inner-wrapper .tr-create-lesson .time-ivent{
+    text-align: right;
+    display: inline;
+    padding-bottom: 1px;
+    margin-left: 59px;
+    border-bottom: 1px dashed #016d92;
+}
