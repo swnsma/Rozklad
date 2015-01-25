@@ -21,21 +21,15 @@ class Request {
                 $this->controller = $url[1];
                 if (isset($url[2])) {
                     $this->action = $url[2];
-                    $c = count($url);
-                    for($i = 3; $i<$c; $i+=2) {
-                        if (isset($url[$i+1])) {
-                            $this->data[$url[$i]] = $url[$i+1];
-                        } else {
-                            $this->data[$url[$i]] = null;
-                        }
-                    }
+                    $this->data = array_slice($url, 3);
                 }
             }
         }
     }
 
-    function getParam($name){
-        return $this->data[$name];
+    function getParam($index){
+        if (isset($this->data[$index])) return $this->data[$index];
+        return null;
     }
 
     function getAction(){

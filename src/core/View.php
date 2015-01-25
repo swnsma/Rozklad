@@ -11,6 +11,7 @@ class View {
     }
 
     public function renderJson($data) {
+        header('Content-Type: application/json');
         print json_encode($data);
     }
 

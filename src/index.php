@@ -8,6 +8,7 @@ require_once 'core/View.php';
 require_once 'core/database.php';
 require_once 'core/Request.php';
 //require_once 'core/Session.php';
+require_once 'core/Cookie.php';
 
 $app = new Bootstrap();
 

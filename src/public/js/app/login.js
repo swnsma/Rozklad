@@ -1,8 +1,52 @@
-function Auth() {}
-
-Auth.prototype.check_user = function(token) {
-
-};
+var auth = (function() {
+    return {
+        check: function(access_token, service, reg) {
+            $.ajax({
+                url: url + 'app/login/check/' + access_token + '/' + service,
+                type: 'GET',
+                success: function(response) {
+                    if (response.token == access_token) {
+                       if (response.status == 'autorized') {
+                           alert('true'); // перенаправляем кудись
+                       } else if (response.status == 'no_autorized') {
+                           alert('no_autorized');
+                       } else {
+                            reg();
+                       }
+                    }
+                },
+                error: function() {
+                    alert('error: block get status');
+                }
+            });
+        },
+        register: function(data) {
+            $.ajax({
+                url: url + 'app/login/register',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function(response) {
+                    var status = response.status;
+                    if (status == 'register') {
+                        alert('register');
+                    } else if (status == 'no_register') {
+                        alert('no_register');
+                    } else if (status == 'no_data') {
+                        alert('no_data');
+                    } else if (status == 'invalid_data') {
+                        alert('invalid_data');
+                    } else {
+                        alert('unknown status');
+                    }
+                },
+                error: function() {
+                    alert('error reg');
+                }
+            });
+        }
+    }
+})();
 
 
 var auth_fb = (function() {
@@ -11,7 +55,11 @@ var auth_fb = (function() {
         console.log('statusChangeCallback');
         console.log(response);
         if (response.status === 'connected') {
-            testAPI();
+            auth.check(response.authResponse.accessToken, 'facebook',
+                function() {
+                    alert('false');
+                }
+            );
         } else if (response.status === 'not_authorized') {
             document.getElementById('status').innerHTML = 'Please log ' +
                 'into this app.';
@@ -23,7 +71,7 @@ var auth_fb = (function() {
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '1536442079974268',
+            appId      : '386967351480465',
             cookie     : true,
             xfbml      : true,
             version    : 'v2.1'
@@ -64,7 +112,7 @@ var auth_fb = (function() {
     }
 })();
 
-var auth_gm = (function() {
+var auth_g = (function() {
     var BASE_API_PATH = 'plus/v1/';
 
     return {
@@ -78,11 +126,9 @@ var auth_gm = (function() {
                 }
                 if (authResult['access_token']) {
                     $('#authOps').show('slow');
-                    auth_gm.profile();
-                    auth_gm.people();
+                    auth_g.profile();
+                    auth_g.people();
                 } else if (authResult['error']) {
-                    // There was an error, which means the user is not signed in.
-                    // As an example, you can handle by writing to the console:
                     console.log('There was an error: ' + authResult['error']);
                     $('#authResult').append('Logged out');
                     $('#authOps').hide('slow');
@@ -153,12 +199,37 @@ var auth_gm = (function() {
     };
 })();
 
+var user_data = {
+    name: 'vova',
+    surname: 'konstanchuk',
+    email: 'japh@ukr.net',
+    phone: '23456789',
+    role_id: 1,
+    token: '3456',
+    service: 'google'
+};
+
+
 $(document).ready(function() {
-    $('#disconnect').click(auth_gm.disconnect);
+    $('#disconnect').click(auth_g.disconnect);
     $('#loaderror').hide();
+    if ($('[data-clientid="955464663389-olgqchpjmpqnhugedsdj7tc6ak08ns0f.apps.googleusercontent.com"]').length > 0) {
+    }
+
+
+    /*test*/
+
+    auth.check('3456', 'facebook',
+        function() {
+            alert('зараз відбудеття реєстрація');
+            auth.register(user_data)
+        }
+    );
+
+    /**/
 });
 
 function onSignInCallback(authResult) {
-    auth_gm.onSignInCallback(authResult);
+    auth_g.onSignInCallback(authResult);
 }
 

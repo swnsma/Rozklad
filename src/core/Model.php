@@ -1,7 +1,36 @@
 <?php
 include DOCUMENT_ROOT . 'core/magic_object.php';
-abstract class Model extends magic_object{
+
+abstract class Model extends magic_object {
+    private $id = null;
     protected $db;
+
+    function __construct() {
+        $this->db = DataBase::getInstance();
+    }
+
+    protected function check_user() {
+        $id = Cookie::get('id');
+        $key = Cookie::get('key');
+        //додати перевірки
+        try { //переписати
+            $r = $this->db->query("SELECT id FROM user WHERE id = $id and key = '$key'")->fetchAll();
+            if (count($r) > 0) {
+                $this->id = $id;
+                return true;
+            }
+        } catch(PDOException $e) {}
+        return false;
+    }
+
+    protected function getId() {
+        return $this->id;
+    }
+}
+
+
+    /*protected $db;
+    private static $instance = null;
     protected $table;
     private $dataResult;
     public function __construct($select=false) {
@@ -140,18 +169,18 @@ abstract class Model extends magic_object{
             exit();
         }
         return $result;
-    }
+    }*//*
     // уделение строки из базы данных
     public function deleteRow(){
         $arrayAllFields = array_keys($this->fieldsTable());
         foreach($arrayAllFields as $key => $val){
             $arrayAllFields[$key] = strtoupper($val);
         }
-        /*
-        такой способ работает не во всех версиях php
-        array_walk($arrayAllFields, function(&$val){
-            $val = strtoupper($val);
-        });*/
+
+        //такой способ работает не во всех версиях php
+        //array_walk($arrayAllFields, function(&$val){
+           // $val = strtoupper($val);
+        //});
         if(in_array('ID', $arrayAllFields)){
             try {
                 $db = $this->db;
@@ -202,6 +231,5 @@ abstract class Model extends magic_object{
             exit();
         }
         return $result;
-    }
-}
+    }*/
 ?>
