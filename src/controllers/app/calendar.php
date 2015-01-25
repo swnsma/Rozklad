@@ -27,6 +27,7 @@ class Calendar extends Controller {
         $end= $req->getParam(2);
         $id=$this->model->addLesson($title,$start,$end);
         if($id==null){
+            $this->view->renderJson(array('id' => 123));
 
         }else{
             $this->view->renderJson(array('id' => $id));
