@@ -2,10 +2,9 @@
  * Created by Таня on 23.01.2015.
  */
 function Calendar(id){
-    debugger;
     //var calendar = $(id);
     this.option={
-        editable: true,
+        //editable: true,
         eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
@@ -21,7 +20,7 @@ function Calendar(id){
             week: "Неделя",
             day: "День"
         },
-        timeFormat: 'H(:mm)', // uppercase H for 24-hour clock
+        timeFormat: 'H(:mm)'// uppercase H for 24-hour clock
         //eventClick: function(event, element) {
         //    debugger;
         //    event.title = "CLICKED!";
@@ -29,37 +28,37 @@ function Calendar(id){
         //    $('#calendar').fullCalendar('updateEvent', event);
         //
         //},
-        events: [
-            {
-                title  : 'event1',
-                start  : '2015-01-01'
-            },
-            {
-                title  : 'event3',
-                start  : '2015-1-9T12:30:00',
-                allDay : false // will make the time show
-            },{
-                title  : 'event3',
-                start  : '2015-01-09T12:30:00',
-                allDay : false // will make the time show
-            },{
-                title  : 'event3',
-                start  : '2015-01-09T12:30:00',
-                allDay : false // will make the time show
-            },{
-                title  : 'event3',
-                start  : '2015-01-09T12:30:00',
-                allDay : false // will make the time show
-            },{
-                title  : 'event3',
-                start  : '2015-01-09T12:30:00',
-                allDay : false // will make the time show
-            },{
-                title  : 'event3',
-                start  : '2015-01-09T12:30:00',
-                allDay : false // will make the time show
-            }
-        ]
+        //events: [
+        //    {
+        //        title  : 'event1',
+        //        start  : '2015-01-01'
+        //    },
+        //    {
+        //        title  : 'event3',
+        //        start  : '2015-1-9T12:30:00',
+        //        allDay : false // will make the time show
+        //    },{
+        //        title  : 'event3',
+        //        start  : '2015-01-09T12:30:00',
+        //        allDay : false // will make the time show
+        //    },{
+        //        title  : 'event3',
+        //        start  : '2015-01-09T12:30:00',
+        //        allDay : false // will make the time show
+        //    },{
+        //        title  : 'event3',
+        //        start  : '2015-01-09T12:30:00',
+        //        allDay : false // will make the time show
+        //    },{
+        //        title  : 'event3',
+        //        start  : '2015-01-09T12:30:00',
+        //        allDay : false // will make the time show
+        //    },{
+        //        title  : 'event3',
+        //        start  : '2015-01-09T12:30:00',
+        //        allDay : false // will make the time show
+        //    }
+        //]
 
     };
 

@@ -27,7 +27,7 @@ if(Calendar::$role=='teacher')
         <div class='padding28 inner-wrapper'>
             <span class='tr-create-lesson'>
                 <span>Тема: </span>
-                <input class='input-create-lesson' placeholder='Новый ивент' type='text' id='event_type' name='event_type' value=''>
+                <input class='input-create-lesson' placeholder='Новый урок' type='text' id='eventType' name='event_type' value=''>
             </span>
         </div>
 
@@ -50,7 +50,7 @@ if(Calendar::$role=='teacher')
         </div>
         <div class='form-group inner-wrapper'>
             <div class='col-lg-10 col-lg-offset-4'>
-                <button class='btn btn-info'>Отмена</button>
+                <button id='resetLesson' type='reset' class='btn btn-info'>Отмена</button>
                 <button id='createNewLesson' type='submit' class='btn btn-primary'>Создать</button>
             </div>
         </div>

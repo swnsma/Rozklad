@@ -2,10 +2,11 @@
  * Created by Таня on 22.01.2015.
  */
 function click_body(){
-    $(document).click(function(){
+    $(document).click(function(event){
 
         ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
         //говноКоДЭ
+        debugger;
         var bool=false;
         var target= event.target;
         if(target.className==='fc-more'){
@@ -38,7 +39,6 @@ function click_body(){
                 }
             }
         }
-        debugger;
         if(!bool) {
             $('#popup').hide();
             //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
@@ -50,12 +50,10 @@ function click_body(){
 function syncTcalInput(){
     function sync(){
         $tcalInput.val($day.val()+'-'+$month.val()+'-'+$year.val());
-        debugger;
     }
 
     $day.mask('99',{placeholder:"-----"});
     $day.on('input',function(){
-        debugger;
         if(this.value>31){
             this.value=31;
         }
@@ -104,9 +102,16 @@ function timeIvent(){
     function maskEndFocus(mask,focus,type){
         mask.mask('99');
         focus.val('');
+        if(mask===$hourBegin){
+            mask.val('14');
+        } else
+        if(mask===$hourEnd){
+            mask.val('16');
+        }else{
+            mask.val('00');
+        }
         if(type==='hour'){
             mask.on('input',function(){
-                debugger;
                 if(this.value>23){
                     this.value=23;
                 }
@@ -122,11 +127,15 @@ function timeIvent(){
                 if(this.value>59){
                     this.value=59;
                 }
-                if(this.value.length==2){
-                    this.value = parseInt(this.value);
-                    if(parseInt(this.value)) {
-                        this.value=parseInt(this.value);
-                        focus.focus();
+                if(mask!=$minutesEnd) {
+                    if (this.value.length == 2) {
+                        this.value = parseInt(this.value);
+                        if (parseInt(this.value)) {
+                            this.value = parseInt(this.value);
+
+                            focus.focus();
+
+                        }
                     }
                 }
             })
@@ -153,12 +162,42 @@ function addLesson(calendar,id,popup){
     var $id = $(id);
     var $calendar= $(calendar);
     var $popup=$(popup);
+    var newDate = new Date();
     $id.on('click',function(){
+
+        //константи
+        var title= ($('#eventType').val()||'Новый ивент');
+        var year=($('#year').val()||newDate.getFullYear());
+        var month=($('#month').val()||newDate.getMonth()+1);
+        var day=($('#day').val()||newDate.getDate());
+        var hourBegin=($('#hourBegin').val()||'14');
+        var minutesBegin=($('#minutesBegin').val()||'00');
+        var hourEnd=($('#hourEnd').val()||'16');
+        var minutesEnd=($('#minutesEnd').val()||'00');
+
+
+
         $calendar.fullCalendar('renderEvent', {
             id: 58,
-            title: 'title',
-            start: '01-01-2015',
-            allDay: false
+            title: title,
+            start: function(){
+                if(month.length!=2){
+                    month='0'+month;
+                }
+                if(day.length!=2){
+                    day='0'+day;
+                }
+                return year+'-'+month+'-'+day+'T'+hourBegin+':'+minutesBegin+':00';
+            }(),
+            end: function(){
+                if(month.length!=2){
+                    month='0'+month;
+                }
+                if(day.length!=2){
+                    day='0'+day;
+                }
+                return year+'-'+month+'-'+day+'T'+hourEnd+':'+minutesEnd+':00';
+            }()
         });
         $popup.hide();
         return false;
@@ -178,9 +217,13 @@ function Calendar_teacher(id,popup){
         $month.val(date._d.getMonth()+1);
         $year.val(date._d.getFullYear());
         $popup.show();
+        $('#eventType').val('');
+        $('#hourBegin').val('14');
+        $('#minutesBegin').val('00');
+        $('#hourEnd').val('16');
+        $('#minutesEnd').val('00');
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
-
 
         var x= allDay.pageX;
         var y = allDay.pageY;
@@ -189,15 +232,42 @@ function Calendar_teacher(id,popup){
             'left':x,
             'top':y
         });
-        debugger;
-        click_body();
     };
     $calendar.fullCalendar(this.option);
 }
 $(document).ready(function() {
+    function focusDelete(item){
+        var a ='';
+        item.on('focus',function(){
+            a=this.value;
+            this.value='';
+        });
+        item.on('focusout',function(){
+            if(this.value===''){
+                this.value=a;
+            }
+        })
+
+    }
     var calendar = new Calendar_teacher('#calendar','#popup');
+    debugger;
+    click_body();
     syncTcalInput();
     timeIvent();
     addLesson('#calendar','#createNewLesson','#popup');
     //calendar.popup();
+    focusDelete($day);
+    focusDelete($month);
+    focusDelete($year);
+
+    focusDelete($('#hourBegin'));
+    focusDelete($('#minutesBegin'));
+    focusDelete($('#hourEnd'));
+    focusDelete($('#minutesEnd'));
+
+    $('#resetLesson').on('click',function() {
+        f_tcalCancel();
+        $('#popup').hide();
+    });
+
 });

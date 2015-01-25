@@ -41,7 +41,8 @@ body{
 }
 
 .width15px{
-    width: 15px;
+    width: 17px;
+    text-align: center;
 }
 .data-ivent{
     display: inline-block;
@@ -71,4 +72,5 @@ body{
     border-bottom: 1px dashed #016d92;
     position: absolute;
     right: 15px;
+    top: 0px;
 }
