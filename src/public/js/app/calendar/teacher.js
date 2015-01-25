@@ -77,18 +77,21 @@ function syncTcalInput(){
                 this.value=parseInt(this.value);
                 $year.focus();
             }
-
-
-        }
-        sync();
-    });
-    $year.on('input',function(){
-        if(this.value.length>4){
-            this.value.substr(0, this.value.length - 1);
         }
         sync();
     });
     $year.mask('9999',{placeholder:"---------"});
+    $year.on('input',function(){
+        debugger;
+        if(this.value.length==4){
+            if(parseInt(this.value)) {
+                this.value=parseInt(this.value);
+                $('#hourBegin').focus();
+            }
+        }
+        sync();
+    });
+
     $tcalInput.on('input',function(){
         var val=this.value;
         var mas=val.split('-');
