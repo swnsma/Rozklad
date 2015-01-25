@@ -34,17 +34,19 @@ class LoginModel extends Model {
     public function getUserIdFromToken($token, $service) {
         try {
             if ($service == 'google') {
-                $r = $this->db->prepare('SELECT id WHERE open_id_g = :token');
+                $r = $this->db->prepare('SELECT `id` FROM `user` WHERE `open_id_g` = :token');
             } else {
-                $r = $this->db->prepare('SELECT id WHERE open_id_fb = :token');
+                $r = $this->db->prepare('SELECT `id` FROM `user` WHERE `open_id_fb` = :token');
             }
-            $data = $r->execute(array(
+            $r->execute(array(
                 ':token' => $token
             ));
-            $data = $data->fetchAll(PDO::FETCH_ASSOC);
-            return $data['id'][0];
+            $data = $r->fetchAll();
+            return count($data) > 0;
         } catch(PDOException $e) {
-            return null;
+            print 521;
+            print $e->getMessage();
+            return false;
         }
     }
 

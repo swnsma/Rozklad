@@ -1,21 +1,27 @@
 var auth = (function() {
     return {
         check: function(access_token, service, reg) {
+            //test
+            access_token = 34567;
+            service = 'facebook';
+            //
             $.ajax({
                 url: url + 'app/login/check/' + access_token + '/' + service,
                 type: 'GET',
                 success: function(response) {
                     if (response.token == access_token) {
+                        alert(response.status);
                        if (response.status == 'autorized') {
                            alert('true'); // перенаправляем кудись
                        } else if (response.status == 'no_autorized') {
                            alert('no_autorized');
                        } else {
-                            reg();
+                           reg();
                        }
                     }
                 },
-                error: function() {
+                error: function(error) {
+                    console.log(error);
                     alert('error: block get status');
                 }
             });
@@ -28,6 +34,7 @@ var auth = (function() {
                 data: data,
                 success: function(response) {
                     var status = response.status;
+                    alert(status);
                     if (status == 'register') {
                         alert('register');
                     } else if (status == 'no_register') {
@@ -206,8 +213,8 @@ var user_data = {
     email: 'japh@ukr.net',
     phone: '23456789',
     role_id: 1,
-    token: '3456',
-    service: 'google'
+    token: '34567',
+    service: 'facebook'
 };
 
 
