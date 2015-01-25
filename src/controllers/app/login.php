@@ -14,7 +14,7 @@ class Login extends Controller {
     public function check() {
         $r = Request::getInstance();
         $id = $this->model->getUserIdFromToken($r->getParam(0), $r->getParam(1));
-        if ($id == null) {
+        if ($id == false) {
             $this->view->renderJson(array(
                 'token' => $r->getParam(0),
                 'status' => 'no_register'
