@@ -216,7 +216,6 @@ $(document).ready(function() {
     if ($('[data-clientid="955464663389-olgqchpjmpqnhugedsdj7tc6ak08ns0f.apps.googleusercontent.com"]').length > 0) {
     }
 
-
     /*test*/
 
     auth.check('3456', 'facebook',

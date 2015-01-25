@@ -11,7 +11,6 @@ class Index extends Controller {
             $model->example();
         }
         $data = 'hi';
-
         $this->view->renderHtml('index/index', $data);
     }
 }

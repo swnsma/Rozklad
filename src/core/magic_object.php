@@ -17,7 +17,6 @@ abstract class magic_object{
     public function __set($var, $val){
         $this->array_var[$var] = $val;
     }
-
     public function __get($var){
         if(isset($this->array_var[$var])){
             return $this->array_var[$var];

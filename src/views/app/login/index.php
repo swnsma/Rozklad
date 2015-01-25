@@ -44,7 +44,6 @@
     <a href="https://developers.google.com/+/quickstart/javascript">
         https://developers.google.com/+/quickstart/javascript</a>.
 </div>
-
 <!-- GOOGLE END -->
 <script src="https://apis.google.com/js/client:platform.js"></script>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>

@@ -8,7 +8,6 @@ class Request {
         $action = 'index',
         $module = 'app';
 
-
     function __construct() {
         $this->parseGet();
     }

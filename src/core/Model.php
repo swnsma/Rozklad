@@ -28,7 +28,6 @@ abstract class Model extends magic_object {
     }
 }
 
-
     /*protected $db;
     private static $instance = null;
     protected $table;

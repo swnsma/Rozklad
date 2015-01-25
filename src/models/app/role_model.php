@@ -10,10 +10,8 @@ class RoleModel extends Model {
 
     public function fieldsTable(){
         return array(
-
             'id' => 'Id',
             'title'=>'Title'
-
         );
     }
 }

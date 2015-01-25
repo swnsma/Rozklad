@@ -9,3 +9,5 @@ class Cookie {
         SetCookie($key, $value, time()+3600, '/');
     }
 }
+
+?>

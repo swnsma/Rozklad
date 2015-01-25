@@ -2,10 +2,6 @@
 
 class Bootstrap {
     function __construct() {
-        /*if (Session::get('loggedIn') == false) {
-            Session::destroy();
-            header('Location: ' . URL . '/app/login');
-        }*/
         $request = Request::getInstance();
         $controller = $request->getController();
         $module = $request->getModule();
