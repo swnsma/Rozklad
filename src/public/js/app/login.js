@@ -57,7 +57,8 @@ var auth_fb = (function() {
         if (response.status === 'connected') {
             auth.check(response.authResponse.accessToken, 'facebook',
                 function() {
-                    alert('false');
+                    alert('зараз відбудеття реєстрація');
+                    auth.register(user_data)
                 }
             );
         } else if (response.status === 'not_authorized') {
@@ -218,12 +219,12 @@ $(document).ready(function() {
 
     /*test*/
 
-    auth.check('3456', 'facebook',
+    /*auth.check('3456', 'facebook',
         function() {
             alert('зараз відбудеття реєстрація');
             auth.register(user_data)
         }
-    );
+    );*/
 
     /**/
 });
