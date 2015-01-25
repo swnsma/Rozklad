@@ -10,5 +10,11 @@ require_once 'core/Request.php';
 require_once 'core/Cookie.php';
 
 $app = new Bootstrap();
-
+//try {
+//$bd=DataBase::getInstance();
+//    $bd->query("INSERT INTO role (title) VALUES ('teacher')");
+//    print_r($bd->query('SELECT * from role')->fetchAll(PDO::FETCH_ASSOC));
+//} catch(PDOException $e) {
+//    print 'error';
+//}
 ?>

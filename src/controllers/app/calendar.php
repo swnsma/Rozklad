@@ -9,17 +9,29 @@
 class Calendar extends Controller {
     public static $role='teacher';
     public static $id=1;
-
-    function __construct() {
+    private $model;
+    public function __construct() {
         parent::__construct();
     }
 
-    function index() {
-        $model = $this->loadModel('calendar');
-
+    public function index() {
+        $this->model = $this->loadModel('lesson');
         $data = 'hi';
-
         $this->view->renderHtml('calendar/index', $data);
+    }
+    public function addEvent(){
+        echo' asdasdasd';
+        $req=Request::getInstance();
+
+        $title= $req->getParam(0);
+        $start= $req->getParam(1);
+        $end= $req->getParam(2);
+        $id=$this->model->addLesson($title,$start,$end);
+        if($id==null){
+
+        }else{
+            $this->view->renderJson(array('id' => $id));
+        }
     }
 }
 ?>

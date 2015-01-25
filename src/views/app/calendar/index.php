@@ -71,7 +71,7 @@ if(Calendar::$role=='teacher')
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
 
-
+<script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <?php
 if(Calendar::$role=='teacher')

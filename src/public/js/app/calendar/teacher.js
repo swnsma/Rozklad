@@ -179,20 +179,16 @@ function addLesson(calendar,id,popup){
         var minutesEnd=($('#minutesEnd').val()||'00');
 
 
-
-        $calendar.fullCalendar('renderEvent', {
-            id: 58,
-            title: title,
-            start: function(){
-                if(month.length!=2){
-                    month='0'+month;
-                }
-                if(day.length!=2){
-                    day='0'+day;
-                }
-                return year+'-'+month+'-'+day+'T'+hourBegin+':'+minutesBegin+':00';
-            }(),
-            end: function(){
+        var startFun = function(){
+            if(month.length!=2){
+                month='0'+month;
+            }
+            if(day.length!=2){
+                day='0'+day;
+            }
+            return year+'-'+month+'-'+day+'T'+hourBegin+':'+minutesBegin+':00';
+        };
+        var endFun = function(){
                 if(month.length!=2){
                     month='0'+month;
                 }
@@ -200,8 +196,36 @@ function addLesson(calendar,id,popup){
                     day='0'+day;
                 }
                 return year+'-'+month+'-'+day+'T'+hourEnd+':'+minutesEnd+':00';
-            }()
+            };
+        var urls=url+'app/calendar/addEvent/' + title+'/'+startFun()+'/'+endFun();
+        debugger;
+        $.ajax({
+            url: urls,
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: {
+                start: startFun(),
+                end: endFun(),
+                title: title
+            },
+            success: function(id){
+                debugger;
+                alert(id);
+                $calendar.fullCalendar('renderEvent',{
+                    id: id,
+                    title: title,
+                    start: startFun(),
+                    end: endFun(),
+                    allDay: false
+                });
+            },
+            error: function(er) {
+                alert(er);
+            }
+
         });
+
         $popup.hide();
         return false;
     });
