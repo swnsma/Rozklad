@@ -20,9 +20,8 @@ class Calendar extends Controller {
         $this->view->renderHtml('calendar/index', $data);
     }
     public function addEvent(){
-        echo' asdasdasd';
         $req=Request::getInstance();
-
+        $this->model = $this->loadModel('lesson');
         $title= $req->getParam(0);
         $start= $req->getParam(1);
         $end= $req->getParam(2);
