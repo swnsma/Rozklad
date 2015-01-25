@@ -53,7 +53,7 @@ function syncTcalInput(){
         debugger;
     }
 
-    $day.mask('99',{placeholder:"--"});
+    $day.mask('99',{placeholder:"-----"});
     $day.on('input',function(){
         debugger;
         if(this.value>31){
@@ -69,7 +69,7 @@ function syncTcalInput(){
         sync();
     });
 
-    $month.mask('99',{placeholder:"--"});
+    $month.mask('99',{placeholder:"-----"});
     $month.on('input',function(){
         if(this.value>12){
             this.value=12;
@@ -90,7 +90,7 @@ function syncTcalInput(){
         }
         sync();
     });
-    $year.mask('9999',{placeholder:"----"});
+    $year.mask('9999',{placeholder:"---------"});
     $tcalInput.on('input',function(){
         var val=this.value;
         var mas=val.split('-');
@@ -149,6 +149,22 @@ function timeIvent(){
     //}
 }
 
+function addLesson(calendar,id,popup){
+    var $id = $(id);
+    var $calendar= $(calendar);
+    var $popup=$(popup);
+    $id.on('click',function(){
+        $calendar.fullCalendar('renderEvent', {
+            id: 58,
+            title: 'title',
+            start: '01-01-2015',
+            allDay: false
+        });
+        $popup.hide();
+        return false;
+    });
+}
+
 
 function Calendar_teacher(id,popup){
     Calendar.call(this,id);
@@ -182,5 +198,6 @@ $(document).ready(function() {
     var calendar = new Calendar_teacher('#calendar','#popup');
     syncTcalInput();
     timeIvent();
+    addLesson('#calendar','#createNewLesson','#popup');
     //calendar.popup();
 });

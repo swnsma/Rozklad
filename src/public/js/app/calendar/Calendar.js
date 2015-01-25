@@ -22,6 +22,13 @@ function Calendar(id){
             day: "День"
         },
         timeFormat: 'H(:mm)', // uppercase H for 24-hour clock
+        //eventClick: function(event, element) {
+        //    debugger;
+        //    event.title = "CLICKED!";
+        //
+        //    $('#calendar').fullCalendar('updateEvent', event);
+        //
+        //},
         events: [
             {
                 title  : 'event1',
@@ -29,7 +36,7 @@ function Calendar(id){
             },
             {
                 title  : 'event3',
-                start  : '2015-01-09T12:30:00',
+                start  : '2015-1-9T12:30:00',
                 allDay : false // will make the time show
             },{
                 title  : 'event3',
