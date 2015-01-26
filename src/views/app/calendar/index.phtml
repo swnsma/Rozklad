@@ -8,17 +8,11 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>views/app/start_page/bootstrap.css'/>
-
-
 </head>
 <body>
 
-
-
-<?php
-if(Calendar::$role=='teacher')
-{
-    echo "<div class='popup' id='popup'>
+<?php if (Calendar::$role == 'teacher'): ?>
+    <div class='popup' id='popup'>
     <div class='content'>
         <h2 class='padding28'> Создать Занятие </h2>
     </div>
@@ -56,12 +50,11 @@ if(Calendar::$role=='teacher')
         </div>
     </form>
 </div>
-<link rel='stylesheet' type='text/css' href='" .URL ."public/js/app/calendar/tcal/tcal.css' />
+<link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
 
-    <link rel='stylesheet' href='" . URL . "public/css/calendar/popup.css'/>
-    ";
-}
-?>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
+
+<?php endif; ?>
 
 <div class="calendar" id='calendar'></div>
 
@@ -73,20 +66,14 @@ if(Calendar::$role=='teacher')
 
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
-<?php
-if(Calendar::$role=='teacher')
-{
-    echo "<script type='text/javascript' src='" .URL ."public/js/vendor/jQuery/jquery.mask.js'></script>
-    <script src='" . URL . "public/js/app/calendar/teacher.js'></script>
-    <script type='text/javascript' src='" .URL ."public/js/app/calendar/tcal/tcal.js'></script>
-    ";
-}else{
-    echo "<script src='" . URL ."public/js/app/calendar/student.js'></script>";
-}
-?>
+<?php if (Calendar::$role == 'teacher'): ?>
+<script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
+    <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
+<?php else: ?>
 
-
-
+<script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
+<?php endif; ?>
 
 
 </body>
