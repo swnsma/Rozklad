@@ -1,0 +1,26 @@
+body{
+    width: 700px;
+    margin: auto;
+    color: #666666;
+    background-color: #eeeeee;
+    font-family: 'Open Sans';
+}
+
+.user-list {
+    padding: 0;
+}
+
+.confirm-status {
+    float: right;
+    display: inline-block;
+    text-align: right;
+    font-size: 15px;
+    vertical-align: top;
+    padding: 20px 0 0 0;
+    cursor: pointer;
+}
+
+.confirm-status:hover {
+    color: #000000;
+}
+
