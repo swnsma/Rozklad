@@ -6,7 +6,6 @@ class LoginModel extends Model {
 
     }
 
-    //проверочки
     public function checkName($name) {
         return true;
     }
@@ -44,8 +43,6 @@ class LoginModel extends Model {
             $data = $r->fetchAll();
             return count($data) > 0;
         } catch(PDOException $e) {
-            print 521;
-            print $e->getMessage();
             return false;
         }
     }
@@ -58,8 +55,9 @@ class LoginModel extends Model {
                 ':key' => $key,
                 ':id' => $id
             ));
-            Cookie::set('key', $key);
-            Cookie::set('id', $id);
+            $request = Request::getInstance();
+            $request::setCookie('key', $key);
+            $request::setCookie('id', $id);
             return $r->rowCount() > 0;
         } catch(PDOException $e) {
             return false;
@@ -113,7 +111,6 @@ HERE;
             ));
             return $this->db->lastInsertId();
         } catch(PDOException $e) {
-            print 'ERRRO' . $e->getMessage();
             return null;
         }
     }

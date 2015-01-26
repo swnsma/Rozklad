@@ -8,7 +8,7 @@ class Request {
         $action = 'index',
         $module = 'app';
 
-    function __construct() {
+    private function __construct() {
         $this->parseGet();
     }
 
@@ -45,6 +45,14 @@ class Request {
 
     function getParams() {
         return $this->data;
+    }
+
+    public static function getCookie($key) {
+        return $_COOKIE[$key];
+    }
+
+    public static function setCookie($key, $value) {
+        SetCookie($key, $value, time()+3600, '/');
     }
 
     private function  __clone(){
