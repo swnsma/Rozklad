@@ -1,6 +1,6 @@
 <?php
 require_once DOCUMENT_ROOT . 'core/magic_object.php';
-
+require_once DOCUMENT_ROOT . 'inc/facebook.php'; //include fb sdk
 class Bootstrap extends  MagicObject{
     function __construct() {
         $request = Request::getInstance();
@@ -16,6 +16,7 @@ class Bootstrap extends  MagicObject{
         }
         $c->run($request->getAction());
 
+//
     }
 }
 
