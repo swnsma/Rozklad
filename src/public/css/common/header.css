@@ -1,0 +1,38 @@
+.header .logo {
+    float: left;
+}
+
+.header section.login {
+    float: right;
+    text-align: right;
+}
+
+.login .user {
+    float: right;
+    display: table;
+    padding: 5px;
+    width:auto;
+}
+
+.login .user .info {
+    display: table-cell;
+    vertical-align: top;
+    padding: 9px 5px 0 0;
+}
+
+.login .user .avatar {
+    display: table-cell;
+    width:60px;
+    height:60px;
+    border-radius:30px;
+}
+
+.login .user .name{
+    font-size: 20px;
+}
+
+.login .user .role{
+    margin: -5px 0 0 0;
+    font-size: 15px;
+    font-weight: 400;
+}

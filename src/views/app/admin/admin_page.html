@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Администрирование</title>
+    <link rel="stylesheet" href="../../../public/css/common/common.css" />
+    <link rel="stylesheet" href="../../../public/css/admin/admin.css"/>
+    <link rel="stylesheet" href="../../../public/css/user.css"/>
+    <link rel="stylesheet" href="../../../public/css/common/header.css">
+    <script src="../../../public/js/vendor/knockout-3.2.0.js"></script>
+    <script src="../../../public/js/app/admin/admin.js"></script>
+</head>
+<body>
+    <header class="header">
+        <img class="logo" src="../../../public/img/logo.png"/>
+        <section class="login">
+            <article class="user">
+                <section class="info">
+                    <h2 class="name">Саша Коваленко</h2>
+                    <h3 class="role">Администратор</h3>
+                </section>
+                <img class="avatar" src="../../../public/img/avatar.png" />
+            </article>
+            <form class="login" style="display:none">
+                <input class="field" name="login" />
+                <input class="field" name="password" />
+                <button class="login">Login</button>
+                <button class="registration">New user</button>
+            </form>
+        </section>
+        <div class="clear-both"></div>
+    </header>
+
+    <ul class="user-list" data-bind="foreach: users">
+        <li class="user">
+            <img class="avatar" data-bind="attr{src: photo}"/>
+            <section class="info">
+                <h2 class="name" data-bind="text: name">Андрей Морозов</h2>
+                <h3 class="role" data-bind="text: role">Преподаватель</h3>
+            </section>
+            <!-- ko ifnot: confirmed -->
+            <div class="confirm-status" data-bind="click: $parent.confirm">Подтвердить статус</div>
+            <!-- /ko -->
+            <!-- ko if: confirmed -->
+            <div class="confirm-status" data-bind="click: $parent.unConfirm">Статус потвержден. Отменить...</div>
+            <!-- /ko -->
+
+            <div class="clear-both"></div>
+        </li>
+    </ul>
+    <script>
+        load();
+    </script>
+</body>
+</html>
