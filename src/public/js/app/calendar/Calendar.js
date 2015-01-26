@@ -22,13 +22,12 @@ function Calendar(id){
             day: "День"
         },
         timeFormat: 'H(:mm)',// uppercase H for 24-hour clock
-
+        //handleWindowResize:true,
+        //fixedWeekCount:false,
     eventSources: [{
         url: urls,
         type: 'POST',
         success:function(data){
-            debugger;
-            alert(data);
 
         },
         error: function() {
@@ -42,37 +41,12 @@ function Calendar(id){
         //    $('#calendar').fullCalendar('updateEvent', event);
         //
         //},
-        //events: [
-        //    {
-        //        title  : 'event1',
-        //        start  : '2015-01-01'
-        //    },
-        //    {
-        //        title  : 'event3',
-        //        start  : '2015-1-9T12:30:00',
-        //        allDay : false // will make the time show
-        //    },{
-        //        title  : 'event3',
-        //        start  : '2015-01-09T12:30:00',
-        //        allDay : false // will make the time show
-        //    },{
-        //        title  : 'event3',
-        //        start  : '2015-01-09T12:30:00',
-        //        allDay : false // will make the time show
-        //    },{
-        //        title  : 'event3',
-        //        start  : '2015-01-09T12:30:00',
-        //        allDay : false // will make the time show
-        //    },{
-        //        title  : 'event3',
-        //        start  : '2015-01-09T12:30:00',
-        //        allDay : false // will make the time show
-        //    },{
-        //        title  : 'event3',
-        //        start  : '2015-01-09T12:30:00',
-        //        allDay : false // will make the time show
-        //    }
-        //]
+        ,events: [{
+                title  : 'event3',
+                start  : '2015-01-09 12:30:00',
+                allDay : false // will make the time show
+            }
+        ]
 
     };
 

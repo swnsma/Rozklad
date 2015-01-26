@@ -23,7 +23,7 @@ if(Calendar::$role=='teacher')
         <h2 class='padding28'> Создать Занятие </h2>
     </div>
 
-    <form method='post' name='create_lesson' class='create-lesson'>
+    <form method='post' class='create-lesson'>
         <div class='padding28 inner-wrapper'>
             <span class='tr-create-lesson'>
                 <span>Тема: </span>

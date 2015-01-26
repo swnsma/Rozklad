@@ -162,6 +162,7 @@ function timeIvent(){
 }
 
 function addLesson(calendar,id,popup){
+
     var $id = $(id);
     var $calendar= $(calendar);
     var $popup=$(popup);
@@ -186,7 +187,7 @@ function addLesson(calendar,id,popup){
             if(day.length!=2){
                 day='0'+day;
             }
-            return year+'-'+month+'-'+day+'T'+hourBegin+':'+minutesBegin+':00';
+            return year+'-'+month+'-'+day+' '+hourBegin+':'+minutesBegin+':00';
         };
         var endFun = function(){
                 if(month.length!=2){
@@ -195,7 +196,7 @@ function addLesson(calendar,id,popup){
                 if(day.length!=2){
                     day='0'+day;
                 }
-                return year+'-'+month+'-'+day+'T'+hourEnd+':'+minutesEnd+':00';
+                return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
             };
         var urls=url+'app/calendar/addEvent/' + title+'/'+startFun()+'/'+endFun();
         debugger;
@@ -210,9 +211,6 @@ function addLesson(calendar,id,popup){
                 title: title.replace('/','-')
             },
             success: function(id){
-
-                debugger;
-                alert(id);
                 $calendar.fullCalendar('renderEvent',{
                     id: id,
                     title: title,
@@ -222,7 +220,7 @@ function addLesson(calendar,id,popup){
                 });
             },
             error: function(er) {
-                //alert(er);
+                alert(er);
             }
 
         });
@@ -239,6 +237,8 @@ function Calendar_teacher(id,popup){
     var $calendar = $(id);
 
     this.option.dayClick=function(date, allDay, jsEvent, view) {
+        var moment = $('#calendar').fullCalendar('getDate');
+        debugger;
         //заповнення дати, тою датою на юку було натиснуто
         $tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         $day.val(date._d.getDate());

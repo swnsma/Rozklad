@@ -1,10 +1,17 @@
 <?php
 
-class DataBase {
+class DataBase{
+    private static $pdo=null;
     private static $instance=null;
 
-    private function __construct() {
-
+     private function __construct() {
+        try {
+            self::$pdo = new PDO('sqlite:' . __DIR__ . '/../SQL/data/rozklad.sqlite');
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        catch(PDOException $e){
+            echo $e;
+        }
     }
 
     private function  __clone(){
@@ -12,10 +19,12 @@ class DataBase {
     }
     public static function getInstance(){
         if(!self::$instance){
-            self::$instance = new PDO('sqlite:' . __DIR__ . '/../SQL/data/rozklad.sqlite');
-            self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            self::$instance=new DataBase();
         }
         return self::$instance;
+    }
+    public function DB(){
+        return self::$pdo;
     }
 }
 ?>

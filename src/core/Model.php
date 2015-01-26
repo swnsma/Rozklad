@@ -6,7 +6,7 @@ abstract class Model extends MagicObject {
     protected $db;
 
     function __construct() {
-        $this->db = DataBase::getInstance();
+        $this->db = DataBase::getInstance()->DB();
     }
 
     protected function check_user() {
