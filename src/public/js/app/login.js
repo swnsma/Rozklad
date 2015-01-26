@@ -21,7 +21,7 @@ var auth = (function() {
                     }
                 },
                 error: function(error) {
-                    console.log(error);
+                    console.log(e0rror);
                     alert('error: block get status');
                 }
             });

@@ -1,6 +1,6 @@
 <?php
 require_once DOCUMENT_ROOT . 'core/magic_object.php';
-require_once DOCUMENT_ROOT . 'core/database.php';
+require_once DOCUMENT_ROOT . 'core/Database.php';
 abstract class Model extends MagicObject {
     private $id = null;
     protected $db;
@@ -10,8 +10,9 @@ abstract class Model extends MagicObject {
     }
 
     protected function check_user() {
-        $id = Cookie::get('id');
-        $key = Cookie::get('key');
+        $request = Request::getInstance();
+        $id = $request::getCookie('id');
+        $key = $request::getCookie('key');
         //додати перевірки
         try { //переписати
             $r = $this->db->query("SELECT id FROM user WHERE id = $id and key = '$key'")->fetchAll();
