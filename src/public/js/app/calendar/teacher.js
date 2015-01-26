@@ -6,7 +6,6 @@ function click_body(){
 
         ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
         //говноКоДЭ
-        debugger;
         var bool=false;
         var target= event.target;
         if(target.className==='fc-more'){
@@ -82,7 +81,6 @@ function syncTcalInput(){
     });
     $year.mask('9999',{placeholder:"---------"});
     $year.on('input',function(){
-        debugger;
         if(this.value.length==4){
             if(parseInt(this.value)) {
                 this.value=parseInt(this.value);
@@ -199,7 +197,6 @@ function addLesson(calendar,id,popup){
                 return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
             };
         var urls=url+'app/calendar/addEvent/' + title+'/'+startFun()+'/'+endFun();
-        debugger;
         $.ajax({
             url: urls,
             type: 'POST',
@@ -238,7 +235,6 @@ function Calendar_teacher(id,popup){
 
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         var moment = $('#calendar').fullCalendar('getDate');
-        debugger;
         //заповнення дати, тою датою на юку було натиснуто
         $tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         $day.val(date._d.getDate());
@@ -279,7 +275,6 @@ $(document).ready(function() {
 
     }
     var calendar = new Calendar_teacher('#calendar','#popup');
-    debugger;
     click_body();
     syncTcalInput();
     timeIvent();
