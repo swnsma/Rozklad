@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS "group";
 CREATE TABLE "group" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  "name" text NOT NULL,
-  "teacher_id" integer NOT NULL,
+  "name" text NULL,
+  "teacher_id" integer NULL,
   FOREIGN KEY ("id") REFERENCES "student-group" ("group_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -18,9 +18,11 @@ CREATE TABLE "group_lesson" (
 DROP TABLE IF EXISTS "lesson";
 CREATE TABLE "lesson" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  "date" text NOT NULL,
-  "topic" text NOT NULL,
-  "description" text NOT NULL,
+  "date" text NULL,
+  "title" text NULL,
+  "description" text NULL,
+  "start" text NULL,
+  "end" text NULL,
   FOREIGN KEY ("id") REFERENCES "group_lesson" ("lesson_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -44,15 +46,16 @@ CREATE TABLE "student_group" (
 DROP TABLE IF EXISTS "user";
 CREATE TABLE "user" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  "name" text NOT NULL,
-  "surname" text NOT NULL,
-  "email" text NOT NULL,
-  "phone" integer NOT NULL,
-  "password" text NULL,
-  "activated" integer NOT NULL DEFAULT '0',
-  "role_id" integer NOT NULL DEFAULT '0',
-  "open_id_g" text NOT NULL,
-  "open_id_fb" text NOT NULL,
-  FOREIGN KEY ("id") REFERENCES "student-group" ("student_id") ON DELETE SET NULL ON UPDATE CASCADE,
-  FOREIGN KEY ("id") REFERENCES "group" ("teacher_id") ON DELETE CASCADE ON UPDATE CASCADE
+  "name" text NULL,
+  "surname" text NULL,
+  "email" text NULL,
+  "phone" integer NULL,
+  "role_id" integer NULL DEFAULT '1',
+  "gm_id" text NULL,
+  "fb_id" text NULL,
+  "key" text NULL,
+  FOREIGN KEY ("id") REFERENCES "group" ("teacher_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ("id") REFERENCES "student-group" ("student_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
+INSERT INTO "role" ("id", "title") VALUES (1,	student);
+INSERT INTO "role" ("id", "title") VALUES (2,	teacher);
