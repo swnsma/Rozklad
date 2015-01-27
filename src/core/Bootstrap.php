@@ -1,5 +1,5 @@
 <?php
-require_once FILE . 'core/MagicObject.php';
+
 //require_once FILE . 'inc/facebook.php'; //include fb sdk
 class Bootstrap {
     function __construct() {
