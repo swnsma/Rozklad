@@ -28,7 +28,7 @@ class Base_Install{
             try{
                 $buff=0;
                 //переделать
-                $DBH=DataBase::getInstance()->DB();//new PDO("sqlite:".DOCUMENT_ROOT."/../SQL/data/rozklad.sqlite");
+                $DBH=DataBase::getInstance()->DB();//new PDO("sqlite:".FILE."/../SQL/data/rozklad.sqlite");
                 do{
                     $buff++;
                     $file=fopen($path.'/install_'.$buff2.'.sql', 'r');

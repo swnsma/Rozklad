@@ -4,7 +4,7 @@ class View{
     public function __construct() {}
 
     public function renderHtml($name, $data = null) {
-        $path = DOCUMENT_ROOT . 'views/' . Request::getInstance()->getModule() . '/'. $name . '.phtml';
+        $path = FILE . 'views/' . Request::getInstance()->getModule() . '/'. $name . '.phtml';
         if (file_exists($path)) {
             require_once $path;
         }
