@@ -1,18 +1,18 @@
 <?php
-require_once( URL.'facebook/Facebook/HttpClients/Httpable.php' );
-require_once( URL.'facebook/FacebookCurl.php' );
-require_once(URL.'/facebook/FacebookCurlHttpClient.php' );
+require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
+require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
+require_once(FILE.'/facebook/HttpClients/FacebookCurlHttpClient.php' );
 // added in v4.0.0
-require_once(URL.'/facebook/FacebookSession.php' );
-require_once( URL.'facebook/FacebookRedirectLoginHelper.php' );
-require_once( URL.'facebook/FacebookRequest.php' );
-require_once(URL.'/src/facebook/FacebookResponse.php' );
-require_once(URL.'/src/facebook/FacebookSDKException.php' );
-require_once( URL.'/facebook/FacebookRequestException.php' );
-require_once( URL.'/src/facebook/FacebookOtherException.php' );
-require_once(URL.'/src/facebook/FacebookAuthorizationException.php' );
-require_once(URL.'facebook/GraphObject.php' );
-require_once( URL.'facebook/GraphSessionInfo.php' );
+require_once(FILE.'/facebook/FacebookSession.php' );
+require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
+require_once( FILE.'facebook/FacebookRequest.php' );
+require_once(FILE.'/facebook/FacebookResponse.php' );
+require_once(FILE.'facebook/FacebookSDKException.php' );
+require_once( FILE.'/facebook/FacebookRequestException.php' );
+require_once( FILE.'/facebook/FacebookOtherException.php' );
+require_once(FILE.'/facebook/FacebookAuthorizationException.php' );
+require_once(FILE.'facebook/GraphObject.php' );
+require_once( FILE.'facebook/GraphSessionInfo.php' );
 // added in v4.0.5
 use Facebook\FacebookHttpable;
 use Facebook\FacebookCurl;
