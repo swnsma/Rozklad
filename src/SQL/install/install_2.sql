@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS "unconfirmed_user" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT
+);
