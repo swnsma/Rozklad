@@ -1,7 +1,7 @@
 <?php
 
 class Login extends Controller {
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('login');
     }
