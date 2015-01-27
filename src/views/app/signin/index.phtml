@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Расписание</title>
-    <link rel="stylesheet" href="../../../public/css/startPage/bootstrap.css"/>
-    <link rel="stylesheet" href="../../../public/css/startPage/start-page.css" />
+    <script src="<?php print URL; ?>public/js/app/common.js"></script>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/bootstrap.css"/>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/start-page.css" />
 </head>
 <body>
 
-    <section class="logIn">
+<section class="logIn">
     <h1>Расписание</h1>
     <div class="signin" id="signIn">
         <h2>Выберите способ входа</h2>
@@ -50,52 +51,49 @@
         </div>
     </div>
     -->
-    </section>
+</section>
 
-    <section class="form">
-        <form class="form-horizontal">
-            <fieldset>
-                <legend>Форма регистрации</legend>
-                <div class="form-group">
-                    <label  class="col-lg-2 control-label">Имя</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control nameInput"  placeholder="Name">
-                    </div>
+<section class="form" >
+    <form class="form-horizontal">
+        <fieldset>
+            <legend>Форма регистрации</legend>
+            <div class="form-group">
+                <label  class="col-lg-2 control-label">Имя</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control nameInput"  placeholder="Name">
                 </div>
-                <div class="form-group">
-                    <label  class="col-lg-2 control-label">Фамилия</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control surnameInput"  placeholder="Surname">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-lg-2 control-label">Фамилия</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control surnameInput"  placeholder="Surname">
                 </div>
-                <div class="form-group">
-                    <label  class="col-lg-2 control-label">Телефон </label>
-                    <label  class="col-lg-1 control-label">+380 </label>
-                    <div class="col-lg-9">
-                        <input type="text" class="form-control phoneInput"  placeholder="example 12 345 67 89">
-                    </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-lg-2 control-label">Телефон </label>
+                <label  class="col-lg-1 control-label">+380 </label>
+                <div class="col-lg-9">
+                    <input type="text" class="form-control phoneInput"  placeholder="example 12 345 67 89">
                 </div>
-                <div class="form-group">
-                    <label for="select" class="col-lg-2 control-label">Role</label>
-                    <div class="col-lg-10">
-                        <select class="form-control" id="select">
-                            <option>Ученик</option>
-                            <option>Учитель</option>
-                        </select>
+            </div>
+            <div class="form-group">
+                <label for="select" class="col-lg-2 control-label">Role</label>
+                <div class="col-lg-10">
+                    <select class="form-control" id="select">
+                        <option>Ученик</option>
+                        <option>Учитель</option>
+                    </select>
 
-                    </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button class="btn btn-default">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Подтвердить</button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button class="btn btn-default">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Подтвердить</button>
                 </div>
-            </fieldset>
-        </form>
-    </section>
-
-
-
+            </div>
+        </fieldset>
+    </form>
+</section>
 </body>
 </html>
