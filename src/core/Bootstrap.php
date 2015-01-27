@@ -1,7 +1,7 @@
 <?php
-require_once FILE . 'core/magic_object.php';
+require_once FILE . 'core/MagicObject.php';
 //require_once FILE . 'inc/facebook.php'; //include fb sdk
-class Bootstrap extends  MagicObject{
+class Bootstrap {
     function __construct() {
         $request = Request::getInstance();
         $controller = $request->getController();

@@ -1,6 +1,6 @@
 <?php
-require_once DOCUMENT_ROOT . 'core/MagicObject.php';
-require_once DOCUMENT_ROOT . 'core/Database.php';
+require_once FILE . 'core/MagicObject.php';
+require_once FILE . 'core/Database.php';
 abstract class Model extends Magic_Object {
     private $id = null;
     protected $db;
