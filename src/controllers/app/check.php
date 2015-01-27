@@ -1,23 +1,50 @@
 <?php
-require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
-require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
-require_once(FILE.'/facebook/HttpClients/FacebookCurlHttpClient.php' );
-// added in v4.0.0
-require_once(FILE.'/facebook/FacebookSession.php' );
-require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
-require_once( FILE.'facebook/FacebookRequest.php' );
-require_once(FILE.'/facebook/FacebookResponse.php' );
-require_once(FILE.'facebook/FacebookSDKException.php' );
-require_once( FILE.'/facebook/FacebookRequestException.php' );
-require_once( FILE.'/facebook/FacebookOtherException.php' );
-require_once(FILE.'/facebook/FacebookAuthorizationException.php' );
-require_once(FILE.'facebook/GraphObject.php' );
-require_once( FILE.'facebook/GraphSessionInfo.php' );
+//require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
+//require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
+//require_once(FILE.'facebook/HttpClients/FacebookCurlHttpClient.php' );
+//require_once(FILE.'facebook/FacebookJavaScriptLoginHelper.php' );
+//// added in v4.0.0
+//require_once(FILE.'facebook/FacebookSession.php' );
+//require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
+//require_once( FILE.'facebook/FacebookRequest.php' );
+//require_once(FILE.'facebook/FacebookResponse.php' );
+//require_once(FILE.'facebook/FacebookSDKException.php' );
+//require_once( FILE.'facebook/FacebookRequestException.php' );
+//require_once( FILE.'facebook/FacebookOtherException.php' );
+//require_once(FILE.'facebook/FacebookAuthorizationException.php' );
+//require_once(FILE.'facebook/GraphObject.php' );
+//require_once( FILE.'facebook/GraphSessionInfo.php' );
+//require_once(FILE.'facebook/FacebookSignedRequestFromInputHelper.php');
 // added in v4.0.5
 
-use Facebook\HttpClients;
-// added in v4.0.0
+require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
+require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
+require_once(FILE.'facebook/HttpClients/FacebookCurlHttpClient.php' );
+require_once( FILE.'facebook/Entities/AccessToken.php' );
+require_once( FILE.'facebook/Entities/SignedRequest.php');
+require_once( FILE.'facebook/FacebookSession.php' );
+require_once(FILE.'facebook/FacebookSignedRequestFromInputHelper.php');
+require_once( FILE.'facebook/FacebookCanvasLoginHelper.php');
+require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
+require_once( FILE.'facebook/FacebookRequest.php' );
+require_once( FILE.'facebook/FacebookResponse.php' );
+require_once( FILE.'facebook/FacebookSDKException.php' );
+require_once( FILE.'facebook/FacebookRequestException.php' );
+require_once( FILE.'facebook/FacebookOtherException.php' );
+require_once(FILE.'facebook/FacebookAuthorizationException.php' );
+require_once( FILE.'facebook/GraphObject.php' );
+require_once(FILE.'facebook/GraphUser.php');
+require_once( FILE.'facebook/GraphSessionInfo.php' );
+require_once(FILE.'facebook/FacebookJavaScriptLoginHelper.php' );
+
+use Facebook\HttpClients\FacebookHttpable;
+use Facebook\HttpClients\FacebookCurl;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+use Facebook\Entities\AccessToken;
+use Facebook\Entities\SignedRequest;
 use Facebook\FacebookSession;
+use Facebook\FacebookSignedRequestFromInputHelper;
+use Facebook\FacebookCanvasLoginHelper;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\FacebookResponse;
@@ -26,11 +53,24 @@ use Facebook\FacebookRequestException;
 use Facebook\FacebookOtherException;
 use Facebook\FacebookAuthorizationException;
 use Facebook\GraphObject;
+use Facebook\GraphUser;
 use Facebook\GraphSessionInfo;
+
+//use Facebook\HttpClients;
+//// added in v4.0.0
+//use Facebook\FacebookSession;
+//use Facebook\FacebookRedirectLoginHelper;
+//use Facebook\FacebookRequest;
+//use Facebook\FacebookResponse;
+//use Facebook\FacebookSDKException;
+//use Facebook\FacebookRequestException;
+//use Facebook\FacebookOtherException;
+//use Facebook\FacebookAuthorizationException;
+//use Facebook\GraphObject;
+//use Facebook\GraphSessionInfo;
 class Check extends Controller
 {
 
-    public $fbuser;
 
     public function index(){
         $id = '399004123614787'; // please use yours
@@ -80,10 +120,10 @@ class Check extends Controller
             $_SESSION['first_nameFB'] = $graphObject['first_name'];
             $_SESSION['last_nameFB'] = $graphObject['last_name'];
             $_SESSION['genderFB'] = $graphObject['gender'];
-            echo "TRUE";
+            echo 1;
         }
         else{
-            echo "FALSE";
+            echo 0;
         }
     }
 }
