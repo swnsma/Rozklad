@@ -18,7 +18,7 @@ abstract class Magic_Object
     {
 
     }
-    public function __call($method, $a)
+    /*public function __call($method, $a)
     {
         $type=substr($method,0,3);
         $name=substr($method,3);
@@ -61,7 +61,7 @@ abstract class Magic_Object
 
     public function  getProperty(){
         return $this->array_var;
-    }
+    }*/
 }
 
 ?>
