@@ -28,6 +28,7 @@ use Facebook\FacebookOtherException;
 use Facebook\FacebookAuthorizationException;
 use Facebook\GraphObject;
 use Facebook\GraphSessionInfo;
+
 class Bootstrap {
     function __construct() {
         $request = Request::getInstance();
