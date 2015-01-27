@@ -6,6 +6,7 @@ class Bootstrap {
         $controller = $request->getController();
         $module = $request->getModule();
         $file = FILE . 'module/' . $module . '/controllers/' . $controller . '.php';
+        Base_Install::Run();
         if (file_exists($file)) {
             require_once $file;
             $c = new $controller;
