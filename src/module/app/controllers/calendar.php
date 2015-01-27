@@ -19,6 +19,7 @@ class Calendar extends Controller {
         $data = 'hi';
         $this->view->renderHtml('calendar/index', $data);
     }
+
     public function addEvent(){
         $req=Request::getInstance();
         $this->model = $this->loadModel('lesson');
@@ -35,7 +36,9 @@ class Calendar extends Controller {
 
     public function addFullEvent(){
         $this->model = $this->loadModel('lesson');
-        $id=$this->model->getAllEvent();
+        $start=Request::getInstance()->getParam(0);
+        $end=Request::getInstance()->getParam(1);
+        $id=$this->model->getAllEvent($start,$end);
         $this->view->renderJson($id);
     }
 }

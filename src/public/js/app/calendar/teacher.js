@@ -232,7 +232,7 @@ function Calendar_teacher(id,popup){
     Calendar.call(this,id);
     var $popup=$(popup);
     var $calendar = $(id);
-
+    debugger;
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         var moment = $('#calendar').fullCalendar('getDate');
         //заповнення дати, тою датою на юку було натиснуто

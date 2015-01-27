@@ -20,13 +20,12 @@ class LessonModel extends Model {
             return null;
         }
     }
-    public function getAllEvent(){
+    public function getAllEvent($start,$end){
         try {
-            $request = <<<HERE
+            $request = <<<TANIA
 select * from lesson
-where `start` BETWEEN '2011-12-31 14:00:00' AND '2012-12-31 16:00:00'
-HERE;
-
+where `start` BETWEEN '$start' AND '$end'
+TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
