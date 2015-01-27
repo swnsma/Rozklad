@@ -8,7 +8,7 @@
 class Check extends Controller
 {
 
-   public $fbuser;
+    public $fbuser;
     public function __constructor(){
         $appId = '1536442079974268'; //Facebook App ID
         $appSecret = '1d75987fcb8f4d7abc1a34287f9601cf'; // Facebook App Secret
