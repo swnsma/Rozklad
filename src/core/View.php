@@ -1,7 +1,7 @@
 <?php
 
 class View{
-    function __construct() {}
+    public function __construct() {}
 
     public function renderHtml($name, $data = null) {
         $path = DOCUMENT_ROOT . 'views/' . Request::getInstance()->getModule() . '/'. $name . '.phtml';
