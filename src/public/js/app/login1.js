@@ -5,12 +5,17 @@ var auth_fb = (function() {
         console.log('statusChangeCallback');
         console.log(response);
         if (response.status === 'connected') {
-            auth.check(response.authResponse.accessToken, 'facebook',
-                function() {
-                    alert('зараз відбудеття реєстрація');
-                    auth.register(user_data)
+            $.ajax({
+                url: url + 'app/login/check/',
+                type: 'GET',
+                success: function(response) {
+                    console.log("RESPONSE: "+response);
+                },
+                error: function(error) {
+                    console.log(error);
+                    alert('error: block get status');
                 }
-            );
+            });
         } else if (response.status === 'not_authorized') {
             document.getElementById('status').innerHTML = 'Please log ' +
             'into this app.';
@@ -22,7 +27,7 @@ var auth_fb = (function() {
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '386967351480465',
+            appId      : '399004123614787',
             cookie     : true,
             xfbml      : true,
             version    : 'v2.1'
