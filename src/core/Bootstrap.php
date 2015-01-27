@@ -2,7 +2,6 @@
 require_once( URL.'facebook/Facebook/HttpClients/Httpable.php' );
 require_once( URL.'facebook/FacebookCurl.php' );
 require_once(URL.'/facebook/FacebookCurlHttpClient.php' );
-
 // added in v4.0.0
 require_once(URL.'/facebook/FacebookSession.php' );
 require_once( URL.'facebook/FacebookRedirectLoginHelper.php' );
@@ -14,7 +13,6 @@ require_once( URL.'/src/facebook/FacebookOtherException.php' );
 require_once(URL.'/src/facebook/FacebookAuthorizationException.php' );
 require_once(URL.'facebook/GraphObject.php' );
 require_once( URL.'facebook/GraphSessionInfo.php' );
-
 // added in v4.0.5
 use Facebook\FacebookHttpable;
 use Facebook\FacebookCurl;
@@ -30,8 +28,6 @@ use Facebook\FacebookOtherException;
 use Facebook\FacebookAuthorizationException;
 use Facebook\GraphObject;
 use Facebook\GraphSessionInfo;
-require_once DOCUMENT_ROOT . 'core/magic_object.php';
-require_once DOCUMENT_ROOT . 'inc/facebook.php'; //include fb sdk
 class Bootstrap extends  MagicObject{
     function __construct() {
         $request = Request::getInstance();
