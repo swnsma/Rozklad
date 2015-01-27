@@ -41,12 +41,12 @@ function Calendar(id){
         //    $('#calendar').fullCalendar('updateEvent', event);
         //
         //},
-        ,events: [{
-                title  : 'event3',
-                start  : '2015-01-09 12:30:00',
-                allDay : false // will make the time show
-            }
-        ]
+        //,events: [{
+        //        title  : 'event3',
+        //        start  : '2015-01-09 12:30:00',
+        //        allDay : false // will make the time show
+        //    }
+        //]
 
     };
 

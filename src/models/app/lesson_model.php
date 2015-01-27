@@ -12,7 +12,7 @@ class LessonModel extends Model {
     }
     public function addLesson($title, $start,$end) {
         try {
-            $this->db->query("INSERT INTO lesson (title,start,end,date,topic,description) VALUES ('$title','$start','$end','NUL0L','NULL','NULL')");
+            $this->db->query("INSERT INTO lesson (title,start,end) VALUES ('$title','$start','$end')");
             return $this->db->lastInsertId();
 
         } catch(PDOException $e) {

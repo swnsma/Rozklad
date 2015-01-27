@@ -5,8 +5,7 @@
  * Date: 22.01.2015
  * Time: 23:56
  */
-require_once FILE . 'core/magic_object.php';
-abstract class Response extends MagicObject{
+abstract class Response{
     public  $string = '';
     public function __construct($string){
         $this->string=$string;
