@@ -1,5 +1,5 @@
 <?php
-require_once DOCUMENT_ROOT . 'core/magic_object.php';
+require_once FILE . 'core/magic_object.php';
 class Session extends MagicObject {
     public static function init() {
         session_start();
