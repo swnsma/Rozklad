@@ -4,18 +4,68 @@ function load(){
         self.users = ko.observableArray([]);
         loadUsers(self);
         self.confirm = function (user){
-            user.confirmed(true);
+            $.ajax({
+                url: 'admin/confirmUser/'+user.id,
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {},
+                success: function(response){
+                    user.confirmed(true);
+                },
+                error: function(er) {
+                    debugger;
+                    console.dir(er);
+                    if (er.status==200) {
+                        user.confirmed(true);
+                    }
+                }
+
+            });
         }
         self.unConfirm = function (user){
-            user.confirmed(false);
+            $.ajax({
+                url: 'admin/unConfirmUser/'+user.id,
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {},
+                success: function(response){
+                    user.confirmed(false);
+                },
+                error: function(er) {
+                    console.dir(er);
+                    if (er.status==200) {
+                        user.confirmed(false);
+                    }
+                }
+
+            });
         }
 
         function loadUsers(self){
-            var users=[{name:'Андрей Морозов',role: 'Пеподаватель',confirmed: ko.observable(false), photo: '../../../public/img/avatar.png'},
-                {name:'Артем Сердюк',role: 'Пеподаватель',confirmed: ko.observable(false), photo: '../../../public/img/avatar.png'},
-                {name:'Андрей Дребот',role: 'Пеподаватель',confirmed: ko.observable(false), photo: '../../../public/img/avatar.png'},
-                {name:'Славик',role: 'Пеподаватель',confirmed: ko.observable(false), photo: '../../../public/img/avatar.png'}];
-            self.users(users);
+            var users = [];
+            $.ajax({
+                url: 'admin/getUnconfirmedUsers',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {},
+                success: function(response){
+                    for(var i in response){
+                        var user ={};
+                        user.name = response[i].name+' '+response[i].surname;
+                        user.photo = '../../../src/public/img/avatar.png';
+                        user.role = response[i].role_id==1?'Студент':'Преподаватель';//TODO: do this switch on server side
+                        user.id = response[i].id;
+                        user.confirmed = ko.observable(false);
+
+                        users.push(user);
+                    }
+                    self.users(users);
+                },
+                error: function(er) {
+                    console.dir(er);
+                }
+
+            });
         }
     }
     ko.applyBindings(new adminViewModel());

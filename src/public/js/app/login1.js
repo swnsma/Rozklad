@@ -1,15 +1,25 @@
 
 var auth_fb = (function() {
-
+    //var login_event = function(response) {
+    //    console.log("login_event");
+    //    console.log(response.status);
+    //    console.log(response);
+    //}
+    //
+    //var logout_event = function(response) {
+    //    console.log("logout_event");
+    //    console.log(response.status);
+    //    console.log(response);
+    //}
     function statusChangeCallback(response) {
         console.log('statusChangeCallback');
         console.log(response);
         if (response.status === 'connected') {
             $.ajax({
-                url: url + 'app/login/check/',
+                url: url + 'app/check/',
                 type: 'GET',
                 success: function(response) {
-                    console.log("RESPONSE: "+response);
+                    console.dir("RESPONSE: "+response);
                 },
                 error: function(error) {
                     console.log(error);
@@ -36,6 +46,11 @@ var auth_fb = (function() {
         FB.getLoginStatus(function(response) {
             statusChangeCallback(response);
         });
+        //FB.Event.subscribe('auth.login', login_event);
+        //FB.Event.subscribe('auth.logout', logout_event);
+
+// In your JavaScript code:
+
 
     };
 
@@ -60,8 +75,17 @@ var auth_fb = (function() {
     return {
         checkLoginState: function() {
             $('#fbLogin').click(function() {
+                FB.login();
                 FB.getLoginStatus(function(response) {
                     statusChangeCallback(response);
+
+                });
+            });
+            $('#fbLogout').click(function() {
+                FB.logout();
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+
                 });
             });
         }
