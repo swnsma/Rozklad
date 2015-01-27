@@ -11,22 +11,6 @@ class Login extends Controller {
         $this->view->renderHtml('login/index', $data);
     }
 
-    public function check() {
-        $r = Request::getInstance();
-        $id = $this->model->getUserIdFromToken($r->getParam(0), $r->getParam(1));
-        if ($id == false) {
-            $this->view->renderJson(array(
-                'token' => $r->getParam(0),
-                'status' => 'no_register'
-            ));
-        } else {
-            $this->view->renderJson(array(
-                  'token' => $r->getParam(0),
-                  'status' => $this->model->login($id) === true ? 'autorized' : 'no_autorized'
-            ));
-        }
-    }
-
     public function register() {
         if (isset($_POST['name'])
             && isset($_POST['surname'])
