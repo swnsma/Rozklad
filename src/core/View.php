@@ -1,7 +1,7 @@
 <?php
-require_once DOCUMENT_ROOT . 'core/magic_object.php';
-class View extends MagicObject {
-    function __construct() {}
+
+class View{
+    public function __construct() {}
 
     public function renderHtml($name, $data = null) {
         $path = DOCUMENT_ROOT . 'views/' . Request::getInstance()->getModule() . '/'. $name . '.phtml';
