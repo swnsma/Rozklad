@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "gm_id" text NULL,
   "fb_id" text NULL,
   "key" text NULL,
+  FOREIGN KEY ("id") REFERENCES "unconfirmed_users" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY ("id") REFERENCES "group" ("teacher_id") ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY ("id") REFERENCES "student-group" ("student_id") ON DELETE SET NULL ON UPDATE CASCADE
 );
