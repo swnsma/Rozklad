@@ -1,7 +1,6 @@
 <?php
-require_once DOCUMENT_ROOT . 'core/magic_object.php';
 
-abstract class Controller  extends MagicObject{
+abstract class Controller {
     function __construct() {
         $this->view = new View();
     }
