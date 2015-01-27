@@ -27,6 +27,8 @@ select * from lesson
 where `start` BETWEEN '2011-12-31 14:00:00' AND '2012-12-31 16:00:00'
 HERE;
 
+
+
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch(PDOException $e) {
