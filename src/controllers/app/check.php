@@ -54,7 +54,7 @@ class Check extends Controller
         } else {
             // no session exists
             try {
-                $session = $helper->getSessionFromRedirect();
+                $session = $helper->getSession();
             } catch (FacebookRequestException $ex) {
                 // When Facebook returns an error
             }
@@ -80,6 +80,10 @@ class Check extends Controller
             $_SESSION['first_nameFB'] = $graphObject['first_name'];
             $_SESSION['last_nameFB'] = $graphObject['last_name'];
             $_SESSION['genderFB'] = $graphObject['gender'];
+            echo "TRUE";
+        }
+        else{
+            echo "FALSE";
         }
     }
 }
