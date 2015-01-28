@@ -40,5 +40,40 @@ $(function(){
             $panel.find('.panel-body input').focus();
         }
     });
-    $('[data-toggle="tooltip"]').tooltip();
-})
+   // $('[data-toggle="tooltip"]').tooltip();
+});
+
+
+function GroupList() {
+    (function getList(success, error) {
+        $.ajax({
+            url: url + 'app/groups/listGroup',
+            type: 'GET',
+            success: function(response) {
+                success(response);
+            },
+            error: function(xhr) {
+                error(xhr);
+            }
+        });
+    })(renderGroup, function(error) {
+        alert(error.responseText);
+    });
+
+    function renderGroup(groups) {
+        var table = $('#task-table > tbody');
+        for(var i in groups) {
+            var g = groups[i];
+            var tr = $('<tr>').html('<td>' + (+i+1) +
+                '</td><td><a href="#/'+ g.group_id + '">' + g.name
+                + '</a></td><td>' + g.teacher_name + '</td><td>16 березня</td>');
+        }
+        table.append(tr);
+    }
+
+}
+
+
+$(document).ready(function() {
+   var list = new GroupList();
+});
