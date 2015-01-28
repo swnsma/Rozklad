@@ -10,6 +10,9 @@ class Magic_Object_Exception extends Exception {
         parent::__construct();
     }
 }
+function replace($matches){
+    return strtolower('_'.$matches[0]);
+}
 abstract class Magic_Object
 {
     protected $array_var = Array();
@@ -20,8 +23,11 @@ abstract class Magic_Object
     }
     public function __call($method, $a)
     {
+
+        $method= preg_replace_callback("/[A-Z]/", "replace", $method);
+
         $type=substr($method,0,3);
-        $name=substr($method,3);
+        $name=substr($method,4);
         switch($type){
             case 'get':
                 if (isset($this->array_var[$name]))
@@ -60,7 +66,8 @@ abstract class Magic_Object
     }
 
     public function  getProperty(){
-        return $this->array_var;
+        $var= &$this->array_var;
+        return $var;
     }
 }
 
