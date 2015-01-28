@@ -8,5 +8,8 @@ function Calendar_student(id){
 }
 $(document).ready(function() {
     var calendar = new Calendar_student('#calendar');
+
+    var realTimeUpdate = new RealTimeUpdate();
+    realTimeUpdate.start();
     //calendar.popup();
 });

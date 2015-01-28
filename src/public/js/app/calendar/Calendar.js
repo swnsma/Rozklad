@@ -42,7 +42,6 @@ function Calendar(id){
         eventSources: [
             {
                 events: function(start, end, timezone, callback) {
-                    debugger;
                     start=start._d;
                     end=end._d;
                     var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
@@ -56,7 +55,9 @@ function Calendar(id){
                             debugger;
                             callback(doc);
                             return doc;
-
+                        },
+                        error: function(){
+                            debugger;
                         }
                     });
                 }

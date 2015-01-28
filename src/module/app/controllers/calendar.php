@@ -41,5 +41,12 @@ class Calendar extends Controller {
         $id=$this->model->getAllEvent($start,$end);
         $this->view->renderJson($id);
     }
+    public function getRealTimeUpdate(){
+        $this->model = $this->loadModel('lesson');
+        $interval=Request::getInstance()->getParam(0);
+        $id=$this->model->getRealTimeUpdate($interval);
+
+        $this->view->renderJson($id);
+    }
 }
 ?>
