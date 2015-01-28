@@ -56,9 +56,13 @@ TANIA;
 
     //Реал Тайм Апдейт
     public function getRealTimeUpdate($iteration){
-        $end=$this->realDate();
-        $start = $end;
+        $end =$this->realDate();
+        $start =$this->realDate();
         $start=$start->modify("-$iteration second");
+//        echo $start->format($this->formatDate());
+//        echo $end->format($this->formatDate());
+
+//        $start=$start->modify("-$iteration second");
         return $this->getEventsInterval($start->format($this->formatDate()),$end->format($this->formatDate()),'date');
 
     }

@@ -3,7 +3,9 @@
  */
 
 function RealTimeUpdate(){
+    //var interval = 60000;//раз в хвилину оновлення
     var interval = 60000;//раз в хвилину оновлення
+
 
     var setTime;
     var operation = function(){
