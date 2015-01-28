@@ -12,12 +12,37 @@ function normDate(year,month,day,hour,minuts){
     return year+'-'+format(month)+'-'+format(day)+' '+format(hour)+':'+format(minuts)+':00';
 }
 
-function Calendar(id){
+function Calendar(){
+    this.jqueryObject={
+        calendar:$('#calendar'),
+        popup: {
+            typeAction:$('#typeAction'),//тип попапу
+            popup: $('#popup'),
+            typePopup:$('#eventType'),//Title завдання
+            tcal: $('#tcal'),
+            tcalInput: $('#tcalInput'),
+            start:{
+                hour: $('#hourBegin'),
+                minutes: $('#minutesBegin')
+            },
+            end:{
+                hour: $('#hourEnd'),
+                minutes: $('#minutesEnd')
+            },
+            day:{
+                year:$('#year'),
+                month:$('#month'),
+                day:$('#day')
+            },
+            button:{
+                submit:$('#createNewLesson'),
+                reset:$('#resetLesson')
+            }
+        }
+    };
     var date = new Date();
     var month=date.getMonth()+1;
     var year= date.getFullYear();
-
-
 
     this.option={
         eventLimit: true, // for all non-agenda views
@@ -29,6 +54,7 @@ function Calendar(id){
         monthNamesShort: ['Янв.', 'Фев.', 'Март', 'Апр.', 'Май', 'Июнь', 'Июль', 'Авг.', 'Сент.', 'Окт.', 'Ноя.', 'Дек.'],
         dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
         dayNamesShort: ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
+        timezone:'local',
         buttonText: {
             today: "Сегодня",
             month: "Месяц",

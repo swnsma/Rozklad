@@ -7,8 +7,13 @@ class Groups extends Controller {
     }
 
     public function index() {
-        $data = 'hi'; //викликаємо портрібні функції поделі
+        $data['title'] = 'title';
+
+        $this->view->renderHtml('common/head', $data);
+        $this->view->renderHtml('common/header');
         $this->view->renderHtml('groups/index', $data);
+        $this->view->renderHtml('common/footer');
+        $this->view->renderHtml('common/foot');
     }
 
     public function listGroup() {

@@ -1,7 +1,7 @@
 /**
  * Created by Sasha on 28.01.2015.
  */
-function load(){
+function header_load(){
     function getCurrentUser(){
         $.ajax({
             url: 'admin/getUnconfirmedUsers',//???????

@@ -48,6 +48,18 @@ TANIA;
             return null;
         }
     }
+    public function updateLesson($title, $start,$end,$id) {
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+
+//            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
+            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end' WHERE id=$id");
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
 
     //повертає заняття для календаря на теперішній місяць
     public function getAllEvent($start,$end){

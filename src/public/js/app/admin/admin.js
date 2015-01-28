@@ -2,18 +2,19 @@ function load(){
     function adminViewModel(){
         var self = this;
         self.users = ko.observableArray([]);
-        loadUsers(self);
+        //loadUsers(self);
+
+        var realTimeUpdate = window.setInterval(function(){
+            loadUsers(self);
+        },1000);
+
         self.confirm = function (user){
             $.ajax({
                 url: 'admin/confirmUser/'+user.id,
-                contentType: 'application/json',
-                dataType: 'json',
-                data: {},
                 success: function(response){
                     user.confirmed(true);
                 },
                 error: function(er) {
-                    debugger;
                     console.dir(er);
                     if (er.status==200) {
                         user.confirmed(true);
@@ -25,9 +26,6 @@ function load(){
         self.unConfirm = function (user){
             $.ajax({
                 url: 'admin/unConfirmUser/'+user.id,
-                contentType: 'application/json',
-                dataType: 'json',
-                data: {},
                 success: function(response){
                     user.confirmed(false);
                 },
@@ -42,26 +40,57 @@ function load(){
         }
 
         function loadUsers(self){
-            var users = [];
             $.ajax({
                 url: 'admin/getUnconfirmedUsers',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: {},
                 success: function(response){
+                    debugger;
                     for(var i in response){
-                        var user ={};
+                        var user = {};
                         user.name = response[i].name+' '+response[i].surname;
                         user.photo = '../../../src/public/img/avatar.png';
                         user.role = response[i].role_id==1?'Студент':'Преподаватель';//TODO: do this switch on server side
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
 
-                        users.push(user);
+                        var haveSuchUser = false;
+                        var suchUserN;
+                        if (self.users()[0]){
+                            for (var u in self.users()){
+                                if (self.users()[u].id==user.id){
+                                    haveSuchUser = true;
+                                    suchUserN = u;
+                                }
+                            }
+                        }
+
+                        if (!haveSuchUser){
+                            self.users.push(user);
+                        } else {
+                            self.users()[suchUserN].confirmed(false);
+                        }
                     }
-                    self.users(users);
+
+                    findConfirmed();
+                    function findConfirmed() { //if there are no some users on server side but they are present in self.users() this function will set them as confirmed
+                        if (self.users()[0]) {
+                            for (var u in self.users()) {
+                                var haveSuchUser = false;
+                                var suchUserN = null;
+                                for (var r in response) {
+                                    if (self.users()[u].id == response[r].id) {
+                                        haveSuchUser = true;
+                                        suchUserN = u;
+                                    }
+                                }
+                                if (!haveSuchUser) {
+                                    self.users()[u].confirmed(true);
+                                }
+                            }
+                        }
+                    }
                 },
                 error: function(er) {
+                    debugger;
                     console.dir(er);
                 }
 
