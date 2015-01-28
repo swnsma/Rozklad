@@ -13,7 +13,7 @@
                         $rows.each(function(){
                             var $this = $(this);
                             $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
-                        })
+                        });
                         if($target.find('tbody tr:visible').size() === 0) {
                             var col_count = $target.find('tr').first().find('td').size();
                             var no_results = $('<tr class="filterTable_no_results"><td colspan="'+col_count+'">No results found</td></tr>')
@@ -41,6 +41,19 @@ $(function(){
         }
     });
     // $('[data-toggle="tooltip"]').tooltip();
+    var ifOpened=false;
+    $('.sostav').css('display','none');
+    var $target=$('.plus');
+    $target.click(function(){
+        if(ifOpened==false){
+            ifOpened=true;
+            $('.sostav').css('display','')
+        }
+        else {ifOpened=true;
+        ifOpened=false;
+        $('.sostav').css('display','none')
+    }});
+
 });
 
 
