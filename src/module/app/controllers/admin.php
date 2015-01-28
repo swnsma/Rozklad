@@ -16,11 +16,14 @@ class Admin extends Controller {
     }
 
     public function index() {
+        $this->view->renderHtml('common/head');
+        $this->view->renderHtml('common/header');
         $this->view->renderHtml('admin/admin_page');
+        $this->view->renderHtml('common/footer');
+        $this->view->renderHtml('common/foot');
     }
 
     public function getUnconfirmedUsers(){
-
         $unconfirmedUsers=$this->model->getUnconfirmedUsers();
         $this->view->renderJson($unconfirmedUsers);
     }
