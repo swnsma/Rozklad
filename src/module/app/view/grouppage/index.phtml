@@ -10,7 +10,12 @@
 <section class="container">
     <section class="description col-md-12">
         <h1>Advance</h1>
-
+        <?php if (GroupPage::$role == 'teacher'): ?>
+            <a href="#" class="btn btn-default">Распустить группу</a>
+        <?php endif; ?>
+        <?php if (GroupPage::$role == 'student'): ?>
+            <a href="#" class="btn btn-default">Покинуть группу</a>
+        <?php endif; ?>
         <h2>Описание группы:</h2>
         <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
