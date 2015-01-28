@@ -57,4 +57,20 @@ class Base_Install{
             }
         }
     }
+    public static function LoadDummy(){
+        $f= fopen("../SQL/install/dummy_data.sql", "r");
+        $DBH=DataBase::getInstance()->DB();
+        //видалення данних
+        /* $result = $DBH->query("SELECT * FROM groups");
+         var_dump($result->fetchAll());
+         $DBH->query("DELETE FROM user WHERE id>0");
+         $DBH->query("DELETE FROM groups WHERE id>0");
+         $DBH->query("DELETE FROM group_lesson WHERE lesson_id>0");
+         $DBH->query("DELETE FROM student_group WHERE group_id>0");
+         $DBH->query("DELETE FROM lesson WHERE id>0");*/
+        do{
+            $query=fgets($f, 1000);
+            $DBH->query($query);
+        }while($query);
+    }
 }
