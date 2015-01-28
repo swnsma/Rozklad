@@ -33,6 +33,18 @@ class Calendar extends Controller {
             $this->view->renderJson(array('id' => $id));
         }
     }
+    public function updateEvent(){
+        $req=Request::getInstance();
+        $this->model = $this->loadModel('lesson');
+        $title= $req->getParam(0);
+        $start= $req->getParam(1);
+        $end= $req->getParam(2);
+        $id= $req->getParam(3);
+        $this->model->updateLesson($title,$start,$end,$id);
+
+            $this->view->renderJson("succeess");
+
+    }
 
     public function addFullEvent(){
         $this->model = $this->loadModel('lesson');

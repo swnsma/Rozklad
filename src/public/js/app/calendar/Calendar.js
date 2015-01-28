@@ -16,8 +16,9 @@ function Calendar(){
     this.jqueryObject={
         calendar:$('#calendar'),
         popup: {
+            typeAction:$('#typeAction'),//тип попапу
             popup: $('#popup'),
-            typePopup:$('#eventType'),
+            typePopup:$('#eventType'),//Title завдання
             tcal: $('#tcal'),
             tcalInput: $('#tcalInput'),
             start:{
@@ -53,6 +54,7 @@ function Calendar(){
         monthNamesShort: ['Янв.', 'Фев.', 'Март', 'Апр.', 'Май', 'Июнь', 'Июль', 'Авг.', 'Сент.', 'Окт.', 'Ноя.', 'Дек.'],
         dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
         dayNamesShort: ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
+        timezone:'local',
         buttonText: {
             today: "Сегодня",
             month: "Месяц",

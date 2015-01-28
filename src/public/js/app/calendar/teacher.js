@@ -3,7 +3,12 @@
  */
 //наслідується від простого календара // налаштування календара
 function Calendar_teacher(){
+
+    var masAction = ['create','edit'];
+    var action = masAction[0];
     var self=this;
+    var idUpdate=0;
+    var originalEvent='';
     Calendar.call(this);
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
@@ -16,6 +21,9 @@ function Calendar_teacher(){
         self.jqueryObject.popup.start.minutes.val('00');
         self.jqueryObject.popup.end.hour.val('16');
         self.jqueryObject.popup.end.minutes.val('00');
+        self.jqueryObject.popup.typeAction.text('Создать событие');
+        self.jqueryObject.popup.button.submit.text('Создать');
+        action = masAction[0];
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
@@ -27,6 +35,36 @@ function Calendar_teacher(){
             'top':y
         });
     };
+
+    this.option.eventClick=function(calEvent, jsEvent, view) {
+        debugger;
+        self.jqueryObject.popup.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
+        self.jqueryObject.popup.day.day.val(calEvent.start._d.getDate());
+        self.jqueryObject.popup.day.month.val(calEvent.start._d.getMonth()+1);
+        self.jqueryObject.popup.day.year.val(calEvent.start._d.getFullYear());
+        self.jqueryObject.popup.popup.show();
+        self.jqueryObject.popup.typePopup.val(calEvent.title);
+        self.jqueryObject.popup.start.hour.val(calEvent.start._d.getHours());
+        self.jqueryObject.popup.start.minutes.val(calEvent.start._d.getMinutes());
+        self.jqueryObject.popup.end.hour.val(calEvent.end._d.getHours());
+        self.jqueryObject.popup.end.minutes.val(calEvent.end._d.getMinutes());
+        self.jqueryObject.popup.typeAction.text('Редактировать');
+        self.jqueryObject.popup.button.submit.text('Сохранить');
+        idUpdate=calEvent.id;
+        originalEvent=calEvent;
+        action = masAction[1];
+        //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
+        f_tcalCancel();
+
+        var x= jsEvent.pageX;
+        var y = jsEvent.pageY;
+        x=x-self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2)/2;
+        self.jqueryObject.popup.popup.css({
+            'left':x,
+            'top':y
+        });
+
+    }
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
@@ -55,7 +93,6 @@ function Calendar_teacher(){
     //функція яка відповідає за поведення popup
     this.click_body = function(){
         $(document).click(function(event){
-
             ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
             //говноКоДЭ
             var bool=false;
@@ -84,8 +121,9 @@ function Calendar_teacher(){
             if(!bool){
                 var classList = $(event.target)[0].classList;
                 for (var i = 0; i < classList.length; ++i) {
-                    if (classList[i] === 'fc-day' || classList[i] === 'fc-day-number') {
+                    if (classList[i] === 'fc-day' || classList[i] === 'fc-day-number'||classList[i]==='fc-event-container') {
                         bool = true;
+
                         break;
                     }
                 }
@@ -237,22 +275,36 @@ function Calendar_teacher(){
                 }
                 return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
             };
-            var urls=url+'app/calendar/addEvent/' + title+'/'+startFun()+'/'+endFun();
+            var urls=0;
+            if(action===masAction[0]) {
+                urls = url + 'app/calendar/addEvent/' + title + '/' + startFun() + '/' + endFun();
+            }else if(action===masAction[1]){
+                urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
+            }
             $.ajax({
                 url: urls,
                 type: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    self.jqueryObject.calendar.fullCalendar('renderEvent',{
-                        id: id,
-                        title: title,
-                        start: startFun(),
-                        end: endFun(),
-                        allDay: false
-                    });
+                    if(action===masAction[0]) {
+                        self.jqueryObject.calendar.fullCalendar('renderEvent', {
+                            id: id,
+                            title: title,
+                            start: startFun(),
+                            end: endFun(),
+                            allDay: false
+                        });
+                    }else{
+                        originalEvent.id=idUpdate;
+                        originalEvent.title=title;
+                        originalEvent.start=startFun();
+                        originalEvent.end=endFun();
+                        self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
+                    }
                 },
                 error: function(er) {
+                    debugger;
                     alert(er);
                 }
 
