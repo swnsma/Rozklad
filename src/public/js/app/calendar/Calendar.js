@@ -1,11 +1,25 @@
 /**
  * Created by Таня on 23.01.2015.
  */
+
+function normDate(year,month,day,hour,minuts){
+    function format(num){
+        if((num+'').length==1){
+            num='0'+num;
+        }
+        return num;
+    }
+    return year+'-'+format(month)+'-'+format(day)+' '+format(hour)+':'+format(minuts)+':00';
+}
+
 function Calendar(id){
-    var urls=url+'app/calendar/addFullEvent';
-    //var calendar = $(id);
+    var date = new Date();
+    var month=date.getMonth()+1;
+    var year= date.getFullYear();
+
+
+
     this.option={
-        //editable: true,
         eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
@@ -24,16 +38,31 @@ function Calendar(id){
         timeFormat: 'H(:mm)',// uppercase H for 24-hour clock
         //handleWindowResize:true,
         //fixedWeekCount:false,
-    eventSources: [{
-        url: urls,
-        type: 'POST',
-        success:function(data){
 
-        },
-        error: function() {
-            alert('Ошибка соединения с источником данных!');
-        }
-    }]
+        eventSources: [
+            {
+                events: function(start, end, timezone, callback) {
+                    start=start._d;
+                    end=end._d;
+                    var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
+                    var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes())
+                    debugger;
+                    $.ajax({
+                        url: url+'app/calendar/addFullEvent'+'/'+start1+'/'+end1,
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function(doc) {
+                            debugger;
+                            callback(doc);
+                            return doc;
+                        },
+                        error: function(){
+                            debugger;
+                        }
+                    });
+                }
+            }
+        ]
         //eventClick: function(event, element) {
         //    debugger;
         //    event.title = "CLICKED!";
@@ -49,5 +78,4 @@ function Calendar(id){
         //]
 
     };
-
 }

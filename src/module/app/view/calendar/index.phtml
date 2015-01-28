@@ -17,7 +17,6 @@
 <body>
 
 <?php if (Calendar::$role == 'teacher'): ?>
-
     <div class='popup' id='popup'>
         <div class='content'>
             <h2 class='padding28'> Создать Занятие </h2>
@@ -29,7 +28,6 @@
                 <input class='input-create-lesson' placeholder='Новый урок' type='text' id='eventType' name='event_type' value=''>
             </span>
             </div>
-
 
             <div class='padding28 inner-wrapper'>
                 <div class='tr-create-lesson'>
@@ -55,8 +53,6 @@
             </div>
         </form>
     </div>
-
-
 <?php endif; ?>
 
 <div class="calendar" id='calendar'></div>
@@ -67,15 +63,18 @@
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
 
+<script src='<?php print URL; ?>public/js/app/calendar/RealTimeUpdate.js'></script>
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <?php if (Calendar::$role == 'teacher'): ?>
-<script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
+
+    <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
+
 <?php else: ?>
 
-<script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
+    <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
 <?php endif; ?>
 
 
