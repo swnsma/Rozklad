@@ -10,34 +10,14 @@
 
 </head>
 <body>
-<header class="header">
-    <div class="background"></div>
-    <img class="logo" src="../../../src/public/img/logo.png"/>
-    <section class="login">
-        <article class="user">
-            <section class="info">
-                <h2 class="name">Саша Коваленко</h2>
-                <h3 class="role">Администратор</h3>
-            </section>
-            <img class="avatar" src="../../../src/public/img/avatar.png" />
-        </article>
-        <form class="login" style="display:none">
-            <input class="field" name="login" />
-            <input class="field" name="password" />
-            <button class="login">Login</button>
-            <button class="registration">New user</button>
-        </form>
-    </section>
-    <div class="clear-both"></div>
-</header>
 
 <ul class="user-list" data-bind="foreach: users">
     <li class="user">
         <div class="padding">
             <img class="avatar" data-bind="attr{src: photo}"/>
             <section class="info">
-                <h2 class="name" data-bind="text: name">Андрей Морозов</h2>
-                <h3 class="role" data-bind="text: role">Преподаватель</h3>
+                <h2 class="name" data-bind="text: name"></h2>
+                <h3 class="role" data-bind="text: role"></h3>
             </section>
             <!-- ko ifnot: confirmed -->
             <div class="confirm-status" data-bind="click: $parent.confirm">Подтвердить статус</div>
