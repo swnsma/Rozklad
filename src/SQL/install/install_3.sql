@@ -1,2 +1,3 @@
 ALTER TABLE groups ADD COLUMN 'description' TEXT NULL;
 ALTER TABLE groups ADD COLUMN 'invite_code' TEXT NULL;
+ALTER TABLE lesson ADD COLUMN 'status' INTEGER NULL;
