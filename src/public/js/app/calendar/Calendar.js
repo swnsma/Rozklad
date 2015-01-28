@@ -12,12 +12,36 @@ function normDate(year,month,day,hour,minuts){
     return year+'-'+format(month)+'-'+format(day)+' '+format(hour)+':'+format(minuts)+':00';
 }
 
-function Calendar(id){
+function Calendar(){
+    this.jqueryObject={
+        calendar:$('#calendar'),
+        popup: {
+            popup: $('#popup'),
+            typePopup:$('#eventType'),
+            tcal: $('#tcal'),
+            tcalInput: $('#tcalInput'),
+            start:{
+                hour: $('#hourBegin'),
+                minutes: $('#minutesBegin')
+            },
+            end:{
+                hour: $('#hourEnd'),
+                minutes: $('#minutesEnd')
+            },
+            day:{
+                year:$('#year'),
+                month:$('#month'),
+                day:$('#day')
+            },
+            button:{
+                submit:$('#createNewLesson'),
+                reset:$('#resetLesson')
+            }
+        }
+    };
     var date = new Date();
     var month=date.getMonth()+1;
     var year= date.getFullYear();
-
-
 
     this.option={
         eventLimit: true, // for all non-agenda views
