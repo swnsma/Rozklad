@@ -52,7 +52,7 @@ $(function(){
         else {ifOpened=true;
         ifOpened=false;
         $('.sostav').css('display','none')
-    }});
+    }})
 
 });
 
