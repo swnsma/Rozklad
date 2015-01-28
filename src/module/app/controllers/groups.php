@@ -8,6 +8,7 @@ class Groups extends Controller {
 
     public function index() {
         $data['title'] = 'title';
+
         $this->view->renderHtml('common/head', $data);
         $this->view->renderHtml('common/header');
         $this->view->renderHtml('groups/index', $data);
