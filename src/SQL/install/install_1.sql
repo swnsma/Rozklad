@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "group" (
+CREATE TABLE IF NOT EXISTS "groups" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   "name" text NULL,
   "teacher_id" integer NULL,
