@@ -1,6 +1,7 @@
 /**
  * Created by Таня on 22.01.2015.
  */
+//функція яка відповідає за поведення popup
 function click_body(){
     $(document).click(function(event){
 
@@ -46,6 +47,7 @@ function click_body(){
     });
 }
 
+//синхронизація маленького календарика і поля для ввода дати
 function syncTcalInput(){
     function sync(){
         $tcalInput.val($day.val()+'-'+$month.val()+'-'+$year.val());
@@ -99,6 +101,7 @@ function syncTcalInput(){
     });
 }
 
+//валідація поля дати
 function timeIvent(){
     function maskEndFocus(mask,focus,type){
         mask.mask('99');
@@ -159,6 +162,7 @@ function timeIvent(){
     //}
 }
 
+//додавання нового івента
 function addLesson(calendar,id,popup){
 
     var $id = $(id);
@@ -202,11 +206,6 @@ function addLesson(calendar,id,popup){
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
-            data: {
-                start: startFun(),
-                end: endFun(),
-                title: title.replace('/','-')
-            },
             success: function(id){
                 $calendar.fullCalendar('renderEvent',{
                     id: id,
@@ -227,12 +226,11 @@ function addLesson(calendar,id,popup){
     });
 }
 
-
+//наслідується від простого календара // налаштування календара
 function Calendar_teacher(id,popup){
     Calendar.call(this,id);
     var $popup=$(popup);
     var $calendar = $(id);
-
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         var moment = $('#calendar').fullCalendar('getDate');
         //заповнення дати, тою датою на юку було натиснуто
@@ -260,7 +258,13 @@ function Calendar_teacher(id,popup){
 
     $calendar.fullCalendar(this.option);
 }
+
+
 $(document).ready(function() {
+    var calendar = new Calendar_teacher('#calendar','#popup');
+
+    var realTimeUpdate = new RealTimeUpdate();
+    realTimeUpdate.start();
     function focusDelete(item){
         var a ='';
         item.on('focus',function(){
@@ -274,7 +278,7 @@ $(document).ready(function() {
         })
 
     }
-    var calendar = new Calendar_teacher('#calendar','#popup');
+
     click_body();
     syncTcalInput();
     timeIvent();
