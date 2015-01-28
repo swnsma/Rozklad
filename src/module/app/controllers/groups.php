@@ -11,4 +11,8 @@ class Groups extends Controller {
         $this->view->renderHtml('groups/index', $data);
     }
 
+    public function listGroup() {
+        $this->view->renderJson($this->model->getList());
+    }
+
 }
