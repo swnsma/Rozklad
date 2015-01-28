@@ -7,12 +7,28 @@
 {
     font-size: 14px;
     height: 200px;
-
+}
+.inline
+{
+    display: inline-block;
 }
 
-.groupList
+.plus
 {
+    cursor: pointer;
+}
+.pull-right i
+{
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
 
+
+
+.groupList h3
+{
+display: inline-block;
 }
 .clickable{
     cursor: pointer;

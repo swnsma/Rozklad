@@ -6,6 +6,7 @@
  * Time: 3:53 PM
  */
 class GroupPage extends Controller {
+    public static $role='student';
     public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('grouppage');
