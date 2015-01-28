@@ -8,6 +8,16 @@
     left: 0;
 }
 
+.header .logout {
+    margin: 0px 0 0 0;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.header .logout:hover {
+    font-weight: 500;
+}
+
 .header .logo {
     float: left;
 }
@@ -27,7 +37,7 @@
 .login .user .info {
     display: table-cell;
     vertical-align: top;
-    padding: 9px 5px 0 0;
+    padding: 0 5px 0 0;
 }
 
 .login .user .avatar {

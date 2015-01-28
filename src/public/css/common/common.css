@@ -5,3 +5,11 @@ body {
 .clear-both {
     clear: both;
 }
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}
