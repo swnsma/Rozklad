@@ -2,17 +2,22 @@
 <link rel="stylesheet" href="<?php print URL; ?>public/css/admin/admin.css"/>
 <link rel="stylesheet" href="<?php print URL; ?>public/css/user.css"/>
 <link rel="stylesheet" href="<?php print URL; ?>public/css/common/header/header.css">
+
 <header class="header">
     <div class="background"></div>
     <img class="logo" src="<?php print URL; ?>public/img/logo.png"/>
     <section class="login" id="login">
         <article class="user" id="activeUser">
             <section class="info">
-                <h2 class="name" id="activeUserName">Саша Коваленко</h2>
-                <h3 class="role" id="activeUserRole">Администратор</h3>
+                <h2 class="name" id="activeUserName">
+                    <?php print $data['name']  ?>
+                </h2>
+                <h3 class="role" id="activeUserRole">
+                    <?php print $data['status']  ?>
+                </h3>
                 <h3 class="logout" id="logout" onclick="logout();">Выйти из системы</h3>
             </section>
-            <img class="avatar" id="activeUserPhoto" src="<?php print URL; ?>public/img/avatar.png" />
+            <img class="avatar" id="activeUserPhoto" src="<?php print $data['photo']  ?>" />
         </article>
     </section>
     <div class="clear-both"></div>
