@@ -20,6 +20,8 @@ class Base_Install{
             $file=fopen($path."/version.txt", 'r+');
             $buff=fgets($file, 10);
             fclose($file);
+        }else{
+            Base_Install::DesolationBase();
         }
         $dir = opendir($path);
         while( $files=readdir($dir))

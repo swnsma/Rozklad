@@ -31,7 +31,6 @@ function Calendar(){
                         }else{
                             for(var j =0;j<self.masEvent.length;++j){
                                 if( (+date[i].id)===(+self.masEvent[j].id)){
-                                    debugger;
                                     self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
                                     //self.jqueryObject.calendar.fullCalendar('renderEvent',date[i]);
                                     self.masEvent.push(date[i]);
@@ -123,19 +122,17 @@ function Calendar(){
                     end=end._d;
                     var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
                     var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes())
-                    debugger;
+
                     $.ajax({
                         url: url+'app/calendar/addFullEvent'+'/'+start1+'/'+end1,
                         contentType: 'application/json',
                         dataType: 'json',
                         success: function(doc) {
                             self.masEvent=doc;
-                            debugger;
                             callback(doc);
                             return doc;
                         },
                         error: function(){
-                            debugger;
                         }
                     });
                 }

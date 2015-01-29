@@ -28,7 +28,8 @@ class GroupPageModel extends Model {
            echo $e->getMessage();
        }
     }
-   public function delUser(){
+   public function delUser($id){
+       if(isset($id));
        $id=$this->getGroupId();
        try{
        $this->db->query("DELETE FROM student_group WHERE student_id=$id;");
