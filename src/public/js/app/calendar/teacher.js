@@ -378,7 +378,8 @@ function Calendar_teacher(){
                             title: title,
                             start: startFun(),
                             end: endFun(),
-                            allDay: false
+                            allDay: false,
+                            teacher: currentUser.id
                         });
                         self.masEvent.push({id: id.id,
                             title: title,
@@ -415,6 +416,7 @@ function Calendar_teacher(){
                 dataType: 'json',
                 success: function(id){
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
+                    debugger;
                     originalEvent.title='Возобновить';
                     originalEvent.backgroundColor='#999';
                     originalEvent.borderColor='#999';
@@ -430,6 +432,14 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
         });
 
+    };
+
+    this.keyDown=function(){
+        $(document).on('keyDown',function(e){
+            if(e.keyCode===27){
+                delPopup();
+            }
+        });
     }
 
 }
@@ -444,10 +454,12 @@ $(document).ready(function() {
     calendar.addLesson();
     calendar.delLesson();
     calendar.realTimeUpdate();
+    calendar.keyDown();
 
 
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
         $('#popup').hide();
     });
+
 });
