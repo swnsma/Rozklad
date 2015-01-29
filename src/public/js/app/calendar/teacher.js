@@ -66,6 +66,26 @@ function Calendar_teacher(){
         if(delPopup()){
             return;
         }
+        debugger;
+        if(calEvent.deleted){
+            $.ajax({
+                url: url + 'app/calendar/restore/' + calEvent.id,
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(date){
+                    calEvent.deleted=false;
+                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,calEvent.id);
+                    debugger;
+                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,date[0]);
+                },
+                error: function(er) {
+                    alert(er);
+                }
+
+            });
+            return;
+        }
         self.jqueryObject.popup.button.delEvent.css({'visibility':'visible'});
         self.jqueryObject.popup.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
         self.jqueryObject.popup.day.day.val(calEvent.start._d.getDate());
@@ -85,6 +105,10 @@ function Calendar_teacher(){
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
+        debugger;
+        if(calEvent.deleted){
+
+        }
         posPopup(jsEvent);
 
     };
@@ -315,6 +339,8 @@ function Calendar_teacher(){
             }else if(action===masAction[1]){
                 urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
             }
+
+
             $.ajax({
                 url: urls,
                 type: 'POST',
@@ -365,6 +391,11 @@ function Calendar_teacher(){
                 dataType: 'json',
                 success: function(id){
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
+                    originalEvent.title='Возобновить';
+                    originalEvent.backgroundColor='#999';
+                    originalEvent.borderColor='#999';
+                    originalEvent.deleted=true;
+                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,originalEvent);
                 },
                 error: function(er) {
 

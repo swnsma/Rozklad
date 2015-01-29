@@ -86,5 +86,14 @@ class Calendar extends Controller {
 
         $this->view->renderJson("success");
     }
+    public function restore(){
+        $req=Request::getInstance();
+        $this->model = $this->loadModel('lesson');
+        $id= $req->getParam(0);
+        $date =$this->model->restore($id);
+
+        $this->view->renderJson($date);
+    }
+
 }
 ?>
