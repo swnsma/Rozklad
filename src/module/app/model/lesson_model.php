@@ -36,10 +36,10 @@ TANIA;
     }
 
     //додає ноаві події
-    public function addLesson($title, $start,$end) {
+    public function addLesson($title, $start,$end,$id_teacher) {
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status) VALUES ('$title','$start','$end','$date','$date',1)");
+            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES ('$title','$start','$end','$date','$date',1,$id_teacher)");
             return $this->db->lastInsertId();
         } catch(PDOException $e) {
             echo $e;

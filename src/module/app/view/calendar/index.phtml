@@ -9,14 +9,14 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
 
-    <?php if (Calendar::$role == 'teacher'): ?>
+    <?php if ($data == 'teacher'): ?>
         <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
         <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
     <?php endif; ?>
 </head>
 <body>
 
-<?php if (Calendar::$role == 'teacher'): ?>
+<?php if ($data == 'teacher'): ?>
     <div class='popup' id='popup'>
         <span id="resetLesson" class="popup-close"> </span>
         <div class='content'>
@@ -67,7 +67,7 @@
 <script src='<?php print URL; ?>public/js/app/calendar/RealTimeUpdate.js'></script>
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
-<?php if (Calendar::$role == 'teacher'): ?>
+<?php if ($data == 'teacher'): ?>
 
     <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
