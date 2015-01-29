@@ -10,7 +10,7 @@ Session::init();
 class Calendar extends Controller {
 
     private $fb_id;
-    private $userInfo;
+    public $userInfo;
     private $role='teacher';
     public function __construct() {
         parent::__construct();
@@ -30,6 +30,9 @@ class Calendar extends Controller {
     else return 'student';
     }
 
+    public function getUserInfo(){
+        $this->view->renderJson($this->userInfo);
+    }
     public function index() {
         $this->model = $this->loadModel('lesson');
         $data = $this->getRole();
