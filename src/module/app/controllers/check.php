@@ -48,10 +48,10 @@ class Check extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function check()
     {
-        $id = '330194637170000'; // please use yours
-        $secret = '34c21eeda367046875299d24c512a84f'; // please use yours
+        $id = '1536442079974268'; // please use yours
+        $secret = '1d75987fcb8f4d7abc1a34287f9601cf'; // please use yours
         FacebookSession::setDefaultApplication($id, $secret);
         $helper = new \Facebook\FacebookJavaScriptLoginHelper();
         // see if a existing session exists
@@ -98,7 +98,6 @@ class Check extends Controller
             $_SESSION['first_nameFB'] = $graphObject['first_name'];
             $_SESSION['last_nameFB'] = $graphObject['last_name'];
             $_SESSION['genderFB'] = $graphObject['gender'];
-//            echo $_SESSION['idFB'];
 
             $this->model = $this->loadModel("check");
             $inBase = $this->model->checkUserFB($_SESSION['idFB']);
@@ -119,6 +118,25 @@ class Check extends Controller
     {
         $this->unset_cookie();
         echo "logout!";
+    }
+    public function addUserFB(){
+        $request=Request::getInstance();
+        $name = $request->getParam(0);
+        $surname =$request->getParam(1);
+        $phone =$request->getParam(2);
+        $role =$request->getParam(3);
+        $this->model=$this->loadModel("regist");
+        $fb_id=$_SESSION['idFB'];
+        $existUser = $this->model->checkUserFB($fb_id);
+        if(!$existUser) {
+            $reg=$this->model->addUserFB($name, $surname, $phone,$role, $fb_id);
+            if($reg){
+                echo "registed";
+            }else{
+                echo "not_registed";
+            }
+        }
+        else echo "not";
     }
 
     private function unset_cookie()
