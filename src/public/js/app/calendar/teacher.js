@@ -353,6 +353,7 @@ function Calendar_teacher(){
         });
     };
 
+    //видалення івента
     this.delLesson=function(){
 
         this.jqueryObject.popup.button.delEvent.on('click',function(){
