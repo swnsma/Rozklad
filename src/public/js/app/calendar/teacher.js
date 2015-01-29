@@ -247,6 +247,7 @@ function Calendar_teacher(){
         var jqueryObjectPopup  = self.jqueryObject.popup;
         jqueryObjectPopup.button.submit.on('click',function(){
 
+            debugger;
             //константи
             var title= (jqueryObjectPopup.typePopup.val()||'Новый ивент');
             var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
@@ -257,7 +258,18 @@ function Calendar_teacher(){
             var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
+            function lentghtCom(string){
+                if(string.length!=2){
+                    return '0'+string;
+                }else{
+                    return string;
+                }
+            }
 
+            hourBegin=lentghtCom(hourBegin);
+            minutesBegin=lentghtCom(minutesBegin);
+            hourEnd=lentghtCom(hourEnd);
+            minutesEnd=lentghtCom(minutesEnd);
             var startFun = function(){
                 if(month.length!=2){
                     month='0'+month;
@@ -276,6 +288,7 @@ function Calendar_teacher(){
                 }
                 return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
             };
+            debugger;
             var urls=0;
             if(action===masAction[0]) {
                 urls = url + 'app/calendar/addEvent/' + title + '/' + startFun() + '/' + endFun();
@@ -297,6 +310,11 @@ function Calendar_teacher(){
                             end: endFun(),
                             allDay: false
                         });
+                        self.masEvent.push({id: id.id,
+                            title: title,
+                            start: startFun(),
+                            end: endFun(),
+                            allDay: false});
                     }else{
                         originalEvent.id=idUpdate;
                         originalEvent.title=title;
@@ -353,7 +371,7 @@ $(document).ready(function() {
     calendar.timeIvent();
     calendar.addLesson();
     calendar.delLesson();
-
+    calendar.realTimeUpdate();
 
     $('#resetLesson').on('click',function() {
         f_tcalCancel();

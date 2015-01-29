@@ -13,6 +13,56 @@ function normDate(year,month,day,hour,minuts){
 }
 
 function Calendar(){
+    function RealTimeUpdate(){
+        //var interval = 60000;//раз в хвилину оновлення
+        var interval = 60000;//раз в хвилину оновлення
+        var setTime;
+        var operation = function(){
+            $.ajax({
+                url: url+'app/calendar/getRealTimeUpdate/'+interval/1000,
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(date){
+                    for(var i=0;i<date.length;++i){
+                        if((+date[i].status)===2) {
+                            self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
+                            continue;
+                        }else{
+                            for(var j =0;j<self.masEvent.length;++j){
+                                if( (+date[i].id)===(+self.masEvent[j].id)){
+                                    debugger;
+                                    self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
+                                    //self.jqueryObject.calendar.fullCalendar('renderEvent',date[i]);
+                                    self.masEvent.push(date[i]);
+                                    break;
+                                }
+                            }
+                        }
+                        self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
+                        self.masEvent.push(date[i]);
+                    }
+                },
+                error: function(er) {
+                    alert(er)
+                }
+
+            });
+        }
+        this.start = function(){
+            setTime=setInterval(operation,interval);
+        };
+        this.setInterval=function(interval1){
+            interval=interval1;
+        }
+        this.getInterval=function(){
+            return interval;
+        }
+    }
+
+    var self=this;
+    this.masEvent=[];
+
     this.jqueryObject={
         calendar:$('#calendar'),
         popup: {
@@ -79,6 +129,7 @@ function Calendar(){
                         contentType: 'application/json',
                         dataType: 'json',
                         success: function(doc) {
+                            self.masEvent=doc;
                             debugger;
                             callback(doc);
                             return doc;
@@ -105,4 +156,11 @@ function Calendar(){
         //]
 
     };
+
+    this.realTimeUpdate=function(){
+        var a =new RealTimeUpdate();
+        a.start();
+    }
+
+
 }

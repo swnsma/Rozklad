@@ -68,12 +68,25 @@ TANIA;
     public function getRealTimeUpdate($iteration){
         $end =$this->realDate();
         $start =$this->realDate();
-        $start=$start->modify("-$iteration second");
+        $myIteration = $iteration+10;
+        $start=$start->modify("-$myIteration second");
+        $start=$start->format($this->formatDate());
+        $end=$end->format($this->formatDate());
 //        echo $start->format($this->formatDate());
 //        echo $end->format($this->formatDate());
 
 //        $start=$start->modify("-$iteration second");
-        return $this->getEventsInterval($start->format($this->formatDate()),$end->format($this->formatDate()),'date');
+        try {
+            $request = <<<TANIA
+                select * from lesson
+                    where `update_date` BETWEEN '$start' AND '$end'
+TANIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
 
     }
 
