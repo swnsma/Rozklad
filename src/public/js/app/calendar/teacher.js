@@ -19,7 +19,26 @@ function Calendar_teacher(){
         }
         return 0;
     }
+
+    function posPopup(allDay){
+        var x= allDay.pageX;
+        var y = allDay.pageY;
+        var height=screen.height;
+        var width=screen.width;
+        var widthPopup=self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2);
+        var heightPopup=self.jqueryObject.popup.popup.css('height').slice(0,self.jqueryObject.popup.popup.css('height').length-2);
+
+        x=x-(+widthPopup)/2;
+        if((y+(+heightPopup)+70)>=height){
+            y=y-heightPopup;
+        }
+        self.jqueryObject.popup.popup.css({
+            'left':x,
+            'top':y
+        });
+    }
     this.option.dayClick=function(date, allDay, jsEvent, view) {
+        debugger;
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){
             return;
@@ -40,13 +59,7 @@ function Calendar_teacher(){
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
-        var x= allDay.pageX;
-        var y = allDay.pageY;
-        x=x-self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2)/2;
-        self.jqueryObject.popup.popup.css({
-            'left':x,
-            'top':y
-        });
+        posPopup(allDay);
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
@@ -72,13 +85,7 @@ function Calendar_teacher(){
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
-        var x= jsEvent.pageX;
-        var y = jsEvent.pageY;
-        x=x-self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2)/2;
-        self.jqueryObject.popup.popup.css({
-            'left':x,
-            'top':y
-        });
+        posPopup(jsEvent);
 
     };
 
