@@ -61,6 +61,7 @@ function Calendar_teacher(){
         posPopup(allDay);
     };
     this.option.getCurrentUser=function(){
+        debugger;
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
             url: urls,
@@ -76,7 +77,7 @@ function Calendar_teacher(){
             }
 
         });
-    }
+    };
     this.option.eventClick=function(calEvent, jsEvent, view) {
         if(delPopup()){
             return;
@@ -136,7 +137,7 @@ function Calendar_teacher(){
             'top':y
         });
 
-    }
+    };
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
@@ -160,7 +161,7 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.start.minutes);
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
-    }
+    };
 
     //функція яка відповідає за поведення popup
     this.click_body = function(){
@@ -207,7 +208,7 @@ function Calendar_teacher(){
             }
         });
 
-    }
+    };
 
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
@@ -263,7 +264,7 @@ function Calendar_teacher(){
             date.month.val(mas[1]);
             date.year.val(mas[2]);
         });
-    }
+    };
 
     //валідація поля дати
     this.timeIvent=function(){
@@ -310,7 +311,7 @@ function Calendar_teacher(){
         maskEndFocus($minutesEnd,$minutesEnd,'minutes');
 
 
-    }
+    };
 
     //додавання нового івента
     this.addLesson=function(){
@@ -401,7 +402,7 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
             return false;
         });
-    }
+    };
 
     this.delLesson=function(){
 
@@ -435,6 +436,7 @@ function Calendar_teacher(){
 
 $(document).ready(function() {
     var calendar = new Calendar_teacher();
+    calendar.option.getCurrentUser();
     calendar.focusDeleted();
     calendar.click_body();
     calendar.syncTcalInput();
@@ -442,6 +444,7 @@ $(document).ready(function() {
     calendar.addLesson();
     calendar.delLesson();
     calendar.realTimeUpdate();
+
 
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
