@@ -36,10 +36,10 @@ TANIA;
     }
 
     //додає ноаві події
-    public function addLesson($title, $start,$end) {
+    public function addLesson($title, $start,$end,$id_teacher) {
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status) VALUES ('$title','$start','$end','$date','$date',1)");
+            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES ('$title','$start','$end','$date','$date',1,$id_teacher)");
             return $this->db->lastInsertId();
         } catch(PDOException $e) {
             echo $e;
@@ -94,6 +94,26 @@ TANIA;
         try {
             $date = $this->realDate()->format($this->formatDate());
             $this->db->query("UPDATE lesson SET status='2',update_date='$date' WHERE id=$id");
+
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+    public function restore($id){
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+            $this->db->query("UPDATE lesson SET status='1',update_date='$date' WHERE id=$id");
+
+            $request = <<<TANIA
+select * from lesson
+where id=$id
+TANIA;
+
+                $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+//            echo $var;
+                return $var;
 
         } catch(PDOException $e) {
             echo $e;

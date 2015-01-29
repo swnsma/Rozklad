@@ -6,17 +6,37 @@
  * Time: 17:55
  * */
 
+Session::init();
 class Calendar extends Controller {
-    public static $role='teacher';
-    public static $id=1;
-    private $model;
+
+    private $fb_id;
+    public $userInfo;
+    private $role='teacher';
     public function __construct() {
         parent::__construct();
+        $this->model = $this->loadModel('user');
+        $this->fb_id= $_SESSION['idFB'];
+        $this->userInfo=$this->model->getInfo($this->fb_id);
+        $this->role = $this->privateGetRole($this->userInfo[0]['role_id']);
+    }
+    public function getRole(){
+        return $this->role;
+    }
+    private function privateGetRole($role_id){
+//        echo $role_id;
+        if($role_id=='1'){
+        return 'teacher';
+    }
+    else return 'student';
     }
 
+    public function getUserInfo(){
+        $this->view->renderJson($this->userInfo);
+    }
     public function index() {
         $this->model = $this->loadModel('lesson');
-        $data = 'hi';
+        $data = $this->getRole();
+//        echo $data;
         $this->view->renderHtml('calendar/index', $data);
     }
 
@@ -26,7 +46,7 @@ class Calendar extends Controller {
         $title= $req->getParam(0);
         $start= $req->getParam(1);
         $end= $req->getParam(2);
-        $id=$this->model->addLesson($title,$start,$end);
+        $id=$this->model->addLesson($title,$start,$end,$this->userInfo[0]['id']);
         if($id==null){
             echo 'Ошибка';
         }else{
@@ -66,7 +86,17 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $id= $req->getParam(0);
         $this->model->delEvent($id);
-        $this->view->renderJson("succeess");
+
+        $this->view->renderJson("success");
     }
+    public function restore(){
+        $req=Request::getInstance();
+        $this->model = $this->loadModel('lesson');
+        $id= $req->getParam(0);
+        $date =$this->model->restore($id);
+
+        $this->view->renderJson($date);
+    }
+
 }
 ?>

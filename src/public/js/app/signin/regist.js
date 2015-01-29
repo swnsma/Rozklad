@@ -16,7 +16,7 @@ function ModelRegist(){
             role:self.roleIndex()
         };
         $.ajax({
-                url: url + 'app/check/addUserFB/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+self.role()+'/',
+                url: url + 'app/check/addUserFB/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+self.roleIndex()+'/',
                 type:"GET",
                 success:function(response){
                     if(response==="registed") {
@@ -38,7 +38,7 @@ function ModelRegist(){
                 }
             }
         );
-    }
+    };
     self.roleIndex=ko.computed(function(){
         if(self.role()===self.rolesName[0]){
             return 0;

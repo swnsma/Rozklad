@@ -3,10 +3,10 @@ function load(){
         var self = this;
         self.users = ko.observableArray([]);
         //loadUsers(self);
-
+        debugger;
         var realTimeUpdate = window.setInterval(function(){
             loadUsers(self);
-        },1000);
+        },10000);
 
         self.confirm = function (user){
             $.ajax({
@@ -43,7 +43,6 @@ function load(){
             $.ajax({
                 url: 'admin/getUnconfirmedUsers',
                 success: function(response){
-                    debugger;
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;

@@ -9,6 +9,7 @@ class Bootstrap {
         $action=$request->getAction();
         $module = $request->getModule();
         $check = new Check;
+        $_SESSION["name"]="name1";
         $hasUser=$check->check();
         $this->dispatch($hasUser,$controller,$action);
         $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
