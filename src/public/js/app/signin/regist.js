@@ -16,24 +16,44 @@ function ModelRegist(){
             role:self.roleIndex()
         };
         $.ajax({
-            url: url + 'app/regist/index/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.roleIndex+'/',
-            type:"GET",
-            success:function(response){
-                console.log(response);
-                window.location=url+'app/calendar/';
-            },
-            error: function (error) {
-                console.log(error);
-                alert('error: block get status');
+                url: url + 'app/check/addUserFB/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+self.role()+'/',
+                type:"GET",
+                success:function(response){
+                    if(response==="registed") {
+                        $("#success")
+                            .toggle();
+                        $("#regist")
+                            .toggle();
+                        $("#btn-success")
+                            .prop('disabled', false);
+                    }
+                    else{
+                        alert("Невдало");
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert('error: block get status');
+                }
             }
-        });
+        );
     }
     self.roleIndex=ko.computed(function(){
-        if(self.role()===self.rolesName[0])
+        if(self.role()===self.rolesName[0]){
             return 0;
-        else return 1;
+        }
+        else {
+            return 1;
+        }
     })
 }
 $(document).ready(function(){
+    $("#success").hide();
+    $("#btn-success")
+        .prop('disabled', true)
+        .click(function(){
+            window.location=url+"app/calendar";
+        });
     ko.applyBindings(new ModelRegist);
 });
