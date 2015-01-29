@@ -61,6 +61,7 @@ function Calendar_teacher(){
         posPopup(allDay);
     };
     this.option.getCurrentUser=function(){
+        debugger;
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
             url: urls,
@@ -76,9 +77,29 @@ function Calendar_teacher(){
             }
 
         });
-    }
+    };
     this.option.eventClick=function(calEvent, jsEvent, view) {
         if(delPopup()){
+            return;
+        }
+        debugger;
+        if(calEvent.deleted){
+            $.ajax({
+                url: url + 'app/calendar/restore/' + calEvent.id,
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(date){
+                    calEvent.deleted=false;
+                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,calEvent.id);
+                    debugger;
+                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,date[0]);
+                },
+                error: function(er) {
+                    alert(er);
+                }
+
+            });
             return;
         }
         if(currentUser.id!==calEvent.teacher){
@@ -136,23 +157,7 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
     }
-    this.getGroupsForEvent=function(){
-        var urls = url + 'app/calendar/delEvent/' + (+originalEvent.id);
-        $.ajax({
-            url: urls,
-            type: 'GET',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function(){
 
-            },
-            error: function(er) {
-
-                alert(er);
-            }
-
-        });
-    };
     //функція яка відповідає за поведення popup
     this.click_body = function(){
         $(document).click(function(event){
@@ -301,7 +306,7 @@ function Calendar_teacher(){
         maskEndFocus($minutesEnd,$minutesEnd,'minutes');
 
 
-    }
+    };
 
     //додавання нового івента
     this.addLesson=function(){
@@ -354,6 +359,8 @@ function Calendar_teacher(){
             }else if(action===masAction[1]){
                 urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
             }
+
+
             $.ajax({
                 url: urls,
                 type: 'POST',
@@ -366,7 +373,8 @@ function Calendar_teacher(){
                             title: title,
                             start: startFun(),
                             end: endFun(),
-                            allDay: false
+                            allDay: false,
+                            teacher: currentUser.id
                         });
                         self.masEvent.push({id: id.id,
                             title: title,
@@ -403,6 +411,12 @@ function Calendar_teacher(){
                 dataType: 'json',
                 success: function(id){
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
+                    debugger;
+                    originalEvent.title='Возобновить';
+                    originalEvent.backgroundColor='#999';
+                    originalEvent.borderColor='#999';
+                    originalEvent.deleted=true;
+                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,originalEvent);
                 },
                 error: function(er) {
 
@@ -413,12 +427,21 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
         });
 
+    };
+
+    this.keyDown=function(){
+        $(document).on('keyDown',function(e){
+            if(e.keyCode===27){
+                delPopup();
+            }
+        });
     }
 
 }
 
 $(document).ready(function() {
     var calendar = new Calendar_teacher();
+    calendar.option.getCurrentUser();
     calendar.focusDeleted();
     calendar.click_body();
     calendar.syncTcalInput();
@@ -426,9 +449,13 @@ $(document).ready(function() {
     calendar.addLesson();
     calendar.delLesson();
     calendar.realTimeUpdate();
+    calendar.keyDown();
+
+
     calendar.option.getCurrentUser();
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
         $('#popup').hide();
     });
+
 });

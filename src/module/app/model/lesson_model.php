@@ -114,6 +114,26 @@ BORIA;
             $date = $this->realDate()->format($this->formatDate());
             $this->db->query("UPDATE lesson SET status='2',update_date='$date' WHERE id=$id");
 
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+    public function restore($id){
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+            $this->db->query("UPDATE lesson SET status='1',update_date='$date' WHERE id=$id");
+
+            $request = <<<TANIA
+select * from lesson
+where id=$id
+TANIA;
+
+                $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+//            echo $var;
+                return $var;
+
         } catch(PDOException $e) {
             echo $e;
             return null;
