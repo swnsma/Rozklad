@@ -11,6 +11,7 @@ function Calendar_teacher(){
     var originalEvent='';
     Calendar.call(this);
     this.option.dayClick=function(date, allDay, jsEvent, view) {
+        self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         self.jqueryObject.popup.day.day.val(date._d.getDate());
         self.jqueryObject.popup.day.month.val(date._d.getMonth()+1);
@@ -37,7 +38,7 @@ function Calendar_teacher(){
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
-        debugger;
+        self.jqueryObject.popup.button.delEvent.css({'visibility':'visible'});
         self.jqueryObject.popup.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
         self.jqueryObject.popup.day.day.val(calEvent.start._d.getDate());
         self.jqueryObject.popup.day.month.val(calEvent.start._d.getMonth()+1);
@@ -287,9 +288,10 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
+                    debugger;
                     if(action===masAction[0]) {
                         self.jqueryObject.calendar.fullCalendar('renderEvent', {
-                            id: id,
+                            id: id.id,
                             title: title,
                             start: startFun(),
                             end: endFun(),
@@ -314,6 +316,32 @@ function Calendar_teacher(){
             return false;
         });
     }
+
+    this.delLesson=function(){
+
+        this.jqueryObject.popup.button.delEvent.on('click',function(){
+            debugger;
+            var urls = url + 'app/calendar/delEvent/' + (+originalEvent.id);
+            $.ajax({
+                url: urls,
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(id){
+                    debugger;
+                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
+                },
+                error: function(er) {
+                    debugger;
+                    alert(er);
+                }
+
+            });
+            self.jqueryObject.popup.popup.hide();
+        });
+
+    }
+
 }
 
 $(document).ready(function() {
@@ -324,6 +352,7 @@ $(document).ready(function() {
     calendar.syncTcalInput();
     calendar.timeIvent();
     calendar.addLesson();
+    calendar.delLesson();
 
 
     $('#resetLesson').on('click',function() {

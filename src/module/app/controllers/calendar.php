@@ -60,5 +60,16 @@ class Calendar extends Controller {
 
         $this->view->renderJson($id);
     }
+
+    public function delEvent(){
+        $req=Request::getInstance();
+        $this->model = $this->loadModel('lesson');
+        $id= $req->getParam(0);
+        $this->model->delEvent($id);
+
+        $this->view->renderJson("succeess");
+
+
+    }
 }
 ?>

@@ -18,6 +18,7 @@
 
 <?php if (Calendar::$role == 'teacher'): ?>
     <div class='popup' id='popup'>
+        <span id="resetLesson" class="popup-close"> </span>
         <div class='content'>
             <h2 id="typeAction" class='padding28'> Создать Занятие </h2>
         </div>
@@ -46,8 +47,8 @@
                 </div>
             </div>
             <div class='form-group inner-wrapper'>
-                <div class='col-lg-10 col-lg-offset-2'>
-                    <button id='resetLesson' type='reset' class='btn btn-default'>Отмена</button>
+                <div class='col-lg-10'>
+                    <button id='delEvent' type='reset' class='btn btn-default'>Удалить</button>
                     <button id='createNewLesson' type='submit' class='btn btn-primary'>Создать</button>
                 </div>
             </div>

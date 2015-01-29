@@ -24,7 +24,7 @@ class LessonModel extends Model {
         try {
             $request = <<<TANIA
 select * from lesson
-where `$fieldTime` BETWEEN '$start' AND '$end'
+where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
@@ -39,10 +39,8 @@ TANIA;
     public function addLesson($title, $start,$end) {
         try {
             $date = $this->realDate()->format($this->formatDate());
-
-            $this->db->query("INSERT INTO lesson (title,start,end,date) VALUES ('$title','$start','$end','$date')");
+            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status) VALUES ('$title','$start','$end','$date','$date',1)");
             return $this->db->lastInsertId();
-
         } catch(PDOException $e) {
             echo $e;
             return null;
@@ -53,7 +51,7 @@ TANIA;
             $date = $this->realDate()->format($this->formatDate());
 
 //            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
-            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end' WHERE id=$id");
+            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date' WHERE id=$id");
 
         } catch(PDOException $e) {
             echo $e;
@@ -77,6 +75,17 @@ TANIA;
 //        $start=$start->modify("-$iteration second");
         return $this->getEventsInterval($start->format($this->formatDate()),$end->format($this->formatDate()),'date');
 
+    }
+
+    public function delEvent($id){
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+            $this->db->query("UPDATE lesson SET status='2',update_date='$date' WHERE id=$id");
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
     }
 
 }

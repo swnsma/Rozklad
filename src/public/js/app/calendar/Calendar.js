@@ -35,6 +35,7 @@ function Calendar(){
                 day:$('#day')
             },
             button:{
+                delEvent:$('#delEvent'),
                 submit:$('#createNewLesson'),
                 reset:$('#resetLesson')
             }
