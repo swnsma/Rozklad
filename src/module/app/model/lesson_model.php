@@ -87,9 +87,28 @@ TANIA;
             echo $e->getMessage();
             return null;
         }
-
     }
+    public function getGroupsForLesson($id){
+        try {
+            $request = <<<BORIA
+                    SELECT
+                    b.id,
+                    b.name,
+                    b.teacher_id,
+                    b.description
+                    FROM groups AS b
+                    JOIN group_lesson AS ba ON b.id = ba.group_id
+                    JOIN lesson AS a ON a.id = ba.lesson_id
+                    WHERE ba.lesson_id = $id
 
+BORIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
     public function delEvent($id){
         try {
             $date = $this->realDate()->format($this->formatDate());

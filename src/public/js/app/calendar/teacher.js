@@ -136,7 +136,23 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
     }
+    this.getGroupsForEvent=function(){
+        var urls = url + 'app/calendar/delEvent/' + (+originalEvent.id);
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(){
 
+            },
+            error: function(er) {
+
+                alert(er);
+            }
+
+        });
+    };
     //функція яка відповідає за поведення popup
     this.click_body = function(){
         $(document).click(function(event){
@@ -410,7 +426,7 @@ $(document).ready(function() {
     calendar.addLesson();
     calendar.delLesson();
     calendar.realTimeUpdate();
-
+    calendar.option.getCurrentUser();
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
         $('#popup').hide();
