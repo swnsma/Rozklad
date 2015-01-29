@@ -9,10 +9,29 @@ class RegistModel extends Model{
     public function __construct() {
         parent::__construct();
     }
-    public function index($name,$surname,$phone,$fb_id)
+    public function addUserFB($name,$surname,$phone,$role,$fb_id)
     {
         try {
-            $this->db->query("INSERT INTO user (name,surname,phone,fb_id) VALUES ('$name','$surname','$phone','$fb_id')");
+            $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id) VALUES ('$name','$surname','$phone','$role','$fb_id')");
+            return 1;
+        } catch (PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+    public function checkUserFB($id){
+        try {
+            $arr= $this->db->query("SELECT fb_id FROM user WHERE fb_id=$id")->fetchAll();
+            return count($arr)>0;
+        } catch (PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+    public function checkUserGM($id){
+        try {
+            $arr = $this->db->query("SELECT gm_id FROM user WHERE gm_id=$id")->fetchAll();
+            return count($arr)>0;
         } catch (PDOException $e) {
             echo $e;
             return null;
