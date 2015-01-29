@@ -114,7 +114,9 @@ function Calendar(){
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
         //handleWindowResize:true,
         //fixedWeekCount:false,
-
+        eventMouseover:function(event, jsEvent, view){
+            //debugger;
+        },
         eventSources: [
             {
                 events: function(start, end, timezone, callback) {
@@ -128,11 +130,13 @@ function Calendar(){
                         contentType: 'application/json',
                         dataType: 'json',
                         success: function(doc) {
+
                             self.masEvent=doc;
                             callback(doc);
                             return doc;
                         },
                         error: function(){
+
                         }
                     });
                 }

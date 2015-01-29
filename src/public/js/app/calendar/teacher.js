@@ -102,6 +102,7 @@ function Calendar_teacher(){
             });
             return;
         }
+        debugger;
         if(currentUser.id!==calEvent.teacher){
             return;
         }

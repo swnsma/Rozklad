@@ -22,12 +22,20 @@ class LessonModel extends Model {
     //повертає з бази всі записи з проміжку часу [$start, $end]
     private function getEventsInterval($start,$end,$fieldTime){
         try {
+//            $request = <<<TANIA
+//select * from lesson
+//where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
+//TANIA;
             $request = <<<TANIA
-select * from lesson
-where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
+select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
+ u.name, u.surname from lesson as l
+INNER JOIN User as u ON
+l.teacher = u.id
+where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+//            print_r($var);
             return $var;
         } catch(PDOException $e) {
             echo $e->getMessage();
