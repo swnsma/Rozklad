@@ -16,8 +16,14 @@ class Admin extends Controller {
     }
 
     public function index() {
+        $user = $this->model->getCurrentUser();
+        $data = [];
+        $data['name']=$user["name"].' '.$user["surname"];
+        $data['status']=$user["role_id"];
+        $data['photo']='http://graph.facebook.com/'.$user['fb_id'].'/picture?type=large';
+        //$this->view->renderJson($_SESSION['idFB']);
         $this->view->renderHtml('common/head');
-        $this->view->renderHtml('common/header');
+        $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('admin/admin_page');
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
