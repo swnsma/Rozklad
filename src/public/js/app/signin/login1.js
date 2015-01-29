@@ -17,6 +17,7 @@ var auth_fb = (function() {
                 },
                 error: function (error) {
                     console.log(error);
+                    debugger;
                     alert('error: block get status');
                 }
             });
@@ -25,7 +26,7 @@ var auth_fb = (function() {
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '1536442079974268',
+            appId      : '384838578363750',
             cookie     : true,
             xfbml      : true,
             version    : 'v2.2'

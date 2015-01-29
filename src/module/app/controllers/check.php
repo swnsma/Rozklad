@@ -50,8 +50,8 @@ class Check extends Controller
 
     public function check()
     {
-        $id = '1536442079974268'; // please use yours
-        $secret = '1d75987fcb8f4d7abc1a34287f9601cf'; // please use yours
+        $id = '384838578363750'; // please use yours
+        $secret = 'a9ebc86bba6ecd938e3fcd0c956c36a6'; // please use yours
         FacebookSession::setDefaultApplication($id, $secret);
         $helper = new \Facebook\FacebookJavaScriptLoginHelper();
         // see if a existing session exists
