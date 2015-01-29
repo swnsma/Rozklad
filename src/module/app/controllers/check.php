@@ -39,19 +39,6 @@ use Facebook\GraphObject;
 use Facebook\GraphUser;
 use Facebook\GraphSessionInfo;
 
-//use Facebook\HttpClients;
-//// added in v4.0.0
-//use Facebook\FacebookSession;
-//use Facebook\FacebookRedirectLoginHelper;
-//use Facebook\FacebookRequest;
-//use Facebook\FacebookResponse;
-//use Facebook\FacebookSDKException;
-//use Facebook\FacebookRequestException;
-//use Facebook\FacebookOtherException;
-//use Facebook\FacebookAuthorizationException;
-//use Facebook\GraphObject;
-//use Facebook\GraphSessionInfo;
-require_once FILE."models/app/check_model.php";
 class Check extends Controller
 {
     private $model;
@@ -79,26 +66,24 @@ class Check extends Controller
                     $_SESSION['fb_token'] = $session->getToken();
                 }
             } catch (Exception $e) {
-                // catch any exceptions
                 $session = null;
             }
         } else {
-            // no session exists
+
             try {
                 $session = $helper->getSession();
             } catch (FacebookRequestException $ex) {
-                // When Facebook returns an error
+
             }
         }
 
-        // see if we have a session
+
         if (isset($session)) {
-            // save the session
-//            if(!$_SESSION['fb_token'])
+
             $_SESSION['fb_token'] = $session->getToken();
-            // create a session using saved token or the new one we generated at login
+
             $session = new FacebookSession($_SESSION['fb_token']);
-            // graph api request for user data
+
             $request = new FacebookRequest($session, 'GET', '/me');
             $response = $request->execute();
             $graphObject = $response->getGraphObject()->asArray();
@@ -115,7 +100,7 @@ class Check extends Controller
             $_SESSION['genderFB'] = $graphObject['gender'];
 //            echo $_SESSION['idFB'];
 
-            $this->model = new CheckModel();
+            $this->model = $this->loadModel("check");
             $inBase = $this->model->checkUserFB($_SESSION['idFB']);
             if($inBase)
             {

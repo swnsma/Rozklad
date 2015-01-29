@@ -1,7 +1,8 @@
 <?php
-session_start();
+
 class Bootstrap {
     function __construct() {
+        Session::init();
         require_once FILE . 'controllers/app/check.php';
         $request = Request::getInstance();
         $controller = $request->getController();
@@ -20,7 +21,7 @@ class Bootstrap {
         $c->run($request->getAction());
     }
     private function dispatch($hasUser,$controller){
-        if(!$hasUser&&($controller.''!='login')&&($controller.''!='check')){
+        if($hasUser=='not'&&($controller.''!='login')&&($controller.''!='check')){
             header("Location:http://schedule.com/src/app/login");
             exit;
         }
