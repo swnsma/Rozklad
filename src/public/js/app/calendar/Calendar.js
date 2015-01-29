@@ -130,12 +130,10 @@ function Calendar(){
                         dataType: 'json',
                         success: function(doc) {
                             self.masEvent=doc;
-                            debugger;
                             callback(doc);
                             return doc;
                         },
                         error: function(){
-                            debugger;
                         }
                     });
                 }
