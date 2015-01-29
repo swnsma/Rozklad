@@ -38,7 +38,6 @@ function Calendar_teacher(){
         });
     }
     this.option.dayClick=function(date, allDay, jsEvent, view) {
-        debugger;
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){
             return;
@@ -85,7 +84,6 @@ function Calendar_teacher(){
         if(currentUser.id!==calEvent.teacher){
             return;
         }
-        debugger;
         self.jqueryObject.popup.button.delEvent.css({'visibility':'visible'});
         self.jqueryObject.popup.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
         self.jqueryObject.popup.day.day.val(calEvent.start._d.getDate());
