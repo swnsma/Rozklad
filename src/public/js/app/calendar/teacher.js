@@ -105,9 +105,15 @@ function Calendar_teacher(){
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
-        posPopup(jsEvent);
+        var x= jsEvent.pageX;
+        var y = jsEvent.pageY;
+        x=x-self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2)/2;
+        self.jqueryObject.popup.popup.css({
+            'left':x,
+            'top':y
+        });
 
-    };
+    }
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
@@ -131,12 +137,11 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.start.minutes);
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
-    };
+    }
 
     //функція яка відповідає за поведення popup
     this.click_body = function(){
         $(document).click(function(event){
-
             ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
             //говноКоДЭ
             var bool=false;
@@ -179,7 +184,7 @@ function Calendar_teacher(){
             }
         });
 
-    };
+    }
 
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
@@ -235,7 +240,7 @@ function Calendar_teacher(){
             date.month.val(mas[1]);
             date.year.val(mas[2]);
         });
-    };
+    }
 
     //валідація поля дати
     this.timeIvent=function(){
@@ -282,7 +287,7 @@ function Calendar_teacher(){
         maskEndFocus($minutesEnd,$minutesEnd,'minutes');
 
 
-    };
+    }
 
     //додавання нового івента
     this.addLesson=function(){
@@ -371,9 +376,8 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
             return false;
         });
-    };
+    }
 
-    //видалення івента
     this.delLesson=function(){
 
         this.jqueryObject.popup.button.delEvent.on('click',function(){
@@ -395,21 +399,12 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
         });
 
-    };
-
-    this.downEsc = function(){
-        $(document).on('keydown',function(e){
-            if(e.keyCode===27) {
-                delPopup();
-            }
-        })
     }
 
 }
 
 $(document).ready(function() {
     var calendar = new Calendar_teacher();
-    calendar.option.getCurrentUser();
     calendar.focusDeleted();
     calendar.click_body();
     calendar.syncTcalInput();
@@ -417,7 +412,6 @@ $(document).ready(function() {
     calendar.addLesson();
     calendar.delLesson();
     calendar.realTimeUpdate();
-    calendar.downEsc();
 
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
