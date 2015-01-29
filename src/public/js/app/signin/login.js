@@ -11,13 +11,13 @@ var auth = (function() {
                 success: function(response) {
                     if (response.token == access_token) {
                         alert(response.status);
-                       if (response.status == 'autorized') {
-                           alert('true'); // перенаправляем кудись
-                       } else if (response.status == 'no_autorized') {
-                           alert('no_autorized');
-                       } else {
-                           reg();
-                       }
+                        if (response.status == 'autorized') {
+                            alert('true'); // перенаправляем кудись
+                        } else if (response.status == 'no_autorized') {
+                            alert('no_autorized');
+                        } else {
+                            reg();
+                        }
                     }
                 },
                 error: function(error) {
@@ -70,10 +70,10 @@ var auth_fb = (function() {
             );
         } else if (response.status === 'not_authorized') {
             document.getElementById('status').innerHTML = 'Please log ' +
-                'into this app.';
+            'into this app.';
         } else {
             document.getElementById('status').innerHTML = 'Please log ' +
-                'into Facebook.';
+            'into Facebook.';
         }
     }
 
@@ -130,7 +130,7 @@ var auth_g = (function() {
                 $('#authResult').html('Auth Result:<br/>');
                 for (var field in authResult) {
                     $('#authResult').append(' ' + field + ': ' +
-                        authResult[field] + '<br/>');
+                    authResult[field] + '<br/>');
                 }
                 if (authResult['access_token']) {
                     $('#authOps').show('slow');
@@ -149,7 +149,7 @@ var auth_g = (function() {
             $.ajax({
                 type: 'GET',
                 url: 'https://accounts.google.com/o/oauth2/revoke?token=' +
-                    gapi.auth.getToken().access_token,
+                gapi.auth.getToken().access_token,
                 async: false,
                 contentType: 'application/json',
                 dataType: 'jsonp',
@@ -174,7 +174,7 @@ var auth_g = (function() {
                 var people = res.result;
                 $('#visiblePeople').empty();
                 $('#visiblePeople').append('Number of people visible to this app: ' +
-                    people.totalItems + '<br/>');
+                people.totalItems + '<br/>');
                 for (var personIndex in people.items) {
                     person = people.items[personIndex];
                     $('#visiblePeople').append('<img src="' + person.image.url + '">');
@@ -191,7 +191,7 @@ var auth_g = (function() {
                     $('<p><img src=\"' + profile.image.url + '\"></p>'));
                 $('#profile').append(
                     $('<p>Hello ' + profile.displayName + '!<br />Tagline: ' +
-                        profile.tagline + '<br />About: ' + profile.aboutMe + '</p>'));
+                    profile.tagline + '<br />About: ' + profile.aboutMe + '</p>'));
                 $('#profile').append($('<p>Email: '+profile.emails[0].value+'</p>'));
                 $('#profile').append($('<p>Id: '+profile.id+'</p>'));
                 if (profile.cover && profile.coverPhoto) {
@@ -227,11 +227,11 @@ $(document).ready(function() {
     /*test*/
 
     /*auth.check('3456', 'facebook',
-        function() {
-            alert('зараз відбудеття реєстрація');
-            auth.register(user_data)
-        }
-    );*/
+     function() {
+     alert('зараз відбудеття реєстрація');
+     auth.register(user_data)
+     }
+     );*/
 
     /**/
 });
