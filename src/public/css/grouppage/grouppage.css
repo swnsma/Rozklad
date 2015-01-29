@@ -1,0 +1,30 @@
+.container
+{
+    width: 900px;
+    margin: auto;
+}
+.description
+{
+    font-size: 14px;
+    height: 200px;
+
+}
+
+.groupList
+{
+
+}
+.clickable{
+    cursor: pointer;
+}
+
+.panel-heading div {
+    margin-top: -18px;
+    font-size: 15px;
+}
+.panel-heading div span{
+    margin-left:5px;
+}
+.panel-body{
+    display: none;
+}
