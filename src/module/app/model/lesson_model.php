@@ -28,13 +28,30 @@ where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            for($i=0;$i<count($var);$i++){
+                $auth = $this->getAuthor($var[$i]['id']);
+                $var[$i]['auth']=$auth[0];
+            }
             return $var;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
+public function getAuthor($id){
+    try {
+        $request = <<<TANIA
+        select name,surname from user
+        where id=$id
+TANIA;
 
+        $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+        return $var;
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+        return null;
+    }
+}
     //додає ноаві події
     public function addLesson($title, $start,$end,$id_teacher) {
         try {
