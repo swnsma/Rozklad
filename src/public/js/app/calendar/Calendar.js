@@ -111,7 +111,7 @@ function Calendar(){
             week: "Неделя",
             day: "День"
         },
-        timeFormat: 'H(:mm)',// uppercase H for 24-hour clock
+        timeFormat: 'H:mm',// uppercase H for 24-hour clock
         //handleWindowResize:true,
         //fixedWeekCount:false,
 
