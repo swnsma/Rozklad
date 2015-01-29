@@ -1,25 +1,152 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 26.01.2015
- * Time: 19:33
- */
+
+require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
+require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
+require_once(FILE.'facebook/HttpClients/FacebookCurlHttpClient.php' );
+require_once( FILE.'facebook/Entities/AccessToken.php' );
+require_once( FILE.'facebook/Entities/SignedRequest.php');
+require_once( FILE.'facebook/FacebookSession.php' );
+require_once( FILE.'facebook/FacebookSignedRequestFromInputHelper.php');
+require_once( FILE.'facebook/FacebookCanvasLoginHelper.php');
+require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
+require_once( FILE.'facebook/FacebookRequest.php' );
+require_once( FILE.'facebook/FacebookResponse.php' );
+require_once( FILE.'facebook/FacebookSDKException.php' );
+require_once( FILE.'facebook/FacebookRequestException.php' );
+require_once( FILE.'facebook/FacebookOtherException.php' );
+require_once(FILE.'facebook/FacebookAuthorizationException.php' );
+require_once( FILE.'facebook/GraphObject.php' );
+require_once(FILE.'facebook/GraphUser.php');
+require_once( FILE.'facebook/GraphSessionInfo.php' );
+require_once(FILE.'facebook/FacebookJavaScriptLoginHelper.php' );
+
+use Facebook\HttpClients\FacebookHttpable;
+use Facebook\HttpClients\FacebookCurl;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+use Facebook\Entities\AccessToken;
+use Facebook\Entities\SignedRequest;
+use Facebook\FacebookSession;
+use Facebook\FacebookSignedRequestFromInputHelper;
+use Facebook\FacebookCanvasLoginHelper;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
+use Facebook\FacebookResponse;
+use Facebook\FacebookSDKException;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookOtherException;
+use Facebook\FacebookAuthorizationException;
+use Facebook\GraphObject;
+use Facebook\GraphUser;
+use Facebook\GraphSessionInfo;
+
+//use Facebook\HttpClients;
+//// added in v4.0.0
+//use Facebook\FacebookSession;
+//use Facebook\FacebookRedirectLoginHelper;
+//use Facebook\FacebookRequest;
+//use Facebook\FacebookResponse;
+//use Facebook\FacebookSDKException;
+//use Facebook\FacebookRequestException;
+//use Facebook\FacebookOtherException;
+//use Facebook\FacebookAuthorizationException;
+//use Facebook\GraphObject;
+//use Facebook\GraphSessionInfo;
+require_once FILE."models/app/check_model.php";
 class Check extends Controller
 {
+    private $model;
 
-    public $fbuser;
-    public function __constructor(){
-        $appId = '1536442079974268'; //Facebook App ID
-        $appSecret = '1d75987fcb8f4d7abc1a34287f9601cf'; // Facebook App Secret
-        $facebook = new Facebook(array(
-            'appId' => $appId,
-            'secret' => $appSecret,
-        ));
-        $fbuser = $facebook->getUser();
+    public function __constructor()
+    {
+        parent::__construct();
     }
-    public function index(){
-        print_r($this->fbuser);
+
+    public function index()
+    {
+        $id = '330194637170000'; // please use yours
+        $secret = '34c21eeda367046875299d24c512a84f'; // please use yours
+        FacebookSession::setDefaultApplication($id, $secret);
+        $helper = new \Facebook\FacebookJavaScriptLoginHelper();
+        // see if a existing session exists
+        if (isset($_SESSION) && isset($_SESSION['fb_token'])) {
+            // create new session from saved access_token
+            $session = new FacebookSession($_SESSION['fb_token']);
+            // validate the access_token to make sure it's still valid
+            try {
+                if (!$session->validate($id, $secret)) {
+                    $helper = new \Facebook\FacebookJavaScriptLoginHelper();
+                    $session = $helper->getSession();
+                    $_SESSION['fb_token'] = $session->getToken();
+                }
+            } catch (Exception $e) {
+                // catch any exceptions
+                $session = null;
+            }
+        } else {
+            // no session exists
+            try {
+                $session = $helper->getSession();
+            } catch (FacebookRequestException $ex) {
+                // When Facebook returns an error
+            }
+        }
+
+        // see if we have a session
+        if (isset($session)) {
+            // save the session
+//            if(!$_SESSION['fb_token'])
+            $_SESSION['fb_token'] = $session->getToken();
+            // create a session using saved token or the new one we generated at login
+            $session = new FacebookSession($_SESSION['fb_token']);
+            // graph api request for user data
+            $request = new FacebookRequest($session, 'GET', '/me');
+            $response = $request->execute();
+            $graphObject = $response->getGraphObject()->asArray();
+
+            $_SESSION['valid'] = true;
+            $_SESSION['timeout'] = time();
+
+            $_SESSION['FB'] = true;
+
+            $_SESSION['usernameFB'] = $graphObject['name'];
+            $_SESSION['idFB'] = $graphObject['id'];
+            $_SESSION['first_nameFB'] = $graphObject['first_name'];
+            $_SESSION['last_nameFB'] = $graphObject['last_name'];
+            $_SESSION['genderFB'] = $graphObject['gender'];
+//            echo $_SESSION['idFB'];
+
+            $this->model = new CheckModel();
+            $inBase = $this->model->checkUserFB($_SESSION['idFB']);
+            if($inBase)
+            {
+                return "ok";
+            }
+            else {
+                return "regist";
+            }
+        } else {
+            $this->unset_cookie();
+            return "not";
+        }
+    }
+
+    public function logout()
+    {
+        $this->unset_cookie();
+        echo "logout!";
+    }
+
+    private function unset_cookie()
+    {
+        if (isset($_SERVER['HTTP_COOKIE'])) {
+            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+            foreach ($cookies as $cookie) {
+                $parts = explode('=', $cookie);
+                $name = trim($parts[0]);
+                setcookie($name, '', time() - 1000);
+                setcookie($name, '', time() - 1000, '/');
+            }
+        }
     }
 }
 ?>
