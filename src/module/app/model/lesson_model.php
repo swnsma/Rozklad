@@ -28,10 +28,6 @@ where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            for($i=0;$i<count($var);$i++){
-                $auth = $this->getAuthor($var[$i]['id']);
-                $var[$i]['auth']=$auth[0];
-            }
             return $var;
         } catch(PDOException $e) {
             echo $e->getMessage();
