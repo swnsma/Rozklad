@@ -34,10 +34,10 @@ class Base_Install{
         $buff2=$version;
         if($buff!=$buff2){
             try{
-                //$buff=0;
                 //переделать
                 $DBH=DataBase::getInstance()->DB();
                 do{
+                    $buff++;
                     $file=fopen($path.'/install_'.$buff.'.sql', 'r'); print_r($buff);
                     while($buff_query=fgets($file, 10000)){
                         echo $buff_query;
@@ -45,11 +45,7 @@ class Base_Install{
                         $DBH->query($buff_query);
                     }
                     print_r($query);
-                    /*if($query){
-                        $DBH->query($query);
-                    }*/
                     fclose($file);
-                    $buff++;
                 }while($buff!=$buff2);
                 $file=fopen($path."/version.txt", "w");
                 fputs($file, $buff2);
