@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Group Page</title>
+    <link rel="stylesheet" type="text/css" href="<?php print URL; ?>public/css/common/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php print URL; ?>public/css/grouppage/grouppage.css">
+</head>
+<body>
+<section class="container">
+    <section class="description col-md-12">
+        <h1>Advance</h1>
+
+        <h3>Описание группы:</h3>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          </div>
+    </section>
+
+    <section class="schedule">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Расписание</h3>
+                    <div class="pull-right">
+							<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
+								<i class="glyphicon glyphicon-filter">Фильтр</i>
+							</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <input type="text" class="form-control" id="task-table-filter2" data-action="filter" data-filters="#task-table" placeholder="Поиск" />
+                </div>
+                <table class="table table-hover" id="task-table">
+                    <thead>
+                    <tr>
+                        <th>Занятие</th>
+                        <th>Преподаватель</th>
+                        <th>Дата проведения</th>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>верстка</td>
+                            <td>Андрей Дребот</td>
+                            <td>уаф</td>
+                        </tr>
+                        <tr>
+                            <td>html</td>
+                            <td>Славик</td>
+                            <td>фвавыфа</td>
+                        </tr>
+                        <tr>
+                            <td>UE</td>
+                            <td>Артем</td>
+                            <td>вфыавы</td>
+                        </tr>
+                        <tr>
+                            <td>Algorithms</td>
+                            <td>Какойто чувак</td>
+                            <td>афвыаывафы</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+    <section class="groupList">
+
+
+
+        <div class="col-md-12">
+            <h2>Состав группы</h2>
+            <div class="panel panel-default">
+                <table class="table table-hover" >
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Студент</th>
+
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>вова</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>валя</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>петя</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>вова</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+</section>
+<script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+<script src="<?php print URL; ?>public/js/app/common.js"></script>
+<script src="<?php print URL; ?>public/js/app/grouppage/grouppage.js"></script>
+</body>
+</html>
