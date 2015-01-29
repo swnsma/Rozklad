@@ -246,8 +246,6 @@ function Calendar_teacher(){
         var newDate = new Date();
         var jqueryObjectPopup  = self.jqueryObject.popup;
         jqueryObjectPopup.button.submit.on('click',function(){
-
-            debugger;
             //константи
             var title= (jqueryObjectPopup.typePopup.val()||'Новый ивент');
             var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
@@ -288,7 +286,6 @@ function Calendar_teacher(){
                 }
                 return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
             };
-            debugger;
             var urls=0;
             if(action===masAction[0]) {
                 urls = url + 'app/calendar/addEvent/' + title + '/' + startFun() + '/' + endFun();
@@ -301,7 +298,6 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    debugger;
                     if(action===masAction[0]) {
                         self.jqueryObject.calendar.fullCalendar('renderEvent', {
                             id: id.id,
@@ -324,7 +320,6 @@ function Calendar_teacher(){
                     }
                 },
                 error: function(er) {
-                    debugger;
                     alert(er);
                 }
 
@@ -338,7 +333,6 @@ function Calendar_teacher(){
     this.delLesson=function(){
 
         this.jqueryObject.popup.button.delEvent.on('click',function(){
-            debugger;
             var urls = url + 'app/calendar/delEvent/' + (+originalEvent.id);
             $.ajax({
                 url: urls,
@@ -346,11 +340,10 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    debugger;
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
                 },
                 error: function(er) {
-                    debugger;
+
                     alert(er);
                 }
 
@@ -363,7 +356,6 @@ function Calendar_teacher(){
 }
 
 $(document).ready(function() {
-    debugger;
     var calendar = new Calendar_teacher();
     calendar.focusDeleted();
     calendar.click_body();
