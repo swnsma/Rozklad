@@ -3,7 +3,7 @@
 class Bootstrap {
     function __construct() {
         Session::init();
-        require_once FILE . 'controllers/app/check.php';
+        require_once FILE . 'module/app/controllers/check.php';
         $request = Request::getInstance();
         $controller = $request->getController();
         $module = $request->getModule();

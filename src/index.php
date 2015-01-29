@@ -8,7 +8,8 @@ require_once 'core/Model.php';
 require_once 'core/View.php';
 require_once 'core/BaseInstall.php';
 require_once 'core/Request.php';
-Base_Install::Run();
+require_once 'core/Session.php';
+//Base_Install::Run();
 //Base_Install::LoadDummy();
 $app = new Bootstrap();
 
