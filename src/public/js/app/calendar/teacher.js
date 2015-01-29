@@ -10,8 +10,20 @@ function Calendar_teacher(){
     var idUpdate=0;
     var originalEvent='';
     Calendar.call(this);
+    function delPopup(){
+        if(self.jqueryObject.popup.popup.css('display')==='block'){
+            self.jqueryObject.popup.popup.hide();
+            //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
+            f_tcalCancel();
+            return 1;
+        }
+        return 0;
+    }
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
+        if(delPopup()){
+            return;
+        }
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         self.jqueryObject.popup.day.day.val(date._d.getDate());
         self.jqueryObject.popup.day.month.val(date._d.getMonth()+1);
@@ -38,6 +50,9 @@ function Calendar_teacher(){
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
+        if(delPopup()){
+            return;
+        }
         self.jqueryObject.popup.button.delEvent.css({'visibility':'visible'});
         self.jqueryObject.popup.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
         self.jqueryObject.popup.day.day.val(calEvent.start._d.getDate());
@@ -65,7 +80,7 @@ function Calendar_teacher(){
             'top':y
         });
 
-    }
+    };
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
@@ -89,11 +104,12 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.start.minutes);
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
-    }
+    };
 
     //функція яка відповідає за поведення popup
     this.click_body = function(){
         $(document).click(function(event){
+
             ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
             //говноКоДЭ
             var bool=false;
@@ -136,7 +152,7 @@ function Calendar_teacher(){
             }
         });
 
-    }
+    };
 
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
@@ -192,7 +208,7 @@ function Calendar_teacher(){
             date.month.val(mas[1]);
             date.year.val(mas[2]);
         });
-    }
+    };
 
     //валідація поля дати
     this.timeIvent=function(){
@@ -239,7 +255,7 @@ function Calendar_teacher(){
         maskEndFocus($minutesEnd,$minutesEnd,'minutes');
 
 
-    }
+    };
 
     //додавання нового івента
     this.addLesson=function(){
@@ -328,7 +344,7 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
             return false;
         });
-    }
+    };
 
     this.delLesson=function(){
 
@@ -351,6 +367,14 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
         });
 
+    };
+
+    this.downEsc = function(){
+        $(document).on('keydown',function(e){
+            if(e.keyCode===27) {
+                delPopup();
+            }
+        })
     }
 
 }
@@ -364,6 +388,7 @@ $(document).ready(function() {
     calendar.addLesson();
     calendar.delLesson();
     calendar.realTimeUpdate();
+    calendar.downEsc();
 
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
