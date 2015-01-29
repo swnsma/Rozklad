@@ -9,11 +9,11 @@ class GroupsModel extends Model {
     public function getList() {
         $r = <<<HERE
         SELECT
-            `group`.`id` as group_id,
-            `group`.`name` as name,
+            `groups`.`id` as group_id,
+            `groups`.`name` as name,
             `user`.`name` as teacher_name
-        FROM `group`, `user`
-        WHERE `user`.`id` = `group`.`teacher_id`
+        FROM `groups`, `user`
+        WHERE `user`.`id` = `groups`.`teacher_id`
 HERE;
         try {
             $request = $this->db->query($r);
