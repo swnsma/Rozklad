@@ -202,7 +202,7 @@ function addLesson(calendar,id,popup){
             };
         var urls=url+'app/calendar/addEvent/' + title+'/'+startFun()+'/'+endFun();
         $.ajax({
-            url: urls,
+            url: app/calendar/getAllEvents,
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
