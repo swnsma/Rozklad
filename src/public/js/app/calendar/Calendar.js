@@ -47,13 +47,13 @@ function Calendar(){
                 }
 
             });
-        }
+        };
         this.start = function(){
             setTime=setInterval(operation,interval);
         };
         this.setInterval=function(interval1){
             interval=interval1;
-        }
+        };
         this.getInterval=function(){
             return interval;
         }
@@ -95,7 +95,7 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
-        eventLimit: true, // for all non-agenda views
+        //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
 
@@ -121,7 +121,7 @@ function Calendar(){
                     start=start._d;
                     end=end._d;
                     var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
-                    var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes())
+                    var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
 
                     $.ajax({
                         url: url+'app/calendar/addFullEvent'+'/'+start1+'/'+end1,
