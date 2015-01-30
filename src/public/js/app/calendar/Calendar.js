@@ -99,7 +99,8 @@ this.groups=[];
                 addGroup:$("#add_group")
             }
             ,
-            addGroupBlock:$("#group_block")
+            addGroupBlock:$("#group_block"),
+            groupsBlock:$("#groups")
         },
         tooltip:{
             tooltip:$('#tooltip'),
