@@ -434,7 +434,8 @@ function Calendar_teacher(){
     };
 
     this.keyDown=function(){
-        $(document).on('keyDown',function(e){
+        $(document).on('keydown',function(e){
+            debugger;
             if(e.keyCode===27){
                 delPopup();
             }
