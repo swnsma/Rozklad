@@ -191,6 +191,20 @@ BORIA;
             return null;
         }
     }
+    public function deleteGroupFromLesson($lessonId,$groupId){
+        try {
+            $request = <<<BORIA
+            delete from group_lesson where group_id='$groupId' AND lesson_id='$lessonId'
+BORIA;
+            $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+//            echo $var;
+            return "ok";
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
 
 }
 
