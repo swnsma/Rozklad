@@ -248,6 +248,7 @@ function Calendar_teacher(){
                 }
             })
         }
+        focusDelete(this.jqueryObject.popup.typePopup);
         focusDelete(this.jqueryObject.popup.day.day);
         focusDelete(this.jqueryObject.popup.day.month);
         focusDelete(this.jqueryObject.popup.day.year);

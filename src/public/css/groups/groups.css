@@ -1,6 +1,5 @@
 .row{
-    margin-top:40px;
-    padding: 0 10px;
+    position: relative;
 }
 .clickable{
     cursor: pointer;
@@ -15,4 +14,9 @@
 }
 .panel-body{
     display: none;
+}
+
+.width-list {
+    margin: 0 auto;
+    width: 700px;
 }
