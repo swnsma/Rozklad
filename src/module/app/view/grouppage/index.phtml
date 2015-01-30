@@ -8,22 +8,18 @@
 </head>
 <body>
 <section class="container">
-    <section class="description col-md-12">
-        <h1 data-bind="text:groupName"></h1>
-       <div data-bind="text:description">
-        </div>
-    </section>
+    <h1 data-bind="text:groupName"></h1>
+    <h3  data-bind="text:description"></h3>
+    <section class="groupList col-md-12">
 
 
-    <section class="groupList">
+        <div data-bind="foreach: students">
+            <div class=" col-md-5 list-group">
+                <div  class="list-group-item">
+                    <a class="list-group-item-text" data-bind="attr:{href: fb_account}"><img data-bind="attr:{src: fb_photo}" height="50" width="50"></a>
+                    <h4 class="list-group-item-heading" data-bind="text:name"></h4>
 
-
-        <div class="col-md-12" data-bind="foreach: students">
-            <div class=" col-md-5 userCard" >
-                <a  class="" >
-                    <img height="50" width="50" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/p160x160/10945013_1375662186077361_112523426557169887_n.jpg?oh=dd6fa103c6056b11e99416de0e6d3a6f&oe=556D91EC&__gda__=1433109605_5193aaccc3f481d08447d98b0e226592">
-                <h4 class="list-group-item-heading"  data-bind="text:name"></h4>
-                </a>
+                </div>
             </div>
         </div>
 
@@ -31,13 +27,13 @@
     </section>
 
 
-    <div class="col-md-12">
-    <?php if (GroupPage::$role == 'teacher'): ?>
-        <a href="#" class="btn btn-default dismissButton">Распустить группу</a>
-    <?php endif; ?>
-    <?php if (GroupPage::$role == 'student'): ?>
-        <a href="#" class="btn btn-default dismissButton">Покинуть группу</a>
-    <?php endif; ?>
+    <div>
+        <?php if (GroupPage::$role == 'teacher'): ?>
+            <a href="#" class="btn btn-default dismissButton">Распустить группу</a>
+        <?php endif; ?>
+        <?php if (GroupPage::$role == 'student'): ?>
+            <a href="#" class="btn btn-default dismissButton">Покинуть группу</a>
+        <?php endif; ?>
     </div>
 
 
@@ -49,8 +45,6 @@
 <script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php print URL; ?>public/js/app/grouppage/api.js"></script>
 <script src="<?php print URL; ?>public/js/app/grouppage/viewModel.js"></script>
-
-
 
 
 </body>
