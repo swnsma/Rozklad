@@ -13,6 +13,10 @@ class RegistModel extends Model{
     {
         try {
             $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id) VALUES ('$name','$surname','$phone','$role','$fb_id')");
+            if($role.""=="1"){
+                $id= $this->db->query("SELECT id FROM user WHERE fb_id=$fb_id");
+                $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ($id)");
+            }
             return 1;
         } catch (PDOException $e) {
             echo $e;

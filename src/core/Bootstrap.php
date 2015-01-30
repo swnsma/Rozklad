@@ -2,18 +2,23 @@
 
 class Bootstrap {
     function __construct() {
+
         Session::init();
         require_once FILE . 'module/app/controllers/check.php';
         $request = Request::getInstance();
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
-        $check = new Check;
-        $hasUser="ok";
-        if(!$_SESSION["idFB"]||$controller=='login') {
+
+
+        if(!isset($_SESSION["idFB"])||$controller=='login') {
+//            echo $_SESSION["idFB"];
+            $hasUser="ok";
+            $check = new Check;
             $hasUser = $check->check();
+            $this->dispatch($hasUser,$controller,$action);
         }
-        $this->dispatch($hasUser,$controller,$action);
+
         $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
