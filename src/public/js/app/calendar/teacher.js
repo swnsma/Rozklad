@@ -2,6 +2,11 @@
  * Created by Таня on 22.01.2015.
  */
 //наслідується від простого календара // налаштування календара
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+};
 function Calendar_teacher(){
 
     var masAction = ['create','edit'];
@@ -16,6 +21,22 @@ function Calendar_teacher(){
     var currentUser;
     function isEmpty( el ){
         return !$.trim(el.html())
+    }
+    function findGroupById(event,id){
+        for(var i=0;i<event.group.length;i++){
+            if((event.group[i].id+"")===(id+"")){
+                return event.group[i];
+            }
+        }
+        return -1;
+    }
+    function findGroupIndexById(event,id){
+        for(var i=0;i<event.group.length;i++){
+            if((event.group[i].id+"")===(id+"")){
+                return i;
+            }
+        }
+        return -1;
     }
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
@@ -113,9 +134,33 @@ function Calendar_teacher(){
         //if (isEmpty(blockGroup))
         //{
             for(var i=0;i<groups.length;i++){
-                blockGroup.append($("<p>"+ groups[i].name+"</p>"));
+                blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
             }
         //}}
+        $(".deleteGroup").on("click",function(){
+            var id=+$(this).attr("id_g");
+            var urls = url + 'app/calendar/deleteGroupFromLesson/'+originalEvent.id+"/"+id;
+            var that =$(this);
+            var ii=findGroupById(originalEvent,id);
+            $.ajax({
+                url: urls,
+                type: 'GET',
+                contentType: 'application/json',
+                success: function(response){
+                    if(response=='ok'){
+                        if(ii!=-1) {
+                            debugger;
+                            originalEvent.group.remove(findGroupIndexById(originalEvent,id));
+                            that.parent().remove();
+                        }
+                    }
+                },
+                error: function(er) {
+                    alert(er);
+                }
+
+            });
+        });
         idUpdate=calEvent.id;
         originalEvent=calEvent;
         orig2=calEvent;
@@ -188,7 +233,7 @@ function Calendar_teacher(){
                 success: function(response){
                     if(response=='ok'){
                        originalEvent.group.push(self.groups[ii]);
-                        self.jqueryObject.popup.groupsBlock.append($("<p>"+self.groups[ii].name+"</p>"));
+                        self.jqueryObject.popup.groupsBlock.append($("<div class='lessonGroup'>"+ self.groups[ii].name+"<div class='deleteGroup' id_g='"+self.groups[ii].id+"'>X</div></div>"));
                     }
                 },
                 error: function(er) {
@@ -559,7 +604,9 @@ $(document).ready(function() {
     calendar.delLesson();
     calendar.realTimeUpdate();
     calendar.keyDown();
-
+$(".deleteGroup").on("click",function(){
+    alert($(this).attr("id_g"));
+})
     calendar.option.getCurrentUser();
 
     $('#resetLesson').on('click',function() {

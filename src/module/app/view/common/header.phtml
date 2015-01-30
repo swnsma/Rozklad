@@ -1,8 +1,15 @@
-<link rel="stylesheet" href="<?php print URL; ?>public/css/common/common.css" />
-<link rel="stylesheet" href="<?php print URL; ?>public/css/admin/admin.css"/>
-<link rel="stylesheet" href="<?php print URL; ?>public/css/user.css"/>
-<link rel="stylesheet" href="<?php print URL; ?>public/css/common/header/header.css">
 
+<head>
+    <title><?php print $data['title']; ?></title>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/common/common.css" />
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/admin/admin.css"/>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/user.css"/>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/common/header/header.css">
+    <?php foreach ($data['files'] as $file) : ?>
+        <link rel="stylesheet" href="<?php print URL; ?>public/css/common/<?php print $file; ?>">
+    <?php endforeach; ?>
+</head>
+<body>
 <header class="header">
     <div class="background"></div>
     <img class="logo" src="<?php print URL; ?>public/img/logo.png"/>

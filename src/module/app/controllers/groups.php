@@ -21,5 +21,8 @@ class Groups extends Controller {
         $this->view->renderHtml('groups/index', $data);
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
+        /*$this->view->renderAllHTML('groups/index',
+            array('common/bootstrap.css',
+                'groups/groups.css'), $data);*/
     }
 }

@@ -47,6 +47,14 @@ class Calendar extends Controller {
         $success=$this->model->addGroupToLesson($lessonId,$groupId);
         echo $success;
     }
+    public function deleteGroupFromLesson(){
+        $request=Request::getInstance();
+        $lessonId = $request->getParam(0);
+        $groupId = $request->getParam(1);
+        $this->model=$this->loadModel("lesson");
+        $success=$this->model->deleteGroupFromLesson($lessonId,$groupId);
+        echo $success;
+    }
     public function addEvent(){
         $req=Request::getInstance();
         $this->model = $this->loadModel('lesson');

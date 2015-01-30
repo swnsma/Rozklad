@@ -5,6 +5,7 @@
  * Date: 22.01.2015
  * Time: 23:56
  */
+require_once FILE . 'core/Response.php';
 class Magic_Object_Exception extends Exception {
     public function __construct(){
         parent::__construct();
