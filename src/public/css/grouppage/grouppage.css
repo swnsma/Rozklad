@@ -1,6 +1,6 @@
 .container
 {
-    width: 900px;
+    width: 1000px;
     margin: auto;
 }
 h3
@@ -28,4 +28,8 @@ display: inline-block;
 .userCard
 {
    margin-top: 20px;
+}
+.avatar
+{
+    border-radius: 35px;
 }
