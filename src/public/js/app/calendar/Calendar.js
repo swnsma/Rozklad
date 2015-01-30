@@ -147,8 +147,10 @@ function Calendar(){
                 self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutes);
                 self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
 
-                var x = jsEvent.clientX - jsEvent.offsetX;
-                var y = jsEvent.clientY + jsEvent.offsetY + 10;
+                var XX= jsEvent.offsetX||0;
+                var YY=jsEvent.offsetY||0;
+                var x = jsEvent.clientX - XX;
+                var y = jsEvent.clientY + YY + 10;
 
 
                 self.jqueryObject.tooltip.tooltip.css({
