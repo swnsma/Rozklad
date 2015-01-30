@@ -19,28 +19,28 @@ class GroupPage extends Controller {
     }
     public function delUser(){
         $req = Request::getInstance();
-        $id= $req->getParam(1);
+        $id= $req->getParam(0);
         $this->model->delUser($id);
         $this->view->renderJson(Array('result'=>"success"));
     }
     public function renameGroup(){
         $req=Request::getInstance();
-        $id=$req->getParam(1);
-        $newName= $req->getParam(2);
+        $id=$req->getParam(0);
+        $newName= $req->getParam(1);
         $this->model->renameGroup($id, $newName);
         $this->view->renderJson(Array('result'=>"success"));
 
     }
     public  function createInviteCode(){
         $req= Request::getInstance();
-        $id=$req->getParam(1);
+        $id=$req->getParam(0);
         $this->model->createInviteCode($id);
         $this->view->renderJson(Array('code'=>$this->model->getInviteCode()));
     }
     public function editDescription(){
         $req= Request::getInstance();
         $id=$req->getParam(0);
-        $newDescription = $req->getParam(2);
+        $newDescription = $req->getParam(1);
         $this->model->editDescription($id, $newDescription);
         $this->view->renderJson(Array('result'=>"success"));
     }
