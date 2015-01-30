@@ -504,12 +504,12 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
+                    //self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
                     originalEvent.title='Возобновить';
                     originalEvent.backgroundColor='#999';
                     //originalEvent.borderColor='#999';
                     originalEvent.deleted=true;
-
+                    debugger;
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },
                 error: function(er) {
