@@ -35,6 +35,9 @@ where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            for($i=0;$i<count($var[0]);$i++){
+                $var[$i]["groups"]=$this->getAllGroupsForThisLesson($var[$i]['id']);
+            }
 //            print_r($var);
             return $var;
         } catch(PDOException $e) {
@@ -87,6 +90,29 @@ TANIA;
     public function getAllEvent($start,$end){
         return $this->getEventsInterval($start,$end,'start');
     }
+public function getAllGroupsForThisLesson($id)
+{
+
+    try {
+        $request = <<<BORIA
+  SELECT
+b.id,
+b.name,
+b.description,
+b.teacher_id
+FROM groups AS b
+JOIN group_lesson AS ba ON b.id = ba.group_id
+JOIN lesson AS a ON a.id = ba.lesson_id
+WHERE ba.lesson_id = $id
+BORIA;
+
+        $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+        return $var;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        return null;
+    }
+}
 
     //Реал Тайм Апдейт
     public function getRealTimeUpdate($iteration){

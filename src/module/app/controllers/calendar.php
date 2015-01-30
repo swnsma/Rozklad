@@ -85,6 +85,12 @@ class Calendar extends Controller {
         $arr=$this->model->getGroups($request->getParam(0));
         $this->view->renderJson($arr);
     }
+    public function getAllGroupsForThisLesson(){
+        $request=Request::getInstance();
+        $this->model = $this->loadModel('lesson');
+        $arr=$this->model->getAllGroupsForThisLesson($request->getParam(0));
+        $this->view->renderJson($arr);
+    }
     public function getGroupsForLesson(){
         $request=Request::getInstance();
         $this->model = $this->loadModel('lesson');
