@@ -176,7 +176,7 @@ TANIA;
         }
     }
 
-    public function addGroupToLesson($lessonId,$groupId){
+    public function addGroupToLesson($lessonId,$groupId){ 
         try {
             $request = <<<BORIA
             insert into group_lesson(group_id,lesson_id)values('$groupId','$lessonId')
