@@ -39,20 +39,20 @@ class GroupPage extends Controller {
     }
     public function editDescription(){
         $req= Request::getInstance();
-        $id=$req->getParam(1);
+        $id=$req->getParam(0);
         $newDescription = $req->getParam(2);
         $this->model->editDescription($id, $newDescription);
         $this->view->renderJson(Array('result'=>"success"));
     }
     public function sendSchedule(){
         $req= Request::getInstance();
-        $id=$req->getParam(1);
+        $id=$req->getParam(0);
         $var=$this->model->loadSchedule($id);
         $this->view->renderJson($var);
     }
     public function sendUsers(){
         $req=Request::getInstance();
-        $id=$req->getParam(1);
+        $id=$req->getParam(0);
         $var=$this->model->getUsers();
         if(!isset($var)){
         $var=$this->model->loadUsers($id);
@@ -61,7 +61,7 @@ class GroupPage extends Controller {
     }
     public function sendGroupInfo(){
         $req=Request::getInstance();
-        $id=$req->getParam(1);
+        $id=$req->getParam(0);
         $var=$this->model->getGroupInfo();
         if(!isset($var)){
             $var=$this->model->loadData($id);
@@ -70,7 +70,7 @@ class GroupPage extends Controller {
     }
     public function sendCode(){
         $req=Request::getInstance();
-        $id=$req->getParam(1);
+        $id=$req->getParam(0);
         $var=$this->model->getInviteCode($id);
         if(!isset($var)){
             $var=$this->model->loadCode($id);

@@ -9,20 +9,48 @@
 <body>
 <section class="container">
     <section class="description col-md-12">
-        <h1>Advance</h1>
-        <?php if (GroupPage::$role == 'teacher'): ?>
-            <a href="#" class="btn btn-default">Распустить группу</a>
-        <?php endif; ?>
-        <?php if (GroupPage::$role == 'student'): ?>
-            <a href="#" class="btn btn-default">Покинуть группу</a>
-        <?php endif; ?>
-        <h2>Описание группы:</h2>
-        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-          </div>
+        <h1 data-bind="text:groupName"></h1>
+        <h3 class="teacher">Куратор:</h3> <h3 data-bind="text:teacher" class="teacher"></h3>
+
+        <div data-bind="text:description">
+        </div>
     </section>
 
+
+    <section class="groupList">
+
+
+
+        <div class="col-md-12">
+
+            <h3 class="plus">Состав группы</h3>
+            <div class="panel panel-default sostav">
+                <table class="table table-hover" >
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Студент</th>
+
+                    </thead>
+                    <tbody data-bind="foreach: students">
+                    <tr>
+                        <td data-bind="text:user_id"></td>
+                        <td data-bind="text:name"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+    <div class="col-md-12">
+    <?php if (GroupPage::$role == 'teacher'): ?>
+        <a href="#" class="btn btn-default dismissButton">Распустить группу</a>
+    <?php endif; ?>
+    <?php if (GroupPage::$role == 'student'): ?>
+        <a href="#" class="btn btn-default dismissButton">Покинуть группу</a>
+    <?php endif; ?>
+    </div>
     <section class="schedule">
 
         <div class="col-md-12">
@@ -48,63 +76,25 @@
 
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>верстка</td>
-                            <td>Андрей Дребот</td>
-                            <td>уаф</td>
-                        </tr>
-                        <tr>
-                            <td>html</td>
-                            <td>Славик</td>
-                            <td>фвавыфа</td>
-                        </tr>
-                        <tr>
-                            <td>UE</td>
-                            <td>Артем</td>
-                            <td>вфыавы</td>
-                        </tr>
-                        <tr>
-                            <td>Algorithms</td>
-                            <td>Какойто чувак</td>
-                            <td>афвыаывафы</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </section>
-    <section class="groupList">
-
-
-
-        <div class="col-md-12">
-
-            <h3 class="plus">Состав группы</h3>
-            <div class="panel panel-default sostav">
-                <table class="table table-hover" >
-                    <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Студент</th>
-
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>вова</td>
+                        <td>верстка</td>
+                        <td>Андрей Дребот</td>
+                        <td>уаф</td>
                     </tr>
                     <tr>
-                        <td>2</td>
-                        <td>валя</td>
+                        <td>html</td>
+                        <td>Славик</td>
+                        <td>фвавыфа</td>
                     </tr>
                     <tr>
-                        <td>3</td>
-                        <td>петя</td>
+                        <td>UE</td>
+                        <td>Артем</td>
+                        <td>вфыавы</td>
                     </tr>
                     <tr>
-                        <td>1</td>
-                        <td>вова</td>
+                        <td>Algorithms</td>
+                        <td>Какойто чувак</td>
+                        <td>афвыаывафы</td>
                     </tr>
                     </tbody>
                 </table>
@@ -112,11 +102,18 @@
         </div>
 
     </section>
-
 
 </section>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
 <script src="<?php print URL; ?>public/js/app/grouppage/grouppage.js"></script>
+
+<script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script src="<?php print URL; ?>public/js/app/grouppage/api.js"></script>
+<script src="<?php print URL; ?>public/js/app/grouppage/viewModel.js"></script>
+
+
+
+
 </body>
 </html>
