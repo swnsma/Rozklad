@@ -14,6 +14,9 @@ function Calendar_teacher(){
     Calendar.call(this);
 
     var currentUser;
+    function isEmpty( el ){
+        return !$.trim(el.html())
+    }
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
@@ -103,6 +106,15 @@ function Calendar_teacher(){
         self.jqueryObject.popup.end.minutes.val(calEvent.end._d.getMinutes());
         //self.jqueryObject.popup.typeAction.text('Редактировать');
         self.jqueryObject.popup.button.submit.text('Сохранить');
+        var blockGroup=self.jqueryObject.popup.groupsBlock;
+        var groups = calEvent.group;
+
+        if (isEmpty(blockGroup))
+        {
+            for(var i=0;i<groups.length;i++){
+                blockGroup.append($("<p>"+ groups[i].name+"</p>"));
+            }
+        }
         idUpdate=calEvent.id;
         originalEvent=calEvent;
         orig2=calEvent;
@@ -129,9 +141,7 @@ function Calendar_teacher(){
             "top":y1,
             "left":x1,
             "display":"block"});
-        function isEmpty( el ){
-            return !$.trim(el.html())
-        }
+
         if (isEmpty(block))
         {
             for(i=0;i<self.groups.length;i++){
@@ -219,6 +229,7 @@ function Calendar_teacher(){
             }
         });
     };
+
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
