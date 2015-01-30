@@ -40,4 +40,5 @@ $(function(){
             $panel.find('.panel-body input').focus();
         }
     });
+
 });
