@@ -3,13 +3,15 @@
  */
 //наслідується від простого календара // налаштування календара
 function Calendar_teacher(){
-    var currentUser;
+
     var masAction = ['create','edit'];
     var action = masAction[0];
     var self=this;
     var idUpdate=0;
     var originalEvent='';
+    var orig2='';
     Calendar.call(this);
+    var currentUser;
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
@@ -101,6 +103,7 @@ function Calendar_teacher(){
         self.jqueryObject.popup.button.submit.text('Сохранить');
         idUpdate=calEvent.id;
         originalEvent=calEvent;
+        orig2=calEvent;
         action = masAction[1];
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
@@ -137,6 +140,26 @@ function Calendar_teacher(){
        self.initGroupClick();
         }
     })
+    };
+
+    this.option.getCurrentUser=function(){
+        var urls = url + 'app/calendar/getUserInfo';
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response){
+                currentUser=response[0];
+                return response[0];
+            },
+            error: function(er) {
+
+                alert(er);
+            }
+
+        });
+    };
 
     this.initGroupClick=function(){
         $(".group").click(function(){
@@ -215,7 +238,7 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.start.minutes);
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
-    }
+    };
 
     //функція яка відповідає за поведення popup
     this.click_body = function(){
@@ -267,7 +290,7 @@ function Calendar_teacher(){
             }
         });
 
-    }
+    };
 
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
@@ -323,7 +346,7 @@ function Calendar_teacher(){
             date.month.val(mas[1]);
             date.year.val(mas[2]);
         });
-    }
+    };
 
     //валідація поля дати
     this.timeIvent=function(){
@@ -438,7 +461,9 @@ function Calendar_teacher(){
                             start: startFun(),
                             end: endFun(),
                             allDay: false,
-                            teacher: currentUser.id
+                            teacher: currentUser.id,
+                            name: currentUser.name,
+                            surname: currentUser.surname
                         });
                         self.masEvent.push({id: id.id,
                             title: title,
@@ -462,7 +487,7 @@ function Calendar_teacher(){
             self.jqueryObject.popup.popup.hide();
             return false;
         });
-    }
+    };
 
     this.delLesson=function(){
 
@@ -477,9 +502,10 @@ function Calendar_teacher(){
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
                     originalEvent.title='Возобновить';
                     originalEvent.backgroundColor='#999';
-                    originalEvent.borderColor='#999';
+                    //originalEvent.borderColor='#999';
                     originalEvent.deleted=true;
-                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,originalEvent);
+
+                    self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },
                 error: function(er) {
 
@@ -493,7 +519,8 @@ function Calendar_teacher(){
     };
 
     this.keyDown=function(){
-        $(document).on('keyDown',function(e){
+        $(document).on('keydown',function(e){
+            debugger;
             if(e.keyCode===27){
                 delPopup();
             }
@@ -515,6 +542,7 @@ $(document).ready(function() {
     calendar.keyDown();
 
     calendar.option.getCurrentUser();
+
     $('#resetLesson').on('click',function() {
         f_tcalCancel();
         $('#popup').hide();

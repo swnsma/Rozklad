@@ -25,6 +25,9 @@ function Calendar(){
                 dataType: 'json',
                 success: function(date){
                     for(var i=0;i<date.length;++i){
+                        if((+date[i].status)===2&&date[i].teacher===currentUser.id){
+                            continue;
+                        }
                         if((+date[i].status)===2) {
                             self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
                             continue;
@@ -59,6 +62,9 @@ function Calendar(){
         }
     }
 
+
+    var currentUser;
+
     var self=this;
     this.masEvent=[];
 this.groups=[];
@@ -86,11 +92,16 @@ this.groups=[];
             button:{
                 delEvent:$('#delEvent'),
                 submit:$('#createNewLesson'),
-                reset:$('#resetLesson'),
-                addGroup:$("#add_group")
-            },
-            addGroupBlock:$("#group_block"),
-            popupGroupBlock:$("#popup_group_block")
+                reset:$('#resetLesson')
+            }
+        },
+        tooltip:{
+            tooltip:$('#tooltip'),
+            tooltipTitle: $('#tooltipTitle'),
+            tooltipStart: $('#tooltipStart'),
+            tooltipEnd: $('#tooltipEnd'),
+            tooltipAuthor: $('#tooltipAuthor')
+
         }
     };
     var date = new Date();
@@ -118,7 +129,58 @@ this.groups=[];
         //handleWindowResize:true,
         //fixedWeekCount:false,
         eventMouseover:function(event, jsEvent, view){
-            //debugger;
+            //event.backgroundColor='#004';
+            //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+
+            if(!event.deleted) {
+                self.jqueryObject.tooltip.tooltipTitle.text(event.title);
+                self.jqueryObject.tooltip.tooltipStart.text(event.start._i);
+                var dateEnd = new Date(event.end);
+                var minutes = dateEnd.getMinutes();
+                if ((minutes + '').length != 2) {
+                    minutes = '0' + minutes;
+                }
+                var hour = dateEnd.getHours();
+                if ((hour + '').length != 2) {
+                    hour = '0' + hour;
+                }
+                self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutes);
+                self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
+
+                var XX= jsEvent.offsetX||0;
+                var YY=jsEvent.offsetY||0;
+                var x = jsEvent.clientX - XX;
+                var y = jsEvent.clientY + YY + 10;
+
+
+                self.jqueryObject.tooltip.tooltip.css({
+                    'left': x,
+                    'top': y
+
+                });
+                $(this).css({
+                    'background': '#004'
+                });
+                self.jqueryObject.tooltip.tooltip.show();
+            }
+
+
+
+        },
+        eventMouseout:function(event, jsEvent, view){
+            if(event.deleted!=true)
+            {
+                $(this).css({
+                    'background': '#029acf'
+                });
+                //event.backgroundColor='';
+                //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+                self.jqueryObject.tooltip.tooltip.hide();
+                //$(this).css({
+                //    'background':'#029acf'
+                //});
+            }
+
         },
         eventSources: [
             {
@@ -159,7 +221,29 @@ this.groups=[];
         //    }
         //]
 
+
     };
+
+    (this.option.getCurrentUser=function(){
+        var urls = url + 'app/calendar/getUserInfo';
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response){
+                currentUser=response[0];
+                return response[0];
+            },
+            error: function(er) {
+
+                alert(er);
+            }
+
+        });
+    })();
+
+
 
     this.realTimeUpdate=function(){
         var a =new RealTimeUpdate();
