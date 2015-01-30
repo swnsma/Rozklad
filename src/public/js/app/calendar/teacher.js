@@ -16,6 +16,7 @@ function Calendar_teacher(){
     var originalEvent='';
     var orig2='';
     var self=this;
+    var lastDate;
     Calendar.call(this);
 
     var currentUser;
@@ -222,7 +223,6 @@ function Calendar_teacher(){
 
     this.initGroupClick=function(){
         $(".group").click(function(){
-            debugger;
             var id=self.groups[+$(this).attr("id")].id;
             var ii=+$(this).attr("id");
             var urls = url + 'app/calendar/addGroupToLesson/'+originalEvent.id+"/"+id;
@@ -253,7 +253,6 @@ function Calendar_teacher(){
             dataType: 'json',
             success: function(response){
                 currentUser=response[0];
-                debugger;
                 self.getGroups();
             },
             error: function(er) {
@@ -349,7 +348,15 @@ function Calendar_teacher(){
             }
 
             if(event.target.id!=="add_group"&&event.target.id!=="group_block"&&!$(event.target).hasClass("group")){
+
+
+
                 $("#group_block").hide();
+            }
+
+            if(self.jqueryObject.popup.popup.css('display')==='none'){
+
+
             }
         });
 
@@ -568,7 +575,7 @@ function Calendar_teacher(){
                     originalEvent.backgroundColor='#999';
                     //originalEvent.borderColor='#999';
                     originalEvent.deleted=true;
-                    debugger;
+
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },
                 error: function(er) {
@@ -584,7 +591,7 @@ function Calendar_teacher(){
 
     this.keyDown=function(){
         $(document).on('keydown',function(e){
-            debugger;
+
             if(e.keyCode===27){
                 delPopup();
             }
@@ -606,7 +613,7 @@ $(document).ready(function() {
     calendar.keyDown();
 $(".deleteGroup").on("click",function(){
     alert($(this).attr("id_g"));
-})
+});
     calendar.option.getCurrentUser();
 
     $('#resetLesson').on('click',function() {
