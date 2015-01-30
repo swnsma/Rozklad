@@ -88,3 +88,20 @@ body{
     right: 15px;
     top: 0px;
 }
+
+.group_block{
+    display:none;
+    position:absolute;
+    width:130px;
+
+    border: 1px solid black;
+    z-index: 1000;
+}
+.group{
+    background-color:rgb(78,205,196);
+    color:white;
+    border:1px solid #999;
+    border-radius: 3px;
+    margin-bottom: 0;
+    margin-top: 3px;
+}

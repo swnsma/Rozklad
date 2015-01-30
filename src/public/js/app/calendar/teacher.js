@@ -60,29 +60,11 @@ function Calendar_teacher(){
 
         posPopup(allDay);
     };
-    this.option.getCurrentUser=function(){
-        debugger;
-        var urls = url + 'app/calendar/getUserInfo';
-        $.ajax({
-            url: urls,
-            type: 'GET',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function(response){
-                currentUser=response[0];
-            },
-            error: function(er) {
 
-                alert(er);
-            }
-
-        });
-    };
     this.option.eventClick=function(calEvent, jsEvent, view) {
         if(delPopup()){
             return;
         }
-        debugger;
         if(calEvent.deleted){
             $.ajax({
                 url: url + 'app/calendar/restore/' + calEvent.id,
@@ -92,7 +74,6 @@ function Calendar_teacher(){
                 success: function(date){
                     calEvent.deleted=false;
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,calEvent.id);
-                    debugger;
                     self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,date[0]);
                 },
                 error: function(er) {
@@ -102,7 +83,6 @@ function Calendar_teacher(){
             });
             return;
         }
-        debugger;
         if(currentUser.id!==calEvent.teacher){
             return;
         }
@@ -133,6 +113,84 @@ function Calendar_teacher(){
             'top':y
         });
 
+    }
+    self.jqueryObject.popup.button.addGroup.on("click",function(e){
+        var x= e.clientX;
+        var y= e.clientY;
+        var block = self.jqueryObject.popup.addGroupBlock;
+        var x1=$(this).offset().left+100;
+        var y1=$(this).offset().top;
+        block.css({
+            "top":y1,
+            "left":x1,
+            "display":"block"});
+        function isEmpty( el ){
+            return !$.trim(el.html())
+        }
+        if (isEmpty(block))
+        {
+            for(i=0;i<self.groups.length;i++){
+                item=$("<p class='group'>"+self.groups[i].name+"</p>");
+                item.attr("id",i+"");
+            block.append(item)
+            }
+       self.initGroupClick();
+        }
+    })
+
+    this.initGroupClick=function(){
+        $(".group").click(function(){
+            debugger;
+            var id=self.groups[+$(this).attr("id")].id;
+
+            var urls = url + 'app/calendar/addGroupToLesson/'+originalEvent.id+"/"+id;
+            $.ajax({
+                url: urls,
+                type: 'GET',
+                contentType: 'application/json',
+                success: function(response){
+                    if(response=='ok'){
+                        alert(1);
+                    }
+                },
+                error: function(er) {
+
+                    alert(er);
+                }
+
+            });
+        });
+    };
+    this.option.getCurrentUser=function(){
+        var urls = url + 'app/calendar/getUserInfo';
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response){
+                currentUser=response[0];
+                self.getGroups();
+            },
+            error: function(er) {
+
+                alert(er);
+            }
+
+        });
+    };
+    this.getGroups = function(){
+        $.ajax({
+            url: url+'app/calendar/getGroups/'+currentUser.id,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(doc) {
+                self.groups=doc;
+            },
+            error: function(){
+
+            }
+        });
     }
 
     this.jqueryObject.calendar.fullCalendar(this.option);
@@ -197,10 +255,15 @@ function Calendar_teacher(){
                     }
                 }
             }
-            if(!bool) {
+            if(!bool&&event.target.id!=="group_block"&&event.target.id!=="group"&&!$(event.target).hasClass("group")) {
                 $('#popup').hide();
+
                 //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
                 f_tcalCancel();
+            }
+
+            if(event.target.id!=="add_group"&&event.target.id!=="group_block"&&!$(event.target).hasClass("group")){
+                $("#group_block").hide();
             }
         });
 
@@ -412,7 +475,6 @@ function Calendar_teacher(){
                 dataType: 'json',
                 success: function(id){
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
-                    debugger;
                     originalEvent.title='Возобновить';
                     originalEvent.backgroundColor='#999';
                     originalEvent.borderColor='#999';
@@ -451,7 +513,6 @@ $(document).ready(function() {
     calendar.delLesson();
     calendar.realTimeUpdate();
     calendar.keyDown();
-
 
     calendar.option.getCurrentUser();
     $('#resetLesson').on('click',function() {

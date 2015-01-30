@@ -42,7 +42,23 @@ TANIA;
             return null;
         }
     }
+public function getGroups($id){
+    try {
+//            $request = <<<TANIA
+//select * from lesson
+//where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
+//TANIA;
+        $request = <<<TANIA
+select id,name from groups where teacher_id=$id
+TANIA;
 
+        $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+        return $var;
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+        return null;
+    }
+}
     //додає ноаві події
     public function addLesson($title, $start,$end,$id_teacher) {
         try {
@@ -122,6 +138,22 @@ TANIA;
                 $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
 //            echo $var;
                 return $var;
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+
+    public function addGroupToLesson($lessonId,$groupId){
+        try {
+            $request = <<<BORIA
+            insert into group_lesson(group_id,lesson_id)values('$groupId','$lessonId')
+BORIA;
+
+            $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+//            echo $var;
+            return "ok";
 
         } catch(PDOException $e) {
             echo $e;

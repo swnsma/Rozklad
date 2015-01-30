@@ -61,7 +61,7 @@ function Calendar(){
 
     var self=this;
     this.masEvent=[];
-
+this.groups=[];
     this.jqueryObject={
         calendar:$('#calendar'),
         popup: {
@@ -86,8 +86,11 @@ function Calendar(){
             button:{
                 delEvent:$('#delEvent'),
                 submit:$('#createNewLesson'),
-                reset:$('#resetLesson')
-            }
+                reset:$('#resetLesson'),
+                addGroup:$("#add_group")
+            },
+            addGroupBlock:$("#group_block"),
+            popupGroupBlock:$("#popup_group_block")
         }
     };
     var date = new Date();

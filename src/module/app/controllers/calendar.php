@@ -39,7 +39,14 @@ class Calendar extends Controller {
 //        echo $data;
         $this->view->renderHtml('calendar/index', $data);
     }
-
+    public function addGroupToLesson(){
+        $request=Request::getInstance();
+        $lessonId = $request->getParam(0);
+        $groupId = $request->getParam(0);
+        $this->model=$this->loadModel("lesson");
+        $success=$this->model->addGroupToLesson($lessonId,$groupId);
+        echo $success;
+    }
     public function addEvent(){
         $req=Request::getInstance();
         $this->model = $this->loadModel('lesson');
@@ -61,8 +68,7 @@ class Calendar extends Controller {
         $end= $req->getParam(2);
         $id= $req->getParam(3);
         $this->model->updateLesson($title,$start,$end,$id);
-
-            $this->view->renderJson("succeess");
+        $this->view->renderJson("succeess");
 
     }
 
@@ -73,11 +79,16 @@ class Calendar extends Controller {
         $id=$this->model->getAllEvent($start,$end);
        $this->view->renderJson($id);
     }
+    public function getGroups(){
+        $request=Request::getInstance();
+        $this->model = $this->loadModel('lesson');
+        $arr=$this->model->getGroups($request->getParam(0));
+        $this->view->renderJson($arr);
+    }
     public function getGroupsForLesson(){
         $request=Request::getInstance();
-
         $this->model = $this->loadModel('lesson');
-        print_r($this->model->getGroupsForLesson($request->getParam(0)));
+        $this->model->getGroupsForLesson($request->getParam(0));
     }
     public function getRealTimeUpdate(){
         $this->model = $this->loadModel('lesson');
