@@ -17,6 +17,7 @@ function Calendar(){
         //var interval = 60000;//раз в хвилину оновлення
         var interval = 60000;//раз в хвилину оновлення
         var setTime;
+        var v=false;
         var operation = function(){
             $.ajax({
                 url: url+'app/calendar/getRealTimeUpdate/'+interval/1000,
@@ -25,14 +26,16 @@ function Calendar(){
                 dataType: 'json',
                 success: function(date){
                     for(var i=0;i<date.length;++i){
+                        v = false;
                         if((+date[i].status)===2&&date[i].teacher===currentUser.id){
                             continue;
                         }
                         if((+date[i].status)===2) {
                             self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
-                            continue;
+
                         }else{
                             for(var j =0;j<self.masEvent.length;++j){
+
                                 if( (+date[i].id)===(+self.masEvent[j].id)){
                                     self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
                                     //self.jqueryObject.calendar.fullCalendar('renderEvent',date[i]);
