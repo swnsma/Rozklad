@@ -59,6 +59,8 @@ function Calendar(){
         }
     }
 
+
+
     var self=this;
     this.masEvent=[];
 
@@ -88,6 +90,14 @@ function Calendar(){
                 submit:$('#createNewLesson'),
                 reset:$('#resetLesson')
             }
+        },
+        tooltip:{
+            tooltip:$('#tooltip'),
+            tooltipTitle: $('#tooltipTitle'),
+            tooltipStart: $('#tooltipStart'),
+            tooltipEnd: $('#tooltipEnd'),
+            tooltipAuthor: $('#tooltipAuthor')
+
         }
     };
     var date = new Date();
@@ -115,7 +125,53 @@ function Calendar(){
         //handleWindowResize:true,
         //fixedWeekCount:false,
         eventMouseover:function(event, jsEvent, view){
-            //debugger;
+            debugger;
+            //event.backgroundColor='#004';
+            //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+
+            self.jqueryObject.tooltip.tooltipTitle.text(event.title);
+            self.jqueryObject.tooltip.tooltipStart.text(event.start._i);
+            var dateEnd = new Date(event.end);
+            var minutes  = dateEnd.getMinutes();
+            if((minutes+'').length!=2){
+                minutes='0'+minutes;
+            }
+            var hour  = dateEnd.getHours();
+            if((hour+'').length!=2){
+                hour='0'+hour;
+            }
+            self.jqueryObject.tooltip.tooltipEnd.text(hour+':'+minutes);
+            self.jqueryObject.tooltip.tooltipAuthor.text(event.name+' '+event.surname);
+
+            debugger;
+            var x = jsEvent.clientX-jsEvent.offsetX;
+            var y = jsEvent.clientY+jsEvent.offsetY+10;
+
+
+            self.jqueryObject.tooltip.tooltip.css({
+                'left':x,
+                'top':y
+
+            });
+            $(this).css({
+                'background':'#004'
+            });
+            self.jqueryObject.tooltip.tooltip.show();
+
+
+
+        },
+        eventMouseout:function(event, jsEvent, view){
+            $(this).css({
+                'background':'#029acf'
+            });
+            //event.backgroundColor='';
+            //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+            self.jqueryObject.tooltip.tooltip.hide();
+            //$(this).css({
+            //    'background':'#029acf'
+            //});
+
         },
         eventSources: [
             {
@@ -157,6 +213,8 @@ function Calendar(){
         //]
 
     };
+
+
 
     this.realTimeUpdate=function(){
         var a =new RealTimeUpdate();

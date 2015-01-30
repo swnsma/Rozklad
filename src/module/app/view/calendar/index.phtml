@@ -8,6 +8,7 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
 
     <?php if ($data == 'teacher'): ?>
         <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
@@ -15,6 +16,15 @@
     <?php endif; ?>
 </head>
 <body>
+
+<div class="my-tooltip" id="tooltip">
+    <h3  id="tooltipTitle">Title</h3>
+    <div class="author" id="tooltipAuthor">author</div>
+    <div class="time">
+    <span id="tooltipStart">start</span>-<span id="tooltipEnd">end</span>
+    </div>
+
+</div>
 
 <?php if ($data == 'teacher'): ?>
     <div class='popup' id='popup'>
