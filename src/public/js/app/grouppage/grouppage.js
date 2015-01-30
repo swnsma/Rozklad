@@ -41,18 +41,7 @@ $(function(){
         }
     });
     // $('[data-toggle="tooltip"]').tooltip();
-    var ifOpened=false;
-    $('.sostav').css('display','none');
-    var $target=$('.plus');
-    $target.click(function(){
-        if(ifOpened==false){
-            ifOpened=true;
-            $('.sostav').css('display','')
-        }
-        else {ifOpened=true;
-        ifOpened=false;
-        $('.sostav').css('display','none')
-    }})
+
 
 });
 
