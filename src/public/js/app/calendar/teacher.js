@@ -113,9 +113,12 @@ function Calendar_teacher(){
         //if (isEmpty(blockGroup))
         //{
             for(var i=0;i<groups.length;i++){
-                blockGroup.append($("<div>"+ groups[i].name+"</div>"));
+                blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
             }
         //}}
+        $(".deleteGroup").on("click",function(){
+            alert($(this).attr("id_g"));
+        })
         idUpdate=calEvent.id;
         originalEvent=calEvent;
         orig2=calEvent;
@@ -559,7 +562,9 @@ $(document).ready(function() {
     calendar.delLesson();
     calendar.realTimeUpdate();
     calendar.keyDown();
-
+$(".deleteGroup").on("click",function(){
+    alert($(this).attr("id_g"));
+})
     calendar.option.getCurrentUser();
 
     $('#resetLesson').on('click',function() {
