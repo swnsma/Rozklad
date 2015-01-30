@@ -166,5 +166,33 @@ HERE;
         $var['description']=$newDescription;
         $this->setGroupInfo($var);
     }
+   public function addUserToGroup($id, $code){
+       $r=<<<CHECKCODE
+       SELECT `id`
+       FROM `groups`
+       WHERE `invite_code`='$code';
+CHECKCODE;
+       $groupId= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC)[0]['id'];
+       if(isset($groupId)){
+       $r=<<<CHECKUSER
+        SELECT `student_group`.`student_id`
+        FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`=$groupId;
+CHECKUSER;
+           $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+
+           if(!isset($var[0])){
+               $r=<<<ADDUSER
+           INSERT INTO `student_group` (student_id, group_id) VALUES ($id, $groupId);
+ADDUSER;
+               $this->db->query($r);
+              return 0;
+           }else{
+              return 1;
+           }
+       }else{
+           return 2;
+       }
+
+   }
 }
-//$var = new GroupPageModel();
