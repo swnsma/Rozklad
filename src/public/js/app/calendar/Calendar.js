@@ -25,6 +25,9 @@ function Calendar(){
                 dataType: 'json',
                 success: function(date){
                     for(var i=0;i<date.length;++i){
+                        if((+date[i].status)===2&&date[i].teacher===currentUser.id){
+                            continue;
+                        }
                         if((+date[i].status)===2) {
                             self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
                             continue;
@@ -60,6 +63,7 @@ function Calendar(){
     }
 
 
+    var currentUser;
 
     var self=this;
     this.masEvent=[];
@@ -125,52 +129,55 @@ function Calendar(){
         //handleWindowResize:true,
         //fixedWeekCount:false,
         eventMouseover:function(event, jsEvent, view){
-            debugger;
             //event.backgroundColor='#004';
             //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
 
-            self.jqueryObject.tooltip.tooltipTitle.text(event.title);
-            self.jqueryObject.tooltip.tooltipStart.text(event.start._i);
-            var dateEnd = new Date(event.end);
-            var minutes  = dateEnd.getMinutes();
-            if((minutes+'').length!=2){
-                minutes='0'+minutes;
+            if(!event.deleted) {
+                self.jqueryObject.tooltip.tooltipTitle.text(event.title);
+                self.jqueryObject.tooltip.tooltipStart.text(event.start._i);
+                var dateEnd = new Date(event.end);
+                var minutes = dateEnd.getMinutes();
+                if ((minutes + '').length != 2) {
+                    minutes = '0' + minutes;
+                }
+                var hour = dateEnd.getHours();
+                if ((hour + '').length != 2) {
+                    hour = '0' + hour;
+                }
+                self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutes);
+                self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
+
+                var x = jsEvent.clientX - jsEvent.offsetX;
+                var y = jsEvent.clientY + jsEvent.offsetY + 10;
+
+
+                self.jqueryObject.tooltip.tooltip.css({
+                    'left': x,
+                    'top': y
+
+                });
+                $(this).css({
+                    'background': '#004'
+                });
+                self.jqueryObject.tooltip.tooltip.show();
             }
-            var hour  = dateEnd.getHours();
-            if((hour+'').length!=2){
-                hour='0'+hour;
-            }
-            self.jqueryObject.tooltip.tooltipEnd.text(hour+':'+minutes);
-            self.jqueryObject.tooltip.tooltipAuthor.text(event.name+' '+event.surname);
-
-            debugger;
-            var x = jsEvent.clientX-jsEvent.offsetX;
-            var y = jsEvent.clientY+jsEvent.offsetY+10;
-
-
-            self.jqueryObject.tooltip.tooltip.css({
-                'left':x,
-                'top':y
-
-            });
-            $(this).css({
-                'background':'#004'
-            });
-            self.jqueryObject.tooltip.tooltip.show();
 
 
 
         },
         eventMouseout:function(event, jsEvent, view){
-            $(this).css({
-                'background':'#029acf'
-            });
-            //event.backgroundColor='';
-            //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
-            self.jqueryObject.tooltip.tooltip.hide();
-            //$(this).css({
-            //    'background':'#029acf'
-            //});
+            if(event.deleted!=true)
+            {
+                $(this).css({
+                    'background': '#029acf'
+                });
+                //event.backgroundColor='';
+                //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+                self.jqueryObject.tooltip.tooltip.hide();
+                //$(this).css({
+                //    'background':'#029acf'
+                //});
+            }
 
         },
         eventSources: [
@@ -198,21 +205,28 @@ function Calendar(){
                 }
             }
         ]
-        //eventClick: function(event, element) {
-        //    debugger;
-        //    event.title = "CLICKED!";
-        //
-        //    $('#calendar').fullCalendar('updateEvent', event);
-        //
-        //},
-        //,events: [{
-        //        title  : 'event3',
-        //        start  : '2015-01-09 12:30:00',
-        //        allDay : false // will make the time show
-        //    }
-        //]
+
 
     };
+
+    (this.option.getCurrentUser=function(){
+        var urls = url + 'app/calendar/getUserInfo';
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response){
+                currentUser=response[0];
+                return response[0];
+            },
+            error: function(er) {
+
+                alert(er);
+            }
+
+        });
+    })();
 
 
 

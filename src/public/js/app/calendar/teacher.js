@@ -3,13 +3,15 @@
  */
 //наслідується від простого календара // налаштування календара
 function Calendar_teacher(){
-    var currentUser;
+
     var masAction = ['create','edit'];
     var action = masAction[0];
     var self=this;
     var idUpdate=0;
     var originalEvent='';
+    var orig2='';
     Calendar.call(this);
+    var currentUser;
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
@@ -60,29 +62,11 @@ function Calendar_teacher(){
 
         posPopup(allDay);
     };
-    this.option.getCurrentUser=function(){
-        debugger;
-        var urls = url + 'app/calendar/getUserInfo';
-        $.ajax({
-            url: urls,
-            type: 'GET',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function(response){
-                currentUser=response[0];
-            },
-            error: function(er) {
 
-                alert(er);
-            }
-
-        });
-    };
     this.option.eventClick=function(calEvent, jsEvent, view) {
         if(delPopup()){
             return;
         }
-        debugger;
         if(calEvent.deleted){
             $.ajax({
                 url: url + 'app/calendar/restore/' + calEvent.id,
@@ -92,7 +76,6 @@ function Calendar_teacher(){
                 success: function(date){
                     calEvent.deleted=false;
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,calEvent.id);
-                    debugger;
                     self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,date[0]);
                 },
                 error: function(er) {
@@ -102,7 +85,6 @@ function Calendar_teacher(){
             });
             return;
         }
-        debugger;
         if(currentUser.id!==calEvent.teacher){
             return;
         }
@@ -121,6 +103,7 @@ function Calendar_teacher(){
         self.jqueryObject.popup.button.submit.text('Сохранить');
         idUpdate=calEvent.id;
         originalEvent=calEvent;
+        orig2=calEvent;
         action = masAction[1];
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
@@ -133,6 +116,25 @@ function Calendar_teacher(){
             'top':y
         });
 
+    };
+
+    this.option.getCurrentUser=function(){
+        var urls = url + 'app/calendar/getUserInfo';
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(response){
+                currentUser=response[0];
+                return response[0];
+            },
+            error: function(er) {
+
+                alert(er);
+            }
+
+        });
     };
 
     this.jqueryObject.calendar.fullCalendar(this.option);
@@ -413,13 +415,12 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
-                    debugger;
                     originalEvent.title='Возобновить';
                     originalEvent.backgroundColor='#999';
-                    originalEvent.borderColor='#999';
+                    //originalEvent.borderColor='#999';
                     originalEvent.deleted=true;
-                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,originalEvent);
+
+                    self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },
                 error: function(er) {
 
