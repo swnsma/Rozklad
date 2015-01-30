@@ -40,5 +40,4 @@ $(function(){
             $panel.find('.panel-body input').focus();
         }
     });
-   // $('[data-toggle="tooltip"]').tooltip();
 });

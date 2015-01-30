@@ -8,5 +8,6 @@ class CreateGroup extends Controller {
 
     public function index() {
         print 1234;
+
     }
 }

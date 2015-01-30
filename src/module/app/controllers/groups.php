@@ -14,6 +14,7 @@ class Groups extends Controller {
         $data['photo']="http://graph.facebook.com/".$user_info['fb_id']."/picture?type=large";
         $data['status'] = 1; //$user_info['role_id']; //$user_info[0]['role_id'];
         $data['name'] = 'name';
+
         $data['groups'] = $this->model->getList();
         $this->view->renderHtml('common/head');
         $this->view->renderHtml('common/header', $data);
