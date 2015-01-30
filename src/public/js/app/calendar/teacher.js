@@ -107,14 +107,15 @@ function Calendar_teacher(){
         //self.jqueryObject.popup.typeAction.text('Редактировать');
         self.jqueryObject.popup.button.submit.text('Сохранить');
         var blockGroup=self.jqueryObject.popup.groupsBlock;
+        blockGroup.empty();
         var groups = calEvent.group;
 
-        if (isEmpty(blockGroup))
-        {
+        //if (isEmpty(blockGroup))
+        //{
             for(var i=0;i<groups.length;i++){
                 blockGroup.append($("<p>"+ groups[i].name+"</p>"));
             }
-        }
+        //}}
         idUpdate=calEvent.id;
         originalEvent=calEvent;
         orig2=calEvent;
@@ -178,7 +179,7 @@ function Calendar_teacher(){
         $(".group").click(function(){
             debugger;
             var id=self.groups[+$(this).attr("id")].id;
-
+            var ii=+$(this).attr("id");
             var urls = url + 'app/calendar/addGroupToLesson/'+originalEvent.id+"/"+id;
             $.ajax({
                 url: urls,
@@ -186,7 +187,8 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 success: function(response){
                     if(response=='ok'){
-                        alert(1);
+                       originalEvent.group.push(self.groups[ii]);
+                        self.jqueryObject.popup.groupsBlock.append($("<p>"+self.groups[ii].name+"</p>"));
                     }
                 },
                 error: function(er) {
