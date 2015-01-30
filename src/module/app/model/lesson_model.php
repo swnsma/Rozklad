@@ -118,7 +118,7 @@ BORIA;
         $end =$this->realDate();
         $start =$this->realDate();
         $myIteration = $iteration+10;
-        $start=$start->modify("-$myIteration second");
+        $start=$start->modify("-$myIteration second"); 
         $start=$start->format($this->formatDate());
         $end=$end->format($this->formatDate());
 //        echo $start->format($this->formatDate());
