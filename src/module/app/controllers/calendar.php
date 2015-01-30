@@ -42,7 +42,7 @@ class Calendar extends Controller {
     public function addGroupToLesson(){
         $request=Request::getInstance();
         $lessonId = $request->getParam(0);
-        $groupId = $request->getParam(0);
+        $groupId = $request->getParam(1);
         $this->model=$this->loadModel("lesson");
         $success=$this->model->addGroupToLesson($lessonId,$groupId);
         echo $success;

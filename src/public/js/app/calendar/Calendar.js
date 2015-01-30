@@ -92,8 +92,11 @@ this.groups=[];
             button:{
                 delEvent:$('#delEvent'),
                 submit:$('#createNewLesson'),
-                reset:$('#resetLesson')
+                reset:$('#resetLesson'),
+                addGroup:$("#add_group")
             }
+            ,
+            addGroupBlock:$("#group_block")
         },
         tooltip:{
             tooltip:$('#tooltip'),

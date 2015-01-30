@@ -6,11 +6,13 @@ function Calendar_teacher(){
 
     var masAction = ['create','edit'];
     var action = masAction[0];
-    var self=this;
+
     var idUpdate=0;
     var originalEvent='';
     var orig2='';
+    var self=this;
     Calendar.call(this);
+
     var currentUser;
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
@@ -116,8 +118,8 @@ function Calendar_teacher(){
             'top':y
         });
 
-    }
-    self.jqueryObject.popup.button.addGroup.on("click",function(e){
+    };
+    this.jqueryObject.popup.button.addGroup.on("click",function(e){
         var x= e.clientX;
         var y= e.clientY;
         var block = self.jqueryObject.popup.addGroupBlock;
@@ -138,9 +140,10 @@ function Calendar_teacher(){
             block.append(item)
             }
        self.initGroupClick();
+
         }
     })
-    };
+
 
     this.option.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
@@ -184,7 +187,7 @@ function Calendar_teacher(){
             });
         });
     };
-    this.option.getCurrentUser=function(){
+    self.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
             url: urls,
@@ -193,6 +196,7 @@ function Calendar_teacher(){
             dataType: 'json',
             success: function(response){
                 currentUser=response[0];
+                debugger;
                 self.getGroups();
             },
             error: function(er) {
@@ -202,7 +206,7 @@ function Calendar_teacher(){
 
         });
     };
-    this.getGroups = function(){
+    self.getGroups = function(){
         $.ajax({
             url: url+'app/calendar/getGroups/'+currentUser.id,
             contentType: 'application/json',
@@ -531,7 +535,7 @@ function Calendar_teacher(){
 
 $(document).ready(function() {
     var calendar = new Calendar_teacher();
-    calendar.option.getCurrentUser();
+    calendar.getCurrentUser();
     calendar.focusDeleted();
     calendar.click_body();
     calendar.syncTcalInput();
