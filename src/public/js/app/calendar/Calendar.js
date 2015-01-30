@@ -135,23 +135,42 @@ this.groups=[];
         //handleWindowResize:true,
         //fixedWeekCount:false,
         eventMouseover:function(event, jsEvent, view){
-            //event.backgroundColor='#004';
-            //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+            function toFormat(number){
+                if((number+'').length!=2){
+                    number='0'+number;
 
+                }
+                return number;
+            }
             if(!event.deleted) {
                 self.jqueryObject.tooltip.tooltipTitle.text(event.title);
-                self.jqueryObject.tooltip.tooltipStart.text(event.start._i);
+
+
+
                 var dateEnd = new Date(event.end);
-                var minutes = dateEnd.getMinutes();
-                if ((minutes + '').length != 2) {
-                    minutes = '0' + minutes;
-                }
+                var dateStart = new Date(event.start);
+                var minutesEnd = dateEnd.getMinutes();
+                var month = dateStart.getMonth()+1;
+                var date = dateStart.getDate();
+                var hourStart = dateStart.getHours();
+                var minutesStart = dateStart.getMinutes();
                 var hour = dateEnd.getHours();
-                if ((hour + '').length != 2) {
-                    hour = '0' + hour;
-                }
-                self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutes);
+
+                month=toFormat(month);
+                date=toFormat(date);
+                hourStart=toFormat(hourStart);
+                minutesEnd=toFormat(minutesEnd);
+                minutesStart=toFormat(minutesStart);
+                hour=toFormat(hour);
+
+                dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' '+hourStart+':'+minutesStart;
+
+
+                self.jqueryObject.tooltip.tooltipStart.text(dateStart);
+
+                self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutesEnd);
                 self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
+
 
                 var XX= jsEvent.offsetX||0;
                 var YY=jsEvent.offsetY||0;
@@ -169,7 +188,6 @@ this.groups=[];
                 });
                 self.jqueryObject.tooltip.tooltip.show();
             }
-
 
 
         },
