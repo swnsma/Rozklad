@@ -113,7 +113,7 @@ function Calendar_teacher(){
         //if (isEmpty(blockGroup))
         //{
             for(var i=0;i<groups.length;i++){
-                blockGroup.append($("<p>"+ groups[i].name+"</p>"));
+                blockGroup.append($("<div>"+ groups[i].name+"</div>"));
             }
         //}}
         idUpdate=calEvent.id;
@@ -188,7 +188,7 @@ function Calendar_teacher(){
                 success: function(response){
                     if(response=='ok'){
                        originalEvent.group.push(self.groups[ii]);
-                        self.jqueryObject.popup.groupsBlock.append($("<p>"+self.groups[ii].name+"</p>"));
+                        self.jqueryObject.popup.groupsBlock.append($("<div>"+self.groups[ii].name+"</div>"));
                     }
                 },
                 error: function(er) {
