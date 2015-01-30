@@ -6,7 +6,7 @@
 .description
 {
     font-size: 14px;
-    height: 200px;
+    margin-bottom: 20px;
 }
 .inline
 {
@@ -23,7 +23,10 @@
     font-size: inherit;
     color: inherit;
 }
-
+.dismissButton
+{
+    margin-top: 20px;
+}
 
 
 .groupList h3
@@ -43,4 +46,12 @@ display: inline-block;
 }
 .panel-body{
     display: none;
+}
+.groupList h4
+{
+    display: inline-block;
+}
+.userCard
+{
+   margin-top: 20px;
 }

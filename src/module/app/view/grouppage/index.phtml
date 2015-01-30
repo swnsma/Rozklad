@@ -10,9 +10,7 @@
 <section class="container">
     <section class="description col-md-12">
         <h1 data-bind="text:groupName"></h1>
-        <h3 class="teacher">Куратор:</h3> <h3 data-bind="text:teacher" class="teacher"></h3>
-
-        <div data-bind="text:description">
+       <div data-bind="text:description">
         </div>
     </section>
 
@@ -20,29 +18,19 @@
     <section class="groupList">
 
 
-
-        <div class="col-md-12">
-
-            <h3 class="plus">Состав группы</h3>
-            <div class="panel panel-default sostav">
-                <table class="table table-hover" >
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Студент</th>
-
-                    </thead>
-                    <tbody data-bind="foreach: students">
-                    <tr>
-                        <td data-bind="text:user_id"></td>
-                        <td data-bind="text:name"></td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-12" data-bind="foreach: students">
+            <div class=" col-md-5 userCard" >
+                <a  class="" >
+                    <img height="50" width="50" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/p160x160/10945013_1375662186077361_112523426557169887_n.jpg?oh=dd6fa103c6056b11e99416de0e6d3a6f&oe=556D91EC&__gda__=1433109605_5193aaccc3f481d08447d98b0e226592">
+                <h4 class="list-group-item-heading"  data-bind="text:name"></h4>
+                </a>
             </div>
         </div>
 
+
     </section>
+
+
     <div class="col-md-12">
     <?php if (GroupPage::$role == 'teacher'): ?>
         <a href="#" class="btn btn-default dismissButton">Распустить группу</a>
@@ -51,57 +39,7 @@
         <a href="#" class="btn btn-default dismissButton">Покинуть группу</a>
     <?php endif; ?>
     </div>
-    <section class="schedule">
 
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Расписание</h3>
-                    <div class="pull-right">
-							<span class="clickable filter panel-title" data-toggle="tooltip" title="Toggle table filter" data-container="body">
-								<i class="glyphicon glyphicon-filter">Фильтр</i>
-							</span>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <input type="text" class="form-control" id="task-table-filter2" data-action="filter" data-filters="#task-table" placeholder="Поиск" />
-                </div>
-                <table class="table table-hover" id="task-table">
-                    <thead>
-                    <tr>
-                        <th>Занятие</th>
-                        <th>Преподаватель</th>
-                        <th>Дата проведения</th>
-
-
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>верстка</td>
-                        <td>Андрей Дребот</td>
-                        <td>уаф</td>
-                    </tr>
-                    <tr>
-                        <td>html</td>
-                        <td>Славик</td>
-                        <td>фвавыфа</td>
-                    </tr>
-                    <tr>
-                        <td>UE</td>
-                        <td>Артем</td>
-                        <td>вфыавы</td>
-                    </tr>
-                    <tr>
-                        <td>Algorithms</td>
-                        <td>Какойто чувак</td>
-                        <td>афвыаывафы</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </section>
 
 </section>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
