@@ -14,6 +14,9 @@ function Calendar_teacher(){
     Calendar.call(this);
 
     var currentUser;
+    function isEmpty( el ){
+        return !$.trim(el.html())
+    }
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
@@ -56,7 +59,7 @@ function Calendar_teacher(){
         self.jqueryObject.popup.start.minutes.val('00');
         self.jqueryObject.popup.end.hour.val('16');
         self.jqueryObject.popup.end.minutes.val('00');
-        self.jqueryObject.popup.typeAction.text('Создать событие');
+        //self.jqueryObject.popup.typeAction.text('Создать событие');
         self.jqueryObject.popup.button.submit.text('Создать');
         action = masAction[0];
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
@@ -101,8 +104,17 @@ function Calendar_teacher(){
         self.jqueryObject.popup.start.minutes.val(calEvent.start._d.getMinutes());
         self.jqueryObject.popup.end.hour.val(calEvent.end._d.getHours());
         self.jqueryObject.popup.end.minutes.val(calEvent.end._d.getMinutes());
-        self.jqueryObject.popup.typeAction.text('Редактировать');
+        //self.jqueryObject.popup.typeAction.text('Редактировать');
         self.jqueryObject.popup.button.submit.text('Сохранить');
+        var blockGroup=self.jqueryObject.popup.groupsBlock;
+        var groups = calEvent.group;
+
+        if (isEmpty(blockGroup))
+        {
+            for(var i=0;i<groups.length;i++){
+                blockGroup.append($("<p>"+ groups[i].name+"</p>"));
+            }
+        }
         idUpdate=calEvent.id;
         originalEvent=calEvent;
         orig2=calEvent;
@@ -129,9 +141,7 @@ function Calendar_teacher(){
             "top":y1,
             "left":x1,
             "display":"block"});
-        function isEmpty( el ){
-            return !$.trim(el.html())
-        }
+
         if (isEmpty(block))
         {
             for(i=0;i<self.groups.length;i++){
@@ -142,7 +152,7 @@ function Calendar_teacher(){
        self.initGroupClick();
 
         }
-    })
+    });
 
 
     this.option.getCurrentUser=function(){
@@ -218,7 +228,8 @@ function Calendar_teacher(){
 
             }
         });
-    }
+    };
+
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
@@ -235,6 +246,7 @@ function Calendar_teacher(){
                 }
             })
         }
+        focusDelete(this.jqueryObject.popup.typePopup);
         focusDelete(this.jqueryObject.popup.day.day);
         focusDelete(this.jqueryObject.popup.day.month);
         focusDelete(this.jqueryObject.popup.day.year);
@@ -459,6 +471,11 @@ function Calendar_teacher(){
                 dataType: 'json',
                 success: function(id){
                     if(action===masAction[0]) {
+                        self.masEvent.push({id: id.id,
+                            title: title,
+                            start: startFun(),
+                            end: endFun(),
+                            allDay: false});
                         self.jqueryObject.calendar.fullCalendar('renderEvent', {
                             id: id.id,
                             title: title,
@@ -469,11 +486,7 @@ function Calendar_teacher(){
                             name: currentUser.name,
                             surname: currentUser.surname
                         });
-                        self.masEvent.push({id: id.id,
-                            title: title,
-                            start: startFun(),
-                            end: endFun(),
-                            allDay: false});
+
                     }else{
                         originalEvent.id=idUpdate;
                         originalEvent.title=title;
@@ -503,12 +516,12 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
+                    //self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
                     originalEvent.title='Возобновить';
                     originalEvent.backgroundColor='#999';
                     //originalEvent.borderColor='#999';
                     originalEvent.deleted=true;
-
+                    debugger;
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },
                 error: function(er) {
