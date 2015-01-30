@@ -30,7 +30,7 @@ class Bootstrap {
             Login::$status=$hasUser;
         }
         if(($hasUser=='not'||$hasUser=='regist')&&($controller.''!='login')&&($controller.''!='check')){
-            header("Location:http://custom.l/src/app/login");
+            header("Location:http://custom.l:83/src/app/login");
             exit;
         }
         if(($controller.''==='check')&&($action=="check")){
