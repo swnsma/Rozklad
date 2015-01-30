@@ -109,3 +109,20 @@ body{
 .add_group{
     cursor:pointer;
 }
+.lessonGroup{
+    heigth:10px;
+    display: inline-block;
+    background-color: #4da309;
+    margin-left: 3px;
+    color:white;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.deleteGroup{
+    width:10px;
+    cursor: pointer;
+    color:white;
+    margin-left: 5px;
+    border: 1px solid white;
+    display: inline;
+}

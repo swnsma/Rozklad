@@ -1,10 +1,10 @@
-
-<link rel="stylesheet" type="text/css" href="<?php print URL; ?>public/css/common/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="<?php print URL; ?>public/css/groups/groups.css">
+<?php if ($data['status'] == 1): ?>
+<a href="<?php print URL; ?>app/create_group">створити групу</a>
+<?php endif; ?>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 width-list">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Групи</h3>
@@ -19,7 +19,6 @@
                 </div>
                 <table class="table table-hover" id="task-table">
                     <thead>
-
                     <tr>
                         <th>#</th>
                         <th>Група</th>
@@ -28,13 +27,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- list -->
+                    <?php $i = 1; foreach ($data['groups'] as $group) : ?>
+                    <tr>
+                        <td><?php print $i; ?></td>
+                        <td><a href="#/<?php print $group['group_id'] ?>'"><?php print $group['name'] ?></a></td>
+                        <td><?php print $group['teacher_name'] ?></td>
+                        <td>дата</td>
+                    </tr>
+                    <?php $i++; endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-<script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
 <script src="<?php print URL; ?>public/js/app/groups/groups.js"></script>

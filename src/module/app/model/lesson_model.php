@@ -33,12 +33,11 @@ INNER JOIN User as u ON
 l.teacher = u.id
 where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
-
+//
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            for($i=0;$i<count($var[0]);$i++){
-                $var[$i]["groups"]=$this->getAllGroupsForThisLesson($var[$i]['id']);
+            for($i=0;$i<count($var);$i++){
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
-//            print_r($var);
             return $var;
         } catch(PDOException $e) {
             echo $e->getMessage();
@@ -177,12 +176,26 @@ TANIA;
         }
     }
 
-    public function addGroupToLesson($lessonId,$groupId){
+    public function addGroupToLesson($lessonId,$groupId){ 
         try {
             $request = <<<BORIA
             insert into group_lesson(group_id,lesson_id)values('$groupId','$lessonId')
 BORIA;
 
+            $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+//            echo $var;
+            return "ok";
+
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+    public function deleteGroupFromLesson($lessonId,$groupId){
+        try {
+            $request = <<<BORIA
+            delete from group_lesson where group_id='$groupId' AND lesson_id='$lessonId'
+BORIA;
             $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
 //            echo $var;
             return "ok";

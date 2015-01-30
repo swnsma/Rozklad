@@ -51,7 +51,7 @@ HERE;
         try{
         $r = <<<HERE
         SELECT
-            `user`.`id` as user_id,
+            `user`.`fb_id` as user_id,
             `user`.`name` as name,
             `user`.`surname` as surname
         FROM `student_group`, `user`
