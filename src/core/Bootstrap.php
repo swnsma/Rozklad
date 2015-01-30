@@ -10,7 +10,10 @@ class Bootstrap {
         $module = $request->getModule();
         $check = new Check;
         $_SESSION["name"]="name1";
-        $hasUser=$check->check();
+        $hasUser="ok";
+        if(!$_SESSION["idFB"]||$controller=='login') {
+            $hasUser = $check->check();
+        }
         $this->dispatch($hasUser,$controller,$action);
         $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
