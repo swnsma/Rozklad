@@ -20,7 +20,14 @@ $('#create').click(function() {
         descr: descr
     }, {
         success: function(response) {
-            console.log(response);
+            if (response.status == 'group_create') {
+                $('#linkNewOnGroup').text(url + 'grouppage/' + response.id);
+                $('#groupInvite').text('invite' + response.key);
+                $('#afterCreate').css('display', 'block');
+                $('#formCreate').css('display', 'none')
+            } else {
+                alert(response.status);
+            }
         },
         error: function() {
             alert('error');
