@@ -134,9 +134,9 @@ function Calendar_teacher(){
 
         //if (isEmpty(blockGroup))
         //{
-            for(var i=0;i<groups.length;i++){
-                blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
-            }
+        //    for(var i=0;i<groups.length;i++){
+        //        blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
+        //    }
         //}}
         $(".deleteGroup").on("click",function(){
             var id=+$(this).attr("id_g");
@@ -584,9 +584,18 @@ function Calendar_teacher(){
                 success: function(id){
                     //self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
                     originalEvent.title='Возобновить';
-                    originalEvent.backgroundColor='#999';
-                    //originalEvent.borderColor='#999';
+                    originalEvent.backgroundColor='#fff';
+                    originalEvent.textColor='#000';
+                    originalEvent.borderColor='#fff';
                     originalEvent.deleted=true;
+                    originalEvent.allDay=true;
+
+                    for(var i =0;i<self.masEvent.length;++i){
+                        if(+self.masEvent[i].id===+originalEvent.id){
+                            self.masEvent[i].deleted=true;
+                            break;
+                        }
+                    }
 
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },

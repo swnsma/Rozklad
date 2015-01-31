@@ -26,8 +26,16 @@ function Calendar(){
                 dataType: 'json',
                 success: function(date){
                     for(var i=0;i<date.length;++i){
-                        v = false;
                         if((+date[i].status)===2&&date[i].teacher===currentUser.id){
+                            for(var j=0;j<self.masEvent.length;++j){
+                                if(date[i].id===self.masEvent[j].id){
+                                    if(self.masEvent[j].deleted){
+                                        break;
+                                    }else{
+                                        self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
+                                    }
+                                }
+                            }
                             continue;
                         }
                         if((+date[i].status)===2) {
