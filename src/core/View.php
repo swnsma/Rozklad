@@ -16,14 +16,16 @@ class View{
     }
 
     function renderAllHTML($page, $data = null, $files = array()) {
-        $this->renderHtml('common/head');
+        require_once FILE . 'module/app/model/user_model.php';
+        $user = (new UserModel)->getInfo($_SESSION['idFB'])[0];
+        $header_data['name'] = $user['name'] . ' ' . $user['surname'];
+        $header_data['status'] = $user['role_id'];
+        $header_data['photo'] = 'http://graph.facebook.com/'.$user['fb_id'] . '/picture?type=large';
         $header_data['title'] = isset($data['title']) ? $data['title'] : 'default title';
         $header_data['files'] = $files;
-        $header_data['name'] = 23;
         $this->renderHtml('common/header', $header_data);
         $this->renderHtml($page, $data);
         $this->renderHtml('common/footer');
-        $this->renderHtml('common/foot');
     }
 }
 

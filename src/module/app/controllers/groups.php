@@ -14,15 +14,9 @@ class Groups extends Controller {
         $data['photo']="http://graph.facebook.com/".$user_info['fb_id']."/picture?type=large";
         $data['status'] = 1; //$user_info['role_id']; //$user_info[0]['role_id'];
         $data['name'] = 'name';
-
         $data['groups'] = $this->model->getList();
-        $this->view->renderHtml('common/head');
-        $this->view->renderHtml('common/header', $data);
-        $this->view->renderHtml('groups/index', $data);
-        $this->view->renderHtml('common/footer');
-        $this->view->renderHtml('common/foot');
-        /*$this->view->renderAllHTML('groups/index',
-            array('common/bootstrap.css',
-                'groups/groups.css'), $data);*/
+        $this->view->renderAllHTML('groups/index',
+            $data,
+            array('groups/groups.css'));
     }
 }
