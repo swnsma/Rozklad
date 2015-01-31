@@ -13,10 +13,11 @@ function Calendar_teacher(){
     var action = masAction[0];
 
     var idUpdate=0;
-    var originalEvent='';
+    var originalEvent=''; //останій івент на який було натиснуто
     var orig2='';
     var self=this;
     var lastDate;
+    var lasSelecrDay;
     Calendar.call(this);
 
     var currentUser;
@@ -42,6 +43,9 @@ function Calendar_teacher(){
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
+            lasSelecrDay.css({
+                'backgroundColor':'RGBA(0,0,0,0)'
+            });
             //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
             f_tcalCancel();
             return 1;
@@ -69,6 +73,7 @@ function Calendar_teacher(){
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){
+
             return;
         }
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
@@ -87,6 +92,10 @@ function Calendar_teacher(){
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
+        $(this).css({
+            'backgroundColor':'#bce8f1'
+        });
+        lasSelecrDay= $(this);
         posPopup(allDay);
     };
 
@@ -134,10 +143,11 @@ function Calendar_teacher(){
 
         //if (isEmpty(blockGroup))
         //{
-            for(var i=0;i<groups.length;i++){
-                blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
-            }
+        //    for(var i=0;i<groups.length;i++){
+        //        blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
+        //    }
         //}}
+        originalEvent=calEvent;
         $(".deleteGroup").on("click",function(){
             var id=+$(this).attr("id_g");
             var urls = url + 'app/calendar/deleteGroupFromLesson/'+originalEvent.id+"/"+id;
@@ -162,7 +172,7 @@ function Calendar_teacher(){
             });
         });
         idUpdate=calEvent.id;
-        originalEvent=calEvent;
+
         orig2=calEvent;
         action = masAction[1];
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
@@ -584,9 +594,18 @@ function Calendar_teacher(){
                 success: function(id){
                     //self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
                     originalEvent.title='Возобновить';
-                    originalEvent.backgroundColor='#999';
-                    //originalEvent.borderColor='#999';
+                    originalEvent.backgroundColor='#fff';
+                    originalEvent.textColor='#000';
+                    originalEvent.borderColor='#fff';
                     originalEvent.deleted=true;
+                    originalEvent.allDay=true;
+
+                    for(var i =0;i<self.masEvent.length;++i){
+                        if(+self.masEvent[i].id===+originalEvent.id){
+                            self.masEvent[i].deleted=true;
+                            break;
+                        }
+                    }
 
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },

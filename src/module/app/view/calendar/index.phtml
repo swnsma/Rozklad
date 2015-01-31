@@ -13,6 +13,7 @@
     <?php if ($data == 'teacher'): ?>
         <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
         <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
+        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
     <?php endif; ?>
 </head>
 <body>
@@ -23,7 +24,6 @@
     <div class="time">
     <span id="tooltipStart">start</span>-<span id="tooltipEnd">end</span>
     </div>
-
 </div>
 
 <?php if ($data == 'teacher'): ?>
@@ -73,7 +73,10 @@
             </div>
         </form>
     </div>
-    <div id="group_block" class="group_block popup" >
+    <div id="group_block" class="group_block popup" > </div>
+
+    <div class="popup edit" id="popupEdit">
+        <
     </div>
 <?php endif; ?>
 
