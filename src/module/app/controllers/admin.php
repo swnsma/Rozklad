@@ -16,7 +16,7 @@ class Admin extends Controller {
     }
 
     public function index() {
-        $user = $this->model->getCurrentUser();
+        /*$user = $this->model->getCurrentUser();
         $data = [];
         $data['name']=$user["name"].' '.$user["surname"];
         $data['status']=$user["role_id"];
@@ -26,7 +26,8 @@ class Admin extends Controller {
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('admin/admin_page');
         $this->view->renderHtml('common/footer');
-        $this->view->renderHtml('common/foot');
+        $this->view->renderHtml('common/foot');*/
+        $this->view->renderAllHTML('admin/admin_page');
     }
 
     public function getUnconfirmedUsers(){
