@@ -150,7 +150,6 @@ function Calendar_teacher(){
                 success: function(response){
                     if(response=='ok'){
                         if(ii!=-1) {
-                            debugger;
                             originalEvent.group.remove(findGroupIndexById(originalEvent,id));
                             that.parent().remove();
                         }
@@ -360,7 +359,6 @@ function Calendar_teacher(){
         $(document).on('click',function(event){
             var target=event.target;
             var bool=false;
-            debugger;
             while(target.tagName!=='BODY') {
                 if (target.className === "fc-day-grid-container"||target.className === "popup"||target.id==='group_block'||target.id==='tcal') {
                     bool = true;
