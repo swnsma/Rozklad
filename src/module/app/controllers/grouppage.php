@@ -54,7 +54,7 @@ class GroupPage extends Controller {
     public function sendUsers(){
         $req=Request::getInstance();
         $id=$req->getParam(0);
-        $var=$this->model->loadUsers();
+        $var=$this->model->loadUsers($id);
 
         $this->view->renderJson($var);
     }

@@ -17,7 +17,6 @@ function ViewModel() {
                 var student = new Student(response[i]);
                 that.students.push(student)
             }
-           console.log(that.students())
         });
 
 
