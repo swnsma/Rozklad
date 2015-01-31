@@ -10,7 +10,7 @@ abstract class Controller {
         if (file_exists($path)) {
             require_once $path;
             $modelName = ucfirst($name) . 'Model';
-            return $modelName::getInstance();
+            return new $modelName;//::getInstance();
         }
         return null;
     }

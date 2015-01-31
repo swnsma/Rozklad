@@ -1,0 +1,13 @@
+.bold {
+    font-weight: bold;
+}
+
+.container {
+    width: 700px;
+    margin: 0 auto;
+}
+
+.afterCreate {
+    display: none;
+}
+

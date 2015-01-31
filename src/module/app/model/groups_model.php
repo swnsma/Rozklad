@@ -24,4 +24,33 @@ HERE;
         }
     }
 
+    private function createInviteCode() {
+        return '123sdsd4567dssfd7';
+    }
+
+    public function createGroup($teacher_id, $name, $descr) {
+        try {
+            $query = <<<HERE
+            INSERT INTO `groups`
+                (`name`, `teacher_id`, `description`, `invite_code`)
+            VALUES
+                (:name, :id, :descr, :invite)
+HERE;
+            $invite = $this->createInviteCode();
+            $request = $this->db->prepare($query);
+            $result = $request->execute(array(
+               ':name' => $name,
+               ':id' => $teacher_id,
+                'descr' => $descr,
+                ':invite' => $invite
+            ));
+            if ($request && $request->rowCount() > 0) {
+                return array(
+                    'key' => $invite,
+                    'id' => $this->db->lastInsertId()
+                );
+            }
+        } catch(PDOException $e) {}
+        return null;
+    }
 }

@@ -13,3 +13,8 @@ body {
 .display-none {
     display: none;
 }
+
+a {
+    color: #337AB7;
+    text-decoration: none;
+}
