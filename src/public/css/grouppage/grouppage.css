@@ -53,6 +53,5 @@ display: inline-block;
 }
 .userCard
 {
-    display: inline-block;
-    width: 300px;
+   margin-top: 20px;
 }
