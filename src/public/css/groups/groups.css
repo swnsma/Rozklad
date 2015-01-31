@@ -17,6 +17,28 @@
 }
 
 .width-list {
+    width: 800px;
     margin: 0 auto;
-    width: 700px;
+}
+
+.container {
+    width: 900px;
+    margin: 0 auto;
+}
+
+th.number {
+    width: 20px;
+}
+
+th.name {
+    width: 200px;
+}
+
+th.teacher {
+    width: 200px;
+}
+
+
+th.next-lesson {
+    width: 100px;
 }

@@ -1,10 +1,7 @@
-<link rel="stylesheet" href="<?php print URL; ?>public/css/groups.css"/>
-
-<?php if ($data['status'] == 1): ?>
-<a href="<?php print URL; ?>app/create_group">створити групу</a>
-<?php endif; ?>
-
 <div class="container">
+    <?php if ($data['status'] == 1): ?>
+        <a href="<?php print URL; ?>app/creategroup">створити групу</a>
+    <?php endif; ?>
     <div class="row">
         <div class="col-md-6 width-list">
             <div class="panel panel-success">
@@ -22,10 +19,10 @@
                 <table class="table table-hover" id="task-table">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Група</th>
-                        <th>Вчитель</th>
-                        <th>Наступне заняття</th>
+                        <th class="number">#</th>
+                        <th class="name">Група</th>
+                        <th class="teacher">Вчитель</th>
+                        <th class="next-lesson">Наступне заняття</th>
                     </tr>
                     </thead>
                     <tbody>
