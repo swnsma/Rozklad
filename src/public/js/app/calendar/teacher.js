@@ -304,59 +304,73 @@ function Calendar_teacher(){
 
     //функція яка відповідає за поведення popup
     this.click_body = function(){
-        $(document).click(function(event){
-            ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
-            //говноКоДЭ
+        //$(document).click(function(event){
+        //    debugger;
+        //    ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
+        //    //говноКоДЭ
+        //    var bool=false;
+        //    var target= event.target;
+        //    if(target.className==='fc-more'){
+        //        bool = false;
+        //    }else{
+        //        if(event.target.id==='popup'||event.target.id==='tcal'|| event.target.id==='tcalNextMonth'||
+        //            event.target.id==='tcalPrevMonth'){
+        //            bool=true;
+        //        }else{
+        //            var teg=$(event.target).parents('#popup')[0];
+        //            if(teg){
+        //                bool=true;
+        //            }
+        //            teg=$(event.target).parents(".fc-content-skeleton")[0];
+        //            if(teg){
+        //                bool=true;
+        //            }
+        //            teg=$(event.target).parents("#tcal")[0];
+        //            if(teg){
+        //                bool=true;
+        //            }
+        //        }
+        //    }
+        //    if(!bool){
+        //        var classList = $(event.target)[0].classList;
+        //        for (var i = 0; i < classList.length; ++i) {
+        //            if (classList[i] === 'fc-day' || classList[i] === 'fc-day-number'||classList[i]==='fc-event-container') {
+        //                bool = true;
+        //
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    if(!bool&&event.target.id!=="group_block"&&event.target.id!=="group"&&!$(event.target).hasClass("group")) {
+        //        $('#popup').hide();
+        //
+        //        //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
+        //        f_tcalCancel();
+        //    }
+        //
+        //    if(event.target.id!=="add_group"&&event.target.id!=="group_block"&&!$(event.target).hasClass("group")){
+        //        $("#group_block").hide();
+        //    }
+        //
+        //    if(self.jqueryObject.popup.popup.css('display')==='none'){
+        //
+        //
+        //    }
+        //});
+        $(document).on('click',function(event){
+            var target=event.target;
             var bool=false;
-            var target= event.target;
-            if(target.className==='fc-more'){
-                bool = false;
-            }else{
-                if(event.target.id==='popup'||event.target.id==='tcal'|| event.target.id==='tcalNextMonth'||
-                    event.target.id==='tcalPrevMonth'){
-                    bool=true;
-                }else{
-                    var teg=$(event.target).parents('#popup')[0];
-                    if(teg){
-                        bool=true;
-                    }
-                    teg=$(event.target).parents(".fc-content-skeleton")[0];
-                    if(teg){
-                        bool=true;
-                    }
-                    teg=$(event.target).parents("#tcal")[0];
-                    if(teg){
-                        bool=true;
-                    }
+            debugger;
+            while(target.tagName!=='BODY') {
+                if (target.className === "fc-day-grid-container"||target.className === "popup"||target.id==='group_block'||target.id==='tcal') {
+                    bool = true;
+                    break;
+                } else {
+                    target = target.parentElement;
                 }
             }
             if(!bool){
-                var classList = $(event.target)[0].classList;
-                for (var i = 0; i < classList.length; ++i) {
-                    if (classList[i] === 'fc-day' || classList[i] === 'fc-day-number'||classList[i]==='fc-event-container') {
-                        bool = true;
-
-                        break;
-                    }
-                }
-            }
-            if(!bool&&event.target.id!=="group_block"&&event.target.id!=="group"&&!$(event.target).hasClass("group")) {
-                $('#popup').hide();
-
-                //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
-                f_tcalCancel();
-            }
-
-            if(event.target.id!=="add_group"&&event.target.id!=="group_block"&&!$(event.target).hasClass("group")){
-
-
-
-                $("#group_block").hide();
-            }
-
-            if(self.jqueryObject.popup.popup.css('display')==='none'){
-
-
+                delPopup();
             }
         });
 
