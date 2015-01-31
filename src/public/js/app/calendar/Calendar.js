@@ -124,7 +124,7 @@ this.groups=[];
     var year= date.getFullYear();
 
     this.option={
-        selectable:true,
+        //selectable:true,
         //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {

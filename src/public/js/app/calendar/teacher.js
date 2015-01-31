@@ -13,10 +13,11 @@ function Calendar_teacher(){
     var action = masAction[0];
 
     var idUpdate=0;
-    var originalEvent='';
+    var originalEvent=''; //останій івент на який було натиснуто
     var orig2='';
     var self=this;
     var lastDate;
+    var lasSelecrDay;
     Calendar.call(this);
 
     var currentUser;
@@ -42,6 +43,9 @@ function Calendar_teacher(){
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
+            lasSelecrDay.css({
+                'backgroundColor':'RGBA(0,0,0,0)'
+            });
             //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
             f_tcalCancel();
             return 1;
@@ -69,6 +73,7 @@ function Calendar_teacher(){
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){
+
             return;
         }
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
@@ -87,6 +92,10 @@ function Calendar_teacher(){
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
         f_tcalCancel();
 
+        $(this).css({
+            'backgroundColor':'#bce8f1'
+        });
+        lasSelecrDay= $(this);
         posPopup(allDay);
     };
 
@@ -138,6 +147,7 @@ function Calendar_teacher(){
         //        blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
         //    }
         //}}
+        originalEvent=calEvent;
         $(".deleteGroup").on("click",function(){
             var id=+$(this).attr("id_g");
             var urls = url + 'app/calendar/deleteGroupFromLesson/'+originalEvent.id+"/"+id;
@@ -162,7 +172,7 @@ function Calendar_teacher(){
             });
         });
         idUpdate=calEvent.id;
-        originalEvent=calEvent;
+
         orig2=calEvent;
         action = masAction[1];
         //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
