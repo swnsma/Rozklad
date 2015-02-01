@@ -33,6 +33,17 @@ INNER JOIN User as u ON
 l.teacher = u.id
 where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
+
+$id=$_SESSION['id'];
+            $request1=<<<BORIA
+select l.title from user as u
+inner join student_group as ug on ug.student_id=u.id
+inner join groups as g on ug.group_id=g.id
+inner join group_lesson as gl on g.id=gl.group_id
+inner join lesson as l on gl.lesson_id=l.id
+where u.id='$id' AND (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
+group by l.title
+BORIA;
 //
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
