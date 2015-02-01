@@ -29,7 +29,7 @@
                     <?php $i = 1; foreach ($data['groups'] as $group) : ?>
                     <tr>
                         <td><?php print $i; ?></td>
-                        <td><a href="#/<?php print $group['group_id']; ?>'"><?php print $group['name']; ?></a></td>
+                        <td><a href="#/<?php print $group['group_id']; ?>"><?php print $group['name']; ?></a></td>
                         <td><?php print $group['teacher_name']; ?></td>
                         <td><?php print $group['next_lesson']; ?></td>
                     </tr>
@@ -40,6 +40,5 @@
         </div>
     </div>
 </div>
-
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
 <script src="<?php print URL; ?>public/js/app/groups/groups.js"></script>
