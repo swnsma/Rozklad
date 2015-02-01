@@ -9,16 +9,7 @@ class Bootstrap {
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
-
-
-        if(!isset($_SESSION["idFB"])||$controller=='login') {
-//            echo $_SESSION["idFB"];
-            $hasUser="ok";
-            $check = new Check;
-            $hasUser = $check->check();
-            $this->dispatch($hasUser,$controller,$action);
-        }
-
+        $this->checkRoute($controller);
         $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
@@ -29,22 +20,32 @@ class Bootstrap {
         }
         $c->run($request->getAction());
     }
-    private function dispatch($hasUser,$controller,$action){
-        require_once FILE .'module/app/controllers/login.php';
-        if($controller=="login"){
-            Login::$status=$hasUser;
-        }
-        if(($hasUser=='not'||$hasUser=='regist')&&($controller.''!='login')&&($controller.''!='check')){
-            header("Location:http://custom.l:83/src/app/login");
+
+    protected function checkController($controller){
+        return
+            $controller=='calendar'||
+            $controller=='grouppage'||
+            $controller=='admin';
+    }
+    protected function checkRoute($controller){
+        if((!(isset($_SESSION['fb_ID'])&&$_SESSION['fb_ID']&&!(empty($_SESSION['fb_ID'])))&&
+                (!(isset($_SESSION['gm_ID'])&&$_SESSION['gm_ID']&&!(empty($_SESSION['gm_ID'])))))
+            &&($this->checkController($controller))
+        )
+        {
+            header("Location:".URL."app/signin");
             exit;
         }
-        if(($controller.''==='check')&&($action=="check")){
-            echo $hasUser.''?$hasUser.'':'0';
+
+        if(((isset($_SESSION['fb_ID'])&&$_SESSION['fb_ID']&&!(empty($_SESSION['fb_ID'])))||
+                (isset($_SESSION['gm_ID'])&&$_SESSION['gm_ID']&&!(empty($_SESSION['gm_ID']))))&&
+            $controller==='signin'
+        )
+        {
+            header("Location:".URL."app/calendar");
             exit;
-        }
-        if($hasUser=="ok"&&($controller.''=='login')){
-            header("Location:http://custom.l/src/app/calendar");
         }
     }
+
 }
 ?>

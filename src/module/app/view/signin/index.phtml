@@ -6,22 +6,22 @@
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/start-page.css" />
 </head>
 <body>
-<?php if (Login::$status == "not"):?>
+<?php if ($data == "not"):?>
     <section class="logIn" id="signIn">
         <h1>Расписание</h1>
         <div class="signin" id="signIn">
             <h2>Выберите способ входа</h2>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="#" class="btn btn-primary">
+                    <a href="http://localhost/src/app/loging/login" class="btn btn-primary">
                         <div class="text">Вход через Google+</div>
                     </a>
-                    <a href="#" id='fbLogin' class="btn btn-info">
+                    <a href="http://localhost/src/app/loginf/login"  class="btn btn-info">
                         <div class="text">Вход через Facebook</div>
                     </a >
-                    <!--                <a href="#" id='fbLogout' class="btn btn-info">-->
-                    <!--                    <div class="text">Logout</div>-->
-                    <!--                </a >-->
+                    <a href="#" id='fbLogout' class="btn btn-info">
+                        <div class="text">Logout</div>
+                    </a >
                     <!--                <a href="#" id='check' class="btn btn-info">-->
                     <!--                    <div class="text">Check</div>-->
                     <!--                </a >-->
@@ -58,7 +58,7 @@
         -->
     </section>
 <?php endif; ?>
-<?php if (Login::$status == 'regist'):?>
+<?php if ($data == 'regist'):?>
     <section class="form" id="regist" action="http://schedule.com/src/app/regist">
         <form class="form-horizontal">
             <fieldset>
@@ -109,7 +109,7 @@
     </section>
 <?php endif; ?>
 
-<script src="https://apis.google.com/js/client:platform.js"></script>
+<!--<script src="https://apis.google.com/js/client:platform.js"></script>-->
 <script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
