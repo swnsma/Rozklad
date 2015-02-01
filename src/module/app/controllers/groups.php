@@ -20,6 +20,7 @@ class Groups extends Controller {
     public function create() {
         $data['title'] = 'Create Group';
         $status = 1; //$$this->user_info['role_id'];
+
         if ($status == 1) {
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
             $this->view->renderAllHTML('groups/creategroup',
