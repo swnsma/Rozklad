@@ -36,7 +36,7 @@ TANIA;
 
 $id=$_SESSION['id'];
             $request1=<<<BORIA
-select l.title from user as u
+select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher from user as u
 inner join student_group as ug on ug.student_id=u.id
 inner join groups as g on ug.group_id=g.id
 inner join group_lesson as gl on g.id=gl.group_id
