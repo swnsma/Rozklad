@@ -16,19 +16,20 @@ function ModelRegist(){
             role:self.roleIndex()
         };
         $.ajax({
-                url: url + 'app/check/addUserFB/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+self.roleIndex()+'/',
+                url:'http://localhost/src/app/check/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
                 type:"GET",
                 success:function(response){
                     if(response==="registed") {
+                        $("#btn-success")
+                            .prop('disabled', false);
                         $("#success")
                             .toggle();
                         $("#regist")
                             .toggle();
-                        $("#btn-success")
-                            .prop('disabled', false);
+
                     }
                     else{
-                        alert("Невдало");
+                        alert(response);
                     }
 
                 },

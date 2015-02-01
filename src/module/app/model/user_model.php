@@ -11,11 +11,25 @@ class UserModel extends Model {
 
     }
 
-    public function getInfo($fb_id){
+    public function getInfoFB($fb_id){
         try {
             $request = <<<TANIA
 select * from user
-where fb_id=$fb_id
+where fb_id='$fb_id'
+TANIA;
+
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function getInfoGM($gm_id){
+        try {
+            $request = <<<TANIA
+            select * from user
+            where gm_id='$gm_id'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);

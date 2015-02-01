@@ -9,14 +9,26 @@
 Session::init();
 class Calendar extends Controller {
 
-    private $fb_id;
+    private $id;
+    private $gm_id;
     public $userInfo;
     private $role='teacher';
     public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('user');
-        $this->fb_id= $_SESSION['idFB'];
-        $this->userInfo=$this->model->getInfo($this->fb_id);
+        if($_SESSION['fb_ID']) {
+            $this->id = $_SESSION['fb_ID'];
+            $this->userInfo=$this->model->getInfoFB($this->id);
+        }
+        else{
+            if($_SESSION['gm_ID']){
+                $this->id= $_SESSION['gm_ID'];
+                $this->userInfo=$this->model->getInfoGM($this->id);
+            }
+            else {
+                exit;
+            }
+        }
         $this->role = $this->privateGetRole($this->userInfo[0]['role_id']);
     }
     public function getRole(){
@@ -25,9 +37,9 @@ class Calendar extends Controller {
     private function privateGetRole($role_id){
 //        echo $role_id;
         if($role_id=='1'){
-        return 'teacher';
-    }
-    else return 'student';
+            return 'teacher';
+        }
+        else return 'student';
     }
 
     public function getUserInfo(){
@@ -35,8 +47,9 @@ class Calendar extends Controller {
     }
     public function index() {
         $this->model = $this->loadModel('lesson');
-        $data = $this->getRole();
-//        echo $data;
+        $data['role'] = $this->getRole();
+        $data['fb_token']= "".$data['fb_token']=$_SESSION['fb_token'];
+        echo
         $this->view->renderHtml('calendar/index', $data);
     }
     public function addGroupToLesson(){
@@ -85,7 +98,7 @@ class Calendar extends Controller {
         $start=Request::getInstance()->getParam(0);
         $end=Request::getInstance()->getParam(1);
         $id=$this->model->getAllEvent($start,$end);
-       $this->view->renderJson($id);
+        $this->view->renderJson($id);
     }
     public function getGroups(){
         $request=Request::getInstance();

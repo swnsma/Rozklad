@@ -10,10 +10,9 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
 
-    <?php if ($data == 'teacher'): ?>
+    <?php if ($data ['role']== 'teacher'): ?>
         <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
         <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
-        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
     <?php endif; ?>
 </head>
 <body>
@@ -22,11 +21,13 @@
     <h3  id="tooltipTitle">Title</h3>
     <div class="author" id="tooltipAuthor">author</div>
     <div class="time">
-    <span id="tooltipStart">start</span>-<span id="tooltipEnd">end</span>
+        <span id="tooltipStart">start</span>-<span id="tooltipEnd">end</span>
     </div>
-</div>
 
-<?php if ($data == 'teacher'): ?>
+</div>
+<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>LogoutGM</a>
+<a href="https://www.facebook.com/logout.php?next=http://localhost/src/app/signin&access_token=<?php print $data['fb_token'];?>">LogoutFB</a>
+<?php if ($data['role'] == 'teacher'): ?>
     <div class='popup' id='popup'>
         <span id="resetLesson" class="popup-close"> </span>
         <div class='content'>
@@ -73,10 +74,7 @@
             </div>
         </form>
     </div>
-    <div id="group_block" class="group_block popup" > </div>
-
-    <div class="popup edit" id="popupEdit">
-        <
+    <div id="group_block" class="group_block popup" >
     </div>
 <?php endif; ?>
 
@@ -91,7 +89,7 @@
 <script src='<?php print URL; ?>public/js/app/calendar/RealTimeUpdate.js'></script>
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
-<?php if ($data == 'teacher'): ?>
+<?php if ($data['role'] == 'teacher'): ?>
 
     <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
