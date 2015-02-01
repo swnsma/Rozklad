@@ -28,10 +28,11 @@
 
 
     <div>
-        <?php if (GroupPage::$role == 'teacher'): ?>
-            <a href="#" class="btn btn-default dismissButton">Распустить группу</a>
+        <?php if ( $data['role'] == 'host'): ?>
+            <input type="text" class="form-control" id="inputName" >
+            <a href="#" class="btn btn-default dismissButton">Сгенерировать код</a>
         <?php endif; ?>
-        <?php if (GroupPage::$role == 'student'): ?>
+        <?php if ($data['role'] == 'student'): ?>
             <a href="#" class="btn btn-default dismissButton">Покинуть группу</a>
         <?php endif; ?>
     </div>
