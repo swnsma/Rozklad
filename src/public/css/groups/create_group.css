@@ -11,3 +11,23 @@
     display: none;
 }
 
+div.table {
+    height: 200px;
+    margin: 0 auto;
+}
+
+div.tr {
+    display: table-row;
+}
+
+div.td {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+div.h200 {
+    height: 200px;
+    width: 700px;
+}
+
