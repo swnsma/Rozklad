@@ -11,11 +11,11 @@ class GroupPage extends Controller {
         parent::__construct();
         $this->model = $this->loadModel('grouppage');
 
-        $id=1;
     }
 
     public function index() {
         $data = 'hi'; //викликаємо портрібні функції поделі
+        $this->model->setgID(1);
         $this->view->renderHtml('grouppage/index', $data);
     }
     public function delUser(){
@@ -77,11 +77,9 @@ class GroupPage extends Controller {
         $this->view->renderJson(Array($var));
     }
     public function inviteUser(){
-        //$model = $this->loadModel('user');
-        //$id=$_COOKIE['idFB'];
-        //$id=$model->getInfo($id)[0]['id'];
-
-        $id=4;
+        $model = $this->loadModel('user');
+        $id=$_COOKIE['idFB'];
+        $id=$model->getInfo($id)[0]['id'];
         $req=Request::getInstance();
         $code=$req->getParam(0);
         $error=$this->model->addUserToGroup($id, $code);

@@ -19,8 +19,10 @@ class Request {
             if (isset($url[1])) {
                 $this->controller = $url[1];
                 if (isset($url[2])) {
-                    $this->action = $url[2];
-                    $this->data = array_slice($url, 3);
+                    if(!preg_match("/id[0-9]+/", $url[2])){
+                        $this->action = $url[2];
+                        $this->data = array_slice($url, 3);
+                    }
                 }
             }
         }

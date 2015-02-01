@@ -6,7 +6,9 @@ function ViewModel() {
     that.students = ko.observableArray([]);
 
     that.activate = function () {
-        var groupId = window.location.hash.substr(1);
+        var groupId = window.location.pathname;
+        var pos=groupId.search(/id[0-9]+/);
+        groupId= +groupId.substr(pos+2, 2);
         api.getGroupInfo(groupId, function (response) {
             that.groupName(response.name);
             that.teacher(response.teacher);
@@ -18,13 +20,8 @@ function ViewModel() {
                 that.students.push(student)
             }
         });
-
-
-
     }
 }
-
-
 var viewModel = new ViewModel();
 viewModel.activate();
 
