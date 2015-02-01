@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 require_once 'conf/conf.php';
 require_once 'core/Bootstrap.php';
 require_once 'core/Controller.php';

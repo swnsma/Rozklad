@@ -1,6 +1,6 @@
 <div class="container">
     <?php if ($data['status'] == 1): ?>
-        <a href="<?php print URL; ?>app/groups/create">створити групу</a>
+        <a href="<?php echo URL; ?>app/groups/create">створити групу</a>
     <?php endif; ?>
     <div class="row">
         <div class="col-md-6 width-list">
@@ -28,10 +28,10 @@
                     <tbody>
                     <?php $i = 1; foreach ($data['groups'] as $group) : ?>
                     <tr>
-                        <td><?php print $i; ?></td>
-                        <td><a href="#/<?php print $group['group_id']; ?>"><?php print $group['name']; ?></a></td>
-                        <td><?php print $group['teacher_name']; ?></td>
-                        <td><?php print $group['next_lesson']; ?></td>
+                        <td><?php echo $i; ?></td>
+                        <td><a href="#/<?php echo $group['group_id']; ?>"><?php echo $group['name']; ?></a></td>
+                        <td><?php echo $group['teacher_name']; ?></td>
+                        <td><?php echo $group['next_lesson']; ?></td>
                     </tr>
                     <?php $i++; endforeach; ?>
                     </tbody>
@@ -40,5 +40,5 @@
         </div>
     </div>
 </div>
-<script src="<?php print URL; ?>public/js/app/common.js"></script>
-<script src="<?php print URL; ?>public/js/app/groups/groups.js"></script>
+<script src="<?php echo URL; ?>public/js/app/common.js"></script>
+<script src="<?php echo URL; ?>public/js/app/groups/groups.js"></script>

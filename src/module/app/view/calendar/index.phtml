@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>Calendar|Rozklad</title>
 
-    <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
-    <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
+    <link rel='stylesheet' href='<?php echo URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
+    <link rel='stylesheet' href='<?php echo URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
+    <link rel='stylesheet' href='<?php echo URL; ?>public/css/calendar/common.css'/>
+    <link rel='stylesheet' href='<?php echo URL; ?>public/css/common/bootstrap.css'/>
+    <link rel='stylesheet' href='<?php echo URL; ?>public/css/calendar/tooltip.css'/>
 
     <?php if ($data ['role']== 'teacher'): ?>
-        <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
-        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
+        <link rel='stylesheet' type='text/css' href='<?php echo URL; ?>public/js/app/calendar/tcal/tcal.css' />
+        <link rel='stylesheet' href='<?php echo URL; ?>public/css/calendar/popup.css'/>
     <?php endif; ?>
 </head>
 <body>
@@ -26,7 +26,7 @@
 
 </div>
 <a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>LogoutGM</a>
-<a href="https://www.facebook.com/logout.php?next=http://localhost/src/app/signin&access_token=<?php print $data['fb_token'];?>">LogoutFB</a>
+<a href="https://www.facebook.com/logout.php?next=http://localhost/src/app/signin&access_token=<?php echo $data['fb_token'];?>">LogoutFB</a>
 <?php if ($data['role'] == 'teacher'): ?>
     <div class='popup' id='popup'>
         <span id="resetLesson" class="popup-close"> </span>
@@ -82,22 +82,22 @@
 
 
 
-<script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
-<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
-<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
+<script src='<?php echo URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
+<script src='<?php echo URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
+<script src='<?php echo URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
 
-<script src='<?php print URL; ?>public/js/app/calendar/RealTimeUpdate.js'></script>
-<script src='<?php print URL; ?>public/js/app/common.js'></script>
-<script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
+<script src='<?php echo URL; ?>public/js/app/calendar/RealTimeUpdate.js'></script>
+<script src='<?php echo URL; ?>public/js/app/common.js'></script>
+<script src='<?php echo URL; ?>public/js/app/calendar/Calendar.js'></script>
 <?php if ($data['role'] == 'teacher'): ?>
 
-    <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
-    <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
-    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
+    <script type='text/javascript' src='<?php echo URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
+    <script src='<?php echo URL; ?>public/js/app/calendar/teacher.js'></script>
+    <script type='text/javascript' src='<?php echo URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
 
 <?php else: ?>
 
-    <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
+    <script src='<?php echo URL; ?>public/js/app/calendar/student.js'></script>";
 <?php endif; ?>
 
 
