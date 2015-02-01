@@ -15,6 +15,7 @@ class GroupsModel extends Model {
         FROM `groups`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
 HERE;
+
         try {
             $request = $this->db->query($r);
             return $request->fetchAll(PDO::FETCH_ASSOC);
