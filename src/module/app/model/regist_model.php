@@ -9,14 +9,14 @@ class RegistModel extends Model{
     public function __construct() {
         parent::__construct();
     }
-    public function addUserFB($name,$surname,$phone,$role,$fb_id)
+    public function addUser($name,$surname,$phone,$role,$fb_id,$gm_id)
     {
         try {
-            $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id) VALUES ('$name','$surname','$phone','$role','$fb_id')");
-            if($role.""=="1"){
-                $id= $this->db->query("SELECT id FROM user WHERE fb_id=$fb_id");
-                $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ($id)");
-            }
+            $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id,gm_id) VALUES ('$name','$surname','$phone','$role','$fb_id','$gm_id')");
+//            if($role===1){
+//                $id= $this->db->query("SELECT id FROM user WHERE fb_id='$fb_id' AND gm_id='$gm_id'");
+//                $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ('$id')");
+//            }
             return 1;
         } catch (PDOException $e) {
             echo $e;
@@ -26,7 +26,7 @@ class RegistModel extends Model{
     public function checkUserFB($id){
         try {
             $arr= $this->db->query("SELECT fb_id FROM user WHERE fb_id=$id")->fetchAll();
-            return count($arr)>0;
+            return count($arr);
         } catch (PDOException $e) {
             echo $e;
             return null;
@@ -35,7 +35,7 @@ class RegistModel extends Model{
     public function checkUserGM($id){
         try {
             $arr = $this->db->query("SELECT gm_id FROM user WHERE gm_id=$id")->fetchAll();
-            return count($arr)>0;
+            return count($arr);
         } catch (PDOException $e) {
             echo $e;
             return null;
