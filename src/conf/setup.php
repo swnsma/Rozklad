@@ -1,10 +1,5 @@
 <?php
-/*
-------------------------------------------------------
-  www.idiotminds.com
---------------------------------------------------------
-*/
-session_start();
+
 define('BASE_URL', filter_var('http://localhost/src', FILTER_SANITIZE_URL));
 // Visit https://code.google.com/apis/console to generate your
 // oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.

@@ -26,7 +26,7 @@ var auth_fb = (function() {
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '384838578363750',
+            appId      : '1536442079974268',
             cookie     : true,
             xfbml      : true,
             version    : 'v2.2'
@@ -66,17 +66,17 @@ var auth_fb = (function() {
                 FB.getLoginStatus(function(response) {
                     FB.logout(function(resp){
                         console.log("logOUT RESP: "+resp.authResponse)
-                        $.ajax({
-                            url: url + 'app/check/logout',
-                            type: 'GET',
-                            success: function (response) {
-                                console.log(response);
-                            },
-                            error: function (error) {
-                                console.log(error);
-                                alert('error: block get status');
-                            }
-                        });
+                        //$.ajax({
+                        //    url: url + 'app/check/logout',
+                        //    type: 'GET',
+                        //    success: function (response) {
+                        //        console.log(response);
+                        //    },
+                        //    error: function (error) {
+                        //        console.log(error);
+                        //        alert('error: block get status');
+                        //    }
+                        //});
                     })
                 });
 
@@ -89,4 +89,11 @@ var auth_fb = (function() {
         }
     }
 })().checkLoginState();
+
+$(document).ready(function(){
+    $(".button").click(function(){
+        var href=$(this).attr("href");
+        window.location=href;
+    })
+})
 

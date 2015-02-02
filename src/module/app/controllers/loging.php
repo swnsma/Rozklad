@@ -1,8 +1,8 @@
 <?php
 //require_once FILE .'conf/setup.php';
 require_once FILE.'conf/setup.php';
-require_once FILE .'includes/google/Google_Client.php';
-require_once FILE .'includes/google/Google_Oauth2Service.php';
+require_once FILE .'lib/google/Google_Client.php';
+require_once FILE .'lib/google/Google_Oauth2Service.php';
 
 
 class Loging extends Controller {
