@@ -10,7 +10,18 @@ class GroupPageModel extends Model {
    public function __construct() {
         parent::__construct();
     }
-   public function loadData($idGroup){
+    public function getRole ($groupId, $userId){
+        $r=<<<QUERY
+            SELECT `role`.`title`
+FROM `role`, `user`, `groups`, `student_group`
+WHERE `user`.`role_id` = `role`.`id` AND `user`.`id`=$userId AND ((`user`.`role_id`=1 AND `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId)
+OR(`user`.`role_id`=0 AND `user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$groupId));
+QUERY;
+        $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+        return $var[0]['title'];
+
+    }
+   public function loadData($groupId){
        try{
 
 
@@ -34,7 +45,7 @@ class GroupPageModel extends Model {
             `user`.`name` as teacher,
             `user`.`surname`
         FROM `groups`, `user`
-        WHERE `groups`.`id`=$idGroup AND `groups`.`teacher_id`=`user`.`id`;
+        WHERE `groups`.`id`=$groupId AND `groups`.`teacher_id`=`user`.`id`;
 HERE;
            $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
            $var[0]['teacher']=$var[0]['teacher'].' '.$var[0]['surname'];
@@ -144,9 +155,10 @@ HERE;
         FROM groups
         WHERE id=$id;
 HERE;
-            $var=$this->db->query($r);
-            $this->setInviteCode($var[0]);
-            return $var[0];
+            $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC)[0]['invite_code'];
+            $this->setInviteCode($var);
+
+            return $var;
         }catch(PDOException $e){
             echo $e->getMessage();
             return null;

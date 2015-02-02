@@ -22,6 +22,30 @@ var api= {
                     error(xhr);
                 }
             });
+        },
+        changeCode: function(id, successFunction){
+        $.ajax({
+            url: url+'app/grouppage/createInviteCode/'+id+'/',
+            type: 'GET',
+            success: function(response){
+                successFunction(response);
+            },
+            error: function (xhr){
+                alert("Error! "+xhr);
+            }
+        });
+        },
+        loadCode: function(id, successFunction){
+            $.ajax({
+                url: url+'app/grouppage/sendCode/'+id+'/',
+                type: 'GET',
+                success: function(response){
+                    successFunction(response);
+                },
+                error: function (xhr){
+                    alert("Error!");
+                }
+            })
         }
 };
 

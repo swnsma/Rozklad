@@ -4,4 +4,6 @@
 define('URL','http://'.$_SERVER['HTTP_HOST'].'/src/');
 define('FILE', __DIR__ . '/../');
 
+define('DEBUG', true);
+
 ?>

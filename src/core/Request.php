@@ -22,6 +22,8 @@ class Request {
                     if(!preg_match("/id[0-9]+/", $url[2])){
                         $this->action = $url[2];
                         $this->data = array_slice($url, 3);
+                    }else{
+                        $this->data[0]=preg_replace("/id/", "", $url[2]);
                     }
                 }
             }

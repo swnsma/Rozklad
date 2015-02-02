@@ -27,14 +27,18 @@
     </section>
 
 
-    <div>
-        <?php if ( $data['role'] == 'host'): ?>
-            <input type="text" class="form-control" id="inputName" >
-            <a href="#" class="btn btn-default dismissButton">Сгенерировать код</a>
+    <div class="col-lg-12">
+        <?php if ( $data['role'] == 'teacher'): ?>
+        <div class="col-lg-8">
+            <input type="text"  data-bind="value:getCode" class="form-control " id="inputName" disabled="disabled" >
+            </div>  <div class="col-lg-4">
+            <a href="#" data-bind="click: changeCode" class="btn btn-default">Сгенерировать код</a>
+            </div>
         <?php endif; ?>
         <?php if ($data['role'] == 'student'): ?>
             <a href="#" class="btn btn-default dismissButton">Покинуть группу</a>
         <?php endif; ?>
+
     </div>
 
 
