@@ -25,7 +25,7 @@ $('#create').click(function() {
         return false;
     }
 
-    if (!descr.match(/^[\(\)\!\?\:\;\.\, \d+\w+]{1,300}$/)) {
+    if (!descr.match(/^[\(\)\!\?\:\;\.\, \s\S\d+\w+]{1,300}$/)) {
         el_descr.addClass('error-input');
         return false;
     }
