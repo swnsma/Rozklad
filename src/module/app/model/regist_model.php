@@ -17,6 +17,7 @@ class RegistModel extends Model{
 //                $id= $this->db->query("SELECT id FROM user WHERE fb_id='$fb_id' AND gm_id='$gm_id'");
 //                $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ('$id')");
 //            }
+            $_SESSION['status']="signin";
             return 1;
         } catch (PDOException $e) {
             echo $e;
@@ -36,6 +37,23 @@ class RegistModel extends Model{
         try {
             $arr = $this->db->query("SELECT gm_id FROM user WHERE gm_id=$id")->fetchAll();
             return count($arr);
+        } catch (PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+    public function updateGM($gm_id,$id){
+        try {
+            $this->db->query("UPDATE user SET gm_id='$gm_id' where id='$id'")->fetchAll();
+        } catch (PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+
+    public function updateFB($fb_id,$id){
+        try {
+            $this->db->query("UPDATE user SET fb_id='$fb_id'  where id='$id'")->fetchAll();
         } catch (PDOException $e) {
             echo $e;
             return null;

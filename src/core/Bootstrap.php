@@ -4,12 +4,12 @@ class Bootstrap {
     function __construct() {
 
         Session::init();
-        require_once FILE . 'module/app/controllers/check.php';
+        require_once FILE . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
-        $this->checkRoute($controller);
+        $this->checkRoute($controller,$action);
         $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
@@ -27,7 +27,7 @@ class Bootstrap {
             $controller=='grouppage'||
             $controller=='admin';
     }
-    protected function checkRoute($controller){
+    protected function checkRoute($controller,$action){
         if((!(isset($_SESSION['fb_ID'])&&$_SESSION['fb_ID']&&!(empty($_SESSION['fb_ID'])))&&
                 (!(isset($_SESSION['gm_ID'])&&$_SESSION['gm_ID']&&!(empty($_SESSION['gm_ID'])))))
             &&($this->checkController($controller))
@@ -44,6 +44,17 @@ class Bootstrap {
         {
             header("Location:".URL."app/calendar");
             exit;
+        }
+
+        if($_SESSION['status']&&($_SESSION['status']=="regist")&&$controller!="regist"&&$action!="back_signin"){
+            if($_SESSION['has_email']===1){
+//                header("Location:http://vk.com");
+                exit;
+            }
+            else{
+                header("Location:".URL."app/regist");
+                exit;
+            }
         }
     }
 

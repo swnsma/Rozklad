@@ -19,7 +19,7 @@ where fb_id='$fb_id'
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            return $var;
+            return $var[0];
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
@@ -33,7 +33,7 @@ TANIA;
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            return $var;
+            return $var[0];
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;

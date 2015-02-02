@@ -1,24 +1,24 @@
 <?php
 require_once FILE .'conf/setup.php';
-require_once( FILE.'lib/facebook/HttpClients/FacebookHttpable.php' );
-require_once( FILE.'lib/facebook/HttpClients/FacebookCurl.php' );
-require_once(FILE.'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
-require_once( FILE.'lib/facebook/Entities/AccessToken.php' );
-require_once( FILE.'lib/facebook/Entities/SignedRequest.php');
-require_once( FILE.'lib/facebook/FacebookSession.php' );
-require_once( FILE.'lib/facebook/FacebookSignedRequestFromInputHelper.php');
-require_once( FILE.'lib/facebook/FacebookCanvasLoginHelper.php');
-require_once( FILE.'lib/facebook/FacebookRedirectLoginHelper.php' );
-require_once( FILE.'lib/facebook/FacebookRequest.php' );
-require_once( FILE.'lib/facebook/FacebookResponse.php' );
-require_once( FILE.'lib/facebook/FacebookSDKException.php' );
-require_once( FILE.'lib/facebook/FacebookRequestException.php' );
-require_once( FILE.'lib/facebook/FacebookOtherException.php' );
-require_once(FILE.'lib/facebook/FacebookAuthorizationException.php' );
-require_once( FILE.'lib/facebook/GraphObject.php' );
-require_once(FILE.'lib/facebook/GraphUser.php');
-require_once( FILE.'lib/facebook/GraphSessionInfo.php' );
-require_once(FILE.'lib/facebook/FacebookJavaScriptLoginHelper.php' );
+require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
+require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
+require_once(FILE.'facebook/HttpClients/FacebookCurlHttpClient.php' );
+require_once( FILE.'facebook/Entities/AccessToken.php' );
+require_once( FILE.'facebook/Entities/SignedRequest.php');
+require_once( FILE.'facebook/FacebookSession.php' );
+require_once( FILE.'facebook/FacebookSignedRequestFromInputHelper.php');
+require_once( FILE.'facebook/FacebookCanvasLoginHelper.php');
+require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
+require_once( FILE.'facebook/FacebookRequest.php' );
+require_once( FILE.'facebook/FacebookResponse.php' );
+require_once( FILE.'facebook/FacebookSDKException.php' );
+require_once( FILE.'facebook/FacebookRequestException.php' );
+require_once( FILE.'facebook/FacebookOtherException.php' );
+require_once(FILE.'facebook/FacebookAuthorizationException.php' );
+require_once( FILE.'facebook/GraphObject.php' );
+require_once(FILE.'facebook/GraphUser.php');
+require_once( FILE.'facebook/GraphSessionInfo.php' );
+require_once(FILE.'facebook/FacebookJavaScriptLoginHelper.php' );
 
 require_once (FILE.'module/app/controllers/signin.php');
 
@@ -74,6 +74,7 @@ class Loginf extends Controller {
             $response = $request->execute();
             // get response
             $_SESSION['fb_token']="".$session->getAccessToken();
+            $_SESSION['logout_link']="http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".$_SESSION['fb_token'];
 //            echo $_SESSION['fb_token'];
             $graphObject = $response->getGraphObject();
             $fbid = $graphObject->getProperty('id');              // To Get Facebook ID
@@ -82,30 +83,56 @@ class Loginf extends Controller {
             /* ---- Session Variables -----*/
             $_SESSION['fb_ID'] = $fbid;
             $_SESSION['fb_fullname'] = $fbfullname;
-            $_SESSION['fb_email'] =  $femail;
+            $_SESSION['email'] =  $femail;
             //checkuser($fuid,$ffname,$femail);
-            $_SESSION['login']=1;
-            header("Location:".URL."app/loginf/checkUser");
-            exit;
+            $status=$_SESSION['status'];
+            if($status==='update'){
+
+                echo 1111;
+                exit;
+                $this->updateId($id);
+            }else{
+                $this->checkUser();
+                exit;
+            }
         } else {
             $loginUrl = $helper->getLoginUrl();
             header("Location: ".$loginUrl);
         }
+    }
+    private function checkEmail($email){
+        return $this->model->checkEmail($email);
+    }
+    public  function updateId($id){
+        $this->model=$this->loadModel('regist');
+        $this->model->updateFB($_SESSION['fb_ID'],$id);
     }
     public function checkUser(){
 //       echo $_SESSION['fb_ID'];
         $check= $this->model->checkUserFB($_SESSION['fb_ID']);
 
         if($check){
-            header("Location:".URL."app/calendar");
             $_SESSION['regist']=1;
+            header("Location:".URL."app/calendar");
             exit;
         }
         else {
-            $this->view->renderHtml("signin/index","regist");
+            $_SESSION['status']='regist';
+            if($this->checkEmail($_SESSION["email"])){
+
+                header("Location:".URL."app/loging/login");
+                exit;
+            }
+            else{
+
+                $this->view->renderHtml("regist/index");
+            }
         }
     }
-
+    public function login_fb(){
+        $_SESSION['status']='update';
+        $this->login();
+    }
     public function logout(){
         setcookie('fbs_'.$this->getAppId(), '', time()-100, '/', $_SERVER["SERVER_NAME"]);
         unset($_SESSION['fb_'.$this->getAppId().'_code']);
@@ -115,13 +142,15 @@ class Loginf extends Controller {
         $_SESSION['fb_ID'] = NULL;
         $_SESSION['fb_fullname'] = NULL;
         $_SESSION['fb_email'] =  NULL;
+        $_SESSION['status']='not';
         session_destroy();
-        $_SESSION['login']=0;
+
         header("Location:".URL."app/signin");
     }
     public function getAppId(){
         return "1536442079974268";
     }
+
 }
 
 ?>

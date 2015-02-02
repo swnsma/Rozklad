@@ -1,8 +1,8 @@
 <?php
 //require_once FILE .'conf/setup.php';
 require_once FILE.'conf/setup.php';
-require_once FILE .'lib/google/Google_Client.php';
-require_once FILE .'lib/google/Google_Oauth2Service.php';
+require_once FILE .'includes/google/Google_Client.php';
+require_once FILE .'includes/google/Google_Oauth2Service.php';
 
 
 class Loging extends Controller {
@@ -27,8 +27,6 @@ class Loging extends Controller {
     }
 
     public function login(){
-
-
         if (isset($_GET['code'])) {
             $this->client->authenticate($_GET['code']);
             $_SESSION['token'] = $this->client->getAccessToken();
@@ -45,40 +43,68 @@ class Loging extends Controller {
             $_SESSION['gm_ID']= $_SESSION['gm_user']['id'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();
             $_SESSION['login']=1;
-            header('Location: http://localhost/src/app/loging/checkUser');
-            exit;
+            $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
+            $status=$_SESSION['status'];
+            if($status==='update'){
+                $this->model=$this->loadModel('user');
+                $info=$this->model->getInfoFB($_SESSION['fb_ID']);
+                $id=$info['id'];
+                $this->updateId($id);
+                $this->model=$this->loadModel('user');
+                $info=$this->model->getInfoFB($_SESSION['fb_ID']);
+                print_r($info);
+                echo 111;
+                exit;
+            }else{
+                $this->checkUser();
+                exit;
+            }
         } else {
             $authUrl = $this->client->createAuthUrl();
-            header('Location: '.$authUrl);
+            header("Location:".$authUrl);
         }
 
+    }
+    public function login_gm(){
+        $_SESSION['status']='update';
+        $this->login();
+    }
+    public  function updateId($id){
+        $this->model=$this->loadModel('regist');
+        $this->model->updateGM($_SESSION['gm_ID'],$id);
     }
     public function checkUser(){
 //        print_r($_SESSION["gm_ID"]);
         $check= $this->model->checkUserGM($_SESSION["gm_ID"]);
         if($check){
             header("Location:".URL."app/calendar");
-            $_SESSION['regist']=1;
             exit;
         }
         else {
-            $this->view->renderHtml("signin/index","regist");
+            $_SESSION['status']='regist';
+            if($this->model->checkEmail($_SESSION["gm_user"]['email'])){
+                $_SESSION['has_email']=1;
+                header("Location:".URL."app/loginf/login");
+                exit;
+            }
+            else{
+
+                $this->view->renderHtml("regist/index");
+            }
         }
 
     }
-//    public function logoutb(){
-//        echo "<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>Logout</a>";
-//    }
+    public function logoutb(){
+        echo "<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>Logout</a>";
+    }
     public function logout(){
-        $this->client->revokeToken($_SESSION['gm_token']);
-        $_SESSION['gm_token']=NULL;
-        $_SESSION['gm_user']=NULL;
-        $_SESSION['gm_ID']=NULL;
         session_destroy();
         $_SESSION['login']=0;
         header("Location:".URL."app/signin");
     }
-
+    private function checkEmail($email){
+        return $this->model->checkEmail($email);
+    }
 }
 
 ?>

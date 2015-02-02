@@ -17,4 +17,8 @@ class CheckModel extends Model{
         $user=$this->db->query("SELECT gm_id FROM user where gm_id='$id'")->fetchAll(PDO::FETCH_ASSOC);
         return count($user);
     }
+    public function checkEmail($email){
+        $mas=$this->db->query("SELECT email FROM user where email='$email'")->fetchAll(PDO::FETCH_ASSOC);
+        return count($mas)>0;
+    }
 }
