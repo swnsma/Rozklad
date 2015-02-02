@@ -14,8 +14,12 @@ class GroupPage extends Controller {
     }
 
     public function index() {
-        $data['role'] = $this->$role ; //викликаємо портрібні функції поделі
-
+        $req =Request::getInstance();
+        $groupId= $req->getParam(0);
+        $model = $this->loadModel('user');
+        $id=$_COOKIE['idFB'];
+        $id=$model->getInfo($id)[0]['id'];
+        $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
         $this->view->renderHtml('grouppage/index', $data);
     }
     public function delUser(){
@@ -78,19 +82,27 @@ class GroupPage extends Controller {
     }
     public function inviteUser(){
         $model = $this->loadModel('user');
+        $r='<div style="text-align:center">';
         $id=$_COOKIE['idFB'];
+        if(!isset($id)){
+            $error=3;
+        }
+        else{
         $id=$model->getInfo($id)[0]['id'];
         $req=Request::getInstance();
         $code=$req->getParam(0);
         $error=$this->model->addUserToGroup($id, $code);
+        }
         header("Content-Type: text/html; charset=utf-8");
-        $r='<div style="text-align:center">';
         switch($error){
             case 1:
                 $r=$r."Вы уже являетесь членом группы!";
                 break;
             case 2:
                 $r=$r."Invalid link!";
+                break;
+            case 3:
+                $r=$r."Авторизируйтесь для продолжения";
                 break;
             default:
                 $r=$r."Теперь вы член группы!";
