@@ -41,8 +41,12 @@ class AdminModel extends Model {
 
     public function getCurrentUser(){
         try {
-            $id = $_SESSION['idFB'];
-            $var =$this->db->query("SELECT * FROM user WHERE user.fb_id = $id;")->fetchAll(PDO::FETCH_ASSOC);
+            $id = $_SESSION['fb_ID'];
+
+            $sql = "SELECT * FROM user WHERE user.fb_id = $id;";
+            //echo $sql;
+
+            $var =$this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             $var = $var[0];
             return $var;
         } catch(PDOException $e) {
