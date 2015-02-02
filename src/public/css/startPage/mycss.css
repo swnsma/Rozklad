@@ -1,0 +1,15 @@
+
+body{
+    background: url(http://uconstructor.com/_ld/7/761_11.png) repeat;
+}
+
+.input{
+    height:40px;
+}
+
+.block-regist>*{
+    margin: 10px;
+}
+.error{
+    color:red;
+}

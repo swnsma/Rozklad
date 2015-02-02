@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Р Р°СЃРїРёСЃР°РЅРёРµ</title>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/bootstrap.css"/>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/start-page.css" />
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/mycss.css" />
+
+</head>
+<body>
+<section class="form" id="regist">
+    <h3>Р РµРіРёСЃС‚СЂР°С†РёСЏ</h3>
+    <form class="form-horizontal panel panel-default block-regist">
+        <fieldset>
+            <div class="form-group">
+                <label  class="col-md-2 control-label">Р?РјСЏ</label>
+                <div class="col-md-10">
+                    <input type="text" id="name" class="form-control surnameInput input" data-bind="value:name,valueUpdate:'afterkeydown'" placeholder="Р?РјСЏ">
+                    <p class="error" id="name_error"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-md-2 control-label">Р¤Р°РјРёР»РёСЏ</label>
+                <div class="col-md-10">
+                    <input type="text" id="surname" class="form-control surnameInput input"  data-bind="value:surname,valueUpdate:'afterkeydown'" placeholder="Р¤Р°РјРёР»РёСЏ">
+                    <p class="error" id="surname_error"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-lg-2 control-label">РўРµР»РµС„РѕРЅ </label>
+                <label  class="col-lg-1 control-label">+380 </label>
+                <div class="col-lg-9">
+                    <input type="text" id="phone" class="form-control phoneInput input"  data-bind="value:phone,valueUpdate:'afterkeydown'" placeholder="РїСЂРёРєР»Р°Рґ 12 345 67 89">
+                    <p class="error" id="phone_error"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="select" class="col-lg-2 control-label input">Role</label>
+                <div class="col-lg-10">
+                    <select class="form-control" id="select" data-bind="options: rolesName,
+                       optionsText: rolesName,
+                       value: role
+                       "></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <div class="btn" id="reset" href="<?php echo URL;?>app/regist/back_signin">Р’С–РґРјС–РЅР°</div>
+                    <button data-bind="click:sendInfo" class="btn btn-primary" >РџС–РґС‚РІРµСЂРґРёС‚Рё</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</section>
+<section id="success">
+    <div>
+        <h2> Р’С‹ СѓСЃРїРµС€РЅРѕ Р·Р°СЂРµРµСЃС‚СЂРёСЂРѕРІР°Р»РёСЃСЊ</h2>
+        <button class="btn btn-success" id="btn-success">РџРµСЂРµР№С‚Рё Рє РєР°Р»РµРЅРґР°СЂСЋ СЃРѕР±С‹С‚РёР№</button>
+    </div>
+</section>
+
+<!--<script src="https://apis.google.com/js/client:platform.js"></script>-->
+<script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+<script src="<?php print URL; ?>public/js/app/common.js"></script>
+<!--<script src="-->
+<!--public/js/app/signin/login1.js"></script>-->
+<script src="<?php print URL; ?>public/js/app/signin/regist.js"></script>
+
+</body>
+</html>

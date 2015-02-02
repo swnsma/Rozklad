@@ -2,119 +2,70 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Расписание</title>
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/startPage/bootstrap.css"/>
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/startPage/start-page.css" />
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/bootstrap.css"/>
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/start-page.css" />
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/login_css.css" />
 </head>
 <body>
-<?php if ($data == "not"):?>
-    <section class="logIn" id="signIn">
-        <h1>Расписание</h1>
-        <div class="signin" id="signIn">
-            <h2>Выберите способ входа</h2>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="http://localhost/src/app/loging/login" class="btn btn-primary">
-                        <div class="text">Вход через Google+</div>
-                    </a>
-                    <a href="http://localhost/src/app/loginf/login"  class="btn btn-info">
-                        <div class="text">Вход через Facebook</div>
-                    </a >
-                    <a href="#" id='fbLogout' class="btn btn-info">
-                        <div class="text">Logout</div>
-                    </a >
-                    <!--                <a href="#" id='check' class="btn btn-info">-->
-                    <!--                    <div class="text">Check</div>-->
-                    <!--                </a >-->
+
+<section class="logIn" id="signIn">
+    <h1>Расписание</h1>
+    <div class="signin" id="signIn">
+        <h2>Выберите способ входа</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="button google" href="http://localhost/src/app/loging/login">
+                    Google
                 </div>
-            </div>
-            <!--
-            <h2>или зарегистрируйтесь</h2>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для студентов</div>
-                    </a>
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для преподавателей</div>
-                    </a>
+                <div class="button facebook" href="http://localhost/src/app/loginf/login">
+                    Facebook
                 </div>
+                <!--<a href="#" id='fbLogout' class="btn btn-info">
+                      <div class="text">Logout</div>
+                  </a >
+  <!--                <a href="#" id='check' class="btn btn-info">-->
+                <!--                    <div class="text">Check</div>-->
+                <!--                </a >-->
             </div>
-            -->
         </div>
         <!--
-        <div class="not-in-system" id="notInSystem" style="display: none" >
-            <h2>Вас нет в системе<br/>зарегистрируйтесь</h2>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для студентов</div>
-                    </a>
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для преподавателей</div>
-                    </a>
-                </div>
+        <h2>или зарегистрируйтесь</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="#" class="btn btn-info">
+                    <div class="text">Регистрация для студентов</div>
+                </a>
+                <a href="#" class="btn btn-info">
+                    <div class="text">Регистрация для преподавателей</div>
+                </a>
             </div>
         </div>
         -->
-    </section>
-<?php endif; ?>
-<?php if ($data == 'regist'):?>
-    <section class="form" id="regist" action="http://schedule.com/src/app/regist">
-        <form class="form-horizontal">
-            <fieldset>
-                <legend>Форма регистрации</legend>
-                <div class="form-group">
-                    <label  class="col-lg-2 control-label">Имя</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control nameInput" data-bind="value:name" placeholder="Ім'я">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-lg-2 control-label">Фамилия</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control surnameInput"  data-bind="value:surname" placeholder="Прізвище">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-lg-2 control-label">Телефон </label>
-                    <label  class="col-lg-1 control-label">+380 </label>
-                    <div class="col-lg-9">
-                        <input type="text" class="form-control phoneInput"  data-bind="value:phone" placeholder="приклад 12 345 67 89">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="select" class="col-lg-2 control-label">Role</label>
-                    <div class="col-lg-10">
-                        <select class="form-control" id="select" data-bind="options: rolesName,
-                       optionsText: rolesName,
-                       value: role,
-                       optionsCaption: 'Choose...'"></select>
-
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button class="btn btn-default">Відміна</button>
-                        <button data-bind="click:sendInfo"class="btn btn-primary">Підтвердити</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </section>
-    <section id="success">
-        <div>
-            <h2> Ви устпішно зареєструвалися</h2>
-            <button class="btn btn-success" id="btn-success">Перейти до календаря подій</button>
+    </div>
+    <!--
+    <div class="not-in-system" id="notInSystem" style="display: none" >
+        <h2>Вас нет в системе<br/>зарегистрируйтесь</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="#" class="btn btn-info">
+                    <div class="text">Регистрация для студентов</div>
+                </a>
+                <a href="#" class="btn btn-info">
+                    <div class="text">Регистрация для преподавателей</div>
+                </a>
+            </div>
         </div>
-    </section>
-<?php endif; ?>
+    </div>
+    -->
+</section>
+
+
 
 <!--<script src="https://apis.google.com/js/client:platform.js"></script>-->
-<script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
-<script src="<?php echo URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
-<script src="<?php echo URL; ?>public/js/app/common.js"></script>
-<script src="<?php echo URL; ?>public/js/app/signin/login1.js"></script>
-<script src="<?php echo URL; ?>public/js/app/signin/regist.js"></script>
+<script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+<script src="<?php print URL; ?>public/js/app/common.js"></script>
+<script src="<?php print URL; ?>public/js/app/signin/login1.js"></script>
 
 </body>
 </html>

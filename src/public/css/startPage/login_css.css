@@ -1,0 +1,26 @@
+body{
+    background: url(http://uconstructor.com/_ld/7/761_11.png) repeat;
+}
+.button {
+    display: block;
+    border: 2px solid #888;
+    height: 50px;
+    width:100%;
+    text-align:left;
+    padding-left:50px;
+    line-height:50px;
+    margin-bottom:10px;
+    cursor: pointer;
+    color:black;
+    font-size:20px;
+    border-radius:5px;
+}
+
+.google{
+ background-color:none;
+    //background-color:#F22613;
+}
+.facebook{
+background-color:none;
+   // background-color:#446CB3;
+}
