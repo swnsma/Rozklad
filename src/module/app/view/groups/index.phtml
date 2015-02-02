@@ -1,8 +1,27 @@
-<div class="container">
-    <?php if ($data['status'] == 1): ?>
-        <a href="<?php echo URL; ?>app/groups/create">створити групу</a>
-    <?php endif; ?>
-    <div class="row">
+    <section class="container">
+        <?php if ($data['status'] == 1): ?>
+            <a href="<?php echo URL; ?>app/groups/create">створити групу</a>
+        <?php endif; ?>
+        <div class="group-list">
+            <?php foreach ($data['groups'] as $group) : ?>
+            <div class="group">
+                <div class="group-icon" data-bind="style: {'background-image': 'url('+icon+')'}"></div>
+                <div class="padding-10px">
+                    <h3 class="group-name"><?php echo $group['name']; ?></h3>
+                    <p class="group-description">descr</p>
+                    <div class="next-lesson">
+                        <div>
+                            Наступне заняття:
+                        </div>
+                        <div class="time">time</div>
+                        <div class="title">title</div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+<!--    <div class="row">
         <div class="col-md-6 width-list">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -31,7 +50,7 @@
                         <td><?php echo $i; ?></td>
                         <td><a href="#/<?php echo $group['group_id']; ?>"><?php echo $group['name']; ?></a></td>
                         <td><?php echo $group['teacher_name']; ?></td>
-                        <td><?php// echo $group['next_lesson']; ?></td>
+                        <td><!-- //echo $group['next_lesson']; </td>
                     </tr>
                     <?php $i++; endforeach; ?>
                     </tbody>
@@ -39,6 +58,6 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <script src="<?php echo URL; ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/app/groups/groups.js"></script>

@@ -1,54 +1,63 @@
-.row{
-    position: relative;
+body {
+    width: 900px;
+    margin: auto;
+    background-color: #fafafa;
 }
-.clickable{
+
+.padding-10px{
+    padding: 10px;
+}
+
+.group:hover {
+    background-color: rgba(250,250,250,1);
+}
+
+.group {
+    display: inline-block;
+    width: 30%;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    vertical-align: top;
     cursor: pointer;
+    background-color: white;
+    float: left;
+    margin: 5px;
+
+    -webkit-box-shadow: 0px 0px 18px 2px rgba(0,0,0,0.10);
+    -moz-box-shadow: 0px 0px 18px 2px rgba(0,0,0,0.10);
+    box-shadow: 0px 0px 18px 2px rgba(0,0,0,0.10);
 }
 
-.panel-heading div {
-    margin-top: -18px;
-    font-size: 15px;
-}
-.panel-heading div span{
-    margin-left:5px;
-}
-.panel-body{
-    display: none;
+.group-name {
+    margin: 0;
+    font-weight: 400;
+    font-size: 21px;
 }
 
-.width-list {
-    width: 800px;
-    margin: 0 auto;
+.group-description {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 300;
+    color: rgb(150,150,150);
+    margin-bottom: 10px;
+}
+
+.group .group-icon {
+    height: 150px;
+    width: 100%;
+    background-size: 100%;
+}
+
+.title {
+    font-weight: 600;
+}
+
+.time {
+    font-weight: 600;
 }
 
 .container {
     width: 900px;
     margin: 0 auto;
-}
-
-th.number {
-    width: 20px;
-}
-
-th.name {
-    width: 200px;
-}
-
-th.teacher {
-    width: 200px;
-}
-
-
-th.next-lesson {
-    width: 100px;
-}
-
-
-.nav-pills>li>a {
-    border-radius: 4px;
-}
-.nav>li>a {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
 }
