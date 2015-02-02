@@ -19,6 +19,7 @@ class GroupPage extends Controller {
         $model = $this->loadModel('user');
         $id=$_COOKIE['idFB'];
         $id=$model->getInfo($id)[0]['id'];
+        //$id=3;
         $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
         $this->view->renderHtml('grouppage/index', $data);
     }
@@ -78,7 +79,7 @@ class GroupPage extends Controller {
         if(!isset($var)){
             $var=$this->model->loadCode($id);
         }
-        $this->view->renderJson(Array($var));
+        $this->view->renderJson(Array('code'=>$var));
     }
     public function inviteUser(){
         $model = $this->loadModel('user');
@@ -108,7 +109,7 @@ class GroupPage extends Controller {
                 $r=$r."Теперь вы член группы!";
                 break;
         }
-        $r=$r.'<br/><a href="/src/app/calendar">Перейти на главную старицу</a></div>';
+        $r=$r.'<br/><a href="/src/app/calendar">Перейти на главную страницу</a></div>';
         echo $r;
     }
 

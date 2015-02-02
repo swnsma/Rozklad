@@ -12,7 +12,10 @@ h3
     margin-top: 20px;
     margin-left: 3px;
 }
-
+#inputName{
+    margin-left:3px;
+    cursor: default;
+}
 
 .groupList h3
 {
