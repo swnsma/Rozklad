@@ -1,24 +1,24 @@
 <?php
 require_once FILE .'conf/setup.php';
-require_once( FILE.'facebook/HttpClients/FacebookHttpable.php' );
-require_once( FILE.'facebook/HttpClients/FacebookCurl.php' );
-require_once(FILE.'facebook/HttpClients/FacebookCurlHttpClient.php' );
-require_once( FILE.'facebook/Entities/AccessToken.php' );
-require_once( FILE.'facebook/Entities/SignedRequest.php');
-require_once( FILE.'facebook/FacebookSession.php' );
-require_once( FILE.'facebook/FacebookSignedRequestFromInputHelper.php');
-require_once( FILE.'facebook/FacebookCanvasLoginHelper.php');
-require_once( FILE.'facebook/FacebookRedirectLoginHelper.php' );
-require_once( FILE.'facebook/FacebookRequest.php' );
-require_once( FILE.'facebook/FacebookResponse.php' );
-require_once( FILE.'facebook/FacebookSDKException.php' );
-require_once( FILE.'facebook/FacebookRequestException.php' );
-require_once( FILE.'facebook/FacebookOtherException.php' );
-require_once(FILE.'facebook/FacebookAuthorizationException.php' );
-require_once( FILE.'facebook/GraphObject.php' );
-require_once(FILE.'facebook/GraphUser.php');
-require_once( FILE.'facebook/GraphSessionInfo.php' );
-require_once(FILE.'facebook/FacebookJavaScriptLoginHelper.php' );
+require_once( FILE.'lib/facebook/HttpClients/FacebookHttpable.php' );
+require_once( FILE.'lib/facebook/HttpClients/FacebookCurl.php' );
+require_once(FILE.'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
+require_once( FILE.'lib/facebook/Entities/AccessToken.php' );
+require_once( FILE.'lib/facebook/Entities/SignedRequest.php');
+require_once( FILE.'lib/facebook/FacebookSession.php' );
+require_once( FILE.'lib/facebook/FacebookSignedRequestFromInputHelper.php');
+require_once( FILE.'lib/facebook/FacebookCanvasLoginHelper.php');
+require_once( FILE.'lib/facebook/FacebookRedirectLoginHelper.php' );
+require_once( FILE.'lib/facebook/FacebookRequest.php' );
+require_once( FILE.'lib/facebook/FacebookResponse.php' );
+require_once( FILE.'lib/facebook/FacebookSDKException.php' );
+require_once( FILE.'lib/facebook/FacebookRequestException.php' );
+require_once( FILE.'lib/facebook/FacebookOtherException.php' );
+require_once(FILE.'lib/facebook/FacebookAuthorizationException.php' );
+require_once( FILE.'lib/facebook/GraphObject.php' );
+require_once(FILE.'lib/facebook/GraphUser.php');
+require_once( FILE.'lib/facebook/GraphSessionInfo.php' );
+require_once(FILE.'lib/facebook/FacebookJavaScriptLoginHelper.php' );
 
 require_once (FILE.'module/app/controllers/signin.php');
 
