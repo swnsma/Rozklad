@@ -88,8 +88,9 @@ class Loging extends Controller {
                 exit;
             }
             else{
-
-                $this->view->renderHtml("regist/index");
+                header('Content-type: text/html; charset=utf-8');
+                header("Location:".URL."app/regist");
+                exit;
             }
         }
 

@@ -8,7 +8,7 @@ class Regist extends Controller
         parent::__construct();
     }
     public function index(){
-
+        header('Content-type: text/html; charset=utf-8');
         $this->view->renderHtml("regist/index");
     }
     public function updateGM(){
