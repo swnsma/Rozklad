@@ -9,9 +9,6 @@ function create_group(data, func) {
     });
 }
 
-
-
-
 $('#create').click(function() {
     var el_name = $('#inputName');
     var el_descr = $('#inputDesc');
