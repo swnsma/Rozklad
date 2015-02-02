@@ -35,23 +35,30 @@ class Groups extends Controller {
         if (isset($_POST['name']) && isset($_POST['descr'])) {
             $name = $_POST['name'];
             $descr = $_POST['descr'];
-            $status = 1; //$this->user_info['role_id'];
-            if ($status == 1) {
-                $data = $this->model->createGroup($this->user_info['id'], $name, $descr);
-                if ($data == null) {
-                    $this->view->renderJson(array(
-                        'status' => 'create_error'
-                    ));
+            if (preg_match('/^[\d+\w+]{1,50}$/', $name)
+                && preg_match('/^[\(\)\!\?\:\;\.\, \d+\w+]{1,300}$/m', $descr)) {
+                $status = 1; //$this->user_info['role_id'];
+                if ($status == 1) {
+                    $data = $this->model->createGroup($this->user_info['id'], $name, $descr);
+                    if ($data == null) {
+                        $this->view->renderJson(array(
+                            'status' => 'create_error'
+                        ));
+                    } else {
+                        $this->view->renderJson(array(
+                            'status' => 'group_create',
+                            'key' => $data['key'],
+                            'id' => $data['id']
+                        ));
+                    }
                 } else {
                     $this->view->renderJson(array(
-                        'status' => 'group_create',
-                        'key' => $data['key'],
-                        'id' => $data['id']
+                        'status' => 'denied_access'
                     ));
                 }
             } else {
                 $this->view->renderJson(array(
-                    'status' => 'denied_access'
+                    'status' => 'invalid_data'
                 ));
             }
         } else {
