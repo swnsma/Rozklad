@@ -11,14 +11,6 @@ class Regist extends Controller
         header('Content-type: text/html; charset=utf-8');
         $this->view->renderHtml("regist/index");
     }
-    public function updateGM(){
-
-    }
-    public function updateFB(){
-
-    }
-
-
     public function addUser(){
         $request=Request::getInstance();
         $name = $request->getParam(0);

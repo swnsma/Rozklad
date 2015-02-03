@@ -38,27 +38,15 @@ class Loging extends Controller {
             echo '<script type="text/javascript">window.close();</script>'; exit;
         }
         if ($this->client->getAccessToken()) {
-            $user = $this->oauth2->userinfo->get();
-            $_SESSION['gm_user']=$user;
-            $_SESSION['gm_ID']= $_SESSION['gm_user']['id'];
+            $user_g = $this->oauth2->userinfo->get();
+            $_SESSION['user']=$user_g;
+            $_SESSION['gm_ID']= $_SESSION['user']['id'];
+            $_SESSION['email']=$_SESSION['user']['email'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();
-            $_SESSION['login']=1;
             $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
             $status=$_SESSION['status'];
-            if($status==='update'){
-                $this->model=$this->loadModel('user');
-                $info=$this->model->getInfoFB($_SESSION['fb_ID']);
-                $id=$info['id'];
-                $this->updateId($id);
-                $this->model=$this->loadModel('user');
-                $info=$this->model->getInfoFB($_SESSION['fb_ID']);
-                print_r($info);
-                echo 111;
-                exit;
-            }else{
                 $this->checkUser();
                 exit;
-            }
         } else {
             $authUrl = $this->client->createAuthUrl();
             header("Location:".$authUrl);
@@ -69,10 +57,7 @@ class Loging extends Controller {
         $_SESSION['status']='update';
         $this->login();
     }
-    public  function updateId($id){
-        $this->model=$this->loadModel('regist');
-        $this->model->updateGM($_SESSION['gm_ID'],$id);
-    }
+
     public function checkUser(){
 //        print_r($_SESSION["gm_ID"]);
         $check= $this->model->checkUserGM($_SESSION["gm_ID"]);
@@ -82,9 +67,11 @@ class Loging extends Controller {
         }
         else {
             $_SESSION['status']='regist';
-            if($this->model->checkEmail($_SESSION["gm_user"]['email'])){
-                $_SESSION['has_email']=1;
-                header("Location:".URL."app/loginf/login");
+            $this->model=$this->loadModel("check");
+            if($this->model->checkEmail($_SESSION['email'])){
+                $this->model=$this->loadModel("regist");
+                $this->model->updateGM($_SESSION['gm_ID'],$_SESSION['email']);
+                header("Location:".URL."app/calendar");
                 exit;
             }
             else{
