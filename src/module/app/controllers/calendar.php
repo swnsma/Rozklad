@@ -6,23 +6,24 @@
  * Time: 17:55
  * */
 
-Session::init();
+//Session::init();
 class Calendar extends Controller {
 
     private $fb_id;
-    public $userInfo;
+    private $userInfo;
     private $role='teacher';
     public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('user');
-        $this->fb_id= $_SESSION['idFB'];
-        $this->userInfo=$this->model->getInfo($this->fb_id);
-        $this->role = $this->privateGetRole($this->userInfo[0]['role_id']);
+        $this->fb_id= 1;
+
+        $this->userInfo=$this->model->getCurrentUserInfo();
+//        print_r($this->userInfo) ;
+        $this->role = $this->privateGetRole($this->userInfo[0]['title']);
     }
     public function getRole(){
         return $this->role;
     }
-
     //використовую
     private function privateGetRole($role_id){
 //        echo $role_id;
@@ -40,8 +41,7 @@ class Calendar extends Controller {
     //використовую
     public function index() {
         $this->model = $this->loadModel('lesson');
-        $data = $this->getRole();
-//        echo $data;
+        $data =$this->userInfo[0];
         $this->view->renderHtml('calendar/index', $data);
     }
 
@@ -173,8 +173,6 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $this->model->getOurLessonForThisId($this->userInfo[0]['id']);
     }
-
-
 
     public function  getOurTeacher(){
         $req=Request::getInstance();
