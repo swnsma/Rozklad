@@ -60,4 +60,30 @@ HERE;
         } catch(PDOException $e) {}
         return null;
     }
+    public function getOurGroups(){
+        try {
+            $request = <<<TANIA
+            select id,name from groups
+TANIA;
+
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function getGroups($id){
+        try {
+            $request = <<<TANIA
+            select id,name from groups where teacher_id='$id'
+TANIA;
+
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }

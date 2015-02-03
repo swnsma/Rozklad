@@ -38,22 +38,6 @@ class AdminModel extends Model {
             return null;
         }
     }
-
-    public function getCurrentUser(){
-        try {
-            $id = $_SESSION['fb_ID'];
-
-            $sql = "SELECT * FROM user WHERE user.fb_id = $id;";
-            //echo $sql;
-
-            $var =$this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            $var = $var[0];
-            return $var;
-        } catch(PDOException $e) {
-            echo $e;
-            return null;
-        }
-    }
 }
 
 

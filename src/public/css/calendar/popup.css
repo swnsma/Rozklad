@@ -9,8 +9,11 @@ body{
     position: absolute;
     background: #fff;
     z-index: 1000;
-    width: 280px;
+    width: 380px;
     display: none;
+}
+.popup .bold{
+    font-weight: bold;
 }
 #delEvent{
     visibility: hidden;
@@ -58,12 +61,10 @@ body{
     width: 17px;
     text-align: center;
 }
-.data-ivent{
-    display: inline-block;
-}
-.data-ivent >*{
+.data-ivent {
     border-bottom: 1px dashed #016d92;
     padding-bottom: 1px;
+    text-align: left;
 }
 
 .create-lesson .inner-wrapper{
@@ -75,6 +76,12 @@ body{
 .create-lesson .inner-wrapper .tr-create-lesson{
     display: table-row;
 }
+.tr-create-lesson .date-span{
+    width: 168px;
+}
+.tr-create-lesson{
+    position: relative;
+}
 .create-lesson .inner-wrapper .tr-create-lesson>*{
     display: table-cell;
 }
@@ -83,12 +90,51 @@ body{
     display: inline;
     padding-bottom: 1px;
 
-    border-bottom: 1px dashed #016d92;
+    /*border-bottom: 1px dashed #016d92;*/
     position: absolute;
     right: 15px;
     top: 0px;
 }
+.tr-create-lesson .list-groups{
+    width: 52%;
 
+}
+.tr-create-lesson .submit{
+
+    width: 69%;
+    margin-left: 1%;
+
+}
+.tr-create-lesson .submit, .tr-create-lesson .reset{
+    padding: 5px 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border:1px solid #bfc4c4;
+    color: #000000;
+}
+.tr-create-lesson .submit:hover,.tr-create-lesson .reset:hover {
+    border:1px solid #bfc4c4;
+    background-color: #d9dddd; background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
+    background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
+}
+.tr-create-lesson .reset{
+    width: 30%;
+    background-color: #eeeeee;
+}
+.tr-create-lesson .list-groups select{
+    width: 95%;
+    outline: none;
+    border: none;
+    border-bottom: 1px dashed #016d92;
+    position: relative;
+}
+.tr-create-lesson .list-groups option{
+    width: 200px;
+}
 .group_block{
     display:none;
     position:absolute;
@@ -125,4 +171,17 @@ body{
     margin-left: 5px;
     border: 1px solid white;
     display: inline;
+}
+
+
+.group-add{
+    position: relative;
+}
+.del-groups-event{
+    display: block;
+    position: absolute;
+    top:0px;
+    right: 0;
+    font-weight: bold;
+    cursor: pointer;
 }
