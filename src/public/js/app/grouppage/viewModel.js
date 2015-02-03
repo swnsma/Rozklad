@@ -4,6 +4,8 @@ function ViewModel() {
     that.teacher = ko.observable('');
     that.description = ko.observable('');
     that.students = ko.observableArray([]);
+    that.editGroupName= ko.observable("true");
+    that.editDescription= ko.observable("true");
     that.id= ko.observable("");
     that.code= ko.observable("");
     that.getCode = ko.computed(function(){

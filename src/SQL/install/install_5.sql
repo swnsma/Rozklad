@@ -1,0 +1,1 @@
+ALTER TABLE groups ADD COLUMN 'img_src' TEXT NULL;

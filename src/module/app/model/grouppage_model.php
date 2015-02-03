@@ -14,30 +14,17 @@ class GroupPageModel extends Model {
         $r=<<<QUERY
             SELECT `role`.`title`
 FROM `role`, `user`, `groups`, `student_group`
-WHERE `user`.`role_id` = `role`.`id` AND `user`.`id`=$userId AND ((`user`.`role_id`=1 AND `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId)
-OR(`user`.`role_id`=0 AND `user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$groupId));
+WHERE `user`.`role_id` = `role`.`id` AND `user`.`id`=$userId AND (( `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId)
+OR(`user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$groupId));
 QUERY;
         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
-        return $var[0]['title'];
+        if(isset($var[0]))
+        return $var['0']['title'];
+        else return null;
 
     }
    public function loadData($groupId){
        try{
-
-
-        /*$this->setGroupId($idGroup);
-        $var=$this->db->query("SELECT user.name, surname FROM user INNER JOIN groups ON user.id=groups.teacher_id WHERE groups.id=$idGroup;")->fetchAll(PDO::FETCH_ASSOC);
-        $this->setTeacherName($var[0]['name'].' '.$var[0]['surname']);
-        $var=$this->db->query("SELECT id, user.name, surname FROM user INNER JOIN student_group ON user.id=student_group.student_id WHERE student_group.group_id=$idGroup;")->fetchAll(PDO::FETCH_ASSOC);
-        $this->setUsers($var);
-        $var = $this->db->query("SELECT name FROM groups WHERE id=$idGroup")->fetchAll(PDO::FETCH_ASSOC);
-        $this->setName($var[0]);
-        $var = $this->db->query("SELECT description FROM groups WHERE id=$idGroup;")->fetchAll(PDO::FETCH_ASSOC);
-        $this->setDescription($var[0]);
-        $var = $this->db->query("SELECT invite_code FROM groups WHERE id=$idGroup;")->fetchAll(PDO::FETCH_ASSOC);
-        $this->setInviteCode($var[0]);*/
-
-
         $r=<<<HERE
         SELECT
             `groups`.`description`,
@@ -188,17 +175,27 @@ CHECKCODE;
        if(isset($groupId)){
        $r=<<<CHECKUSER
         SELECT `student_group`.`student_id`
-        FROM `student_group`
+        FROM `student_group`, `user`
         WHERE `student_id`=$id AND `group_id`=$groupId;
 CHECKUSER;
            $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
-
            if(!isset($var[0])){
+               $r=<<<CHECKTEACHER
+                    SELECT `user`.`role_id`
+                    FROM `user`
+                    WHERE `user`.`id`=$id;
+CHECKTEACHER;
+               $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+               if(isset($var[0])&&$var[0]['role_id']!=1){
                $r=<<<ADDUSER
            INSERT INTO `student_group` (student_id, group_id) VALUES ($id, $groupId);
 ADDUSER;
                $this->db->query($r);
               return 0;
+               }
+               else{
+                   return 4;
+               }
            }else{
               return 1;
            }
