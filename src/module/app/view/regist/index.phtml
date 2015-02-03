@@ -16,14 +16,21 @@
             <div class="form-group">
                 <label  class="col-md-2 control-label">Имя</label>
                 <div class="col-md-10">
-                    <input type="text" id="name" class="form-control surnameInput input" data-bind="value:name,valueUpdate:'afterkeydown'" placeholder="Имя">
+                    <input type="text" id="name" class="input" data-bind="value:name,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="name_error"></p>
                 </div>
             </div>
             <div class="form-group">
                 <label  class="col-md-2 control-label">Фамилия</label>
                 <div class="col-md-10">
-                    <input type="text" id="surname" class="form-control surnameInput input"  data-bind="value:surname,valueUpdate:'afterkeydown'" placeholder="Фамилия">
+                    <input type="text" id="surname" class="input"  data-bind="value:surname,valueUpdate:'afterkeydown'" placeholder="">
+                    <p class="error" id="surname_error"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-md-2 control-label">E-mail</label>
+                <div class="col-md-10">
+                    <input type="text" id="surname" class="input"  data-bind="value:surname,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="surname_error"></p>
                 </div>
             </div>
@@ -31,23 +38,29 @@
                 <label  class="col-lg-2 control-label">Телефон</label>
                 <label  class="col-lg-1 control-label">+380 </label>
                 <div class="col-lg-9">
-                    <input type="text" id="phone" class="form-control phoneInput input"  data-bind="value:phone,valueUpdate:'afterkeydown'" placeholder="Р С—РЎР‚Р С‘Р С”Р В»Р В°Р Т‘ 12 345 67 89">
+                    <input type="text" id="phone" class="input"  data-bind="value:phone,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="phone_error"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="select" class="col-lg-2 control-label input">Роль</label>
+                <label for="select" class="col-lg-2 control-label">Роль</label>
                 <div class="col-lg-10">
-                    <select class="form-control" id="select" data-bind="options: rolesName,
-                       optionsText: rolesName,
-                       value: role
-                       "></select>
+<!--                    <select class="form-control" id="select" data-bind="options: rolesName,-->
+<!--                       optionsText: rolesName,-->
+<!--                       value: role-->
+<!--                       "></select>-->
+                    <div style="display: inline; margin-right: 10px">
+                        <input type="radio" name="role" data-bind="checked: roleCkeck" value="false" />Cтудент</div>
+                    <div style="display: inline">
+                        <input type="radio" name="role" data-bind="checked: roleCkeck" value="true" />Вчитель</div>
+<!--                    <div class="radio"><input type="radio" name="flavorGroup" value="0" data-bind="checked: role" checked="checked"/> Cтудент</div>-->
+<!--                    <div class="radio"><input type="radio" name="flavorGroup" value="1" data-bind="checked: role" /> Вчитель</div>-->
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <div class="btn" id="reset" href="<?php echo URL;?>app/regist/back_signin">Отмена</div>
-                    <button data-bind="click:sendInfo" class="btn btn-primary" >Создать</button>
+                    <div id="reset" class="button" hreff="<?php echo $_SESSION['logout_link'];?>">Отмена</div>
+                    <div data-bind="click:sendInfo" class="button" >Создать</div>
                 </div>
             </div>
         </fieldset>

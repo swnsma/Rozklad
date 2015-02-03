@@ -5,8 +5,25 @@ function ModelRegist(){
     self.phone = ko.observable('');
     self.gender = ko.observable('');
     self.isChecked=ko.observable(0);
-    self.rolesName=["Студент","Вчитель"];
-    self.role = ko.observable(self.rolesName[0]);
+    self.role=ko.observable(0);
+    self.rolesName=[
+        {itemName:"Студент"},
+        {itemName:"Вчитель"}
+    ];
+
+
+    self.role = ko.observable(false);
+    self.roleCkeck = ko.computed({
+        read: function() {
+            return self.role() + "";
+        },
+        write: function (v) {
+            if (v == "true") self.role(true)
+            else self.role(false)
+        }
+    });
+
+
     self.validName=function(){
         resetError($("#name"),$("#name_error"));
         var  number=self.name();
@@ -60,14 +77,14 @@ function ModelRegist(){
     //self.isAble=function(){
     //    return self.validPhone()&&self.validSurname()&&self.validName();
     //}
-    self.ckeckValidName1=ko.computed(function(){
-        if(self.isChecked()&&self.name()){
+    self.ckeckValidName=ko.computed(function(){
+        if(self.name()){
             resetError($("#name"),$("#name_error"));
             self.isChecked(0);
         }
     });
-    self.ckeckValidSurname1=ko.computed(function(){
-        if(self.isChecked()&&self.surname()){
+    self.ckeckValidSurname=ko.computed(function(){
+        if(self.surname()){
             resetError($("#surname"),$("#surname_error"));
             self.isChecked(0);
         }
@@ -84,7 +101,7 @@ function ModelRegist(){
             check=0;
         }
         if(!self.validPhone()){
-            //self.isChecked(1);
+            self.isChecked(1);
             check=0;
         }
         if(!check)return;
@@ -96,7 +113,7 @@ function ModelRegist(){
             role:self.roleIndex()
         };
         $.ajax({
-                url:'http://localhost/src/app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
+                url:url + 'app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
                 type:"GET",
                 success:function(response){
                     if(response==="registed") {
@@ -119,7 +136,7 @@ function ModelRegist(){
         );
     };
     self.roleIndex=ko.computed(function(){
-        if(self.role()===self.rolesName[0]){
+        if(!self.role()){
             return 0;
         }
         else {
@@ -140,8 +157,7 @@ $(document).ready(function(){
     resetError($("#surname"),$("#surname_error"));
     resetError($("#phone"),$("#phone_error"));
     $("#reset").on("click",function(){
-        var href=$(this).attr("href");
-        var url="http://vk.com";
+        var href=$(this).attr("hreff");
         window.location=href;
     });
 });

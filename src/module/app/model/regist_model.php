@@ -42,18 +42,18 @@ class RegistModel extends Model{
             return null;
         }
     }
-    public function updateGM($gm_id,$id){
+    public function updateGM($gm_id,$email){
         try {
-            $this->db->query("UPDATE user SET gm_id='$gm_id' where id='$id'")->fetchAll();
+            $this->db->query("UPDATE user SET gm_id='$gm_id' where email='$email'")->fetchAll();
         } catch (PDOException $e) {
             echo $e;
             return null;
         }
     }
 
-    public function updateFB($fb_id,$id){
+    public function updateFB($fb_id,$email){
         try {
-            $this->db->query("UPDATE user SET fb_id='$fb_id'  where id='$id'")->fetchAll();
+            $this->db->query("UPDATE user SET fb_id='$fb_id'  where id='$email'")->fetchAll();
         } catch (PDOException $e) {
             echo $e;
             return null;
