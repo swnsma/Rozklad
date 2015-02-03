@@ -53,7 +53,7 @@ class RegistModel extends Model{
 
     public function updateFB($fb_id,$email){
         try {
-            $this->db->query("UPDATE user SET fb_id='$fb_id'  where id='$email'")->fetchAll();
+            $this->db->query("UPDATE user SET fb_id='$fb_id'  where email='$email'")->fetchAll();
         } catch (PDOException $e) {
             echo $e;
             return null;
