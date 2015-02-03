@@ -26,6 +26,7 @@ class Regist extends Controller
         if(isset($_SESSION['gm_ID'])){
             $gm_ID=$_SESSION['gm_ID'];
         }
+        $email=$_SESSION['email'];
         $existUserFb=0;
         $existUserGm=0;
         if($fb_ID) {
@@ -35,8 +36,18 @@ class Regist extends Controller
             $existUserGm = $this->model->checkUserGM($gm_ID);
         }
         if((!$existUserFb)&&(!$existUserGm)) {
-            $reg=$this->model->addUser($name, $surname, $phone,$role, $fb_ID,$gm_ID);
+            $reg=$this->model->addUser($name, $surname, $phone,$role, $fb_ID,$gm_ID,$email);
             if($reg){
+                if(isset($_SESSION['fb_ID'])){
+                    $this->model=$this->loadModel("user");
+                    $id=$this->model->getIdFB($_SESSION["fb_ID"]);
+                    $_SESSION['id']=$id;
+                }
+                if(isset($_SESSION['gm_ID'])){
+                    $this->model=$this->loadModel("user");
+                    $id=$this->model->getIdGM($_SESSION["gm_ID"]);
+                    $_SESSION['id']=$id;
+            }
                 echo "registed";
             }else{
                 echo "not_registed";
