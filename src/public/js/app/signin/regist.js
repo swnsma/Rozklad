@@ -96,7 +96,7 @@ function ModelRegist(){
             role:self.roleIndex()
         };
         $.ajax({
-                url:'http://localhost/src/app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
+                url:url + 'app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
                 type:"GET",
                 success:function(response){
                     if(response==="registed") {
