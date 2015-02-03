@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <title>Calendar|Rozklad</title>
 
-    <link rel='stylesheet' href='<?php echo URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
-    <link rel='stylesheet' href='<?php echo URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
-    <link rel='stylesheet' href='<?php echo URL; ?>public/css/calendar/common.css'/>
-    <link rel='stylesheet' href='<?php echo URL; ?>public/css/common/bootstrap.css'/>
-    <link rel='stylesheet' href='<?php echo URL; ?>public/css/calendar/tooltip.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
+    <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
 
-    <?php if ($data ['title']== 'teacher'): ?>
-        <link rel='stylesheet' type='text/css' href='<?php echo URL; ?>public/js/app/calendar/tcal/tcal.css' />
-        <link rel='stylesheet' type='text/css' href='<?php echo URL; ?>public/css/calendar/popup.css'/>
+    <?php if ($data['title'] == 'teacher'): ?>
+        <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
+        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
+        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
     <?php endif; ?>
 </head>
 <body>
@@ -20,61 +21,124 @@
 <div class="my-tooltip" id="tooltip">
     <h3  id="tooltipTitle">Title</h3>
     <div class="author" id="tooltipAuthor">author</div>
+
     <div class="time">
         <span id="tooltipStart">start</span>-<span id="tooltipEnd">end</span>
     </div>
 
+    <div id="myTooltipGroupList">
+
+    </div>
+
+
 </div>
-<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=<?php echo URL; ?>app/loging/logout'>LogoutGM</a>
-<a href="https://www.facebook.com/logout.php?next=<?php echo URL; ?>app/signin&access_token=<?php echo $data['fb_token'];?>">LogoutFB</a>
+
 <?php if ($data['title'] == 'teacher'): ?>
     <div class='popup' id='popup'>
-        <span id="resetLesson" class="popup-close"> </span>
+        <!--        <span id="resetLesson" class="popup-close"> </span>-->
         <div class='content'>
             <!--<h2 id="typeAction" class='padding28'> Создать Занятие </h2>-->
         </div>
         <form method='post' class='create-lesson'>
             <div class='padding28 inner-wrapper'>
             <span class='tr-create-lesson'>
-                <span>Тема: </span>
+                <span class="bold">Тема: </span>
                 <input class='input-create-lesson' placeholder='Новый ивент' type='text' id='eventType' name='event_type' value=''>
             </span>
             </div>
 
             <div class='padding28 inner-wrapper'>
+
                 <div class='tr-create-lesson'>
+                    <span class="date-span bold">Время проведения:</span>
                     <div class='data-ivent'>
                         <input class='input-span width15px' type='text' name='day' id='day' />/<!--
                     --><input class='input-span width15px' type='text' name ='month' id='month' />/<!--
                     --><input class='input-span' type='text' name='year' id='year' /><!--
-                    --><input type='text' id='tcalInput' name='date' class='tcal' value='' />
-                    </div>
-                    <div class='time-ivent'>
-                        <input class='input-span width15px' placeholder='---' type='text' name='hour-begin' id='hourBegin'/>:<!--
-                    --><input class='input-span width15px' placeholder='---' type='text' name='minutes-begin' id='minutesBegin'/>-
-                        <input class='input-span width15px' placeholder='---' type='text' name='hour-end' id='hourEnd'/>:<!--
+                    --><input type='text' id='tcalInput' name='date' class='tcal' value='' /><!--
+                    --></div><!--
+                    --><div class='time-ivent'><!--
+                       --><input class='input-span width15px' placeholder='---' type='text' name='hour-begin' id='hourBegin'/>:<!--
+                    --><input class='input-span width15px' placeholder='---' type='text' name='minutes-begin' id='minutesBegin'/>-<!--
+                        --><input class='input-span width15px' placeholder='---' type='text' name='hour-end' id='hourEnd'/>:<!--
                     --><input class='input-span width15px' placeholder='---' type='text' name='minutes-end' id='minutesEnd'/>
                     </div>
                 </div>
             </div>
+
             <div class="padding28 inner-wrapper">
-                <p id="name"></p>
-                <p id="surname"></p>
-                <a id="add_group" class="add_group">Добавить групу</a>
+                <div class='tr-create-lesson'>
+                    <span class="bold">Пригласить на ивент: </span>
+                    <div id="listGroups" class="list-groups">
+
+                    </div>
+                </div>
             </div>
-            <div class="padding28 inner-wrapper" id="groups">
-            </div>
+
             <div class="padding28 inner-wrapper">
+                <div class='tr-create-lesson'>
+                    <span class="bold">Преподаватель: </span>
+                    <select id="selectTeacher">
+                        <option value="0">Преподаватель 1</option>
+                        <option value="1">Преподаватель 2</option>
+                        <option value="2">Преподаватель 3</option>
+                        <option value="3">Преподаватель 4</option>
+                    </select>
+                </div>
             </div>
-            <div class='form-group inner-wrapper'>
-                <div class='col-lg-10'>
-                    <button id='delEvent' type='reset' class='btn btn-default'>Удалить</button>
-                    <button id='createNewLesson' type='submit' class='btn btn-primary'>Создать</button>
+
+            <div class=' padding28 inner-wrapper'>
+                <div class='tr-create-lesson'>
+                    <button id='resetLesson' type='reset' class='reset'>Отмена</button>
+                    <button id='createNewLesson' type='submit' class='submit'>Создать</button>
                 </div>
             </div>
         </form>
     </div>
-    <div id="group_block" class="group_block popup" >
+
+
+    <div class="popupEdit" id="popupEdit">
+        <form method='post' class='create-lesson'>
+            <div class='padding28 inner-wrapper'>
+            <span class='tr-create-lesson'>
+                <input  class='input-create-lesson' placeholder='Новый ивент' type='text' id='titleEventEdit' name='event_type' value=''>
+            </span>
+            </div>
+
+            <div class='padding28 inner-wrapper'>
+
+                <div class='tr-create-lesson'>
+                    <span class="date-span bold">Время проведения:</span>
+                    <div class='data-ivent'>
+                        <input placeholder="-----" class='input-span width15px' type='text' name='day' id='dayEdit' />/<!--
+                    --><input placeholder="-----" class='input-span width15px' type='text' name ='month' id='monthEdit' />/<!--
+                    --><input placeholder="-----" class='input-span' type='text' name='year' id='yearEdit' /><!--
+                    --><input placeholder="-----" type='text' id='tcalInputEdit' name='date' class='tcal' value='' />
+                    </div>
+                    <div class='time-ivent'>
+                        <input class='input-span width15px' placeholder='---' type='text' name='hour-begin' id='hourBeginEdit'/>:<!--
+                    --><input class='input-span width15px' placeholder='---' type='text' name='minutes-begin' id='minutesBeginEdit'/>-<!--
+                        --><input class='input-span width15px' placeholder='---' type='text' name='hour-end' id='hourEndEdit'/>:<!--
+                    --><input class='input-span width15px' placeholder='---' type='text' name='minutes-end' id='minutesEndEdit'/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="padding28 inner-wrapper">
+                <div class='tr-create-lesson'>
+                    <span class="bold">Групы: </span>
+                    <div id="listGroupsEdit" class="list-groups">
+
+                    </div>
+                </div>
+            </div>
+            <div class=' padding28 inner-wrapper'>
+                <div class='tr-create-lesson'>
+                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить ивент</button>
+                    <button id='createNewLessonEdit' type='submit' class='submit'>Сохранить изменения</button>
+                </div>
+            </div>
+        </form>
     </div>
 <?php endif; ?>
 
@@ -82,22 +146,22 @@
 
 
 
-<script src='<?php echo URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
-<script src='<?php echo URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
-<script src='<?php echo URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
 
-<script src='<?php echo URL; ?>public/js/app/calendar/RealTimeUpdate.js'></script>
-<script src='<?php echo URL; ?>public/js/app/common.js'></script>
-<script src='<?php echo URL; ?>public/js/app/calendar/Calendar.js'></script>
+
+<script src='<?php print URL; ?>public/js/app/common.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <?php if ($data['title'] == 'teacher'): ?>
 
-    <script type='text/javascript' src='<?php echo URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
-    <script src='<?php echo URL; ?>public/js/app/calendar/teacher.js'></script>
-    <script type='text/javascript' src='<?php echo URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
+    <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
 
 <?php else: ?>
 
-    <script src='<?php echo URL; ?>public/js/app/calendar/student.js'></script>";
+    <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
 <?php endif; ?>
 
 

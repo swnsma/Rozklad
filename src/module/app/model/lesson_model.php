@@ -33,17 +33,6 @@ INNER JOIN User as u ON
 l.teacher = u.id
 where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
-
-$id=$_SESSION['id'];
-            $request1=<<<BORIA
-select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher from user as u
-inner join student_group as ug on ug.student_id=u.id
-inner join groups as g on ug.group_id=g.id
-inner join group_lesson as gl on g.id=gl.group_id
-inner join lesson as l on gl.lesson_id=l.id
-where u.id='$id' AND (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
-group by l.title
-BORIA;
 //
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
@@ -55,23 +44,7 @@ BORIA;
             return null;
         }
     }
-public function getGroups($id){
-    try {
-//            $request = <<<TANIA
-//select * from lesson
-//where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
-//TANIA;
-        $request = <<<TANIA
-select id,name from groups where teacher_id=$id
-TANIA;
 
-        $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-        return $var;
-    } catch(PDOException $e) {
-        echo $e->getMessage();
-        return null;
-    }
-}
     //додає ноаві події
     public function addLesson($title, $start,$end,$id_teacher) {
         try {
@@ -100,52 +73,46 @@ TANIA;
     public function getAllEvent($start,$end){
         return $this->getEventsInterval($start,$end,'start');
     }
-public function getAllGroupsForThisLesson($id)
-{
-
-    try {
-        $request = <<<BORIA
-  SELECT
-b.id,
-b.name,
-b.description,
-b.teacher_id
-FROM groups AS b
-JOIN group_lesson AS ba ON b.id = ba.group_id
-JOIN lesson AS a ON a.id = ba.lesson_id
-WHERE ba.lesson_id = $id
-BORIA;
-
-        $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-        return $var;
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-        return null;
-    }
-}
 
     //Реал Тайм Апдейт
-    public function getRealTimeUpdate($iteration){
+    public function getRealTimeUpdate($iteration,$id){
         $end =$this->realDate();
         $start =$this->realDate();
         $myIteration = $iteration+10;
         $start=$start->modify("-$myIteration second");
         $start=$start->format($this->formatDate());
         $end=$end->format($this->formatDate());
-//        echo $start->format($this->formatDate());
-//        echo $end->format($this->formatDate());
 
-//        $start=$start->modify("-$iteration second");
+
         try {
-            $request = <<<TANIA
-                select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
- u.name, u.surname from lesson as l
-INNER JOIN User as u ON
-l.teacher = u.id
-                    where l.update_date BETWEEN '$start' AND '$end'
-TANIA;
-            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            return $var;
+//            echo $id;
+            $res ="select l.id,
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            from 'student_group'as st_g
+            INNER JOIN  'group_lesson' as  gr ON
+            st_g.group_id=gr.group_id
+            INNER JOIN 'lesson' as l ON
+            l.id=gr.lesson_id
+            INNER JOIN 'user' as u ON
+            u.id=l.teacher
+            WHERE (st_g.student_id='$id')
+            AND (l.update_date BETWEEN '$start' AND '$end')";
+            $var =$this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
+            $res ="select l.id,
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            from 'lesson'as l, 'user' as u
+            WHERE u.id=l.teacher AND l.teacher='$id'
+            AND (l.update_date BETWEEN '$start' AND '$end') ";
+
+
+            $var1 =$this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
+            $var2=array_merge($var,$var1);
+            $result = array_unique($var2,SORT_REGULAR);
+            sort($result);
+//            print_r($result);
+            return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
@@ -177,9 +144,9 @@ l.teacher = u.id
 where l.id=$id
 TANIA;
 
-                $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
 //            echo $var;
-                return $var;
+            return $var;
 
         } catch(PDOException $e) {
             echo $e;
@@ -187,7 +154,31 @@ TANIA;
         }
     }
 
-    public function addGroupToLesson($lessonId,$groupId){ 
+    public function getAllGroupsForThisLesson($id)
+    {
+
+        try {
+            $request = <<<BORIA
+  SELECT
+b.id,
+b.name,
+b.description,
+b.teacher_id
+FROM groups AS b
+JOIN group_lesson AS ba ON b.id = ba.group_id
+JOIN lesson AS a ON a.id = ba.lesson_id
+WHERE ba.lesson_id = $id
+BORIA;
+
+            $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function addGroupToLesson($lessonId,$groupId){
         try {
             $request = <<<BORIA
             insert into group_lesson(group_id,lesson_id)values('$groupId','$lessonId')
@@ -213,6 +204,43 @@ BORIA;
 
         } catch(PDOException $e) {
             echo $e;
+            return null;
+        }
+    }
+
+
+    public function  getOurLessonForThisId($id,$start,$end){
+        try {
+//            echo $id;
+            $res ="select l.id,
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            from 'student_group'as st_g
+            INNER JOIN  'group_lesson' as  gr ON
+            st_g.group_id=gr.group_id
+            INNER JOIN 'lesson' as l ON
+            l.id=gr.lesson_id
+            INNER JOIN 'user' as u ON
+            u.id=l.teacher
+            WHERE (st_g.student_id='$id')
+            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+            $var =$this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
+            $res ="select l.id,
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            from 'lesson'as l, 'user' as u
+            WHERE u.id=l.teacher AND l.teacher='$id'
+            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+
+
+            $var1 =$this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
+            $var2=array_merge($var,$var1);
+            $result = array_unique($var2,SORT_REGULAR);
+            sort($result);
+//            print_r($result);
+            return $result;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
             return null;
         }
     }

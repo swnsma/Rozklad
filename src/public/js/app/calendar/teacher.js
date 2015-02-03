@@ -1,6 +1,12 @@
 /**
  * Created by Таня on 22.01.2015.
  */
+
+function remove(elem) {
+    return elem.parentNode ? elem.parentNode.removeChild(elem) : elem;
+}
+
+
 //наслідується від простого календара // налаштування календара
 Array.prototype.remove = function(from, to) {
     var rest = this.slice((to || from) + 1 || this.length);
@@ -18,34 +24,57 @@ function Calendar_teacher(){
     var self=this;
     var lastDate;
     var lasSelecrDay;
+    var lastEvent;
     Calendar.call(this);
 
-    var currentUser;
-    function isEmpty( el ){
-        return !$.trim(el.html())
-    }
-    function findGroupById(event,id){
-        for(var i=0;i<event.group.length;i++){
-            if((event.group[i].id+"")===(id+"")){
-                return event.group[i];
+    var currentUser=[];
+    var groups=[];
+    var addGrops={
+        status:0,
+        valueOption:[],
+        groups:[]
+    };
+
+    var ourteacher=[];
+
+    (function(){
+        $.ajax({
+            url: url+'app/calendar/getOurGroups/',
+            //url: url+'app/calendar/getGroups/',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(doc) {
+                groups=doc;
+            },
+            error: function(){
+
             }
-        }
-        return -1;
+        });
+    })();
+
+    function reset_addGroups(){
+        addGrops.valueOption=[];
+        addGrops.status=0;
+        addGrops.groups=[];
     }
-    function findGroupIndexById(event,id){
-        for(var i=0;i<event.group.length;i++){
-            if((event.group[i].id+"")===(id+"")){
-                return i;
-            }
-        }
-        return -1;
-    }
+
+
     function delPopup(){
-        if(self.jqueryObject.popup.popup.css('display')==='block'){
+        if(self.jqueryObject.popup.popup.css('display')==='block'||self.jqueryObject.popupEdit.popupEdit.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
-            lasSelecrDay.css({
-                'backgroundColor':'RGBA(0,0,0,0)'
-            });
+            self.jqueryObject.popupEdit.popupEdit.hide();
+            if(lasSelecrDay) {
+                lasSelecrDay.css({
+                    'backgroundColor': 'RGBA(0,0,0,0)'
+                });
+            }
+            if(lastEvent) {
+                lastEvent.css({
+                    'backgroundColor': 'rgb(2, 154, 207)'
+                });
+            }
+
+            self.jqueryObject.popup.listGroups.empty();
             //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
             f_tcalCancel();
             return 1;
@@ -55,30 +84,248 @@ function Calendar_teacher(){
 
     function posPopup(allDay){
         var x= allDay.pageX;
-        var y = allDay.pageY;
+        var y = allDay.pageY+10;
         var height=screen.height;
         var width=screen.width;
         var widthPopup=self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2);
         var heightPopup=self.jqueryObject.popup.popup.css('height').slice(0,self.jqueryObject.popup.popup.css('height').length-2);
 
         x=x-(+widthPopup)/2;
-        if((y+(+heightPopup)+70)>=height){
+        if((y+(+heightPopup)+90)>=height){
             y=y-heightPopup;
         }
         self.jqueryObject.popup.popup.css({
             'left':x,
             'top':y
         });
+        self.jqueryObject.popupEdit.popupEdit.css({
+            'left':x,
+            'top':y
+        })
     }
+
+    function CreateSelect(parent){
+        var k=0;
+        var nNonSelect=1;
+        var lenthGroop=0;
+        function privateCreate(selectedOption) {
+            function addOption(objectSelect,del,select_obj){
+                console.log(select_obj);
+                objectSelect.empty();
+                var i = 1;
+                if (addGrops.groups.length === 0 ) {
+                    var opt = document.createElement('option');
+                    opt.value = 0;
+                    opt.innerHTML = "Пригласить групу";
+                    objectSelect.append($(opt));
+                    for (var j = 0; j < groups.length; ++j) {
+                        opt = document.createElement('option');
+                        opt.value = groups[j].id;
+                        opt.innerHTML = groups[j].name;
+                        objectSelect.append($(opt));
+                        i++;
+                    }
+                }
+                else{
+                    if(!select_obj) {
+                        var opt = document.createElement('option');
+                        opt.innerHTML = "Пригласить групу";
+
+                        if (+$select.val() === 0 && lenthGroop == 1) {
+                            opt.innerHTML = "Пригласить групу";
+                        }
+
+                        opt.value = 0;
+                        objectSelect.append($(opt));
+                    }
+                    for (var j = 0; j < groups.length; ++j) {
+                        for(var m=0;m<addGrops.groups.length;++m){
+                            if(+addGrops.groups[m].id===+groups[j].id){
+                                break;
+                            }
+                            if(m===addGrops.groups.length-1){
+                                opt = document.createElement('option');
+                                opt.value = groups[j].id;
+                                opt.innerHTML = groups[j].name;
+                                objectSelect.append($(opt));
+                            }
+                        }
+                        i++;
+                    }
+                }
+
+                if(select_obj){
+                    var opt = document.createElement('option');
+                    opt.value = +select_obj.id;
+                    opt.innerHTML = select_obj.name;
+
+                    objectSelect.append($(opt));
+                    opt.selected=true;
+                    del.show();
+                }else{
+                    debugger;
+                    del.hide()
+                }
+
+
+
+            }
+            if (addGrops.status == 0) {
+                var typeVal=0;
+                if(selectedOption){
+                    typeVal=+selectedOption.id;
+                }
+                lenthGroop++;
+                var $div = $('<div class="group-add">');
+                $div.appendTo($(parent));
+
+                var $select = document.createElement('select');
+                $select.id = 'selectGroups' + k;
+                k++;
+                $select = $($select);
+                $select.appendTo($div);
+                var $del=$('<span class="del-groups-event"> X </span>');
+                addOption($select,$del);
+
+
+                $del.appendTo($div);
+                $del.on('click',function(){
+                    if($select.val()!='0') {
+                        lenthGroop--;
+                        debugger;
+                        var id = $select.attr('id');
+                        var valOption = addGrops.valueOption;
+                        var group = addGrops.groups;
+                        for (var i = 0; i < valOption.length; ++i) {
+                            if (valOption[i] === id) {
+                                debugger;
+                                addGrops.valueOption.splice(i, 1);
+                            }
+                        }
+                        for (var i = 0; i < group.length; ++i) {
+                            if (group[i].valueSelect === id) {
+                                debugger;
+                                addGrops.groups.splice(i, 1);
+                            }
+                        }
+                        if(lenthGroop===0||nNonSelect===0){
+                            privateCreate();
+                            nNonSelect++;
+                        }
+                        $select.remove();
+                        $(this).remove();
+
+                    }
+                });
+
+                $select.on('change', function () {
+                    if($select.val()===0){
+                        $del.hide();
+                    }else{
+                        $del.show();
+                    }
+                    var text =$select.attr('id');
+                    text='#'+text+' option:selected';
+                    var bool=false;
+                    for(var i =0;i<addGrops.valueOption.length;++i){
+                        if(addGrops.valueOption[i]===$select.attr('id')){
+                            bool=true;
+                            break;
+                        }
+                    }
+                    if(bool){
+                        for(var i =0;i<addGrops.groups.length;++i){
+                            if(addGrops.groups[i].valueSelect===$select.attr('id')){
+                                addGrops.groups[i]={
+                                    valueSelect: $select.attr('id'),
+                                    id: $select.val(),
+                                    name: $(text).text()
+                                };
+                                break;
+                            }
+                        }
+                    }
+                    if(!bool) {
+                        addGrops.valueOption.push($select.attr('id'));
+                        addGrops.groups.push({
+                            valueSelect: $select.attr('id'),
+                            id: $select.val(),
+                            name: $(text).text()
+                        });
+                    }
+                    if(+$select.val()!=0&&typeVal===0){
+                        nNonSelect--;
+                    }else
+                        if(+$select.val()===0)
+                        {
+                            lenthGroop--;
+                            $select.remove();
+
+                        if(nNonSelect<=0){
+                            nNonSelect++;
+                            privateCreate();
+                        }
+                    }
+                    if (lenthGroop < groups.length&&+$select.val()!=0&&typeVal===0) {
+                        if(+$select.val()!==0) {
+                            nNonSelect++;
+                            privateCreate();
+                        }
+
+
+                    }
+                    typeVal=$select.val();
+
+                });
+                $select.on('mouseover',function(){
+                    var text =$select.attr('id');
+                    text='#'+text+' option:selected';
+                    console.log($select.val());
+                    if(+$select.val()!==0) {
+
+                        addOption($select, $del,{
+                            id: $select.val(),
+                            name: $(text).text()
+                        });
+                    }else{
+                        addOption($select,$del);
+                    }
+                });
+            }
+
+
+            if(selectedOption){
+                addGrops.groups.push({
+                    valueSelect: 'selectGroups'+(k-1),
+                    id: selectedOption.id,
+                    name: selectedOption.name
+                });
+                addGrops.valueOption.push('selectGroups'+(k-1));
+                addOption($select,$del,selectedOption);
+
+            }
+        }
+
+        this.addSelected=function(idGroup){
+            privateCreate(idGroup);
+            var select  = $('#selectGroups0');
+        };
+
+
+        privateCreate();
+    }
+
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){
 
             return;
         }
+        reset_addGroups();
+
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
-        self.jqueryObject.popup.day.day.val(date._d.getDate());
-        self.jqueryObject.popup.day.month.val(date._d.getMonth()+1);
+        self.jqueryObject.popup.day.day.val(toFormat(date._d.getDate()));
+        self.jqueryObject.popup.day.month.val(toFormat(date._d.getMonth()+1));
         self.jqueryObject.popup.day.year.val(date._d.getFullYear());
         self.jqueryObject.popup.popup.show();
         self.jqueryObject.popup.typePopup.val('');
@@ -86,6 +333,10 @@ function Calendar_teacher(){
         self.jqueryObject.popup.start.minutes.val('00');
         self.jqueryObject.popup.end.hour.val('16');
         self.jqueryObject.popup.end.minutes.val('00');
+
+
+
+        var b = new CreateSelect( self.jqueryObject.popup.listGroups);
         //self.jqueryObject.popup.typeAction.text('Создать событие');
         self.jqueryObject.popup.button.submit.text('Создать');
         action = masAction[0];
@@ -100,9 +351,13 @@ function Calendar_teacher(){
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
+        debugger;
+        reset_addGroups();
         if(delPopup()){
             return;
         }
+
+        lastEvent=$(this);
         if(calEvent.deleted){
             $.ajax({
                 url: url + 'app/calendar/restore/' + calEvent.id,
@@ -121,95 +376,54 @@ function Calendar_teacher(){
             });
             return;
         }
+        $(this).css({  'backgroundColor':'RGB(0,100,160)' });
         if(currentUser.id!==calEvent.teacher){
             return;
         }
-        self.jqueryObject.popup.button.delEvent.css({'visibility':'visible'});
-        self.jqueryObject.popup.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
-        self.jqueryObject.popup.day.day.val(calEvent.start._d.getDate());
-        self.jqueryObject.popup.day.month.val(calEvent.start._d.getMonth()+1);
-        self.jqueryObject.popup.day.year.val(calEvent.start._d.getFullYear());
-        self.jqueryObject.popup.popup.show();
-        self.jqueryObject.popup.typePopup.val(calEvent.title);
-        self.jqueryObject.popup.start.hour.val(calEvent.start._d.getHours());
-        self.jqueryObject.popup.start.minutes.val(calEvent.start._d.getMinutes());
-        self.jqueryObject.popup.end.hour.val(calEvent.end._d.getHours());
-        self.jqueryObject.popup.end.minutes.val(calEvent.end._d.getMinutes());
-        //self.jqueryObject.popup.typeAction.text('Редактировать');
-        self.jqueryObject.popup.button.submit.text('Сохранить');
-        var blockGroup=self.jqueryObject.popup.groupsBlock;
-        blockGroup.empty();
-        var groups = calEvent.group;
 
-        //if (isEmpty(blockGroup))
-        //{
-        //    for(var i=0;i<groups.length;i++){
-        //        blockGroup.append($("<div class='lessonGroup'>"+ groups[i].name+"<div class='deleteGroup' id_g='"+groups[i].id+"'>X</div></div>"));
-        //    }
-        //}}
+        var hourStart = calEvent.start._d.getHours();
+        hourStart=toFormat(hourStart);
+        var minutesStart = calEvent.start._d.getMinutes();
+        minutesStart=toFormat(minutesStart);
+
+
+        var hourEnd =calEvent.end._d.getHours();
+        hourEnd=toFormat(hourEnd);
+
+
+        var minutesEnd = calEvent.end._d.getMinutes();
+        minutesEnd=toFormat(minutesEnd);
+
+        self.jqueryObject.popupEdit.listGroup.empty();
+        self.jqueryObject.popupEdit.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
+        self.jqueryObject.popupEdit.day.day.val(toFormat(calEvent.start._d.getDate()));
+        self.jqueryObject.popupEdit.day.month.val(toFormat(calEvent.start._d.getMonth()+1));
+        self.jqueryObject.popupEdit.day.year.val(calEvent.start._d.getFullYear());
+        self.jqueryObject.popupEdit.popupEdit.show();
+        self.jqueryObject.popupEdit.titleEvent.val(calEvent.title);
+        self.jqueryObject.popupEdit.start.hour.val(hourStart);
+        self.jqueryObject.popupEdit.start.minutes.val(minutesStart);
+        self.jqueryObject.popupEdit.end.hour.val(hourEnd);
+        self.jqueryObject.popupEdit.end.minutes.val(minutesEnd);
+
         originalEvent=calEvent;
-        $(".deleteGroup").on("click",function(){
-            var id=+$(this).attr("id_g");
-            var urls = url + 'app/calendar/deleteGroupFromLesson/'+originalEvent.id+"/"+id;
-            var that =$(this);
-            var ii=findGroupById(originalEvent,id);
-            $.ajax({
-                url: urls,
-                type: 'GET',
-                contentType: 'application/json',
-                success: function(response){
-                    if(response=='ok'){
-                        if(ii!=-1) {
-                            originalEvent.group.remove(findGroupIndexById(originalEvent,id));
-                            that.parent().remove();
-                        }
-                    }
-                },
-                error: function(er) {
-                    alert(er);
-                }
 
-            });
-        });
         idUpdate=calEvent.id;
 
         orig2=calEvent;
         action = masAction[1];
-        //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
-        f_tcalCancel();
-
-        var x= jsEvent.pageX;
-        var y = jsEvent.pageY;
-        x=x-self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2)/2;
-        self.jqueryObject.popup.popup.css({
-            'left':x,
-            'top':y
-        });
+        posPopup(jsEvent);
+        var create =new CreateSelect( self.jqueryObject.popupEdit.listGroup);
+        if(calEvent.group) {
+            for (var i = 0; i < calEvent.group.length; ++i) {
+                create.addSelected({
+                    id: calEvent.group[i].id,
+                    name: calEvent.group[i].name
+                });
+            }
+        }
 
     };
-    this.jqueryObject.popup.button.addGroup.on("click",function(e){
-        var x= e.clientX;
-        var y= e.clientY;
-        var block = self.jqueryObject.popup.addGroupBlock;
-        var x1=$(this).offset().left+100;
-        var y1=$(this).offset().top;
-        block.css({
-            "top":y1,
-            "left":x1,
-            "display":"block"});
-
-        if (isEmpty(block))
-        {
-            for(i=0;i<self.groups.length;i++){
-                item=$("<p class='group'>"+self.groups[i].name+"</p>");
-                item.attr("id",i+"");
-            block.append(item)
-            }
-       self.initGroupClick();
-
-        }
-    });
-
 
     this.option.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
@@ -230,29 +444,42 @@ function Calendar_teacher(){
         });
     };
 
-    this.initGroupClick=function(){
-        $(".group").click(function(){
-            var id=self.groups[+$(this).attr("id")].id;
-            var ii=+$(this).attr("id");
-            var urls = url + 'app/calendar/addGroupToLesson/'+originalEvent.id+"/"+id;
-            $.ajax({
-                url: urls,
-                type: 'GET',
-                contentType: 'application/json',
-                success: function(response){
-                    if(response=='ok'){
-                       originalEvent.group.push(self.groups[ii]);
-                        self.jqueryObject.popup.groupsBlock.append($("<div class='lessonGroup'>"+ self.groups[ii].name+"<div class='deleteGroup' id_g='"+self.groups[ii].id+"'>X</div></div>"));
-                    }
-                },
-                error: function(er) {
+    //моя функція
+    function addGroups(lesson_id){
+        debugger;
+        var myAddGroups=[];
+        for(var i =0;i<addGrops.groups.length;++i){
+            if(+addGrops.groups.id!==0){
+                myAddGroups.push(addGrops.groups[i].id);
+            }
+        }
+        //if(myAddGroups.length===0){
+        //    for(var i =0;i<groups.length;++i){
+        //        myAddGroups.push(groups[i].id);
+        //    }
+        //}
+        var myget='';
+        for(var i=0;i<myAddGroups.length;++i){
+            myget=myget+'/'+myAddGroups[i];
+        }
+        var urls = url + 'app/calendar/addGroupsToLesson/'+lesson_id+myget;
 
-                    alert(er);
+        $.ajax({
+            url: urls,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(response){
+                if(response.success=='success'){
+                    //alert('ASDASD');
                 }
-
-            });
+            },
+            error: function(er) {
+                alert(er);
+            }
         });
-    };
+    }
+
     self.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
@@ -271,20 +498,21 @@ function Calendar_teacher(){
 
         });
     };
+
     self.getGroups = function(){
         $.ajax({
-            url: url+'app/calendar/getGroups/'+currentUser.id,
+            url: url+'app/calendar/getOurGroups/',
+            //url: url+'app/calendar/getGroups/',
             contentType: 'application/json',
             dataType: 'json',
             success: function(doc) {
-                self.groups=doc;
+                groups=doc;
             },
             error: function(){
 
             }
         });
     };
-
 
     this.jqueryObject.calendar.fullCalendar(this.option);
 
@@ -309,68 +537,26 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.start.minutes);
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
+
+        focusDelete(this.jqueryObject.popupEdit.titleEvent);
+        focusDelete(this.jqueryObject.popupEdit.day.day);
+        focusDelete(this.jqueryObject.popupEdit.day.month);
+        focusDelete(this.jqueryObject.popupEdit.day.year);
+        focusDelete(this.jqueryObject.popupEdit.start.hour);
+        focusDelete(this.jqueryObject.popupEdit.start.minutes);
+        focusDelete(this.jqueryObject.popupEdit.end.hour);
+        focusDelete(this.jqueryObject.popupEdit.end.minutes);
+
     };
 
     //функція яка відповідає за поведення popup
     this.click_body = function(){
-        //$(document).click(function(event){
-        //    debugger;
-        //    ///метод який приховує popup, якщо натиснуто не на pop'api або ж на дні
-        //    //говноКоДЭ
-        //    var bool=false;
-        //    var target= event.target;
-        //    if(target.className==='fc-more'){
-        //        bool = false;
-        //    }else{
-        //        if(event.target.id==='popup'||event.target.id==='tcal'|| event.target.id==='tcalNextMonth'||
-        //            event.target.id==='tcalPrevMonth'){
-        //            bool=true;
-        //        }else{
-        //            var teg=$(event.target).parents('#popup')[0];
-        //            if(teg){
-        //                bool=true;
-        //            }
-        //            teg=$(event.target).parents(".fc-content-skeleton")[0];
-        //            if(teg){
-        //                bool=true;
-        //            }
-        //            teg=$(event.target).parents("#tcal")[0];
-        //            if(teg){
-        //                bool=true;
-        //            }
-        //        }
-        //    }
-        //    if(!bool){
-        //        var classList = $(event.target)[0].classList;
-        //        for (var i = 0; i < classList.length; ++i) {
-        //            if (classList[i] === 'fc-day' || classList[i] === 'fc-day-number'||classList[i]==='fc-event-container') {
-        //                bool = true;
-        //
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    if(!bool&&event.target.id!=="group_block"&&event.target.id!=="group"&&!$(event.target).hasClass("group")) {
-        //        $('#popup').hide();
-        //
-        //        //маг метод з файла tcal.js , що б зкинути налаштування маленького календарика
-        //        f_tcalCancel();
-        //    }
-        //
-        //    if(event.target.id!=="add_group"&&event.target.id!=="group_block"&&!$(event.target).hasClass("group")){
-        //        $("#group_block").hide();
-        //    }
-        //
-        //    if(self.jqueryObject.popup.popup.css('display')==='none'){
-        //
-        //
-        //    }
-        //});
+
         $(document).on('click',function(event){
             var target=event.target;
             var bool=false;
             while(target.tagName!=='BODY') {
-                if (target.className === "fc-day-grid-container"||target.className === "popup"||target.id==='group_block'||target.id==='tcal') {
+                if (target.className === "fc-day-grid-container"||target.className === "fc-widget-content"||target.className === "popup"||target.id==='group_block'||target.id==='tcal'||target.className === "popupEdit") {
                     bool = true;
                     break;
                 } else {
@@ -386,58 +572,80 @@ function Calendar_teacher(){
 
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
-        var date = self.jqueryObject.popup.day;
-        function sync(){
-            self.jqueryObject.popup.tcalInput.val(date.day.val()+'-'+date.month.val()+'-'+date.year.val());
+
+        function private(date) {
+
+
+            function sync() {
+                self.jqueryObject.popup.tcalInput.val(date.day.val() + '-' + date.month.val() + '-' + date.year.val());
+                self.jqueryObject.popupEdit.tcalInput.val(date.day.val() + '-' + date.month.val() + '-' + date.year.val());
+            }
+
+            date.day.mask('99', {placeholder: "-----"});
+            date.day.on('input', function () {
+                if (this.value > 31) {
+                    this.value = 31;
+                }
+                if (this.value.length == 2) {
+                    if (parseInt(this.value)) {
+                        this.value = parseInt(this.value);
+                        date.month.focus();
+                    }
+
+                }
+                sync();
+            });
+
+            date.month.mask('99', {placeholder: "-----"});
+            date.month.on('input', function () {
+                if (this.value > 12) {
+                    this.value = 12;
+                }
+                if (this.value.length == 2) {
+                    if (parseInt(this.value)) {
+                        this.value = parseInt(this.value);
+                        date.year.focus();
+                    }
+                }
+                sync();
+            });
+
+            date.year.mask('9999', {placeholder: "---------"});
+            date.year.on('input', function () {
+                if (this.value.length == 4) {
+                    if (parseInt(this.value)) {
+                        this.value = parseInt(this.value);
+                        self.jqueryObject.popup.start.hour.focus();
+                    }
+                }
+                sync();
+            });
+
+            $tcalInput.on('input', function () {
+                var val = this.value;
+                var mas = val.split('-');
+                date.day.val(mas[0]);
+                date.month.val(mas[1]);
+                date.year.val(mas[2]);
+            });
+            $tcalInputEdit.on('input', function () {
+                var val = this.value;
+                var mas = val.split('-');
+                date.day.val(mas[0]);
+                date.month.val(mas[1]);
+                date.year.val(mas[2]);
+            });
+
         }
+        var date = self.jqueryObject.popupEdit.day;
 
-        date.day.mask('99',{placeholder:"-----"});
-        date.day.on('input',function(){
-            if(this.value>31){
-                this.value=31;
-            }
-            if(this.value.length==2){
-                if(parseInt(this.value)) {
-                    this.value=parseInt(this.value);
-                    date.month.focus();
-                }
+        private(date);
+        date=self.jqueryObject.popup.day;
+        private(date);
 
-            }
-            sync();
-        });
 
-        date.month.mask('99',{placeholder:"-----"});
-        date.month.on('input',function(){
-            if(this.value>12){
-                this.value=12;
-            }
-            if(this.value.length==2){
-                if(parseInt(this.value)) {
-                    this.value=parseInt(this.value);
-                    date.year.focus();
-                }
-            }
-            sync();
-        });
 
-        date.year.mask('9999',{placeholder:"---------"});
-        date.year.on('input',function(){
-            if(this.value.length==4){
-                if(parseInt(this.value)) {
-                    this.value=parseInt(this.value);
-                    self.jqueryObject.popup.start.hour.focus();
-                }
-            }
-            sync();
-        });
 
-        $tcalInput.on('input',function(){
-            var val=this.value;
-            var mas=val.split('-');
-            date.day.val(mas[0]);
-            date.month.val(mas[1]);
-            date.year.val(mas[2]);
-        });
     };
 
     //валідація поля дати
@@ -456,18 +664,22 @@ function Calendar_teacher(){
                         }
                     }
                 })
-            }else{
+            }
+            else{
                 mask.on('input',function(){
+                    debugger;
                     if(this.value>59){
                         this.value=59;
                     }
-                    if(mask!=$minutesEnd) {
-                        if (this.value.length == 2) {
+                    if(type!='minutesEnd') {
+                        if (this.value.length === 2) {
                             this.value = parseInt(this.value);
                             if (parseInt(this.value)) {
                                 this.value = parseInt(this.value);
 
-                                focus.focus();
+                                if(mask!=$minutesEnd) {
+                                    focus.focus();
+                                }
 
                             }
                         }
@@ -482,11 +694,219 @@ function Calendar_teacher(){
         maskEndFocus($hourBegin,$minutesBegin,'hour');
         maskEndFocus($minutesBegin,$hourEnd,'minutes');
         maskEndFocus($hourEnd,$minutesEnd,'hour');
-        maskEndFocus($minutesEnd,$minutesEnd,'minutes');
+        maskEndFocus($minutesEnd,$minutesEnd,'minutesEnd');
+
+
+        $hourBegin = self.jqueryObject.popupEdit.start.hour;
+        $minutesBegin = self.jqueryObject.popupEdit.start.minutes;
+        $hourEnd = self.jqueryObject.popupEdit.end.hour;
+        $minutesEnd = self.jqueryObject.popupEdit.end.minutes;
+        maskEndFocus($hourBegin,$minutesBegin,'hour');
+        maskEndFocus($minutesBegin,$hourEnd,'minutes');
+        maskEndFocus($hourEnd,$minutesEnd,'hour');
+        maskEndFocus($minutesEnd,$minutesEnd,'minutesEnd');
 
 
     };
 
+    //моя функція
+    function editGroups(lesson_id,originalGroup){
+
+
+        var myAddGroups=[];
+        var myDelGroups=[];
+
+        if(!originalGroup) {
+            originalGroup=[];
+        }
+
+        if(originalGroup.length!==0&&addGrops.length!==0){
+            for(var i=0;i<addGrops.groups.length;++i){
+                for(var j=0;j<originalGroup.length;++j){
+                    if(addGrops.groups[i].id===originalGroup[j].id){
+                        break;
+                    }
+                    if(j===originalGroup.length-1){
+                        if(addGrops.groups[i].id!=='0') {
+                            myAddGroups.push(addGrops.groups[i].id);
+                        }
+                    }
+                }
+            }
+            for(var i=0;i<originalGroup.length;++i){
+                for(var j=0;j<addGrops.groups.length;++j){
+                    if(addGrops.groups[j].id===originalGroup[i].id){
+                        break;
+                    }
+                    if(j===addGrops.groups.length-1){
+                        myDelGroups.push(originalGroup[i].id);
+                    }
+                }
+            }
+        }
+
+        if(originalGroup.length===0){
+            for(var i=0;i<addGrops.groups.length;++i){
+                if(addGrops.groups[i].id!=='0') {
+                    myAddGroups.push(addGrops.groups[i].id);
+                }
+            }
+        }
+        if(addGrops.groups.length===0){
+            for(var i=0;i<originalGroup.length;++i){
+                myDelGroups.push(originalGroup[i].id);
+            }
+        }
+
+
+        if(myAddGroups.length===0&&myDelGroups.length===0){
+            return;
+        }
+        if(myAddGroups.length!==0){
+            var myget='';
+            for(var i=0;i<myAddGroups.length;++i){
+
+                myget=myget+'/'+myAddGroups[i];
+            }
+            var urls = url + 'app/calendar/addGroupsToLesson/'+lesson_id+myget;
+
+            $.ajax({
+                url: urls,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(response){
+                    if(response.success=='success'){
+                        //alert('ASDASD');
+                    }
+                },
+                error: function(er) {
+                    alert(er);
+                }
+            });
+
+        }
+        if(myDelGroups.length!==0){
+            var myget='';
+            for(var i=0;i<myDelGroups.length;++i){
+                myget=myget+'/'+myDelGroups[i];
+            }
+            var urls = url + 'app/calendar/deleteGroupFromLesson/'+lesson_id+myget;
+
+            $.ajax({
+                url: urls,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(response){
+                    if(response.success=='success'){
+                        //alert('ASDASD');
+                    }
+                },
+                error: function(er) {
+                    alert(er);
+                }
+            });
+        }
+
+    }
+
+    this.editLesson= function(){
+        var newDate = new Date();
+        var jqueryObjectPopup  = self.jqueryObject.popupEdit;
+        jqueryObjectPopup.button.submit.on('click',function(){
+            var idUpdate = originalEvent.id;
+            //константи
+            var title= (jqueryObjectPopup.titleEvent.val()||'Новый ивент');
+            var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
+            var month=(jqueryObjectPopup.day.month.val()||newDate.getMonth()+1);
+            var day=(jqueryObjectPopup.day.day.val()||newDate.getDate());
+            var hourBegin=(jqueryObjectPopup.start.hour.val()||'14');
+            var minutesBegin=(jqueryObjectPopup.start.minutes.val()||'00');
+            var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
+            var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
+
+            if(+hourEnd<=+hourBegin){
+                debugger;
+                hourEnd=hourBegin;
+                if(+minutesEnd<=+minutesBegin){
+                    minutesEnd=+minutesBegin+1;
+                    if(+minutesEnd>=60){
+                        minutesEnd=0;
+                        hourEnd=+hourEnd+1;
+                        if(+hourEnd>23){
+                            hourBegin=22;
+                            hourEnd=23;
+                        }
+                    }
+                }
+            }
+
+            function lentghtCom(string){
+                if(string.length!=2){
+                    return '0'+string;
+                }else{
+                    return string;
+                }
+            }
+
+            hourBegin=lentghtCom(hourBegin);
+            minutesBegin=lentghtCom(minutesBegin);
+            hourEnd=lentghtCom(hourEnd);
+            minutesEnd=lentghtCom(minutesEnd);
+            var startFun = function(){
+                if(month.length!=2){
+                    month='0'+month;
+                }
+                if(day.length!=2){
+                    day='0'+day;
+                }
+                return year+'-'+month+'-'+day+' '+hourBegin+':'+minutesBegin+':00';
+            };
+            var endFun = function(){
+                if(month.length!=2){
+                    month='0'+month;
+                }
+                if(day.length!=2){
+                    day='0'+day;
+                }
+                return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
+            };
+            var urls=0;
+
+                urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
+
+
+
+            $.ajax({
+                url: urls,
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(id){
+                    originalEvent.id=idUpdate;
+                    originalEvent.title=title;
+                    originalEvent.start=startFun();
+                    originalEvent.end=endFun();
+
+
+                    self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
+                    editGroups(idUpdate,originalEvent.group);
+                    originalEvent.group=null;
+
+
+
+                },
+                error: function(er) {
+                    alert(er);
+                }
+
+            });
+
+            delPopup();
+            return false;
+        });
+    };
     //додавання нового івента
     this.addLesson=function(){
         var newDate = new Date();
@@ -501,6 +921,24 @@ function Calendar_teacher(){
             var minutesBegin=(jqueryObjectPopup.start.minutes.val()||'00');
             var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
+
+
+            debugger;
+            if(+hourEnd<=+hourBegin){
+                debugger;
+                hourEnd=hourBegin;
+                if(+minutesEnd<=+minutesBegin){
+                    minutesEnd=+minutesBegin+1;
+                    if(+minutesEnd>=60){
+                        minutesEnd=0;
+                        hourEnd=+hourEnd+1;
+                        if(+hourEnd>23){
+                            hourBegin=22;
+                            hourEnd=23;
+                        }
+                    }
+                }
+            }
 
             function lentghtCom(string){
                 if(string.length!=2){
@@ -562,6 +1000,7 @@ function Calendar_teacher(){
                             name: currentUser.name,
                             surname: currentUser.surname
                         });
+                        addGroups(id.id);
 
                     }else{
                         originalEvent.id=idUpdate;
@@ -577,14 +1016,14 @@ function Calendar_teacher(){
 
             });
 
-            self.jqueryObject.popup.popup.hide();
+           delPopup();
             return false;
         });
     };
 
     this.delLesson=function(){
 
-        this.jqueryObject.popup.button.delEvent.on('click',function(){
+        this.jqueryObject.popupEdit.button.deleted.on('click',function(){
             var urls = url + 'app/calendar/delEvent/' + (+originalEvent.id);
             $.ajax({
                 url: urls,
@@ -593,20 +1032,17 @@ function Calendar_teacher(){
                 dataType: 'json',
                 success: function(id){
                     //self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
-                    originalEvent.title='Возобновить';
-                    originalEvent.backgroundColor='#fff';
+                    originalEvent.title='Восстановить';
+                    originalEvent.backgroundColor='RGBA(0,0,0,0)';
                     originalEvent.textColor='#000';
-                    originalEvent.borderColor='#fff';
+                    originalEvent.borderColor='RGBA(0,0,0,0)';
                     originalEvent.deleted=true;
-                    originalEvent.allDay=true;
-
                     for(var i =0;i<self.masEvent.length;++i){
                         if(+self.masEvent[i].id===+originalEvent.id){
                             self.masEvent[i].deleted=true;
                             break;
                         }
                     }
-
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
                 },
                 error: function(er) {
@@ -615,7 +1051,7 @@ function Calendar_teacher(){
                 }
 
             });
-            self.jqueryObject.popup.popup.hide();
+            delPopup();
         });
 
     };
@@ -627,14 +1063,23 @@ function Calendar_teacher(){
                 delPopup();
             }
         });
+    };
+
+    this.resetPopup=function(){
+        self.jqueryObject.popup.button.reset.on('click',function(){
+            delPopup();
+            return 0;
+        });
+
     }
 
 }
 
 $(document).ready(function() {
     var calendar = new Calendar_teacher();
-    calendar.getCurrentUser();
+    //calendar.getCurrentUser();
     calendar.focusDeleted();
+    calendar.editLesson();
     calendar.click_body();
     calendar.syncTcalInput();
     calendar.timeIvent();
@@ -642,14 +1087,14 @@ $(document).ready(function() {
     calendar.delLesson();
     calendar.realTimeUpdate();
     calendar.keyDown();
+    calendar.getCurrentUser();
+    calendar.getGroups();
+    calendar.resetPopup();
 $(".deleteGroup").on("click",function(){
     alert($(this).attr("id_g"));
 });
     calendar.option.getCurrentUser();
 
-    $('#resetLesson').on('click',function() {
-        f_tcalCancel();
-        $('#popup').hide();
-    });
+
 
 });

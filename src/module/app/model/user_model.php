@@ -25,6 +25,7 @@ class UserModel extends Model {
                         u.phone,
                         u.fb_id,
                         u.gm_id,
+                        u.id,
                         r.title
 
                     from user as u

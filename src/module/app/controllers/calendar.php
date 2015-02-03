@@ -18,7 +18,6 @@ class Calendar extends Controller {
         $this->fb_id= 1;
 
         $this->userInfo=$this->model->getCurrentUserInfo();
-//        print_r($this->userInfo) ;
         $this->role = $this->privateGetRole($this->userInfo[0]['title']);
     }
     public function getRole(){
@@ -44,7 +43,6 @@ class Calendar extends Controller {
         $data =$this->userInfo[0];
         $this->view->renderHtml('calendar/index', $data);
     }
-
 
     //моє
     public function addGroupsToLesson(){
@@ -145,6 +143,8 @@ class Calendar extends Controller {
     public function getRealTimeUpdate(){
         $this->model = $this->loadModel('lesson');
         $interval=Request::getInstance()->getParam(0);
+
+        print_r($this->userInfo);
         $id=$this->model->getRealTimeUpdate($interval,$this->userInfo[0]['id']);
 
         $this->view->renderJson($id);
@@ -173,6 +173,8 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $this->model->getOurLessonForThisId($this->userInfo[0]['id']);
     }
+
+
 
     public function  getOurTeacher(){
         $req=Request::getInstance();

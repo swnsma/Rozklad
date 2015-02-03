@@ -2,6 +2,13 @@
  * Created by Таня on 23.01.2015.
  */
 
+function toFormat(number){
+    if((number+'').length!=2){
+        number='0'+number;
+
+    }
+    return number;
+}
 function normDate(year,month,day,hour,minuts){
     function format(num){
         if((num+'').length==1){
@@ -17,7 +24,6 @@ function Calendar(){
         //var interval = 60000;//раз в хвилину оновлення
         var interval = 60000;//раз в хвилину оновлення
         var setTime;
-        var v=false;
         var operation = function(){
             $.ajax({
                 url: url+'app/calendar/getRealTimeUpdate/'+interval/1000,
@@ -27,6 +33,7 @@ function Calendar(){
                 success: function(date){
                     for(var i=0;i<date.length;++i){
                         if((+date[i].status)===2&&date[i].teacher===currentUser.id){
+                            //debugger;
                             for(var j=0;j<self.masEvent.length;++j){
                                 if(date[i].id===self.masEvent[j].id){
                                     if(self.masEvent[j].deleted){
@@ -39,7 +46,8 @@ function Calendar(){
                             continue;
                         }
                         if((+date[i].status)===2) {
-                            self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
+                            //debugger;
+                            self.jqueryObject.calendar.fullCalendar('removeEvents',+date[i].id);
 
                         }else{
                             for(var j =0;j<self.masEvent.length;++j){
@@ -52,8 +60,10 @@ function Calendar(){
                                 }
                             }
                         }
-                        self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
-                        self.masEvent.push(date[i]);
+                        if(+date[i].status!=2) {
+                            self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
+                            self.masEvent.push(date[i]);
+                        }
                     }
                 },
                 error: function(er) {
@@ -72,8 +82,6 @@ function Calendar(){
             return interval;
         }
     }
-
-
     var currentUser;
 
     var self=this;
@@ -105,8 +113,8 @@ this.groups=[];
                 submit:$('#createNewLesson'),
                 reset:$('#resetLesson'),
                 addGroup:$("#add_group")
-            }
-            ,
+            },
+            listGroups:$('#listGroups'),
             addGroupBlock:$("#group_block"),
             groupsBlock:$("#groups")
         },
@@ -115,8 +123,31 @@ this.groups=[];
             tooltipTitle: $('#tooltipTitle'),
             tooltipStart: $('#tooltipStart'),
             tooltipEnd: $('#tooltipEnd'),
-            tooltipAuthor: $('#tooltipAuthor')
-
+            tooltipAuthor: $('#tooltipAuthor'),
+            myTooltipGroupList:$('#myTooltipGroupList')
+        },
+        popupEdit:{
+            tcalInput: $('#tcalInputEdit'),
+            popupEdit:$('#popupEdit'),
+            titleEvent:$('#titleEventEdit'),
+            start:{
+                hour:$('#hourBeginEdit'),
+                minutes:$('#minutesBeginEdit')
+            },
+            end:{
+                hour:$('#hourEndEdit'),
+                minutes:$('#minutesEndEdit')
+            },
+            day:{
+                day:$('#dayEdit'),
+                month:$('#monthEdit'),
+                year:$('#yearEdit')
+            },
+            listGroup:$('#listGroupsEdit'),
+            button:{
+                deleted:$('#resetLessonEdit'),
+                submit:$('#createNewLessonEdit')
+            }
         }
     };
     var date = new Date();
@@ -145,58 +176,26 @@ this.groups=[];
         //handleWindowResize:true,
         //fixedWeekCount:false,
         eventMouseover:function(event, jsEvent, view){
-            function toFormat(number){
-                if((number+'').length!=2){
-                    number='0'+number;
+            //debugger;
+            if(!event.group&&!event.deleted){
+                $.ajax({
+                    url: url + 'app/calendar/getAllGroupsForThisLesson/' + event.id,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function(date){
+                        event.group=date;
+                        toolTip(event,jsEvent,view,this);
+                    },
+                    error: function(er) {
+                        alert(er);
+                    }
 
-                }
-                return number;
+                });
             }
+            else
             if(!event.deleted) {
-                self.jqueryObject.tooltip.tooltipTitle.text(event.title);
-
-
-
-                var dateEnd = new Date(event.end);
-                var dateStart = new Date(event.start);
-                var minutesEnd = dateEnd.getMinutes();
-                var month = dateStart.getMonth()+1;
-                var date = dateStart.getDate();
-                var hourStart = dateStart.getHours();
-                var minutesStart = dateStart.getMinutes();
-                var hour = dateEnd.getHours();
-
-                month=toFormat(month);
-                date=toFormat(date);
-                hourStart=toFormat(hourStart);
-                minutesEnd=toFormat(minutesEnd);
-                minutesStart=toFormat(minutesStart);
-                hour=toFormat(hour);
-
-                dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' '+hourStart+':'+minutesStart;
-
-
-                self.jqueryObject.tooltip.tooltipStart.text(dateStart);
-
-                self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutesEnd);
-                self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
-
-
-                var XX= jsEvent.offsetX||0;
-                var YY=jsEvent.offsetY||0;
-                var x = jsEvent.clientX - XX;
-                var y = jsEvent.clientY + YY + 10;
-
-
-                self.jqueryObject.tooltip.tooltip.css({
-                    'left': x,
-                    'top': y
-
-                });
-                $(this).css({
-                    'background': '#004'
-                });
-                self.jqueryObject.tooltip.tooltip.show();
+                toolTip(event, jsEvent, view,this);
             }
 
 
@@ -204,15 +203,11 @@ this.groups=[];
         eventMouseout:function(event, jsEvent, view){
             if(event.deleted!=true)
             {
-                $(this).css({
-                    'background': '#029acf'
-                });
-                //event.backgroundColor='';
-                //self.jqueryObject.calendar.fullCalendar('updateEvent',event);
+                    $(this).css({
+                        'color': '#fff',
+                        'fontWeight':'normal'
+                    });
                 self.jqueryObject.tooltip.tooltip.hide();
-                //$(this).css({
-                //    'background':'#029acf'
-                //});
             }
 
         },
@@ -229,7 +224,6 @@ this.groups=[];
                         contentType: 'application/json',
                         dataType: 'json',
                         success: function(doc) {
-
                             self.masEvent=doc;
                             callback(doc);
                             return doc;
@@ -258,6 +252,65 @@ this.groups=[];
 
     };
 
+    //дода тултіп
+    function toolTip(event, jsEvent, view,thet){
+
+        self.jqueryObject.tooltip.tooltipTitle.text(event.title);
+
+        var dateEnd = new Date(event.end);
+        var dateStart = new Date(event.start);
+        var minutesEnd = dateEnd.getMinutes();
+        var month = dateStart.getMonth()+1;
+        var date = dateStart.getDate();
+        var hourStart = dateStart.getHours();
+        var minutesStart = dateStart.getMinutes();
+        var hour = dateEnd.getHours();
+
+        month=toFormat(month);
+        date=toFormat(date);
+        hourStart=toFormat(hourStart);
+        minutesEnd=toFormat(minutesEnd);
+        minutesStart=toFormat(minutesStart);
+        hour=toFormat(hour);
+
+        dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' '+hourStart+':'+minutesStart;
+
+
+        self.jqueryObject.tooltip.tooltipStart.text(dateStart);
+
+        self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutesEnd);
+        self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
+
+
+        var XX= jsEvent.offsetX||0;
+        var YY=jsEvent.offsetY||0;
+        var x = jsEvent.pageX - XX;
+        var y = jsEvent.pageY - YY + 17;
+
+
+        self.jqueryObject.tooltip.tooltip.css({
+            'left': x,
+            'top': y
+
+        });
+        $(thet).css({
+            'color': '#000',
+            'fontWeight':'bold'
+        });
+
+        self.jqueryObject.tooltip.myTooltipGroupList.empty();
+        var group=event.group;
+        for(var i=0;i<group.length;++i){
+            var $selectList =$('<span class="group-list">');
+            $selectList.appendTo(self.jqueryObject.tooltip.myTooltipGroupList);
+            $selectList.text(group[i].name);
+            if(i!==group.length-1){
+                $selectList.text(group[i].name+' / ');
+            }
+        }
+        self.jqueryObject.tooltip.tooltip.show();
+    }
+
     (this.option.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
@@ -276,8 +329,6 @@ this.groups=[];
 
         });
     })();
-
-
 
     this.realTimeUpdate=function(){
         var a =new RealTimeUpdate();
