@@ -16,7 +16,7 @@ class Loging extends Controller {
         $this->client->setApplicationName("Idiot Minds Google Login Functionallity");
         $this->client->setClientId(CLIENT_ID);
         $this->client->setClientSecret(CLIENT_SECRET);
-        $this->client->setRedirectUri("http://localhost/src/app/loging/login");
+        $this->client->setRedirectUri(URL . "app/loging/login");
         $this->client->setApprovalPrompt(APPROVAL_PROMPT);
         $this->client->setAccessType(ACCESS_TYPE);
         $this->oauth2 = new Google_Oauth2Service($this->client);

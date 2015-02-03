@@ -12,7 +12,7 @@
 
     <?php if ($data ['role']== 'teacher'): ?>
         <link rel='stylesheet' type='text/css' href='<?php echo URL; ?>public/js/app/calendar/tcal/tcal.css' />
-        <link rel='stylesheet' href='<?php echo URL; ?>public/css/calendar/popup.css'/>
+        <link rel='stylesheet' type='text/css' href='<?php echo URL; ?>public/css/calendar/popup.css'/>
     <?php endif; ?>
 </head>
 <body>
@@ -25,8 +25,8 @@
     </div>
 
 </div>
-<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>LogoutGM</a>
-<a href="https://www.facebook.com/logout.php?next=http://localhost/src/app/signin&access_token=<?php echo $data['fb_token'];?>">LogoutFB</a>
+<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=<?php echo URL; ?>app/loging/logout'>LogoutGM</a>
+<a href="https://www.facebook.com/logout.php?next=<?php echo URL; ?>app/signin&access_token=<?php echo $data['fb_token'];?>">LogoutFB</a>
 <?php if ($data['role'] == 'teacher'): ?>
     <div class='popup' id='popup'>
         <span id="resetLesson" class="popup-close"> </span>
