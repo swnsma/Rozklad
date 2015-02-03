@@ -13,13 +13,14 @@ class Admin extends Controller {
     public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('admin');
+        $this->userModel = $this->loadModel('user');
     }
 
     public function index() {
-        $user = $this->model->getCurrentUser();
+        $user = $this->userModel->getCurrentUserInfo();
         $data = [];
         $data['name']=$user["name"].' '.$user["surname"];
-        $data['status']=$user["role_id"];
+        $data['status']=$user["title"];
         $data['photo']='http://graph.facebook.com/'.$user['fb_id'].'/picture?type=large';
         //$this->view->renderJson($_SESSION['idFB']);
         $this->view->renderHtml('common/head');
