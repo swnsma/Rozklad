@@ -5,8 +5,11 @@ function ModelRegist(){
     self.phone = ko.observable('');
     self.gender = ko.observable('');
     self.isChecked=ko.observable(0);
-    self.rolesName=["Студент","Вчитель"];
-    self.role = ko.observable(self.rolesName[0]);
+    self.rolesName=[
+        {itemName:"Студент"},
+        {itemName:"Вчитель"}
+    ];
+    self.role = ko.observable();
     self.validName=function(){
         resetError($("#name"),$("#name_error"));
         var  number=self.name();
@@ -60,14 +63,14 @@ function ModelRegist(){
     //self.isAble=function(){
     //    return self.validPhone()&&self.validSurname()&&self.validName();
     //}
-    self.ckeckValidName1=ko.computed(function(){
-        if(self.isChecked()&&self.name()){
+    self.ckeckValidName=ko.computed(function(){
+        if(self.name()){
             resetError($("#name"),$("#name_error"));
             self.isChecked(0);
         }
     });
-    self.ckeckValidSurname1=ko.computed(function(){
-        if(self.isChecked()&&self.surname()){
+    self.ckeckValidSurname=ko.computed(function(){
+        if(self.surname()){
             resetError($("#surname"),$("#surname_error"));
             self.isChecked(0);
         }
@@ -84,7 +87,7 @@ function ModelRegist(){
             check=0;
         }
         if(!self.validPhone()){
-            //self.isChecked(1);
+            self.isChecked(1);
             check=0;
         }
         if(!check)return;
@@ -140,8 +143,7 @@ $(document).ready(function(){
     resetError($("#surname"),$("#surname_error"));
     resetError($("#phone"),$("#phone_error"));
     $("#reset").on("click",function(){
-        var href=$(this).attr("href");
-        var url="http://vk.com";
+        var href=$(this).attr("hreff");
         window.location=href;
     });
 });
