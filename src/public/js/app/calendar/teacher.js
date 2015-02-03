@@ -163,7 +163,6 @@ function Calendar_teacher(){
                     opt.selected=true;
                     del.show();
                 }else{
-                    debugger;
                     del.hide()
                 }
 
@@ -192,19 +191,16 @@ function Calendar_teacher(){
                 $del.on('click',function(){
                     if($select.val()!='0') {
                         lenthGroop--;
-                        debugger;
                         var id = $select.attr('id');
                         var valOption = addGrops.valueOption;
                         var group = addGrops.groups;
                         for (var i = 0; i < valOption.length; ++i) {
                             if (valOption[i] === id) {
-                                debugger;
                                 addGrops.valueOption.splice(i, 1);
                             }
                         }
                         for (var i = 0; i < group.length; ++i) {
                             if (group[i].valueSelect === id) {
-                                debugger;
                                 addGrops.groups.splice(i, 1);
                             }
                         }
@@ -351,7 +347,6 @@ function Calendar_teacher(){
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
-        debugger;
         reset_addGroups();
         if(delPopup()){
             return;
@@ -446,7 +441,6 @@ function Calendar_teacher(){
 
     //моя функція
     function addGroups(lesson_id){
-        debugger;
         var myAddGroups=[];
         for(var i =0;i<addGrops.groups.length;++i){
             if(+addGrops.groups.id!==0){
@@ -667,7 +661,6 @@ function Calendar_teacher(){
             }
             else{
                 mask.on('input',function(){
-                    debugger;
                     if(this.value>59){
                         this.value=59;
                     }
@@ -827,7 +820,6 @@ function Calendar_teacher(){
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
             if(+hourEnd<=+hourBegin){
-                debugger;
                 hourEnd=hourBegin;
                 if(+minutesEnd<=+minutesBegin){
                     minutesEnd=+minutesBegin+1;
@@ -923,9 +915,7 @@ function Calendar_teacher(){
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
 
-            debugger;
             if(+hourEnd<=+hourBegin){
-                debugger;
                 hourEnd=hourBegin;
                 if(+minutesEnd<=+minutesBegin){
                     minutesEnd=+minutesBegin+1;
