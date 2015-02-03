@@ -90,8 +90,10 @@ class Regist extends Controller
         $phone =$request->getParam(2);
         $role =$request->getParam(3);
         $this->model=$this->loadModel("regist");
-        $fb_ID=$_SESSION['fb_ID']?$_SESSION['fb_ID']:'';
-        $gm_ID=$_SESSION['gm_ID']?$_SESSION['gm_ID']:'';
+        $fb_ID='';
+        if(isset($_SESSION['fb_ID']))$fb_ID=$_SESSION['fb_ID'];
+        $gm_ID='';
+        if($_SESSION['gm_ID'])$gm_ID=$_SESSION['gm_ID'];
         $existUserFb=0;
         $existUserGm=0;
         if($fb_ID) {
