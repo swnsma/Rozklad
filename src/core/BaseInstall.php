@@ -1,5 +1,5 @@
 <?php
-require_once  'database.php';
+require_once 'DataBase.php';
 class Base_Install{
     private function  __construct(){
     }
