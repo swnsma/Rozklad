@@ -4,6 +4,10 @@ class Session {
         session_start();
     }
 
+    public static function has($key) {
+        return isset($_SESSION[$key]) && !empty($_SESSION[$key]);
+    }
+
     public static function set($key, $value) {
         $_SESSION[$key] = $value;
     }
