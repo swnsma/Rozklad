@@ -5,7 +5,7 @@ class Groups extends Controller {
         parent::__construct();
         $this->model = $this->loadModel('groups');
         $this->user_model = $this->loadModel('user');
-        $this->user_info =$this->user_model->getInfo($_SESSION['idFB'])[0];
+        $this->user_info =$this->user_model->getInfo($_SESSION['fb_ID'])[0];
     }
 
     public function index() {

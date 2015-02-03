@@ -6,7 +6,7 @@
  * Time: 3:53 PM
  */
 class GroupPage extends Controller {
-    public $role='host';
+    //222222public $role='host';
     public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('grouppage');
@@ -17,9 +17,15 @@ class GroupPage extends Controller {
         $req =Request::getInstance();
         $groupId= $req->getParam(0);
         $model = $this->loadModel('user');
-        $id=$_COOKIE['idFB'];
-        $id=$model->getInfo($id)[0]['id'];
-        //$id=3;
+        if(isset($_SESSION['fb_ID'])){
+        $id=$_SESSION['fb_ID'];
+        $id=$model->getInfoFB($id)['id'];
+        }else{
+            if(isset($_SESSION['gm_ID'])){
+                $id=$_SESSION['gm_ID'];
+                $id=$model->getInfoGM($id)['id'];
+            }else return null;
+        }
         $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
         $this->view->renderHtml('grouppage/index', $data);
     }
@@ -84,12 +90,12 @@ class GroupPage extends Controller {
     public function inviteUser(){
         $model = $this->loadModel('user');
         $r='<div style="text-align:center">';
-        $id=$_COOKIE['idFB'];
+        $id=$_SESSION['fb_ID'];
         if(!isset($id)){
             $error=3;
         }
         else{
-        $id=$model->getInfo($id)[0]['id'];
+        $id=$model->getInfoFB($id)['id'];
         $req=Request::getInstance();
         $code=$req->getParam(0);
         $error=$this->model->addUserToGroup($id, $code);
@@ -104,6 +110,9 @@ class GroupPage extends Controller {
                 break;
             case 3:
                 $r=$r."Авторизируйтесь для продолжения";
+                break;
+            case 4:
+                $r=$r."Преподаватель не может быть членом группы!";
                 break;
             default:
                 $r=$r."Теперь вы член группы!";

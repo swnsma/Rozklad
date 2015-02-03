@@ -86,15 +86,10 @@ class Loginf extends Controller {
             $_SESSION['email'] =  $femail;
             //checkuser($fuid,$ffname,$femail);
             $status=$_SESSION['status'];
-            if($status==='update'){
 
-                echo 1111;
-                exit;
-                $this->updateId($id);
-            }else{
                 $this->checkUser();
                 exit;
-            }
+
         } else {
             $loginUrl = $helper->getLoginUrl();
             header("Location: ".$loginUrl);
@@ -118,9 +113,11 @@ class Loginf extends Controller {
         }
         else {
             $_SESSION['status']='regist';
-            if($this->checkEmail($_SESSION["email"])){
-
-                header("Location:".URL."app/loging/login");
+            $this->model=$this->loadModel("check");
+            if($this->model->checkEmail($_SESSION['email'])){
+                $this->model=$this->loadModel("regist");
+                $this->model->updateFB($_SESSION['fb_ID'],$_SESSION['email']);
+                header("Location:".URL."app/calendar");
                 exit;
             }
             else{

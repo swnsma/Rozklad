@@ -5,11 +5,25 @@ function ModelRegist(){
     self.phone = ko.observable('');
     self.gender = ko.observable('');
     self.isChecked=ko.observable(0);
+    self.role=ko.observable(0);
     self.rolesName=[
         {itemName:"Студент"},
         {itemName:"Вчитель"}
     ];
-    self.role = ko.observable();
+
+
+    self.role = ko.observable(false);
+    self.roleCkeck = ko.computed({
+        read: function() {
+            return self.role() + "";
+        },
+        write: function (v) {
+            if (v == "true") self.role(true)
+            else self.role(false)
+        }
+    });
+
+
     self.validName=function(){
         resetError($("#name"),$("#name_error"));
         var  number=self.name();
@@ -122,7 +136,7 @@ function ModelRegist(){
         );
     };
     self.roleIndex=ko.computed(function(){
-        if(self.role()===self.rolesName[0]){
+        if(!self.role()){
             return 0;
         }
         else {
