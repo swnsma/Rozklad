@@ -11,6 +11,34 @@ class UserModel extends Model {
 
     }
 
+    static $userInfo=null;
+    public function getCurrentUserInfo(){
+        //$id = $_SESSION('id');
+        $id = '1';
+        if (is_null(self::$userInfo)){
+
+            $sql = <<<SQL
+                    select
+                        u.name,
+                        u.surname,
+                        u.email,
+                        u.phone,
+                        u.fb_id,
+                        u.gm_id,
+                        r.title
+
+                    from user as u
+                    inner join role as r
+                    on u.role_id = r.id
+                    where u.id='$id'
+SQL;
+
+            self::$userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+//            echo self::$userInfo;
+        }
+        return self::$userInfo;
+    }
+
     public function getInfoFB($fb_id){
         try {
             $request = <<<TANIA
@@ -35,6 +63,32 @@ TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var[0];
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function getIdFB($fb_id){
+        try {
+            $request = <<<TANIA
+select id from user
+where fb_id='$fb_id'
+TANIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var[0]['id'];
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function getIdGM($gm_id){
+        try {
+            $request = <<<TANIA
+            select id from user
+            where gm_id='$gm_id'
+TANIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var[0]['id'];
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;

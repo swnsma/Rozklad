@@ -9,14 +9,10 @@ class RegistModel extends Model{
     public function __construct() {
         parent::__construct();
     }
-    public function addUser($name,$surname,$phone,$role,$fb_id,$gm_id)
+    public function addUser($name,$surname,$phone,$role,$fb_id,$gm_id,$email)
     {
         try {
-            $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id,gm_id) VALUES ('$name','$surname','$phone','$role','$fb_id','$gm_id')");
-//            if($role===1){
-//                $id= $this->db->query("SELECT id FROM user WHERE fb_id='$fb_id' AND gm_id='$gm_id'");
-//                $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ('$id')");
-//            }
+            $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id,gm_id,email) VALUES ('$name','$surname','$phone','$role','$fb_id','$gm_id','$email')");
             $_SESSION['status']="signin";
             return 1;
         } catch (PDOException $e) {
@@ -32,6 +28,16 @@ class RegistModel extends Model{
             echo $e;
             return null;
         }
+    }
+    public function addTeacher($id){
+        try {
+            $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ('$id')");
+            return 1;
+        } catch (PDOException $e) {
+            echo $e;
+            return null;
+        }
+
     }
     public function checkUserGM($id){
         try {
@@ -53,7 +59,7 @@ class RegistModel extends Model{
 
     public function updateFB($fb_id,$email){
         try {
-            $this->db->query("UPDATE user SET fb_id='$fb_id'  where id='$email'")->fetchAll();
+            $this->db->query("UPDATE user SET fb_id='$fb_id'  where email='$email'")->fetchAll();
         } catch (PDOException $e) {
             echo $e;
             return null;
