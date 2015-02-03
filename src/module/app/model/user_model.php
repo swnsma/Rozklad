@@ -15,7 +15,7 @@ class UserModel extends Model {
         static $userInfo;
 
         //$id = $_SESSION('id');
-        $id = '1';
+        $id = '4';
         if (is_null($userInfo)){
             $userInfo = array();
             $sql = <<<SQL
