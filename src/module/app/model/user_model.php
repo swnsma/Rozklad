@@ -17,9 +17,10 @@ class UserModel extends Model {
 select * from user
 where fb_id='$fb_id'
 TANIA;
-
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($var[0]))
             return $var[0];
+            else return null;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
