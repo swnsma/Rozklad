@@ -144,7 +144,7 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $interval=Request::getInstance()->getParam(0);
 
-        print_r($this->userInfo);
+//        print_r($this->userInfo);
         $id=$this->model->getRealTimeUpdate($interval,$this->userInfo[0]['id']);
 
         $this->view->renderJson($id);
