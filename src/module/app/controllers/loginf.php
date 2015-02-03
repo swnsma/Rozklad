@@ -108,6 +108,10 @@ class Loginf extends Controller {
 
         if($check){
             $_SESSION['regist']=1;
+            $this->model=$this->loadModel("user");
+            $id=$this->model->getIdFB($_SESSION["fb_ID"]);
+            $_SESSION['id']=$id;
+//            echo $id;
             header("Location:".URL."app/calendar");
             exit;
         }
@@ -117,6 +121,10 @@ class Loginf extends Controller {
             if($this->model->checkEmail($_SESSION['email'])){
                 $this->model=$this->loadModel("regist");
                 $this->model->updateFB($_SESSION['fb_ID'],$_SESSION['email']);
+                $this->model=$this->loadModel("user");
+                $id=$this->model->getIdFB($_SESSION["fb_ID"]);
+                $_SESSION['id']=$id;
+//                echo print_r($_SESSION["fb_ID"]);
                 header("Location:".URL."app/calendar");
                 exit;
             }

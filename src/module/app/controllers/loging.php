@@ -62,6 +62,9 @@ class Loging extends Controller {
 //        print_r($_SESSION["gm_ID"]);
         $check= $this->model->checkUserGM($_SESSION["gm_ID"]);
         if($check){
+            $this->model=$this->loadModel("user");
+            $id=$this->model->getIdGM($_SESSION["gm_ID"]);
+            $_SESSION['id']=$id;
             header("Location:".URL."app/calendar");
             exit;
         }
@@ -71,6 +74,9 @@ class Loging extends Controller {
             if($this->model->checkEmail($_SESSION['email'])){
                 $this->model=$this->loadModel("regist");
                 $this->model->updateGM($_SESSION['gm_ID'],$_SESSION['email']);
+                $this->model=$this->loadModel("user");
+                $id=$this->model->getIdFB($_SESSION["fb_ID"]);
+                $_SESSION['id']=$id;
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -91,6 +97,7 @@ class Loging extends Controller {
         header("Location:".URL."app/signin");
     }
     private function checkEmail($email){
+        $this->model=$this->loadModel("check");
         return $this->model->checkEmail($email);
     }
 }

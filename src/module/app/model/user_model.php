@@ -39,5 +39,31 @@ TANIA;
             return null;
         }
     }
+    public function getIdFB($fb_id){
+        try {
+            $request = <<<TANIA
+select id from user
+where fb_id='$fb_id'
+TANIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var[0]['id'];
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function getIdGM($gm_id){
+        try {
+            $request = <<<TANIA
+            select id from user
+            where gm_id='$gm_id'
+TANIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var[0]['id'];
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }
 ?>
