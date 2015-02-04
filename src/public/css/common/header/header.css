@@ -39,7 +39,7 @@
 .login .user .info {
     display: table-cell;
     vertical-align: top;
-    padding: 0 5px 0 0;
+    padding: 5px 5px 0 0;
 }
 
 .login .user .avatar {
