@@ -40,6 +40,8 @@ class Loging extends Controller {
         if ($this->client->getAccessToken()) {
             $user_g = $this->oauth2->userinfo->get();
             $_SESSION['user']=$user_g;
+            $_SESSION['lastname']=$user_g['given_name'];
+            $_SESSION['firstname']=$user_g['family_name'];
             $_SESSION['gm_ID']= $_SESSION['user']['id'];
             $_SESSION['email']=$_SESSION['user']['email'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();

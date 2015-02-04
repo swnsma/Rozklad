@@ -79,6 +79,13 @@ class Regist extends Controller
         header("Location:".$_SESSION['logout_link']);
         exit;
     }
+    public function getName(){
+        $this->view->renderJson(
+            [
+            'firstname'=>$_SESSION['firstname'],
+          'lastname'=>$_SESSION['lastname']
+        ]);
+    }
 
 }
 ?>

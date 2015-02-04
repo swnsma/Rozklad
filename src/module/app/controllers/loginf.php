@@ -76,14 +76,12 @@ class Loginf extends Controller {
             $_SESSION['fb_token']="".$session->getAccessToken();
             $_SESSION['logout_link']="http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".$_SESSION['fb_token'];
 //            echo $_SESSION['fb_token'];
-            $graphObject = $response->getGraphObject();
-            $fbid = $graphObject->getProperty('id');              // To Get Facebook ID
-            $fbfullname = $graphObject->getProperty('name'); // To Get Facebook full name
-            $femail = $graphObject->getProperty('email');    // To Get Facebook email ID
+           $user_f = $response->getGraphObject()->asArray();
             /* ---- Session Variables -----*/
-            $_SESSION['fb_ID'] = $fbid;
-            $_SESSION['fb_fullname'] = $fbfullname;
-            $_SESSION['email'] =  $femail;
+            $_SESSION['fb_ID'] = $user_f['id'];
+            $_SESSION['lastname'] = $user_f['last_name'];
+            $_SESSION['firstname']=$user_f['first_name'];
+            $_SESSION['email'] =  $user_f['email'];
             //checkuser($fuid,$ffname,$femail);
             $status=$_SESSION['status'];
 
