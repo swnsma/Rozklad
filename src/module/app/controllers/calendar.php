@@ -110,15 +110,30 @@ class Calendar extends Controller {
     }
 
     //використовую
-    public function addFullEvent(){
+    public function addFullEventDefault(){
         $this->model = $this->loadModel('lesson');
         $start=Request::getInstance()->getParam(0);
         $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisId($this->userInfo,$start,$end);
+        $id=$this->model->getOurLessonForThisIdStudent($this->userInfo,$start,$end);
         $this->view->renderJson($id);
     }
 
     //+
+    public function addFullEventTeacherCurrent(){
+        $this->model = $this->loadModel('lesson');
+        $start=Request::getInstance()->getParam(0);
+        $end=Request::getInstance()->getParam(1);
+        $id=$this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo,$start,$end);
+        $this->view->renderJson($id);
+    }
+
+    public function addFullEventTeacherNoCurrent(){
+        $this->model = $this->loadModel('lesson');
+        $start=Request::getInstance()->getParam(0);
+        $end=Request::getInstance()->getParam(1);
+        $id=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo,$start,$end);
+        $this->view->renderJson($id);
+    }
 
     public function getOurGroups(){
         $this->model = $this->loadModel('groups');
