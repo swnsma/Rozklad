@@ -75,6 +75,21 @@ var api= {
 
 var Student=function(obj){
     this.name=obj.name;
-    this.fb_account='https://www.facebook.com/profile.php?id='+obj.fb_id;
-    this.fb_photo='http://graph.facebook.com/'+obj.fb_id+'/picture?type=large';
+    if(obj.fb_id) {
+        this.fb_account = 'https://www.facebook.com/profile.php?id=' + obj.fb_id;
+        this.fb_photo = 'http://graph.facebook.com/' + obj.fb_id + '/picture?type=large';
+    }
+    else
+    {
+        this.fb_account=null;
+    }
+    this.id=obj.id;
+    if(obj.gm_id){
+        this.gm_account='https://plus.google.com/u/0/'+obj.gm_id+'/posts';
+    }
+    else
+    {
+        this.gm_account=null;
+    }
+
 };

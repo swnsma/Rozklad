@@ -8,8 +8,8 @@
 class UserModel extends Model {
     public function __construct() {
         parent::__construct();
-
     }
+
 
     public function getCurrentUserInfo(){
         static $userInfo;
@@ -98,6 +98,10 @@ TANIA;
             return null;
         }
     }
+
+
+
+
 
 
 }

@@ -64,13 +64,24 @@
 
 
         <div data-bind="foreach: students">
-            <div class=" col-md-6 list-group">
-                <div  class="list-group-item">
+            <!--ko if: fb_account-->
+            <div class=" col-md-6 list-group" >
+                <div  class="list-group-item" >
                     <a class="list-group-item-text " target="_blank" data-bind="attr:{href: fb_account}"><img class="avatar" data-bind="attr:{src: fb_photo}" height="70" width="70"></a>
-                    <h4 class="list-group-item-heading" data-bind="text:name"></h4>
+                    <a data-bind="attr:{href: fb_account}" target="_blank"> <h4 class="list-group-item-heading" data-bind="text:name"></h4></a>
 
                 </div>
             </div>
+            <!--/ko-->
+            <!--ko if: gm_account-->
+            <div class=" col-md-6 list-group" data-bind="if: gm_account">
+                <div  class="list-group-item" >
+                    <a class="list-group-item-text " target="_blank" data-bind=><img src="https://lh5.googleusercontent.com/-qWNMqcca81Y/AAAAAAAAAAI/AAAAAAAAAAA/g6oiN_9k82A/s120-c/photo.jpg" class="avatar"  height="70" width="70"></a>
+                    <a data-bind="attr:{href: gm_account}" target="_blank"><h4 class="list-group-item-heading" data-bind="text:name"></h4></a>
+
+                </div>
+            </div>
+            <!--/ko-->
         </div>
 
     </section>
