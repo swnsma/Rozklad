@@ -75,7 +75,7 @@ class Loging extends Controller {
                 $this->model=$this->loadModel("regist");
                 $this->model->updateGM($_SESSION['gm_ID'],$_SESSION['email']);
                 $this->model=$this->loadModel("user");
-                $id=$this->model->getIdFB($_SESSION["fb_ID"]);
+                $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                 $_SESSION['id']=$id;
                 header("Location:".URL."app/calendar");
                 exit;
