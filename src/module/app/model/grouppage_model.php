@@ -39,11 +39,9 @@ QUERY;
         $r=<<<HERE
         SELECT
             `groups`.`description`,
-            `groups`.`name`,
-            `user`.`name` as teacher,
-            `user`.`surname`
+            `groups`.`name`
         FROM `groups`, `user`
-        WHERE `groups`.`id`=$groupId AND `groups`.`teacher_id`=`user`.`id`;
+        WHERE `groups`.`id`=$groupId ;
 HERE;
            $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
            $var[0]['teacher']=$var[0]['teacher'].' '.$var[0]['surname'];
