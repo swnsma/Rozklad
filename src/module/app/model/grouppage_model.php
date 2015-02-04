@@ -108,9 +108,9 @@ HERE;
     }
    public function delUser($id, $groupId){
        if(isset($id));
-       $id=$this->getGroupId();
+
        try{
-       $this->db->query("DELETE FROM student_group WHERE student_id=$id AND group_id=$groupId;");
+       $this->db->query("DELETE FROM student_group WHERE student_id='$id' AND group_id=$groupId");
        }
        catch(PDOException $e){
            echo $e->getMessage();

@@ -70,6 +70,18 @@ var api= {
                 alert('Error! '+xhr);
             }
         })
+    },
+    deleteUser:function(id,groupId) {
+        $.ajax({
+            url: url + 'app/grouppage/delUser/'+id+'/'+groupId ,
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr) {
+                alert('Error! ' + xhr);
+            }
+        })
     }
 };
 

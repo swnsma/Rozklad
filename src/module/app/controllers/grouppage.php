@@ -31,8 +31,8 @@ class GroupPage extends Controller {
     }
     public function delUser(){
         $req = Request::getInstance();
-        $groupId= $req->getParam(0);
-        $id=$req->getParam(1);
+        $groupId= $req->getParam(1);
+        $id=$req->getParam(0);
         $this->model->delUser($id, $groupId);
         $this->view->renderJson(Array('result'=>"success"));
     }

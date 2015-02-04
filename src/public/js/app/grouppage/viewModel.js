@@ -64,6 +64,11 @@ function ViewModel() {
             that.errorTitle("1");
         }
     };
+    that.deleteUser=function(userId){
+        api.deleteUser(userId,that.id());
+
+
+    };
     that.errorDescMessage = ko.computed(function(){
         switch(that.errorDesc()){
             case "1":
