@@ -48,7 +48,12 @@ class Regist extends Controller
                     $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                     $_SESSION['id']=$id;
             }
+                /*if(isset($_SESSION['invitingInGroup'])){
+                    $var=$_SESSION['invitingInGroup'];
+                    header("Refresh: 5; url=$var");
+                }*/
                 echo "registed";
+
             }else{
                 echo "not_registed";
             }

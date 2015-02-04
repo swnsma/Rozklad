@@ -8,18 +8,58 @@
 </head>
 <body>
 <section class="container">
-    <!--ko ifnot: editGroupName-->
-    <h1 data-bind="text:groupName"></h1>
-    <!--/ko-->
-    <!--ko if: editGroupName-->
-    <input type="text"  data-bind="value:groupName" class="form-control "  disabled="disabled" >
-    <!--/ko-->
-    <!--ko ifnot: editDescription-->
-    <h3  data-bind="text:description"></h3>
-    <!--/ko-->
-    <!--ko if: editDescription-->
-    <textarea data-bind="value:description" id="inputDesc" class="form-control" ></textarea>
-    <!--/ko-->
+    <div class="col-lg-12 info-title">
+
+        <!--ko ifnot: editGroupName-->
+            <div class="col-lg-7 info-title">
+                <h1 data-bind="text:groupName"></h1>
+            </div>
+        <?php if ( $data['role'] == 'teacher'): ?>
+            <div class = "col-lg-3 info-title">
+                <a href="#" data-bind="click: editTitleOpen" class="btn btn-default">Изменить название</a>
+            </div>
+        <?php endif;?>
+        <!--/ko-->
+            <?php if ( $data['role'] == 'teacher'): ?>
+        <!--ko if: editGroupName-->
+            <div class="col-lg-7 info-title">
+                <input type="text"  data-bind="value:groupName" class="form-control " >
+                <span data-bind="text:errorTitleMessage"></span>
+            </div>
+        <div class = "col-lg-3 info-title">
+            <a href="#" data-bind="click: saveTitle" class="btn btn-default">Сохранить изменения</a>
+        </div>
+
+        <!--/ko-->
+        <?php endif;?>
+    </div>
+
+    <div class="col-lg-12 info-desc ">
+
+        <!--ko ifnot: editDescription-->
+            <div class="col-lg-7 info-desc">
+                <h3  data-bind="text:description"></h3>
+            </div>
+        <?php if ( $data['role'] == 'teacher'): ?>
+        <div class = "col-lg-3 info-desc">
+            <a href="#" data-bind="click: editDescOpen" class="btn btn-default">Изменить описание</a>
+        </div>
+        <?php endif;?>
+        <!--/ko-->
+        <?php if ( $data['role'] == 'teacher'): ?>
+        <!--ko if: editDescription-->
+            <div class="col-lg-7 info-desc">
+                <textarea rows= "3" data-bind="value: description" id="inputDesc" class="form-control" ></textarea>
+                <span data-bind="text:errorDescMessage"></span>
+            </div>
+        <div class = "col-lg-3 info-desc">
+            <a href="#" data-bind="click: saveDesc" class="btn btn-default">Сохранить описание</a>
+        </div>
+
+        <!--/ko-->
+        <?php endif;?>
+        </div>
+
     <section class="groupList col-md-12">
 
 
