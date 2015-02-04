@@ -89,16 +89,17 @@ var Student=function(obj){
         this.fb_account = 'https://www.facebook.com/profile.php?id=' + obj.fb_id;
         this.fb_photo = 'http://graph.facebook.com/' + obj.fb_id + '/picture?type=large';
     }
-    else
-    {
+    else{
         this.fb_account=null;
     }
     this.id=obj.id;
+    if(!this.fb_account){
+    return;
+    }
     if(obj.gm_id){
         this.gm_account='https://plus.google.com/u/0/'+obj.gm_id+'/posts';
     }
-    else
-    {
+    else{
         this.gm_account=null;
     }
 
