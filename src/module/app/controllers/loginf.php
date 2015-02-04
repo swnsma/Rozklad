@@ -50,7 +50,7 @@ class Loginf extends Controller {
     public function __construct() {
         parent::__construct();
         $this->model=$this->loadModel("check");
-        FacebookSession::setDefaultApplication( '1536442079974268','1d75987fcb8f4d7abc1a34287f9601cf' );
+        FacebookSession::setDefaultApplication( APP_ID,APP_SECRET);
     }
 
     public function index() {
