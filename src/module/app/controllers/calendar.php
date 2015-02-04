@@ -83,8 +83,9 @@ class Calendar extends Controller {
         $title= $req->getParam(0);
         $start= $req->getParam(1);
         $end= $req->getParam(2);
-//        print_r($this->userInfo);
-        $id=$this->model->addLesson($title,$start,$end,$this->userInfo['id']);
+        $teacher= $req->getParam(3);
+//        echo $teacher;
+        $id=$this->model->addLesson($title,$start,$end,$teacher);
 
 //        exit;
         if($id==null){
@@ -173,11 +174,10 @@ class Calendar extends Controller {
     }
 
     public function  getOurTeacher(){
-        $req=Request::getInstance();
         $this->model = $this->loadModel('user');
-        $id= $req->getParam(0);
-        $date =$this->model->restore($id);
-        $this->view->getOurTeacher($date);
+        $date=$this->model->getOurTeacher();
+//        echo $date;
+        $this->view->renderJson($date);
     }
 
 }

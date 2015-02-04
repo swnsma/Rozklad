@@ -15,17 +15,21 @@ Array.prototype.remove = function(from, to) {
 };
 function Calendar_teacher(){
 
+    Calendar.call(this);
+
+    var self=this;
+    self.jqueryObject.popup.selectTeacher=$('#selectTeacher');
+
     var masAction = ['create','edit'];
     var action = masAction[0];
 
     var idUpdate=0;
     var originalEvent=''; //останій івент на який було натиснуто
     var orig2='';
-    var self=this;
     var lastDate;
     var lasSelecrDay;
     var lastEvent;
-    Calendar.call(this);
+
 
     var currentUser=[];
     var groups=[];
@@ -37,6 +41,37 @@ function Calendar_teacher(){
 
     var ourteacher=[];
 
+
+
+    function AddTeacherToList(jquery_element,selected_obj,event){
+
+        function createOption(){
+            debugger;
+            jquery_element.empty();
+            for(var i = 0;i<ourteacher.length;++i){
+                var opt = document.createElement('option');
+                opt.value = ourteacher[i].id;
+                opt.innerHTML = ourteacher[i].surname+' '+ourteacher[i].name;
+                if(ourteacher[i].id===selected_obj.id){
+                    opt.selected=true;
+                }
+                opt = $(opt);
+                opt.appendTo(jquery_element);
+            }
+            jquery_element.on('change',function(){
+                event.teacher=jquery_element.val();
+            });
+        }
+
+        createOption();
+        this.getSelectedOption =function(){
+            return jquery_element.val();
+        }
+
+
+    }
+
+    //всі групи
     (function(){
         $.ajax({
             url: url+'app/calendar/getOurGroups/',
@@ -48,6 +83,21 @@ function Calendar_teacher(){
             },
             error: function(){
 
+            }
+        });
+    })();
+
+    //добавлення всіх вчителів
+    (function(){
+        $.ajax({
+            url: url+'app/calendar/getOurTeacher',
+            //url: url+'app/calendar/getGroups/',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(doc) {
+                ourteacher=doc;
+            },
+            error: function(ex){
             }
         });
     })();
@@ -307,7 +357,6 @@ function Calendar_teacher(){
             var select  = $('#selectGroups0');
         };
 
-
         privateCreate();
     }
 
@@ -318,6 +367,8 @@ function Calendar_teacher(){
             return;
         }
         reset_addGroups();
+
+        var teacherSelect = new AddTeacherToList(self.jqueryObject.popup.selectTeacher,currentUser);
 
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         self.jqueryObject.popup.day.day.val(toFormat(date._d.getDate()));
@@ -371,10 +422,11 @@ function Calendar_teacher(){
             });
             return;
         }
-        $(this).css({  'backgroundColor':'RGB(0,100,160)' });
+
         if(currentUser.id!==calEvent.teacher){
             return;
         }
+        $(this).css({  'backgroundColor':'RGB(0,100,160)' });
 
         var hourStart = calEvent.start._d.getHours();
         hourStart=toFormat(hourStart);
@@ -420,27 +472,6 @@ function Calendar_teacher(){
 
     };
 
-    this.option.getCurrentUser=function(){
-        debugger;
-        var urls = url + 'app/calendar/getUserInfo';
-        $.ajax({
-            url: urls,
-            type: 'GET',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function(response){
-                debugger;
-                currentUser=response;
-                return response;
-            },
-            error: function(er) {
-
-                alert(er);
-            }
-
-        });
-    };
-
     //моя функція
     function addGroups(lesson_id){
         var myAddGroups=[];
@@ -484,7 +515,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response[0];
+                currentUser=response;
                 self.getGroups();
             },
             error: function(er) {
@@ -570,7 +601,6 @@ function Calendar_teacher(){
     this.syncTcalInput=function(){
 
         function private(date) {
-
 
             function sync() {
                 self.jqueryObject.popup.tcalInput.val(date.day.val() + '-' + date.month.val() + '-' + date.year.val());
@@ -911,7 +941,6 @@ function Calendar_teacher(){
         jqueryObjectPopup.button.submit.on('click',function(){
             //константи
             var title= (jqueryObjectPopup.typePopup.val()||'Новый ивент');
-            debugger;
             var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
             var month=(jqueryObjectPopup.day.month.val()||newDate.getMonth()+1);
             var day=(jqueryObjectPopup.day.day.val()||newDate.getDate());
@@ -919,7 +948,6 @@ function Calendar_teacher(){
             var minutesBegin=(jqueryObjectPopup.start.minutes.val()||'00');
             var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
-
 
             if(! /\S/.test( title )){
                 title="Новый ивент";
@@ -970,45 +998,46 @@ function Calendar_teacher(){
                 return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
             };
             var urls=0;
-            if(action===masAction[0]) {
-                urls = url + 'app/calendar/addEvent/' + title + '/' + startFun() + '/' + endFun();
-            }else if(action===masAction[1]){
-                urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
+            var teacher = jqueryObjectPopup.selectTeacher.val();
+            urls = url + 'app/calendar/addEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+teacher;
+
+            var name='';
+            var surname='';
+            for(var i=0;i<ourteacher.length;++i){
+                if(ourteacher[i].id===teacher){
+                    name=ourteacher[i].name;
+                    surname=ourteacher[i].surname;
+                    break;
+                }
             }
 
-            debugger;
+
             $.ajax({
                 url: urls,
                 type: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    debugger;
-                    if(action===masAction[0]) {
+
                         self.masEvent.push({id: id.id,
                             title: title,
                             start: startFun(),
                             end: endFun(),
-                            allDay: false});
+                            allDay: false,
+                            teacher:teacher});
                         self.jqueryObject.calendar.fullCalendar('renderEvent', {
                             id: id.id,
                             title: title,
                             start: startFun(),
                             end: endFun(),
                             allDay: false,
-                            teacher: currentUser.id,
-                            name: currentUser.name,
-                            surname: currentUser.surname
+                            teacher: teacher,
+                            name: name,
+                            surname: surname
                         });
                         addGroups(id.id);
 
-                    }else{
-                        originalEvent.id=idUpdate;
-                        originalEvent.title=title;
-                        originalEvent.start=startFun();
-                        originalEvent.end=endFun();
-                        self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
-                    }
+
                 },
                 error: function(er) {
                     alert(er);
