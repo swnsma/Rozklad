@@ -93,10 +93,7 @@ var Student=function(obj){
         this.fb_account=null;
     }
     this.id=obj.id;
-    if(!this.fb_account){
-    return;
-    }
-    if(obj.gm_id){
+    if(obj.gm_id&&!this.fb_account){
         this.gm_account='https://plus.google.com/u/0/'+obj.gm_id+'/posts';
     }
     else{
