@@ -56,12 +56,12 @@ TANIA;
             return null;
         }
     }
-    public function updateLesson($title, $start,$end,$id) {
+    public function updateLesson($title, $start,$end,$id,$teacherId) {
         try {
             $date = $this->realDate()->format($this->formatDate());
 
 //            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
-            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date' WHERE id=$id");
+            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date',teacher='$teacherId' WHERE id=$id");
 
         } catch(PDOException $e) {
             echo $e;
