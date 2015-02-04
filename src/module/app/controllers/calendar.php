@@ -103,7 +103,8 @@ class Calendar extends Controller {
         $start= $req->getParam(1);
         $end= $req->getParam(2);
         $id= $req->getParam(3);
-        $this->model->updateLesson($title,$start,$end,$id);
+        $teacherId= $req->getParam(4);
+        $this->model->updateLesson($title,$start,$end,$id,$teacherId);
         $this->view->renderJson("succeess");
 
     }

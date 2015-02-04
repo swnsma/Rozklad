@@ -19,6 +19,8 @@ function Calendar_teacher(){
 
     var self=this;
     self.jqueryObject.popup.selectTeacher=$('#selectTeacher');
+    self.jqueryObject.popupEdit.selectTeacher=$('#selectTeacherEdit');
+
 
     var masAction = ['create','edit'];
     var action = masAction[0];
@@ -422,10 +424,10 @@ function Calendar_teacher(){
             });
             return;
         }
-
-        if(currentUser.id!==calEvent.teacher){
-            return;
-        }
+        debugger;
+        var teacher =  new AddTeacherToList(self.jqueryObject.popupEdit.selectTeacher,{
+            id:calEvent.teacher
+        },calEvent);
         $(this).css({  'backgroundColor':'RGB(0,100,160)' });
 
         var hourStart = calEvent.start._d.getHours();
@@ -901,10 +903,17 @@ function Calendar_teacher(){
             };
             var urls=0;
 
-                urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
+            var teacher  = self.jqueryObject.popupEdit.selectTeacher.val();
+                urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate)+'/'+teacher;
 
-
-
+            var nameteacher = '';
+            var surnameTeacher = '';
+            for(var i=0;i<ourteacher.length;++i){
+                if(teacher===ourteacher[i].id){
+                    nameteacher=ourteacher[i].name;
+                    surnameTeacher=ourteacher[i].surname;
+                }
+            }
             $.ajax({
                 url: urls,
                 type: 'POST',
@@ -915,7 +924,9 @@ function Calendar_teacher(){
                     originalEvent.title=title;
                     originalEvent.start=startFun();
                     originalEvent.end=endFun();
-
+                    originalEvent.teacher=teacher;
+                    originalEvent.surname=surnameTeacher;
+                    originalEvent.name=nameteacher;
 
                     self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
                     editGroups(idUpdate,originalEvent.group);
@@ -1018,7 +1029,6 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-
                         self.masEvent.push({id: id.id,
                             title: title,
                             start: startFun(),
