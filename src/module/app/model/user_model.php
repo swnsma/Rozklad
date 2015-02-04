@@ -26,6 +26,7 @@ class UserModel extends Model {
                         user.phone,
                         user.fb_id,
                         user.gm_id,
+                        user.id,
                         role.title
                     from user
                     inner join role

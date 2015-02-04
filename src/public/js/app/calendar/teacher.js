@@ -421,6 +421,7 @@ function Calendar_teacher(){
     };
 
     this.option.getCurrentUser=function(){
+        debugger;
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
             url: urls,
@@ -428,8 +429,9 @@ function Calendar_teacher(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response[0];
-                return response[0];
+                debugger;
+                currentUser=response;
+                return response;
             },
             error: function(er) {
 
@@ -974,6 +976,7 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
+                    debugger;
                     if(action===masAction[0]) {
                         self.masEvent.push({id: id.id,
                             title: title,
@@ -1067,7 +1070,7 @@ function Calendar_teacher(){
 
 $(document).ready(function() {
     var calendar = new Calendar_teacher();
-    //calendar.getCurrentUser();
+    calendar.getCurrentUser();
     calendar.focusDeleted();
     calendar.editLesson();
     calendar.click_body();

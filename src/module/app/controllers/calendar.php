@@ -18,6 +18,7 @@ class Calendar extends Controller {
         $this->userInfo=$this->model->getCurrentUserInfo();
 //        print_r($this->userInfo);
 //        exit;
+//        $this->view->renderHtml($this->userInfo);
     }
     public function getRole(){
         return $this->role;
@@ -82,7 +83,10 @@ class Calendar extends Controller {
         $title= $req->getParam(0);
         $start= $req->getParam(1);
         $end= $req->getParam(2);
-        $id=$this->model->addLesson($title,$start,$end,$this->userInfo[0]['id']);
+//        print_r($this->userInfo);
+        $id=$this->model->addLesson($title,$start,$end,$this->userInfo['id']);
+
+//        exit;
         if($id==null){
             echo 'Ошибка';
         }else{
@@ -108,7 +112,7 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $start=Request::getInstance()->getParam(0);
         $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisId($this->userInfo[0]['id'],$start,$end);
+        $id=$this->model->getOurLessonForThisId($this->userInfo['id'],$start,$end);
         $this->view->renderJson($id);
     }
 
@@ -116,13 +120,13 @@ class Calendar extends Controller {
 
     public function getOurGroups(){
         $this->model = $this->loadModel('groups');
-        $arr=$this->model->getOurGroups($this->userInfo[0]['id']);
+        $arr=$this->model->getOurGroups($this->userInfo['id']);
         $this->view->renderJson($arr);
     }
     public function getGroups(){
         $this->model = $this->loadModel('groups');
 //        print $this->userInfo['id'];
-        $arr=$this->model->getGroups($this->userInfo[0]['id']);
+        $arr=$this->model->getGroups($this->userInfo['id']);
 
 
         $this->view->renderJson($arr);
@@ -144,7 +148,7 @@ class Calendar extends Controller {
         $interval=Request::getInstance()->getParam(0);
 
 //        print_r($this->userInfo);
-        $id=$this->model->getRealTimeUpdate($interval,$this->userInfo[0]['id']);
+        $id=$this->model->getRealTimeUpdate($interval,$this->userInfo['id']);
 
         $this->view->renderJson($id);
     }
@@ -170,7 +174,7 @@ class Calendar extends Controller {
 
     public function  getOurLessonForThisId(){
         $this->model = $this->loadModel('lesson');
-        $this->model->getOurLessonForThisId($this->userInfo[0]['id']);
+        $this->model->getOurLessonForThisId($this->userInfo['id']);
     }
 
 
