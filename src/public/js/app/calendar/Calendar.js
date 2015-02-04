@@ -319,8 +319,8 @@ this.groups=[];
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response[0];
-                return response[0];
+                currentUser=response;
+                return response;
             },
             error: function(er) {
 
