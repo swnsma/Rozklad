@@ -75,6 +75,6 @@ var api= {
 
 var Student=function(obj){
     this.name=obj.name;
-    this.fb_account='https://www.facebook.com/profile.php?id='+obj.user_id;
-    this.fb_photo='http://graph.facebook.com/'+obj.user_id+'/picture?type=large';
+    this.fb_account='https://www.facebook.com/profile.php?id='+obj.fb_id;
+    this.fb_photo='http://graph.facebook.com/'+obj.fb_id+'/picture?type=large';
 };
