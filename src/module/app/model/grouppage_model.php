@@ -79,33 +79,6 @@ HERE;
             return null;
         }
     }
-   public function loadSchedule($groupId){
-        try{
-        $r = <<<HERE
-        SELECT
-         `lesson`.`title` as title,
-         `user`.`name` as teacher_name,
-         `user`.`surname` as surname,
-         `lesson`.`start` as date,
-         `lesson`.`end`
-         FROM `user`, `lesson`, `groups`, `group_lesson`
-         WHERE `user`.`id`=`groups`.`teacher_id` AND `group_lesson`.`group_id`= $groupId AND `lesson`.`id`=`group_lesson`.`lesson_id`;
-HERE;
-        $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
-        for($i=0; $i<count($var); $i++)
-        {
-            $var[$i]['teacher_name']=$var[$i]['teacher_name'].' '.$var[$i]['surname'];
-            unset($var[$i]['surname']);
-            $var[$i]['date']=substr($var[$i]['date'], 0, -3).'-'.substr(preg_replace("/[0-9]*-[0-9]*-[0-9]* /","", $var[$i]['end']), 0, -3);
-            unset($var[$i]['end']);
-        }
-        $this->setSchedule($var);
-            return $var;
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            return null;
-        }
-    }
    public function delUser($id, $groupId){
        if(isset($id));
 
@@ -115,14 +88,6 @@ HERE;
        catch(PDOException $e){
            echo $e->getMessage();
        }
-       /*$var = $this->getUsers();
-       for ($i=0; $i<count($var); $i++){
-           if($var[$i]['id']==$id){
-              array_splice($var, $i, 1);
-               break;
-           }
-       }
-       $this->setUsers($var);*/
    }
    public function renameGroup($id, $newName){
        try{

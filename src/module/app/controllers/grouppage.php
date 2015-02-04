@@ -57,12 +57,6 @@ class GroupPage extends Controller {
         $this->model->editDescription($id, $newDescription);
         $this->view->renderJson(Array('result'=>"success"));
     }
-    public function sendSchedule(){
-        $req= Request::getInstance();
-        $id=$req->getParam(0);
-        $var=$this->model->loadSchedule($id);
-        $this->view->renderJson($var);
-    }
     public function sendUsers(){
         $req=Request::getInstance();
         $id=$req->getParam(0);
