@@ -92,7 +92,7 @@ class GroupPage extends Controller {
         $model = $this->loadModel('user');
         $r='<div style="text-align:center">';
         $outlink = URL.'app/signin';
-        $link = URL.'app/grouppage/';
+
         $error=0;
         if(isset($_SESSION['fb_ID']))
         {
@@ -103,39 +103,31 @@ class GroupPage extends Controller {
                 $id=$_SESSION['gm_ID'];
                 $id=$model->getInfoGM($id)['id'];
             }
-            else{
-                $error= 3;
-            }
         }
         $req=Request::getInstance();
         $code=$req->getParam(0);
-
         if(!$error){
         $groupInfo=$this->model->getGroupByCode($code);
             $error=$this->model->addUserToGroup($id, $code);
         $name=$groupInfo['name'];
         }
+        $link = URL.'app/grouppage/'.'id'.$groupInfo['id'];
         header("Content-Type: text/html; charset=utf-8");
         switch($error){
             case 1:
-                header("Refresh: 5; url=$link");
+                header("Refresh: 3; url=$link");
                 $r=$r."Вы уже являетесь членом группы $name!<br/><a href=".'"'.$link.'id'.$groupInfo['id'].'"> Перейти к странице группы</a>';
                 break;
             case 2:
-                header("Refresh: 5; url=$outlink");
+                header("Refresh: 3; url=$outlink");
                 $r=$r."Invalid link!";
                 break;
-            case 3:
-                $_SESSION['invitingInGroup']=$link.'inviteUser/'.$code;
-                header("Refresh: 5; url=$outlink");
-                $r=$r."Авторизируйтесь для продолжения";
-                break;
             case 4:
-                header("Refresh: 5; url=$link");
+                header("Refresh: 3; url=$link");
                 $r=$r."Преподаватель не может быть членом группы!<br/><a href=".'"'.$link.'id'.$groupInfo['id'].'"> Перейти к странице группы</a>';
                 break;
             default:
-                header("Refresh: 5; url=$link");
+                header("Refresh: 3; url=$link");
                 $r=$r."Теперь вы член группы $name!<br/><a href=".'"'.$link.'"> Перейти к странице группы</a>';
                 break;
         }
