@@ -1,23 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title><?php echo $data['title']; ?></title>
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/common/bootstrap.css">
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/common/common.css" />
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/admin/admin.css"/>
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/user.css"/>
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/common/header/header.css">
-    <link rel="stylesheet" href="<?php echo URL; ?>public/css/common/footer/footer.css">
-    <?php foreach ($data['files'] as $file) : ?>
-        <link rel="stylesheet" href="<?php echo URL; ?>public/css/<?php echo $file; ?>">
-    <?php endforeach; ?>
-    <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
-    <script src="<?php echo URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
-    <script src="<?php echo URL; ?>public/js/app/common.js"></script>
-    <script src="<?php echo URL; ?>public/js/app/common/header/header.js"></script>
-</head>
-<body>
+<?php
+    echo '<style>';
+        require_once (FILE."public/css/common/bootstrap.css");
+        require_once (FILE."public/css/common/common.css");
+        require_once (FILE."public/css/user.css");
+        require_once (FILE."public/css/common/header/header.css");
+    echo '</style>';
+?>
+
+<?php
+    if (isset($data['files'])) {
+        foreach ($data['files'] as $file) {
+            echo "<link rel = \"stylesheet\" href = URL.public/css/.$file>";
+        }
+    }
+?>
+
+<?php
+    echo '<script>';
+        require_once (FILE."public/js/vendor/knockout-3.2.0.js");
+        require_once (FILE."public/js/vendor/jQuery/jquery-2.1.1.js");
+        require_once (FILE."public/js/app/common.js");
+        require_once (FILE."public/js/app/common/header/header.js");
+    echo '</script>';
+?>
+
 <header class="header">
     <div class="background"></div>
     <img class="logo" src="<?php echo URL; ?>public/img/logo.png"/>
@@ -30,7 +36,7 @@
                 <h3 class="role" id="activeUserRole">
                     <?php echo $data['status']  ?>
                 </h3>
-                <h3 class="logout" id="logout">Выйти из системы</h3>
+                <a class="logout" id="logout" href="<?php echo $_SESSION['logout_link'];?>">Выйти из системы</a>
             </section>
             <img class="avatar" id="activeUserPhoto" src="<?php echo $data['photo']  ?>" />
         </article>

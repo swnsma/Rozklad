@@ -23,7 +23,7 @@ class Admin extends Controller {
         $data['status']=$user["title"];
         $data['photo']='http://graph.facebook.com/'.$user['fb_id'].'/picture?type=large';
         //$this->view->renderJson($_SESSION['idFB']);
-        $this->view->renderHtml('common/head');
+        $this->view->renderHtml('common/head', $data);
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('admin/admin_page');
         $this->view->renderHtml('common/footer');
