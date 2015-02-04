@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label  class="col-md-2 control-label">E-mail</label>
                 <div class="col-md-10">
-                    <input type="text" id="surname" class="input"  value="<?php echo $_SESSION['email'];?>" placeholder="" disabled>
+                    <input type="text" id="surname" class="input"  data-bind="value:surname,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="surname_error"></p>
                 </div>
             </div>
