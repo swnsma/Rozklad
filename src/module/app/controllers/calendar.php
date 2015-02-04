@@ -9,16 +9,15 @@
 //Session::init();
 class Calendar extends Controller {
 
-    private $fb_id;
     private $userInfo;
     private $role='teacher';
     public function __construct() {
         parent::__construct();
         $this->model = $this->loadModel('user');
-        $this->fb_id= 1;
 
         $this->userInfo=$this->model->getCurrentUserInfo();
-        $this->role = $this->privateGetRole($this->userInfo[0]['title']);
+//        print_r($this->userInfo);
+//        exit;
     }
     public function getRole(){
         return $this->role;
@@ -40,7 +39,7 @@ class Calendar extends Controller {
     //використовую
     public function index() {
         $this->model = $this->loadModel('lesson');
-        $data =$this->userInfo[0];
+        $data =$this->userInfo;
         $this->view->renderHtml('calendar/index', $data);
     }
 
