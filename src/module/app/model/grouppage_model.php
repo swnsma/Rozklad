@@ -60,7 +60,7 @@ HERE;
         try{
         $r = <<<HERE
         SELECT
-            `user`.`id` as user_id,
+            `user`.`id` as id,
             `user`.`fb_id` as fb_id,
             `user`.`name` as name,
             `user`.`surname` as surname,
