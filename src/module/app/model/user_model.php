@@ -13,8 +13,8 @@ class UserModel extends Model {
 
     static $userInfo=null;
     public function getCurrentUserInfo(){
-        //$id = $_SESSION('id');
-        $id = '1';
+        $id = $_SESSION['id'];
+//        $id = '1';
         if (is_null(self::$userInfo)){
 
             $sql = <<<SQL
