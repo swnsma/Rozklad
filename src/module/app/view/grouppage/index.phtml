@@ -19,7 +19,7 @@
         </div>
         <?php if ($data['role'] == 'teacher'): ?>
             <div class="col-lg-3 info-title">
-                <a href="#" data-bind="click: editTitleOpen" class="btn btn-default">Изменить название</a>
+                <a href="#" data-bind="click: editTitleOpen" class="btn edt btn-default">Изменить название</a>
             </div>
         <?php endif; ?>
         <!--/ko-->
@@ -30,14 +30,13 @@
                 <span data-bind="text:errorTitleMessage"></span>
             </div>
             <div class="col-lg-3 info-title">
-                <a href="#" data-bind="click: saveTitle" class="btn btn-default">Сохранить изменения</a>
+                <a href="#" data-bind="click: saveTitle" class="btn edt btn-default">Сохранить изменения</a>
             </div>
-
             <!--/ko-->
         <?php endif; ?>
     </div>
 
-    <div class="col-lg-12 info-desc ">
+    <div class="col-lg-12 ">
 
         <!--ko ifnot: editDescription-->
         <div class="col-lg-7 info-desc">
@@ -45,22 +44,32 @@
         </div>
         <?php if ($data['role'] == 'teacher'): ?>
             <div class="col-lg-3 info-desc">
-                <a href="#" data-bind="click: editDescOpen" class="btn btn-default">Изменить описание</a>
+                <a href="#" data-bind="click: editDescOpen" class="btn edt btn-default">Изменить описание</a>
             </div>
         <?php endif; ?>
         <!--/ko-->
         <?php if ($data['role'] == 'teacher'): ?>
             <!--ko if: editDescription-->
-            <div class="col-lg-9 info-desc">
+            <div class="col-lg-7 info-desc">
                 <textarea rows="3" data-bind="value: description" id="inputDesc" class="form-control"></textarea>
                 <span data-bind="text:errorDescMessage"></span>
             </div>
             <div class="col-lg-3 info-desc">
-                <a href="#" data-bind="click: saveDesc" class="btn btn-default">Сохранить описание</a>
+                <a href="#" data-bind="click: saveDesc" class="btn edt btn-default">Сохранить описание</a>
             </div>
 
             <!--/ko-->
+            </div>
+    <div class="col-lg-12">
+        <span>По следующей ссылке студенты могут добавляться в группу:</span>
+        <div class="col-lg-8">
+            <input type="text" data-bind="value:getCode" class="form-control " id="inputName" disabled="disabled">
+        </div>
+        <div class="col-lg-4">
+            <a href="#" data-bind="click: changeCode" class="btn btn-default dismissButton">Сгенерировать код</a>
+        </div>
         <?php endif; ?>
+
     </div>
 
     <section class="groupList col-md-12">
@@ -106,16 +115,8 @@
 
     <div class="col-lg-12">
         <?php if ($data['role'] == 'teacher'): ?>
-            <span>По следующей ссылке студенты могут добавляться в группу:</span>
-            <div class="col-lg-8">
-                <input type="text" data-bind="value:getCode" class="form-control " id="inputName" disabled="disabled">
-            </div>
-            <div class="col-lg-4">
-                <a href="#" data-bind="click: changeCode" class="btn btn-default">Сгенерировать код</a>
-            </div>
+
         <?php endif; ?>
-
-
     </div>
 
 
