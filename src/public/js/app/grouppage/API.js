@@ -46,7 +46,31 @@ var api= {
                     alert("Error!");
                 }
             })
-        }
+        },
+        renameGroup: function(id, title, successFunction){
+            $.ajax({
+                url: url+'app/grouppage/renameGroup/'+id+'/'+title+'/',
+            type:'GET',
+                success:function(response){
+                    successFunction(response);
+                },
+                error: function(xhr){
+                    alert("Error! "+xhr);
+                }
+            })
+        },
+        editDesription: function(id, descr, successFunction){
+        $.ajax({
+            url: url+'app/grouppage/editDescription/'+id+'/'+descr+'/',
+            type: 'GET',
+            success: function(response){
+                successFunction(response);
+            },
+            error: function(xhr){
+                alert('Error! '+xhr);
+            }
+        })
+    }
 };
 
 var Student=function(obj){

@@ -10,6 +10,17 @@ class GroupPageModel extends Model {
    public function __construct() {
         parent::__construct();
     }
+    public function getGroupByCode($code){
+        $r=<<<REQUEST
+        SELECT *
+        FROM `groups`
+        WHERE `groups`.`invite_code`='$code';
+REQUEST;
+        $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($var[0]))
+            return $var[0];
+        else return null;
+    }
     public function getRole ($groupId, $userId){
         $r=<<<QUERY
             SELECT `role`.`title`
@@ -19,7 +30,7 @@ OR(`user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$grou
 QUERY;
         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
         if(isset($var[0]))
-        return $var['0']['title'];
+        return $var[0]['title'];
         else return null;
 
     }
@@ -95,23 +106,23 @@ HERE;
             return null;
         }
     }
-   public function delUser($id){
+   public function delUser($id, $groupId){
        if(isset($id));
        $id=$this->getGroupId();
        try{
-       $this->db->query("DELETE FROM student_group WHERE student_id=$id;");
+       $this->db->query("DELETE FROM student_group WHERE student_id=$id AND group_id=$groupId;");
        }
        catch(PDOException $e){
            echo $e->getMessage();
        }
-       $var = $this->getUsers();
+       /*$var = $this->getUsers();
        for ($i=0; $i<count($var); $i++){
            if($var[$i]['id']==$id){
               array_splice($var, $i, 1);
                break;
            }
        }
-       $this->setUsers($var);
+       $this->setUsers($var);*/
    }
    public function renameGroup($id, $newName){
        try{
@@ -171,8 +182,9 @@ HERE;
        FROM `groups`
        WHERE `invite_code`='$code';
 CHECKCODE;
-       $groupId= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC)[0]['id'];
-       if(isset($groupId)){
+       $groupId= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+       if(isset($groupId[0]['id'])){
+           $groupId=$groupId[0]['id'];
        $r=<<<CHECKUSER
         SELECT `student_group`.`student_id`
         FROM `student_group`, `user`

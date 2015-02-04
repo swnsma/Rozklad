@@ -1,6 +1,6 @@
 <div class="container">
     <div id="formCreate">
-        <form class="bs-docs-example form-horizontal">
+        <form class="bs-docs-example form-horizontal" enctype="multipart/form-data" method="POST">
             <div class="form-group">
                 <label for="inputName" class="bold">Ім'я групи</label>
                 <input type="text" class="form-control" id="inputName" placeholder="Введіть ім'я групи">
@@ -9,7 +9,7 @@
                 <label for="inputDesc" class="bold">Опис</label>
                 <textarea id="inputDesc" class="form-control" placeholder="Введіть опис групи"></textarea>
             </div>
-
+            <input name="userfile" type="file" />
             <button id="create" type="button" class="btn btn-default">Создать групу</button>
         </form>
     </div>

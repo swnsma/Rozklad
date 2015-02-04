@@ -6,6 +6,11 @@ var $day  = $('#day');
 var $month = $('#month');
 var $year  = $('#year');
 var $tcalInput=$('#tcalInput');
+
+var $dayEdit  = $('#dayEdit');
+var $monthEdit = $('#monthEdit');
+var $yearEdit  = $('#yearEdit');
+var $tcalInputEdit=$('#tcalInputEdit');
 // default settins - this structure can be moved in separate file in multilangual applications
 var A_TCALCONF = {
 	'cssprefix'  : 'tcal',
@@ -160,6 +165,9 @@ function f_tcalUpdate (n_date, b_keepOpen) {
 		$day.val(d_date.getDate());
 		$month.val(d_date.getMonth()+1);
 		$year.val(d_date.getFullYear());
+		$dayEdit.val(d_date.getDate());
+		$monthEdit.val(d_date.getMonth()+1);
+		$yearEdit.val(d_date.getFullYear());
 		e_input.value = f_tcalGenerateDate(d_date, A_TCALCONF.format);
 		f_tcalCancel();
 	}

@@ -11,31 +11,33 @@ class UserModel extends Model {
 
     }
 
+    static $userInfo=null;
     public function getCurrentUserInfo(){
-        static $userInfo;
+        $id = $_SESSION['id'];
+//        $id = '1';
+        if (is_null(self::$userInfo)){
 
-        //$id = $_SESSION('id');
-        $id = '4';
-        if (is_null($userInfo)){
-            $userInfo = array();
             $sql = <<<SQL
                     select
-                        user.name,
-                        user.surname,
-                        user.email,
-                        user.phone,
-                        user.fb_id,
-                        user.gm_id,
-                        role.title
-                    from user
-                    inner join role
-                    on user.role_id = role.id
-                    where user.id='$id'
-SQL;
-            $userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC)[0];
-        }
+                        u.name,
+                        u.surname,
+                        u.email,
+                        u.phone,
+                        u.fb_id,
+                        u.gm_id,
+                        u.id,
+                        r.title
 
-        return $userInfo;
+                    from user as u
+                    inner join role as r
+                    on u.role_id = r.id
+                    where u.id='$id'
+SQL;
+
+            self::$userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+//            echo self::$userInfo;
+        }
+        return self::$userInfo;
     }
 
     public function getInfoFB($fb_id){
