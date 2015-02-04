@@ -112,7 +112,7 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $start=Request::getInstance()->getParam(0);
         $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisId($this->userInfo['id'],$start,$end);
+        $id=$this->model->getOurLessonForThisId($this->userInfo,$start,$end);
         $this->view->renderJson($id);
     }
 
@@ -148,7 +148,7 @@ class Calendar extends Controller {
         $interval=Request::getInstance()->getParam(0);
 
 //        print_r($this->userInfo);
-        $id=$this->model->getRealTimeUpdate($interval,$this->userInfo['id']);
+        $id=$this->model->getRealTimeUpdate($interval,$this->userInfo);
 
         $this->view->renderJson($id);
     }
@@ -172,10 +172,7 @@ class Calendar extends Controller {
         $this->view->renderJson($date);
     }
 
-    public function  getOurLessonForThisId(){
-        $this->model = $this->loadModel('lesson');
-        $this->model->getOurLessonForThisId($this->userInfo['id']);
-    }
+
 
 
 
