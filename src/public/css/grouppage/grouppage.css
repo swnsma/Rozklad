@@ -103,3 +103,9 @@ display: inline-block;
 {
     border-radius: 35px;
 }
+.removeStudent
+{
+    position: absolute;
+    margin-left: 70%;
+    margin-top: -7px;
+}

@@ -71,13 +71,11 @@ var api= {
             }
         })
     },
-    deleteUser:function(id,groupId) {
+    deleteUser:function(id,groupId,successFunction) {
         $.ajax({
             url: url + 'app/grouppage/delUser/'+id+'/'+groupId ,
             type: 'GET',
-            success: function (response) {
-                console.log(response);
-            },
+            success: successFunction (),
             error: function (xhr) {
                 alert('Error! ' + xhr);
             }

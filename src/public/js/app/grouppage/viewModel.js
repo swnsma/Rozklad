@@ -65,8 +65,14 @@ function ViewModel() {
         }
     };
     that.deleteUser=function(userId){
-        api.deleteUser(userId,that.id());
+        api.deleteUser(userId,that.id(),function(){
+           // that.students.remove(that.students(3))
+            location.reload();
+        });
+    };
 
+    that.dismissStudent=function(userId){
+              console.log(that.students('1'))
 
     };
     that.errorDescMessage = ko.computed(function(){
