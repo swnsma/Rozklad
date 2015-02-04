@@ -821,6 +821,9 @@ function Calendar_teacher(){
             var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
+            if(! /\S/.test( title )){
+                title="Новый ивент";
+            };
             if(+hourEnd<=+hourBegin){
                 hourEnd=hourBegin;
                 if(+minutesEnd<=+minutesBegin){
@@ -908,6 +911,7 @@ function Calendar_teacher(){
         jqueryObjectPopup.button.submit.on('click',function(){
             //константи
             var title= (jqueryObjectPopup.typePopup.val()||'Новый ивент');
+            debugger;
             var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
             var month=(jqueryObjectPopup.day.month.val()||newDate.getMonth()+1);
             var day=(jqueryObjectPopup.day.day.val()||newDate.getDate());
@@ -917,6 +921,9 @@ function Calendar_teacher(){
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
 
+            if(! /\S/.test( title )){
+                title="Новый ивент";
+            }
             if(+hourEnd<=+hourBegin){
                 hourEnd=hourBegin;
                 if(+minutesEnd<=+minutesBegin){
@@ -969,7 +976,7 @@ function Calendar_teacher(){
                 urls=url + 'app/calendar/updateEvent/' + title + '/' + startFun() + '/' + endFun()+'/'+(+idUpdate);
             }
 
-
+            debugger;
             $.ajax({
                 url: urls,
                 type: 'POST',

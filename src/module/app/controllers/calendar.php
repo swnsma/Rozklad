@@ -172,10 +172,6 @@ class Calendar extends Controller {
         $this->view->renderJson($date);
     }
 
-
-
-
-
     public function  getOurTeacher(){
         $req=Request::getInstance();
         $this->model = $this->loadModel('user');
