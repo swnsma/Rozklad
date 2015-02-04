@@ -60,9 +60,11 @@ HERE;
         try{
         $r = <<<HERE
         SELECT
-            `user`.`fb_id` as user_id,
+            `user`.`id` as id,
+            `user`.`fb_id` as fb_id,
             `user`.`name` as name,
-            `user`.`surname` as surname
+            `user`.`surname` as surname,
+            `user`.`gm_id` as gm_id
         FROM `student_group`, `user`
         WHERE `user`.`id` = `student_group`.`student_id`AND `student_group`.`group_id`=$groupId;
 HERE;
