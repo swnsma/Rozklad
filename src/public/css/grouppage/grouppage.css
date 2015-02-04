@@ -11,39 +11,42 @@ h3
     min-height: 85px;
    padding-left: 8px;
 }
-.info-title span, .info-desc span{
+.info-title .col-lg-7 span, .info-desc .col-lg-7 span{
     display: block;
     text-align: center;
     color: red;
 }
 .info-desc{
     min-height:  95px;
-    padding-left: 8px;
+    padding-left: 0 ;
 }
-.info-desc textarea{
+ textarea{
     resize: none;
 }
 .info-title input{
     margin-top: 20px;
 }
-.info-desc a, .info-title a{
+.info-title a{
     width: 160px;
-    margin-left: 55px;
+    margin-left: 210px;
 }
-.btn{
+.info-desc a{
+    width: 160px;
+    margin-left: 216px;
+}
+.edt{
     margin-top: 20px;
 }
 .dismissButton
 {
-    margin-top: 20px;
-    margin-left: 3px;
 }
 #inputName{
     cursor: default;
-    margin: 20px 0 0 -15px;
+    margin: 5px 0 20px -15px;
 }
 .col-lg-4 a{
-    margin: 20px 0 0 -30px;
+    width: 160px;
+    margin: 0 0 0 123px;
 }
 .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
     float: left;
