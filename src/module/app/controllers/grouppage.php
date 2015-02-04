@@ -26,12 +26,14 @@ class GroupPage extends Controller {
             }else return null;
         }
         $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
+        $data['id']=$id;
         $this->view->renderHtml('grouppage/index', $data);
     }
     public function delUser(){
         $req = Request::getInstance();
-        $id= $req->getParam(0);
-        $this->model->delUser($id);
+        $groupId= $req->getParam(0);
+        $id=$req->getParam(1);
+        $this->model->delUser($id, $groupId);
         $this->view->renderJson(Array('result'=>"success"));
     }
     public function renameGroup(){

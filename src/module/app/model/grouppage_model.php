@@ -106,23 +106,23 @@ HERE;
             return null;
         }
     }
-   public function delUser($id){
+   public function delUser($id, $groupId){
        if(isset($id));
        $id=$this->getGroupId();
        try{
-       $this->db->query("DELETE FROM student_group WHERE student_id=$id;");
+       $this->db->query("DELETE FROM student_group WHERE student_id=$id AND group_id=$groupId;");
        }
        catch(PDOException $e){
            echo $e->getMessage();
        }
-       $var = $this->getUsers();
+       /*$var = $this->getUsers();
        for ($i=0; $i<count($var); $i++){
            if($var[$i]['id']==$id){
               array_splice($var, $i, 1);
                break;
            }
        }
-       $this->setUsers($var);
+       $this->setUsers($var);*/
    }
    public function renameGroup($id, $newName){
        try{
