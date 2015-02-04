@@ -422,10 +422,6 @@ function Calendar_teacher(){
             });
             return;
         }
-
-        if(currentUser.id!==calEvent.teacher){
-            return;
-        }
         $(this).css({  'backgroundColor':'RGB(0,100,160)' });
 
         var hourStart = calEvent.start._d.getHours();
@@ -1018,7 +1014,6 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-
                         self.masEvent.push({id: id.id,
                             title: title,
                             start: startFun(),
