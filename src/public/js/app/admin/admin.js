@@ -2,11 +2,10 @@ function load(){
     function adminViewModel(){
         var self = this;
         self.users = ko.observableArray([]);
-        //loadUsers(self);
-        debugger;
+        loadUsers(self);
         var realTimeUpdate = window.setInterval(function(){
             loadUsers(self);
-        },10000);
+        },500);
 
         self.confirm = function (user){
             $.ajax({
@@ -89,7 +88,6 @@ function load(){
                     }
                 },
                 error: function(er) {
-                    debugger;
                     console.dir(er);
                 }
 

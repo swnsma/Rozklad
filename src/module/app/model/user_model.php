@@ -11,33 +11,31 @@ class UserModel extends Model {
 
     }
 
-    static $userInfo=null;
     public function getCurrentUserInfo(){
-        $id = $_SESSION['id'];
-//        $id = '1';
-        if (is_null(self::$userInfo)){
+        static $userInfo;
 
+        //$id = $_SESSION('id');
+        $id = '4';
+        if (is_null($userInfo)){
+            $userInfo = array();
             $sql = <<<SQL
                     select
-                        u.name,
-                        u.surname,
-                        u.email,
-                        u.phone,
-                        u.fb_id,
-                        u.gm_id,
-                        u.id,
-                        r.title
-
-                    from user as u
-                    inner join role as r
-                    on u.role_id = r.id
-                    where u.id='$id'
+                        user.name,
+                        user.surname,
+                        user.email,
+                        user.phone,
+                        user.fb_id,
+                        user.gm_id,
+                        role.title
+                    from user
+                    inner join role
+                    on user.role_id = role.id
+                    where user.id='$id'
 SQL;
-
-            self::$userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-//            echo self::$userInfo;
+            $userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC)[0];
         }
-        return self::$userInfo;
+
+        return $userInfo;
     }
 
     public function getInfoFB($fb_id){
@@ -64,32 +62,6 @@ TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var[0];
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-    }
-    public function getIdFB($fb_id){
-        try {
-            $request = <<<TANIA
-select id from user
-where fb_id='$fb_id'
-TANIA;
-            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            return $var[0]['id'];
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-    }
-    public function getIdGM($gm_id){
-        try {
-            $request = <<<TANIA
-            select id from user
-            where gm_id='$gm_id'
-TANIA;
-            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            return $var[0]['id'];
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;

@@ -1,3 +1,12 @@
+<?php
+    echo '<style>';
+        require_once (FILE."public/css/common/bootstrap.css");
+        require_once (FILE."public/css/common/common.css");
+        require_once (FILE."public/css/user.css");
+        require_once (FILE."public/css/admin/admin.css");
+    echo '</style>';
+?>
+
 <ul class="user-list" data-bind="foreach: users">
     <li class="user">
         <div class="padding">
@@ -16,9 +25,14 @@
         </div>
     </li>
 </ul>
-<script src="<?php echo URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
-<script src="<?php echo URL; ?>public/js/app/common.js"></script>
-<script src="<?php echo URL; ?>public/js/app/admin/admin.js"></script>
+
+<?php
+    echo '<script>';
+        require_once (FILE."public/js/vendor/jQuery/jquery-2.1.1.js");
+        require_once (FILE."public/js/app/common.js");
+        require_once (FILE."public/js/app/admin/admin.js");
+    echo '</script>';
+?>
 <script>
     load();
 </script>
