@@ -34,7 +34,7 @@ class Base_Install{
             }
         }
         $buff2=$version;
-        if($buff!=$buff2){
+        if($buff<$buff2){
             try{
                 //переделать
                 $DBH=DataBase::getInstance()->DB();
