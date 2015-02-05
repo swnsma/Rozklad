@@ -7,6 +7,9 @@
     width: 365px;
     display: none;
 }
+.popupEdit .select-teacher{
+    border: none;
+}
 .popupEdit .input-create-lesson{
     color: #000000;
     font-weight: bold;
