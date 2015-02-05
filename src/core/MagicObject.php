@@ -60,6 +60,7 @@ abstract class Magic_Object
                 }
                 break;
             default:
+                echo 'invalid method';
                 #throw new Magic_Object_Exception('MagicObjectExeption');
         }
     }
