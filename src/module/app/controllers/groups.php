@@ -1,5 +1,7 @@
 <?php
 
+require_once DOC_ROOT . 'core/UploadImage.php';
+
 class Groups extends Controller {
     public function __construct() {
         parent::__construct();

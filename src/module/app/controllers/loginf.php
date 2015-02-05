@@ -1,24 +1,24 @@
 <?php
-//require_once FILE .'conf/setup.php';
-require_once( FILE.'lib/facebook/HttpClients/FacebookHttpable.php' );
-require_once( FILE.'lib/facebook/HttpClients/FacebookCurl.php' );
-require_once(FILE.'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
-require_once( FILE.'lib/facebook/Entities/AccessToken.php' );
-require_once( FILE.'lib/facebook/Entities/SignedRequest.php');
-require_once( FILE.'lib/facebook/FacebookSession.php' );
-require_once( FILE.'lib/facebook/FacebookSignedRequestFromInputHelper.php');
-require_once( FILE.'lib/facebook/FacebookCanvasLoginHelper.php');
-require_once( FILE.'lib/facebook/FacebookRedirectLoginHelper.php' );
-require_once( FILE.'lib/facebook/FacebookRequest.php' );
-require_once( FILE.'lib/facebook/FacebookResponse.php' );
-require_once( FILE.'lib/facebook/FacebookSDKException.php' );
-require_once( FILE.'lib/facebook/FacebookRequestException.php' );
-require_once( FILE.'lib/facebook/FacebookOtherException.php' );
-require_once(FILE.'lib/facebook/FacebookAuthorizationException.php' );
-require_once( FILE.'lib/facebook/GraphObject.php' );
-require_once(FILE.'lib/facebook/GraphUser.php');
-require_once( FILE.'lib/facebook/GraphSessionInfo.php' );
-require_once(FILE.'lib/facebook/FacebookJavaScriptLoginHelper.php' );
+//require_once DOC_ROOT .'conf/setup.php';
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookHttpable.php' );
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookCurl.php' );
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
+require_once(DOC_ROOT . 'lib/facebook/Entities/AccessToken.php' );
+require_once(DOC_ROOT . 'lib/facebook/Entities/SignedRequest.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookSession.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookSignedRequestFromInputHelper.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookCanvasLoginHelper.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookRedirectLoginHelper.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookRequest.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookResponse.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookSDKException.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookRequestException.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookOtherException.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookAuthorizationException.php' );
+require_once(DOC_ROOT . 'lib/facebook/GraphObject.php' );
+require_once(DOC_ROOT . 'lib/facebook/GraphUser.php');
+require_once(DOC_ROOT . 'lib/facebook/GraphSessionInfo.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookJavaScriptLoginHelper.php' );
 
 require_once (FILE.'module/app/controllers/signin.php');
 
@@ -82,6 +82,9 @@ class Loginf extends Controller {
             $_SESSION['lastname'] = $user_f['last_name'];
             $_SESSION['firstname']=$user_f['first_name'];
             $_SESSION['email'] =  $user_f['email'];
+            //checkuser($fuid,$ffname,$femail);
+            $status=$_SESSION['status'];
+
             $this->checkUser();
             exit;
 

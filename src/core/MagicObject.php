@@ -5,7 +5,7 @@
  * Date: 22.01.2015
  * Time: 23:56
  */
-require_once FILE . 'core/Response.php';
+require_once DOC_ROOT . 'core/Response.php';
 class Magic_Object_Exception extends Exception {
     public function __construct(){
         parent::__construct();
@@ -62,7 +62,8 @@ abstract class Magic_Object
                 }
                 break;
             default:
-                throw new Magic_Object_Exception('MagicObjectExeption');
+                echo 'invalid prefics';
+                #throw new Magic_Object_Exception('MagicObjectExeption');
         }
     }
 

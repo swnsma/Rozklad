@@ -7,16 +7,21 @@ class Bootstrap {
         Session::init($time,$ses);
         require_once FILE . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
+        $urla=$request->getUrl();
+        if(!Session::has('unusedLink')){
+            Session::set('unusedLink',$urla );
+        }
+        require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
         $this->checkRoute($controller,$action);
-        $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
+        $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
             $c = new $controller;
         } else {
-            require_once  FILE . 'module/app/controllers/error.php';
+            require_once  DOC_ROOT . 'module/app/controllers/error.php';
             $c = new Error();
         }
         $c->run($request->getAction());

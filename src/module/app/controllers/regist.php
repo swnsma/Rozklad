@@ -57,10 +57,15 @@ class Regist extends Controller
                 else{
                     $_SESSION['status']="unconfirmed";
                 }
-                echo "registed";
+                $link='app/calendar';
+                if(isset($_SESSION['unusedLink'])){
+                    $link=$_SESSION['unusedLink'];
+                    $_SESSION['unusedLink']="";
+                }
+                $this->view->renderJson(array('result'=>'registed', 'link'=>$link)) ;
 
             }else{
-                echo "not_registed";
+                $this->view->renderJson(array('result'=> "not_registed"));
             }
         }
         else echo $existUserFb;

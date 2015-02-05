@@ -98,10 +98,7 @@ display: inline-block;
 {
     display: inline-block;
 }
-.userCard
-{
-   margin-top: 20px;
-}
+
 .avatar
 {
     border-radius: 35px;
@@ -109,8 +106,8 @@ display: inline-block;
 .removeStudent
 {
     position: absolute;
-    margin-left: 65%;
-    margin-top: -7px;
+    margin-left: 91%;
+    margin-top: -5px;
 }
 .list-group-item:hover
 {
