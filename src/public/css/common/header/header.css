@@ -9,9 +9,10 @@
 }
 
 .header .logout {
+    display: block;
     color: inherit;
     text-decoration: inherit;
-    margin: 0px 0 0 0;
+    margin: -2px 0 0 0;
     font-size: 13px;
     font-weight: 400;
 }

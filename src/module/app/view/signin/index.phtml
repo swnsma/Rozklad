@@ -2,75 +2,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Расписание</title>
-    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/bootstrap.css"/>
-    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/start-page.css" />
-    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/login_css.css" />
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/common/common.css" />
+    <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/signin.css" />
 </head>
 <body>
 <?php if (Session::get('status')!= 'unconfirmed'): ?>
     <section class="logIn" id="signIn">
-        <h1>Расписание</h1>
+        <h1>Розклад</h1>
         <div class="signin" id="signIn">
-            <h2>Выберите способ входа</h2>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="button google" href="<?php print URL; ?>app/loging/login">
-                        Google
-                    </div>
-                    <div class="button facebook" href="<?php print URL; ?>app/loginf/login">
-                        Facebook
-                    </div>
-                    <!--<a href="#" id='fbLogout' class="btn btn-info">
-                          <div class="text">Logout</div>
-                      </a >
-      <!--                <a href="#" id='check' class="btn btn-info">-->
-                    <!--                    <div class="text">Check</div>-->
-                    <!--                </a >-->
+    <!--    <h2>Выберите способ входа</h2>-->
+            <div class="button social google" href="<?php print URL; ?>app/loging/login">
+                <img src="<?php print URL; ?>/public/img/google.svg"/>
+                <div>
+                    Ввійти через Google+
                 </div>
             </div>
-            <!--
-            <h2>или зарегистрируйтесь</h2>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для студентов</div>
-                    </a>
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для преподавателей</div>
-                    </a>
-                </div>
-            </div>
-            -->
-        </div>
-        <!--
-        <div class="not-in-system" id="notInSystem" style="display: none" >
-            <h2>Вас нет в системе<br/>зарегистрируйтесь</h2>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для студентов</div>
-                    </a>
-                    <a href="#" class="btn btn-info">
-                        <div class="text">Регистрация для преподавателей</div>
-                    </a>
+            <div class="button social facebook" href="<?php print URL; ?>app/loginf/login">
+                <img src="<?php print URL; ?>/public/img/facebook.svg"/>
+                <div>
+                    Ввійти через Facebook
                 </div>
             </div>
         </div>
-        -->
     </section>
 <?php endif; ?>
 <?php if (Session::get('status')=='unconfirmed'): ?>
-    <div class="panel panel-default status">
+    <section class="logIn" id="signIn">
         <div class="">
             Дождитесь подтверждения статуса.
         </div>
         <div class="button" href="<?php print URL; ?>app/signin/back_signin">
             Выйти
         </div>
-    </div>
+    </section>
 <?php endif; ?>
 
-<!--<script src="https://apis.google.com/js/client:platform.js"></script>-->
 <script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
