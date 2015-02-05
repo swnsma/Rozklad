@@ -185,3 +185,9 @@ body{
     font-weight: bold;
     cursor: pointer;
 }
+.select-teacher{
+    border: none;
+    border-bottom: 1px dashed #016d92;
+    width: 100%;
+    outline: none;
+}
