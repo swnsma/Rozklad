@@ -12,7 +12,7 @@ class Groups extends Controller {
     }
 
     public function index() {
-        $data['title'] = 'Group list';
+        $data['title'] = 'Групи';
         $data['status'] = 1; //$this->user_info['role_id'];
         $data['groups'] = $this->model->getList();
         $this->view->renderAllHTML('groups/index',
