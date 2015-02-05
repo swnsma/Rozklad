@@ -2,9 +2,11 @@
 
 class Bootstrap {
     function __construct() {
-
-        Session::init();
+        $time = 3600*24;
+        $ses = 'MYSES';
+        Session::init($time,$ses);
         $_SESSION['status']="not";
+
         require_once FILE . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $controller = $request->getController();

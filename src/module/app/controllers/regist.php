@@ -47,7 +47,7 @@ class Regist extends Controller
                     $this->model=$this->loadModel("user");
                     $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                     $_SESSION['id']=$id;
-            }
+                }
                 echo "registed";
 
             }else{
@@ -78,9 +78,9 @@ class Regist extends Controller
     public function getName(){
         $this->view->renderJson(
             [
-            'firstname'=>$_SESSION['firstname'],
-          'lastname'=>$_SESSION['lastname']
-        ]);
+                'firstname'=>$_SESSION['firstname'],
+                'lastname'=>$_SESSION['lastname']
+            ]);
     }
 
 }

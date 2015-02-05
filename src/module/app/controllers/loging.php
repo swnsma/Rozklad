@@ -1,6 +1,6 @@
 <?php
-//require_once FILE .'conf/setup.php';
-require_once FILE.'conf/setup.php';
+
+//require_once FILE.'conf/setup.php';
 require_once FILE .'lib/google/Google_Client.php';
 require_once FILE .'lib/google/Google_Oauth2Service.php';
 
@@ -14,8 +14,8 @@ class Loging extends Controller {
         $this->model = $this->loadModel('check');
         $this->client = new Google_Client();
         $this->client->setApplicationName("Idiot Minds Google Login Functionallity");
-        $this->client->setClientId(CLIENT_ID);
-        $this->client->setClientSecret(CLIENT_SECRET);
+        $this->client->setClientId(CLIENT_ID_GM);
+        $this->client->setClientSecret(CLIENT_SECRET_GM);
         $this->client->setRedirectUri(URL . "app/loging/login");
         $this->client->setApprovalPrompt(APPROVAL_PROMPT);
         $this->client->setAccessType(ACCESS_TYPE);
@@ -40,15 +40,15 @@ class Loging extends Controller {
         if ($this->client->getAccessToken()) {
             $user_g = $this->oauth2->userinfo->get();
             $_SESSION['user']=$user_g;
-            $_SESSION['lastname']=$user_g['given_name'];
-            $_SESSION['firstname']=$user_g['family_name'];
+            $_SESSION['lastname']=$user_g['family_name'];
+            $_SESSION['firstname']=$user_g['given_name'];
             $_SESSION['gm_ID']= $_SESSION['user']['id'];
             $_SESSION['email']=$_SESSION['user']['email'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();
             $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
             $status=$_SESSION['status'];
-                $this->checkUser();
-                exit;
+            $this->checkUser();
+            exit;
         } else {
             $authUrl = $this->client->createAuthUrl();
             header("Location:".$authUrl);
