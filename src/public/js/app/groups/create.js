@@ -23,7 +23,6 @@ $('#createButton').click(function() {
         el_name.addClass('error-input');
         return false;
     }
-
     if (!descr.match(/^[\(\)\!\?\:\;\.\, \s\S\d+\w+]{1,300}$/)) {
         el_descr.addClass('error-input');
         return false;
