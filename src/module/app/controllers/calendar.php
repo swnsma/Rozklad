@@ -6,7 +6,6 @@
  * Time: 17:55
  * */
 
-//Session::init();
 class Calendar extends Controller {
 
     private $userInfo;
