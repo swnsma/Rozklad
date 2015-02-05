@@ -12,11 +12,19 @@ function ViewModel() {
     that.buffTitle="";
     that.errorDesc=ko.observable("0");
     that.errorTitle= ko.observable("0");
+    that.focusDesc=function(){
+        document.getElementById("descInput").focus();
+    };
+    that.focusTitle=function(){
+        document.getElementById("titleInput").focus();
+    };
     that.editDescOpen=function(){
         that.editDescription(true);
+        that.focusDesc();
     };
     that.editTitleOpen= function(){
         that.editGroupName(true);
+        that.focusTitle();
     };
     that.saveDesc=function(){
       var buff= that.description().trim();
@@ -64,6 +72,7 @@ function ViewModel() {
             that.errorTitle("1");
         }
     };
+
     that.deleteUser=function(userId){
         api.deleteUser(userId,that.id(),function(){
            // that.students.remove(that.students(3))
