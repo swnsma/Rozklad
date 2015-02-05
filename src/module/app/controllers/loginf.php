@@ -20,7 +20,7 @@ require_once(DOC_ROOT . 'lib/facebook/GraphUser.php');
 require_once(DOC_ROOT . 'lib/facebook/GraphSessionInfo.php' );
 require_once(DOC_ROOT . 'lib/facebook/FacebookJavaScriptLoginHelper.php' );
 
-require_once (FILE.'module/app/controllers/signin.php');
+require_once (DOC_ROOT.'module/app/controllers/signin.php');
 
 use Facebook\HttpClients\FacebookHttpable;
 use Facebook\HttpClients\FacebookCurl;
@@ -43,8 +43,6 @@ use Facebook\GraphSessionInfo;
 
 
 class Loginf extends Controller {
-
-    private $client;
     private $model;
 
     public function __construct() {
@@ -52,11 +50,9 @@ class Loginf extends Controller {
         $this->model=$this->loadModel("check");
         FacebookSession::setDefaultApplication( APP_ID_FB,APP_SECRET_FB );
     }
-
     public function index() {
 //        $this->view->renderHtml('signin/index');
     }
-
     public function login(){
 // login helper with redirect_uri
         $helper = new FacebookRedirectLoginHelper(URL."app/loginf/login" );
@@ -138,16 +134,12 @@ class Loginf extends Controller {
             }
         }
     }
-    public function login_fb(){
-        $_SESSION['status']='update';
-        $this->login();
-    }
     public function logout(){
-        setcookie('fbs_'.$this->getAppId(), '', time()-100, '/', $_SERVER["SERVER_NAME"]);
-        unset($_SESSION['fb_'.$this->getAppId().'_code']);
-        unset($_SESSION['fb_'.$this->getAppId().'_access_token']);
-        unset($_SESSION['fb_'.$this->getAppId().'_user_id']);
-        unset($_SESSION['fb_'.$this->getAppId().'_state']);
+        setcookie('fbs_'.APP_ID_FB, '', time()-100, '/', $_SERVER["SERVER_NAME"]);
+        unset($_SESSION['fb_'.APP_ID_FB.'_code']);
+        unset($_SESSION['fb_'.APP_ID_FB.'_access_token']);
+        unset($_SESSION['fb_'.APP_ID_FB.'_user_id']);
+        unset($_SESSION['fb_'.APP_ID_FB.'_state']);
         $_SESSION['fb_ID'] = NULL;
         $_SESSION['fb_fullname'] = NULL;
         $_SESSION['fb_email'] =  NULL;
@@ -155,9 +147,7 @@ class Loginf extends Controller {
         session_destroy();
         header("Location:".URL."app/signin");
     }
-    public function getAppId(){
-        return "1536442079974268";
-    }
+
 
 }
 

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/login_css.css" />
 </head>
 <body>
-<?php if ($_SESSION['status']!= 'unconfirmed'): ?>
+<?php if (Session::get('status')!= 'unconfirmed'): ?>
     <section class="logIn" id="signIn">
         <h1>Расписание</h1>
         <div class="signin" id="signIn">
@@ -59,7 +59,7 @@
         -->
     </section>
 <?php endif; ?>
-<?php if ($_SESSION['status'] =='unconfirmed'): ?>
+<?php if (Session::get('status')=='unconfirmed'): ?>
     <div class="panel panel-default status">
         <div class="">
             Дождитесь подтверждения статуса.

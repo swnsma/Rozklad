@@ -70,20 +70,6 @@ class Regist extends Controller
         }
         else echo $existUserFb;
     }
-
-    private function unset_cookie()
-    {
-        if (isset($_SERVER['HTTP_COOKIE'])) {
-            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-            foreach ($cookies as $cookie) {
-                $parts = explode('=', $cookie);
-                $name = trim($parts[0]);
-                setcookie($name, '', time() - 1000);
-                setcookie($name, '', time() - 1000, '/');
-            }
-        }
-    }
-
     public function back_signin(){
         $_SESSION['status']='not';
         header("Location:".$_SESSION['logout_link']);

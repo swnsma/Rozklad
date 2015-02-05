@@ -6,7 +6,7 @@ class Signin extends Controller {
         parent::__construct();
     }
     public function index(){
-        $this->view->renderHtml("signin/index","not");
+        $this->view->renderHtml("signin/index");
     }
     public function back_signin(){
         $_SESSION['status']='not';
@@ -14,5 +14,4 @@ class Signin extends Controller {
         exit;
     }
 }
-
 ?>

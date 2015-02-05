@@ -1,6 +1,5 @@
 <?php
 
-//require_once FILE.'conf/setup.php';
 require_once DOC_ROOT .'lib/google/Google_Client.php';
 require_once DOC_ROOT .'lib/google/Google_Oauth2Service.php';
 
@@ -46,18 +45,13 @@ class Loging extends Controller {
             $_SESSION['email']=$_SESSION['user']['email'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();
             $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
-            $status=$_SESSION['status'];
+//            $status=$_SESSION['status'];
             $this->checkUser();
             exit;
         } else {
             $authUrl = $this->client->createAuthUrl();
             header("Location:".$authUrl);
         }
-
-    }
-    public function login_gm(){
-        $_SESSION['status']='update';
-        $this->login();
     }
 
     public function checkUser(){
@@ -96,9 +90,7 @@ class Loging extends Controller {
             }
         }
     }
-    public function logoutb(){
-        echo "<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>Logout</a>";
-    }
+
     public function logout(){
         session_destroy();
         $_SESSION['login']=0;

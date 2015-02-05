@@ -5,17 +5,20 @@ class Bootstrap {
         $time = 3600*24;
         $ses = 'MYSES';
         Session::init($time,$ses);
-        require_once FILE . 'module/app/controllers/regist.php';
+        require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
         if(!Session::has('unusedLink')){
-            Session::set('unusedLink',$urla );
+            Session::set('unusedLink',$urla);
         }
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
+
+        $this->checkStatus();
         $this->checkRoute($controller,$action);
+
         $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
@@ -33,8 +36,14 @@ class Bootstrap {
             $controller=='grouppage'||
             $controller=='admin';
     }
+
+    protected  function checkStatus(){
+        if(!Session::has('status')){
+            Session::set("status",'not');
+        }
+    }
     protected function checkRoute($controller,$action){
-        if(isset($_SESSION['status'])){
+        if(Session::has('status')){
             if($_SESSION['status']==='not')
             {
                 if($this->checkController($controller))
@@ -51,21 +60,19 @@ class Bootstrap {
 //            header("Location:".URL."app/calendar");
 //            exit;
 //        }
-            if($_SESSION['status']==='unconfirmed'&&$controller!=='signin')
+            if((Session::get('status')==='unconfirmed')&&($controller!=='signin'))
             {
                 header("Location:".URL."app/signin");
                 exit;
             }
 
-            if($_SESSION['status']&&($_SESSION['status']=="regist")&&$controller!="regist"){
-                if($_SESSION['has_email']===1){
-//                header("Location:http://vk.com");
-                    exit;
-                }
-                else{
+            if((Session::get('status')=="regist")&&($controller!="regist")){
                     header("Location:".URL."app/regist");
                     exit;
-                }
+            }
+            if(Session::get('status')==='ok'&&$controller=='signin'){
+                header("Location:".URL."app/calendar");
+                exit;
             }
         }
         else{
