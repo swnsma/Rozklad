@@ -1,5 +1,5 @@
 <?php
-require_once FILE .'conf/setup.php';
+//require_once FILE .'conf/setup.php';
 require_once( FILE.'lib/facebook/HttpClients/FacebookHttpable.php' );
 require_once( FILE.'lib/facebook/HttpClients/FacebookCurl.php' );
 require_once(FILE.'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
@@ -50,7 +50,7 @@ class Loginf extends Controller {
     public function __construct() {
         parent::__construct();
         $this->model=$this->loadModel("check");
-        FacebookSession::setDefaultApplication( '1536442079974268','1d75987fcb8f4d7abc1a34287f9601cf' );
+        FacebookSession::setDefaultApplication( APP_ID_FB,APP_SECRET_FB );
     }
 
     public function index() {
@@ -76,7 +76,7 @@ class Loginf extends Controller {
             $_SESSION['fb_token']="".$session->getAccessToken();
             $_SESSION['logout_link']="http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".$_SESSION['fb_token'];
 //            echo $_SESSION['fb_token'];
-           $user_f = $response->getGraphObject()->asArray();
+            $user_f = $response->getGraphObject()->asArray();
             /* ---- Session Variables -----*/
             $_SESSION['fb_ID'] = $user_f['id'];
             $_SESSION['lastname'] = $user_f['last_name'];
@@ -85,8 +85,8 @@ class Loginf extends Controller {
             //checkuser($fuid,$ffname,$femail);
             $status=$_SESSION['status'];
 
-                $this->checkUser();
-                exit;
+            $this->checkUser();
+            exit;
 
         } else {
             $loginUrl = $helper->getLoginUrl();
