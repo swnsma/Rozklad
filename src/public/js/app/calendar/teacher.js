@@ -58,12 +58,11 @@ function Calendar_teacher(){
     function AddTeacherToList(jquery_element,selected_obj,event){
 
         function createOption(){
-            debugger;
             jquery_element.empty();
             for(var i = 0;i<ourteacher.length;++i){
                 var opt = document.createElement('option');
                 opt.value = ourteacher[i].id;
-                opt.innerHTML = ourteacher[i].surname+' '+ourteacher[i].name;
+                opt.innerHTML = ourteacher[i].name+' '+ourteacher[i].surname;
                 if(ourteacher[i].id===selected_obj.id){
                     opt.selected=true;
                 }
@@ -459,7 +458,6 @@ function Calendar_teacher(){
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
-        debugger;
         reset_addGroups();
         if(delPopup()){
             return;
@@ -473,6 +471,11 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(date){
+                    if(date[0].teacher===currentUser.id){
+                        date[0].color=masColor.myEvents.color;
+                    }else{
+                        date[0].color=masColor.otherEvents.color;
+                    }
                     calEvent.deleted=false;
                     self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,calEvent.id);
                     self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,date[0]);
@@ -484,7 +487,6 @@ function Calendar_teacher(){
             });
             return;
         }
-        debugger;
         var teacher =  new AddTeacherToList(self.jqueryObject.popupEdit.selectTeacher,{
             id:calEvent.teacher
         },calEvent);
@@ -676,8 +678,11 @@ function Calendar_teacher(){
                     this.value = 31;
                 }
                 if (this.value.length == 2) {
-                    if (parseInt(this.value)) {
-                        this.value = parseInt(this.value);
+                    if (parseInt(this.value) || this.value==='00') {
+                        //this.value = parseInt(this.value);
+                        if(this.value==='00'){
+                            this.value='01';
+                        }
                         date.month.focus();
                     }
 
@@ -691,8 +696,7 @@ function Calendar_teacher(){
                     this.value = 12;
                 }
                 if (this.value.length == 2) {
-                    if (parseInt(this.value)) {
-                        this.value = parseInt(this.value);
+                    if (parseInt(this.value) || this.value==='00') {
                         date.year.focus();
                     }
                 }
@@ -701,10 +705,10 @@ function Calendar_teacher(){
 
             date.year.mask('9999', {placeholder: "---------"});
             date.year.on('input', function () {
-                if (this.value.length == 4) {
-                    if (parseInt(this.value)) {
-                        this.value = parseInt(this.value);
+                if (this.value.length == 4 ) {
+                    if (parseInt(this.value)|| this.value==='0000') {
                         self.jqueryObject.popup.start.hour.focus();
+                        self.jqueryObject.popupEdit.start.hour.focus();
                     }
                 }
                 sync();
@@ -747,8 +751,7 @@ function Calendar_teacher(){
                         this.value=23;
                     }
                     if(this.value.length==2){
-                        if(parseInt(this.value)) {
-                            this.value=parseInt(this.value);
+                        if(parseInt(this.value) || this.value==='00') {
                             focus.focus();
                         }
                     }
@@ -761,9 +764,7 @@ function Calendar_teacher(){
                     }
                     if(type!='minutesEnd') {
                         if (this.value.length === 2) {
-                            this.value = parseInt(this.value);
-                            if (parseInt(this.value)) {
-                                this.value = parseInt(this.value);
+                            if (parseInt(this.value) || this.value==='00') {
 
                                 if(mask!=$minutesEnd) {
                                     focus.focus();

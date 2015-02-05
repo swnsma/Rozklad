@@ -238,14 +238,6 @@ this.groups=[];
                 //'RGB(0,100,160)'
                 //color: '#07375E'   // an option!
                 //textColor: 'black' // an option!
-            },
-            {
-                events:[{
-                    title:'asdasd',
-                    start: '2015-02-14'
-                }],
-                color: '#888',   // an option!
-                textColor: 'black' // an option!
             }
         ]
     };

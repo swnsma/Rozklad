@@ -94,7 +94,7 @@ TANIA;
               from lesson as l
               INNER JOIN  user as u ON
               u.id = l.teacher
-            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+            WHERE  (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             }else{
                 $res = "select l.id,
@@ -107,7 +107,7 @@ TANIA;
             INNER JOIN 'user' as u ON
             u.id=l.teacher
             WHERE (st_g.student_id='$id')
-            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+            AND (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             }
             $result = array_unique($var,SORT_REGULAR);
