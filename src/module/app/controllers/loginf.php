@@ -1,26 +1,26 @@
 <?php
-//require_once FILE .'conf/setup.php';
-require_once( FILE.'lib/facebook/HttpClients/FacebookHttpable.php' );
-require_once( FILE.'lib/facebook/HttpClients/FacebookCurl.php' );
-require_once(FILE.'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
-require_once( FILE.'lib/facebook/Entities/AccessToken.php' );
-require_once( FILE.'lib/facebook/Entities/SignedRequest.php');
-require_once( FILE.'lib/facebook/FacebookSession.php' );
-require_once( FILE.'lib/facebook/FacebookSignedRequestFromInputHelper.php');
-require_once( FILE.'lib/facebook/FacebookCanvasLoginHelper.php');
-require_once( FILE.'lib/facebook/FacebookRedirectLoginHelper.php' );
-require_once( FILE.'lib/facebook/FacebookRequest.php' );
-require_once( FILE.'lib/facebook/FacebookResponse.php' );
-require_once( FILE.'lib/facebook/FacebookSDKException.php' );
-require_once( FILE.'lib/facebook/FacebookRequestException.php' );
-require_once( FILE.'lib/facebook/FacebookOtherException.php' );
-require_once(FILE.'lib/facebook/FacebookAuthorizationException.php' );
-require_once( FILE.'lib/facebook/GraphObject.php' );
-require_once(FILE.'lib/facebook/GraphUser.php');
-require_once( FILE.'lib/facebook/GraphSessionInfo.php' );
-require_once(FILE.'lib/facebook/FacebookJavaScriptLoginHelper.php' );
+//require_once DOC_ROOT .'conf/setup.php';
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookHttpable.php' );
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookCurl.php' );
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
+require_once(DOC_ROOT . 'lib/facebook/Entities/AccessToken.php' );
+require_once(DOC_ROOT . 'lib/facebook/Entities/SignedRequest.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookSession.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookSignedRequestFromInputHelper.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookCanvasLoginHelper.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookRedirectLoginHelper.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookRequest.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookResponse.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookSDKException.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookRequestException.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookOtherException.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookAuthorizationException.php' );
+require_once(DOC_ROOT . 'lib/facebook/GraphObject.php' );
+require_once(DOC_ROOT . 'lib/facebook/GraphUser.php');
+require_once(DOC_ROOT . 'lib/facebook/GraphSessionInfo.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookJavaScriptLoginHelper.php' );
 
-require_once (FILE.'module/app/controllers/signin.php');
+require_once (DOC_ROOT.'module/app/controllers/signin.php');
 
 use Facebook\HttpClients\FacebookHttpable;
 use Facebook\HttpClients\FacebookCurl;
@@ -43,8 +43,6 @@ use Facebook\GraphSessionInfo;
 
 
 class Loginf extends Controller {
-
-    private $client;
     private $model;
 
     public function __construct() {
@@ -52,11 +50,9 @@ class Loginf extends Controller {
         $this->model=$this->loadModel("check");
         FacebookSession::setDefaultApplication( APP_ID_FB,APP_SECRET_FB );
     }
-
     public function index() {
 //        $this->view->renderHtml('signin/index');
     }
-
     public function login(){
 // login helper with redirect_uri
         $helper = new FacebookRedirectLoginHelper(URL."app/loginf/login" );
@@ -105,11 +101,17 @@ class Loginf extends Controller {
         $check= $this->model->checkUserFB($_SESSION['fb_ID']);
 
         if($check){
-            $_SESSION['regist']=1;
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdFB($_SESSION["fb_ID"]);
             $_SESSION['id']=$id;
-//            echo $id;
+            $isUnconf=$this->model->checkUnconfirmed($id);
+            if($isUnconf){
+                $_SESSION['status']="unconfirmed";
+
+                header("Location:".URL."app/signin");;
+                exit;
+            }
+            $_SESSION['status']="ok";
             header("Location:".URL."app/calendar");
             exit;
         }
@@ -122,7 +124,7 @@ class Loginf extends Controller {
                 $this->model=$this->loadModel("user");
                 $id=$this->model->getIdFB($_SESSION["fb_ID"]);
                 $_SESSION['id']=$id;
-//                echo print_r($_SESSION["fb_ID"]);
+                $_SESSION['status']='ok';
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -132,27 +134,20 @@ class Loginf extends Controller {
             }
         }
     }
-    public function login_fb(){
-        $_SESSION['status']='update';
-        $this->login();
-    }
     public function logout(){
-        setcookie('fbs_'.$this->getAppId(), '', time()-100, '/', $_SERVER["SERVER_NAME"]);
-        unset($_SESSION['fb_'.$this->getAppId().'_code']);
-        unset($_SESSION['fb_'.$this->getAppId().'_access_token']);
-        unset($_SESSION['fb_'.$this->getAppId().'_user_id']);
-        unset($_SESSION['fb_'.$this->getAppId().'_state']);
+        setcookie('fbs_'.APP_ID_FB, '', time()-100, '/', $_SERVER["SERVER_NAME"]);
+        unset($_SESSION['fb_'.APP_ID_FB.'_code']);
+        unset($_SESSION['fb_'.APP_ID_FB.'_access_token']);
+        unset($_SESSION['fb_'.APP_ID_FB.'_user_id']);
+        unset($_SESSION['fb_'.APP_ID_FB.'_state']);
         $_SESSION['fb_ID'] = NULL;
         $_SESSION['fb_fullname'] = NULL;
         $_SESSION['fb_email'] =  NULL;
         $_SESSION['status']='not';
         session_destroy();
-
         header("Location:".URL."app/signin");
     }
-    public function getAppId(){
-        return "1536442079974268";
-    }
+
 
 }
 

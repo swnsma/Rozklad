@@ -42,7 +42,7 @@ class RegistModel extends Model{
     }
     public function checkUserFB($id){
         try {
-            $arr= $this->db->query("SELECT fb_id FROM user WHERE fb_id=$id")->fetchAll();
+            $arr= $this->db->query("SELECT fb_id FROM user WHERE fb_id='$id'")->fetchAll();
             return count($arr);
         } catch (PDOException $e) {
             echo $e;
@@ -61,7 +61,7 @@ class RegistModel extends Model{
     }
     public function checkUserGM($id){
         try {
-            $arr = $this->db->query("SELECT gm_id FROM user WHERE gm_id=$id")->fetchAll();
+            $arr = $this->db->query("SELECT gm_id FROM user WHERE gm_id='$id'")->fetchAll();
             return count($arr);
         } catch (PDOException $e) {
             echo $e;

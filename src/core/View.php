@@ -4,7 +4,7 @@ class View{
     public function __construct() {}
 
     public function renderHtml($name, $data = null) {
-        $path = FILE . 'module/' . Request::getInstance()->getModule() . '/view/'. $name . '.phtml';
+        $path = DOC_ROOT . 'module/' . Request::getInstance()->getModule() . '/view/'. $name . '.phtml';
         if (file_exists($path)) {
             require_once $path;
         }
@@ -16,7 +16,7 @@ class View{
     }
 
     function renderAllHTML($page, $data = null, $files = array()) {
-        require_once FILE . 'module/app/model/user_model.php';
+        require_once DOC_ROOT . 'module/app/model/user_model.php';
         $user = (new UserModel)->getInfo($_SESSION['idFB'])[0];
         $header_data['name'] = $user['name'] . ' ' . $user['surname'];
         $header_data['status'] = $user['role_id'];

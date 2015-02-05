@@ -1,8 +1,7 @@
 <?php
 
-//require_once FILE.'conf/setup.php';
-require_once FILE .'lib/google/Google_Client.php';
-require_once FILE .'lib/google/Google_Oauth2Service.php';
+require_once DOC_ROOT .'lib/google/Google_Client.php';
+require_once DOC_ROOT .'lib/google/Google_Oauth2Service.php';
 
 
 class Loging extends Controller {
@@ -46,27 +45,28 @@ class Loging extends Controller {
             $_SESSION['email']=$_SESSION['user']['email'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();
             $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
-            $status=$_SESSION['status'];
+//            $status=$_SESSION['status'];
             $this->checkUser();
             exit;
         } else {
             $authUrl = $this->client->createAuthUrl();
             header("Location:".$authUrl);
         }
-
-    }
-    public function login_gm(){
-        $_SESSION['status']='update';
-        $this->login();
     }
 
     public function checkUser(){
-//        print_r($_SESSION["gm_ID"]);
-        $check= $this->model->checkUserGM($_SESSION["gm_ID"]);
+        $check= $this->model->checkUserGM(Session::get("gm_ID"));
         if($check){
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdGM($_SESSION["gm_ID"]);
             $_SESSION['id']=$id;
+            $isUnconf=$this->model->checkUnconfirmed($id);
+            if($isUnconf){
+                $_SESSION['status']="unconfirmed";
+                header("Location:".URL."app/signin");;
+                exit;
+            }
+            $_SESSION['status']="ok";
             header("Location:".URL."app/calendar");
             exit;
         }
@@ -79,6 +79,7 @@ class Loging extends Controller {
                 $this->model=$this->loadModel("user");
                 $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                 $_SESSION['id']=$id;
+                $_SESSION['status']="ok";
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -88,11 +89,8 @@ class Loging extends Controller {
                 exit;
             }
         }
+    }
 
-    }
-    public function logoutb(){
-        echo "<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>Logout</a>";
-    }
     public function logout(){
         session_destroy();
         $_SESSION['login']=0;

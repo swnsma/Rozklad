@@ -7,65 +7,74 @@
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/login_css.css" />
 </head>
 <body>
-
-<section class="logIn" id="signIn">
-    <h1>Расписание</h1>
-    <div class="signin" id="signIn">
-        <h2>Выберите способ входа</h2>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="button google" href="<?php print URL; ?>app/loging/login">
-                    Google
+<?php if (Session::get('status')!= 'unconfirmed'): ?>
+    <section class="logIn" id="signIn">
+        <h1>Расписание</h1>
+        <div class="signin" id="signIn">
+            <h2>Выберите способ входа</h2>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="button google" href="<?php print URL; ?>app/loging/login">
+                        Google
+                    </div>
+                    <div class="button facebook" href="<?php print URL; ?>app/loginf/login">
+                        Facebook
+                    </div>
+                    <!--<a href="#" id='fbLogout' class="btn btn-info">
+                          <div class="text">Logout</div>
+                      </a >
+      <!--                <a href="#" id='check' class="btn btn-info">-->
+                    <!--                    <div class="text">Check</div>-->
+                    <!--                </a >-->
                 </div>
-                <div class="button facebook" href="<?php print URL; ?>app/loginf/login">
-                    Facebook
-                </div>
-                <!--<a href="#" id='fbLogout' class="btn btn-info">
-                      <div class="text">Logout</div>
-                  </a >
-  <!--                <a href="#" id='check' class="btn btn-info">-->
-                <!--                    <div class="text">Check</div>-->
-                <!--                </a >-->
             </div>
+            <!--
+            <h2>или зарегистрируйтесь</h2>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="#" class="btn btn-info">
+                        <div class="text">Регистрация для студентов</div>
+                    </a>
+                    <a href="#" class="btn btn-info">
+                        <div class="text">Регистрация для преподавателей</div>
+                    </a>
+                </div>
+            </div>
+            -->
         </div>
         <!--
-        <h2>или зарегистрируйтесь</h2>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="#" class="btn btn-info">
-                    <div class="text">Регистрация для студентов</div>
-                </a>
-                <a href="#" class="btn btn-info">
-                    <div class="text">Регистрация для преподавателей</div>
-                </a>
+        <div class="not-in-system" id="notInSystem" style="display: none" >
+            <h2>Вас нет в системе<br/>зарегистрируйтесь</h2>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="#" class="btn btn-info">
+                        <div class="text">Регистрация для студентов</div>
+                    </a>
+                    <a href="#" class="btn btn-info">
+                        <div class="text">Регистрация для преподавателей</div>
+                    </a>
+                </div>
             </div>
         </div>
         -->
-    </div>
-    <!--
-    <div class="not-in-system" id="notInSystem" style="display: none" >
-        <h2>Вас нет в системе<br/>зарегистрируйтесь</h2>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="#" class="btn btn-info">
-                    <div class="text">Регистрация для студентов</div>
-                </a>
-                <a href="#" class="btn btn-info">
-                    <div class="text">Регистрация для преподавателей</div>
-                </a>
-            </div>
+    </section>
+<?php endif; ?>
+<?php if (Session::get('status')=='unconfirmed'): ?>
+    <div class="panel panel-default status">
+        <div class="">
+            Дождитесь подтверждения статуса.
+        </div>
+        <div class="button" href="<?php print URL; ?>app/signin/back_signin">
+            Выйти
         </div>
     </div>
-    -->
-</section>
-
-
+<?php endif; ?>
 
 <!--<script src="https://apis.google.com/js/client:platform.js"></script>-->
 <script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
-<script src="<?php print URL; ?>public/js/app/signin/login1.js"></script>
+<script src="<?php print URL; ?>public/js/app/signin/login.js"></script>
 
 </body>
 </html>
