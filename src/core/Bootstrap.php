@@ -1,23 +1,22 @@
 <?php
 
-class Bootstrap {
+class Bootstrap extends Controller{
+    private $model;
     function __construct() {
-        $time = 3600*24;
-        $ses = 'MYSES';
-        Session::init($time,$ses);
+        parent::__construct();
+        $this->initSes(3600*24, 'MYSES');
+
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
         if(!Session::has('unusedLink')){
             Session::set('unusedLink',$urla);
         }
-        require_once DOC_ROOT . 'module/app/controllers/regist.php';
+
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
-
-        $this->checkStatus();
-        $this->checkRoute($controller,$action);
+        $this->dispatcher($controller,$action);
 
         $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
@@ -30,49 +29,62 @@ class Bootstrap {
         $c->run($request->getAction());
     }
 
-    protected function checkController($controller){
+    private function initSes($time,$ses){
+        Session::init($time,$ses);
+    }
+    private  function dispatcher($controller,$action){
+        $this->checkUnconf();
+        $this->checkStatus();
+        $this->checkRoute($controller,$action);
+    }
+    private function checkController($controller){
         return
             $controller=='calendar'||
             $controller=='grouppage'||
             $controller=='admin';
     }
-
-    protected  function checkStatus(){
+    private  function checkStatus(){
         if(!Session::has('status')){
             Session::set("status",'not');
         }
     }
-    protected function checkRoute($controller,$action){
+    private  function checkUnconf(){
+        if(Session::has('status')&&(Session::get('status')=='unconfirmed')&&(Session::has('id'))){
+            $this->model=$this->loadModel('user');
+            if(!$this->model->checkUnconfirmed(Session::get('id'))){
+                Session::set('status','ok');
+            }
+        }
+    }
+    private  function changeLocation($location){
+        header("Location:".URL.$location);
+        exit;
+    }
+    private function checkRoute($controller,$action){
         if(Session::has('status')){
-            if($_SESSION['status']==='not')
-            {
-                if($this->checkController($controller))
-                {
-                    header("Location:".URL."app/signin");
-                    exit;
-                }
-            }
-//        if(((isset($_SESSION['fb_ID'])&&$_SESSION['fb_ID']&&!(empty($_SESSION['fb_ID'])))||
-//                (isset($_SESSION['gm_ID'])&&$_SESSION['gm_ID']&&!(empty($_SESSION['gm_ID']))))&&
-//            $controller==='signin'
-//        )
-//        {
-//            header("Location:".URL."app/calendar");
-//            exit;
-//        }
-            if((Session::get('status')==='unconfirmed')&&($controller!=='signin'))
-            {
-                header("Location:".URL."app/signin");
-                exit;
-            }
-
-            if((Session::get('status')=="regist")&&($controller!="regist")){
-                    header("Location:".URL."app/regist");
-                    exit;
-            }
-            if(Session::get('status')==='ok'&&$controller=='signin'){
-                header("Location:".URL."app/calendar");
-                exit;
+            $status = Session::get('status');
+            switch($status){
+                case 'not':
+                    if($this->checkController($controller)&&($controller!='signin'))
+                    {
+                        $this->changeLocation("app/signin");
+                    }
+                    break;
+                case 'regist':
+                    if($controller!='regist'){
+                        $this->changeLocation("app/regist");
+                    }
+                    break;
+                case 'unconfirmed':
+                    if($controller!='signin'){
+                        $this->changeLocation("app/signin");
+                    }
+                    break;
+                case 'ok':
+                    if($controller=='signin'){
+                        $this->changeLocation("app/calendar");
+                    }
+                    break;
             }
         }
         else{
@@ -82,6 +94,5 @@ class Bootstrap {
             }
         }
     }
-
 }
 ?>

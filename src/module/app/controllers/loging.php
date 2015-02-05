@@ -28,24 +28,23 @@ class Loging extends Controller {
     public function login(){
         if (isset($_GET['code'])) {
             $this->client->authenticate($_GET['code']);
-            $_SESSION['token'] = $this->client->getAccessToken();
+           Session::set('token',$this->client->getAccessToken());
         }
-        if (isset($_SESSION['token'])) {
-            $this->client->setAccessToken($_SESSION['token']);
+        if (Session::has('token')) {
+            $this->client->setAccessToken(Session::get('token'));
         }
         if (isset($_REQUEST['error'])) {
             echo '<script type="text/javascript">window.close();</script>'; exit;
         }
         if ($this->client->getAccessToken()) {
             $user_g = $this->oauth2->userinfo->get();
-            $_SESSION['user']=$user_g;
-            $_SESSION['lastname']=$user_g['family_name'];
-            $_SESSION['firstname']=$user_g['given_name'];
-            $_SESSION['gm_ID']= $_SESSION['user']['id'];
-            $_SESSION['email']=$_SESSION['user']['email'];
-            $_SESSION['gm_token'] = $this->client->getAccessToken();
-            $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
-//            $status=$_SESSION['status'];
+            Session::set("user",$user_g);
+            Session::set('lastname',$user_g['family_name']);
+            Session::set('firstname',$user_g['given_name']);
+            Session::set('gm_ID',Session::get('user')['id']);
+            Session::set('email',Session::get('user')['email']);
+            Session::set('gm_token',$this->client->getAccessToken());
+            Session::set('logout_link',"http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout");
             $this->checkUser();
             exit;
         } else {
@@ -58,28 +57,28 @@ class Loging extends Controller {
         $check= $this->model->checkUserGM(Session::get("gm_ID"));
         if($check){
             $this->model=$this->loadModel("user");
-            $id=$this->model->getIdGM($_SESSION["gm_ID"]);
-            $_SESSION['id']=$id;
+            $id=$this->model->getIdGM(Session::get("gm_ID"));
+            Session::set('id',$id);
             $isUnconf=$this->model->checkUnconfirmed($id);
             if($isUnconf){
-                $_SESSION['status']="unconfirmed";
+                Session::set('status',"unconfirmed");
                 header("Location:".URL."app/signin");;
                 exit;
             }
-            $_SESSION['status']="ok";
+            Session::set('status',"ok");
             header("Location:".URL."app/calendar");
             exit;
         }
         else {
-            $_SESSION['status']='regist';
+            Session::set('status','regist');
             $this->model=$this->loadModel("check");
-            if($this->model->checkEmail($_SESSION['email'])){
+            if($this->model->checkEmail(Session::get('email'))){
                 $this->model=$this->loadModel("regist");
-                $this->model->updateGM($_SESSION['gm_ID'],$_SESSION['email']);
+                $this->model->updateGM(Session::get('gm_ID'),Session::get('email'));
                 $this->model=$this->loadModel("user");
-                $id=$this->model->getIdGM($_SESSION["gm_ID"]);
-                $_SESSION['id']=$id;
-                $_SESSION['status']="ok";
+                $id=$this->model->getIdGM(Session::get("gm_ID"));
+                Session::set('id',$id);
+                Session::set('status',"ok");
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -93,7 +92,6 @@ class Loging extends Controller {
 
     public function logout(){
         session_destroy();
-        $_SESSION['login']=0;
         header("Location:".URL."app/signin");
     }
     private function checkEmail($email){
