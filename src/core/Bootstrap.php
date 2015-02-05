@@ -6,9 +6,12 @@ class Bootstrap {
         $ses = 'MYSES';
         Session::init($time,$ses);
         $_SESSION['status']="not";
-
         require_once FILE . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
+        $urla=$request->getUrl();
+        if(!isset($_SESSION['unusedLink'])){
+        $_SESSION['unusedLink']= $urla;
+        }
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();

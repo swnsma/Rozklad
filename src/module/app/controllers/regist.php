@@ -48,7 +48,12 @@ class Regist extends Controller
                     $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                     $_SESSION['id']=$id;
                 }
-                echo "registed";
+                $link='app/calendar';
+                if(isset($_SESSION['unusedLink'])){
+                    $link=$_SESSION['unusedLink'];
+                    $_SESSION['unusedLink']="";
+                }
+                $this->view->renderJson(array('result'=>'registed', 'link'=>$link)) ;
 
             }else{
                 echo "not_registed";

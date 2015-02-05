@@ -67,7 +67,12 @@ class Loging extends Controller {
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdGM($_SESSION["gm_ID"]);
             $_SESSION['id']=$id;
-            header("Location:".URL."app/calendar");
+            $link=URL."app/calendar";
+            if(isset($_SESSION['unusedLink'])){
+                $link=URL.$_SESSION['unusedLink'];
+                $_SESSION['unusedLink']="";
+            }
+            header("Location:".$link);
             exit;
         }
         else {

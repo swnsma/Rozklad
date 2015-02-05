@@ -116,16 +116,19 @@ function ModelRegist(){
                 url:url + 'app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
                 type:"GET",
                 success:function(response){
-                    if(response==="registed") {
+                    if(response.result==="registed") {
                         $("#btn-success")
-                            .prop('disabled', false);
+                            .prop('disabled', false)
+                            .click(function(){
+                                window.location=url+response.link;
+                            });
                         $("#success")
                             .toggle();
                         $("#regist")
                             .toggle();
                     }
                     else{
-                        alert(response);
+                        alert(response.result);
                     }
                 },
                 error: function (error) {
@@ -152,9 +155,6 @@ $(document).ready(function(){
     $("#success").hide();
     $("#btn-success")
         .prop('disabled', true)
-        .click(function(){
-            window.location=url+"app/calendar";
-        });
     var model=new ModelRegist
     ko.applyBindings(model);
     getName(model.getName);

@@ -110,7 +110,12 @@ class Loginf extends Controller {
             $id=$this->model->getIdFB($_SESSION["fb_ID"]);
             $_SESSION['id']=$id;
 //            echo $id;
-            header("Location:".URL."app/calendar");
+            $link=URL."app/calendar";
+            if(isset($_SESSION['unusedLink'])){
+                $link=URL.$_SESSION['unusedLink'];
+                $_SESSION['unusedLink']="";
+            }
+            header("Location:".$link);
             exit;
         }
         else {
