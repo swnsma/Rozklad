@@ -28,8 +28,7 @@ $('#createButton').click(function() {
         el_descr.addClass('error-input');
         return false;
     }
-    alert(document.getElementById('create1'));
-    console.log(new FormData(document.getElementById('create1')));
+
     create_group(new FormData(document.getElementById('create1')), {
         success: function(response) {
             if (response.status == 'group_create') {

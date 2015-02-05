@@ -43,7 +43,7 @@ class UploadImage extends Upload {
             if ($this->checkSize()) {
                 throw new RuntimeException('File is too big');
             }
-            print_r($this->file);
+
             $tmp_name = $this->file['tmp_name'];
             $info = new finfo(FILEINFO_MIME_TYPE);
             if (false === $ext = array_search($info->file($tmp_name), $this->mime_types, true)) {
