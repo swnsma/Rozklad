@@ -61,26 +61,22 @@ class Loginf extends Controller {
         } catch( FacebookRequestException $ex ) {
             // When Facebook returns an error
         } catch( Exception $ex ) {
-            // When validation fails or other local issues
+
         }
 // see if we have a session
         if ( isset( $session ) ) {
             // graph api request for user data
             $request = new FacebookRequest( $session, 'GET', '/me' );
             $response = $request->execute();
-            // get response
-            $_SESSION['fb_token']="".$session->getAccessToken();
-            $_SESSION['logout_link']="http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".$_SESSION['fb_token'];
-//            echo $_SESSION['fb_token'];
-            $user_f = $response->getGraphObject()->asArray();
-            /* ---- Session Variables -----*/
-            $_SESSION['fb_ID'] = $user_f['id'];
-            $_SESSION['lastname'] = $user_f['last_name'];
-            $_SESSION['firstname']=$user_f['first_name'];
-            $_SESSION['email'] =  $user_f['email'];
-            //checkuser($fuid,$ffname,$femail);
-            $status=$_SESSION['status'];
 
+            Session::set('fb_token',"".$session->getAccessToken());
+            Session::set('logout_link',"http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".Session::get('fb_token'));
+            $user_f = $response->getGraphObject()->asArray();
+
+            Session::set('fb_ID',$user_f['id']);
+            Session::set('lastname',$user_f['last_name']);
+            Session::set('firstname',$user_f['first_name']);
+            Session::set('email',$user_f['email']);
             $this->checkUser();
             exit;
 
@@ -94,37 +90,36 @@ class Loginf extends Controller {
     }
     public  function updateId($id){
         $this->model=$this->loadModel('regist');
-        $this->model->updateFB($_SESSION['fb_ID'],$id);
+        $this->model->updateFB(Session::get('fb_ID'),$id);
     }
     public function checkUser(){
-//       echo $_SESSION['fb_ID'];
-        $check= $this->model->checkUserFB($_SESSION['fb_ID']);
+        $check= $this->model->checkUserFB(Session::get('fb_ID'));
 
         if($check){
             $this->model=$this->loadModel("user");
-            $id=$this->model->getIdFB($_SESSION["fb_ID"]);
-            $_SESSION['id']=$id;
+            $id=$this->model->getIdFB(Session::get("fb_ID"));
+            Session::set('id',$id);
             $isUnconf=$this->model->checkUnconfirmed($id);
             if($isUnconf){
-                $_SESSION['status']="unconfirmed";
+                Session::set('status',"unconfirmed");
 
                 header("Location:".URL."app/signin");;
                 exit;
             }
-            $_SESSION['status']="ok";
+            Session::set('status',"ok");
             header("Location:".URL."app/calendar");
             exit;
         }
         else {
-            $_SESSION['status']='regist';
+            Session::set('status','regist');
             $this->model=$this->loadModel("check");
-            if($this->model->checkEmail($_SESSION['email'])){
+            if($this->model->checkEmail(Session::get('email'))){
                 $this->model=$this->loadModel("regist");
-                $this->model->updateFB($_SESSION['fb_ID'],$_SESSION['email']);
+                $this->model->updateFB(Session::get('fb_ID'),Session::get('email'));
                 $this->model=$this->loadModel("user");
-                $id=$this->model->getIdFB($_SESSION["fb_ID"]);
-                $_SESSION['id']=$id;
-                $_SESSION['status']='ok';
+                $id=$this->model->getIdFB(Session::get("fb_ID"));
+                Session::set('id',$id);
+                Session::set('status','ok');
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -140,10 +135,10 @@ class Loginf extends Controller {
         unset($_SESSION['fb_'.APP_ID_FB.'_access_token']);
         unset($_SESSION['fb_'.APP_ID_FB.'_user_id']);
         unset($_SESSION['fb_'.APP_ID_FB.'_state']);
-        $_SESSION['fb_ID'] = NULL;
-        $_SESSION['fb_fullname'] = NULL;
-        $_SESSION['fb_email'] =  NULL;
-        $_SESSION['status']='not';
+        Session::get('fb_ID',NULL);
+        Session::get('fb_fullname', NULL);
+        Session::get('fb_email',NULL);
+        Session::get('status','not');
         session_destroy();
         header("Location:".URL."app/signin");
     }
