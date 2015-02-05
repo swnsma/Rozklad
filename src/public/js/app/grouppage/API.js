@@ -48,9 +48,13 @@ var api= {
             })
         },
         renameGroup: function(id, title, successFunction){
+            var data={
+                title:title
+            };
             $.ajax({
-                url: url+'app/grouppage/renameGroup/'+id+'/'+title+'/',
-            type:'GET',
+            url: url+'app/grouppage/renameGroup/'+id+'/',
+            type:'POST',
+            data: data,
                 success:function(response){
                     successFunction(response);
                 },
@@ -60,9 +64,13 @@ var api= {
             })
         },
         editDesription: function(id, descr, successFunction){
+            var data={
+                data: descr
+            };
         $.ajax({
-            url: url+'app/grouppage/editDescription/'+id+'/'+descr+'/',
-            type: 'GET',
+            url: url+'app/grouppage/editDescription/'+id+'/',
+            type: 'POST',
+            data:data,
             success: function(response){
                 successFunction(response);
             },
