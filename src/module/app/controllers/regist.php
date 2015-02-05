@@ -56,7 +56,7 @@ class Regist extends Controller
                 $this->view->renderJson(array('result'=>'registed', 'link'=>$link)) ;
 
             }else{
-                echo "not_registed";
+                $this->view->renderJson(array('result'=> "not_registed"));
             }
         }
         else echo $existUserFb;

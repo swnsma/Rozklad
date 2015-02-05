@@ -42,8 +42,8 @@ class Base_Install{
                     $buff++;
                     $file=fopen($path.'/install_'.$buff.'.sql', 'r'); print_r($buff);
                     while($buff_query=fgets($file, 10000)){
-                        echo $buff_query;
-                        echo"<br/>";
+                        //echo $buff_query;
+                        //echo"<br/>";
                         $DBH->query($buff_query);
                     }
                     print_r($query);

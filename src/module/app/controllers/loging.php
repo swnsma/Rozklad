@@ -61,16 +61,15 @@ class Loging extends Controller {
     }
 
     public function checkUser(){
-//        print_r($_SESSION["gm_ID"]);
-        $check= $this->model->checkUserGM($_SESSION["gm_ID"]);
+        $check= $this->model->checkUserGM(Session::get("gm_ID"));
         if($check){
             $this->model=$this->loadModel("user");
-            $id=$this->model->getIdGM($_SESSION["gm_ID"]);
-            $_SESSION['id']=$id;
+            $id=$this->model->getIdGM(Session::get('gm_ID'));
+            Session::set('id', $id);
             $link=URL."app/calendar";
-            if(isset($_SESSION['unusedLink'])){
-                $link=URL.$_SESSION['unusedLink'];
-                $_SESSION['unusedLink']="";
+            if(Session::has('unusedLink')){
+                $link=URL.Session::get('unusedLink');
+                Session::set('unusedLink', "");
             }
             header("Location:".$link);
             exit;

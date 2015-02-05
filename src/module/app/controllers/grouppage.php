@@ -16,12 +16,12 @@ class GroupPage extends Controller {
         $req =Request::getInstance();
         $groupId= $req->getParam(0);
         $model = $this->loadModel('user');
-        if(isset($_SESSION['fb_ID'])){
-        $id=$_SESSION['fb_ID'];
+        if(Session::has('fb_ID')){
+        $id=Session::get('fb_ID');
         $id=$model->getInfoFB($id)['id'];
         }else{
-            if(isset($_SESSION['gm_ID'])){
-                $id=$_SESSION['gm_ID'];
+            if(Session::has('gm_ID')){
+                $id=Session::get('gm_ID');
                 $id=$model->getInfoGM($id)['id'];
             }else return null;
         }
@@ -89,13 +89,13 @@ class GroupPage extends Controller {
         $outlink = URL.'app/signin';
 
         $error=0;
-        if(isset($_SESSION['fb_ID']))
+        if(Session::has('fb_ID'))
         {
-            $id=$_SESSION['fb_ID'];
+            $id=Session::get('fb_ID');
             $id=$model->getInfoFB($id)['id'];
         }else{
-            if(isset($_SESSION['gm_ID'])){
-                $id=$_SESSION['gm_ID'];
+            if(Session::has('gm_ID')){
+                $id=Session::get('gm_ID');
                 $id=$model->getInfoGM($id)['id'];
             }
         }

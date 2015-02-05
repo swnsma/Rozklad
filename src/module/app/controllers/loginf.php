@@ -98,22 +98,20 @@ class Loginf extends Controller {
     }
     public  function updateId($id){
         $this->model=$this->loadModel('regist');
-        $this->model->updateFB($_SESSION['fb_ID'],$id);
+        $this->model->updateFB(Session::get('fb_ID'),$id);
     }
     public function checkUser(){
-//       echo $_SESSION['fb_ID'];
-        $check= $this->model->checkUserFB($_SESSION['fb_ID']);
+        $check= $this->model->checkUserFB(Session::get('fb_ID'));
 
         if($check){
-            $_SESSION['regist']=1;
+            Session::set('regist', 1);
             $this->model=$this->loadModel("user");
-            $id=$this->model->getIdFB($_SESSION["fb_ID"]);
-            $_SESSION['id']=$id;
-//            echo $id;
+            $id=$this->model->getIdFB(Session::get("fb_ID"));
+            Session::set('id', $id);
             $link=URL."app/calendar";
-            if(isset($_SESSION['unusedLink'])){
-                $link=URL.$_SESSION['unusedLink'];
-                $_SESSION['unusedLink']="";
+            if(Session::has('unusedLink')){
+                $link=URL.Session::get('unusedLink');
+                Session::set('unusedLink', "");
             }
             header("Location:".$link);
             exit;

@@ -1,4 +1,4 @@
- <?php
+<?php
 
 require_once 'conf/conf.php';
 require_once 'core/DataBase.php';
@@ -17,7 +17,6 @@ if (DEBUG) {
     error_reporting(0);
     ini_set('display_errors', 0);
 }
-
 Base_Install::Run();
 //Base_Install::LoadDummy();
 
