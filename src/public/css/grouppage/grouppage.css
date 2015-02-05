@@ -109,6 +109,14 @@ display: inline-block;
 .removeStudent
 {
     position: absolute;
-    margin-left: 70%;
+    margin-left: 65%;
     margin-top: -7px;
+}
+.list-group-item:hover
+{
+    border: 1px solid #000000;
+}
+.list-group-item-heading
+{
+    margin-left: 15px;
 }
