@@ -16,16 +16,12 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('user');
 
         $this->userInfo=$this->model->getCurrentUserInfo();
-//        print_r($this->userInfo);
-//        exit;
-//        $this->view->renderHtml($this->userInfo);
     }
     public function getRole(){
         return $this->role;
     }
     //використовую
     private function privateGetRole($role_id){
-//        echo $role_id;
         if($role_id=='1'){
             return 'teacher';
         }
@@ -51,15 +47,9 @@ class Calendar extends Controller {
         $var =$request->getParams();
 
         $this->model=$this->loadModel("grouplesson");
-//        echo $request->getParam(0);
-//        print_r($var);
         for($i=1;$i<count($var);++$i){
-//            echo $var[$i];
             $success=$this->model->addGroupToLesson($lessonId,$var[$i]);
         }
-
-
-//        echo $success;
         $this->view->renderJson(Array('success'=>'success'));
     }
 
@@ -84,10 +74,8 @@ class Calendar extends Controller {
         $start= $req->getParam(1);
         $end= $req->getParam(2);
         $teacher= $req->getParam(3);
-//        echo $teacher;
         $id=$this->model->addLesson($title,$start,$end,$teacher);
 
-//        exit;
         if($id==null){
             echo 'Ошибка';
         }else{
@@ -154,7 +142,6 @@ class Calendar extends Controller {
         $request=Request::getInstance();
         $this->model = $this->loadModel('lesson');
         $arr=$this->model->getAllGroupsForThisLesson($request->getParam(0));
-//        echo $arr;
         $this->view->renderJson($arr);
     }
 
@@ -164,7 +151,6 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
         $interval=Request::getInstance()->getParam(0);
 
-//        print_r($this->userInfo);
         $id=$this->model->getRealTimeUpdate($interval,$this->userInfo);
 
         $this->view->renderJson($id);
@@ -192,7 +178,6 @@ class Calendar extends Controller {
     public function  getOurTeacher(){
         $this->model = $this->loadModel('user');
         $date=$this->model->getOurTeacher();
-//        echo $date;
         $this->view->renderJson($date);
     }
 
