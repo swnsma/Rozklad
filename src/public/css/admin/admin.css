@@ -1,13 +1,10 @@
 body{
     width: 800px;
     margin: auto;
-    color: #666666;
-    background-color: #eeeeee;
-    font-family: 'Open Sans';
 }
 
 .user-list {
-    padding: 0;
+    padding: 10px 0 0 0;
 }
 
 .confirm-status {

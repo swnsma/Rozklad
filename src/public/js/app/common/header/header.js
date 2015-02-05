@@ -19,7 +19,6 @@ var auth_fb = (function() {
                 },
                 error: function (error) {
                     console.log(error);
-                    debugger;
                     alert('error: block get status');
                 }
             });
@@ -41,7 +40,6 @@ var auth_fb = (function() {
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-        debugger;
     }(document, 'script', 'facebook-jssdk'));
 
     function testAPI() {

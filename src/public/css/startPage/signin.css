@@ -1,0 +1,67 @@
+body {
+    margin: auto;
+    max-width: 400px;
+    padding: 5px;
+}
+
+.signin {
+    display: table;
+    margin: auto;
+}
+
+.logIn{
+    background-color: rgba(256,256,256,0.8);
+    display: inline-block;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.logIn>h1{
+    margin: 0;
+    font-size: 53px;
+    font-weight: 300;
+}
+
+.signin>h2{
+    margin: 0;
+    font-weight: 300;
+}
+
+.social {
+    display: table;
+    padding: 6px;
+
+    color: white;
+    font-size: 25px;
+    font-weight: 300;
+    text-align: left;
+
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+
+.social:hover {
+    text-shadow: 1px 1px 2px #2d2d2d;
+}
+
+.social>img{
+    width: 35px;
+    display: table-cell;
+}
+
+.social>div{
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 5px;
+}
+
+.google {
+     background-color: #FF6D50;
+ }
+
+.facebook {
+    background-color: #7671ff;
+}
