@@ -53,7 +53,6 @@ class Groups extends Controller {
                             ));
                             return;
                         }
-
                     }
                     //$data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
                     $data = $this->model->createGroup(1, $name, $descr, $image);
