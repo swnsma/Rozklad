@@ -72,8 +72,9 @@ function ViewModel() {
     };
 
     that.dismissStudent=function(userId){
-              console.log(that.students('1'))
-
+        api.deleteUser(userId,that.id(),function(){
+            that.students.remove(function(item) { return item.id == userId});
+        });
     };
     that.errorDescMessage = ko.computed(function(){
         switch(that.errorDesc()){
