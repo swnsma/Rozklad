@@ -13,7 +13,6 @@ class UploadImage extends Upload {
 
     function __construct($files) {
         parent::__construct($files);
-        $this->db = DataBase::getInstance()->DB();
     }
 
     private function compress($source, $result, $type) {
@@ -39,41 +38,24 @@ class UploadImage extends Upload {
         return $this->mime_types;
     }
 
-    private function getPreviousFileName() {
-        return '22';
-    }
-
-    private function setCurrentFileName($id, $file) {
-        return true;
-    }
-
-    public function upload($id) {
+    public function upload() {
         try {
-            if ($this->check_size()) {
+            if ($this->checkSize()) {
                 throw new RuntimeException('File is too big');
             }
+            print_r($this->file);
             $tmp_name = $this->file['tmp_name'];
             $info = new finfo(FILEINFO_MIME_TYPE);
             if (false === $ext = array_search($info->file($tmp_name), $this->mime_types, true)) {
                 throw new RuntimeException('invalid file format');
             }
-            $previous_file_name = $this->getPreviousFileName($id);
-            if ($previous_file_name === false) {
-                throw new RuntimeException('Cannot load current picture. Please try again later');
-            }
+
             $file = uniqid() . '.' . $ext;
             $this->compress($tmp_name, $tmp_name, $ext);
-            if (!move_uploaded_file($tmp_name, IMAGES_FOLDER . $file)) {
+            if (!move_uploaded_file($tmp_name, IMAGES_FOLDER . 'groups_photo/' . $file)) {
                 throw new RuntimeException('failed to move uploaded file');
             }
-            if (!$this->setCurrentFileName($id, $file)) {
-                unlink(IMAGES_FOLDER . $file);
-                throw new RuntimeException('Cannot update current photo. Please try again later');
-            }
 
-            if ($previous_file_name !== null) {
-                unlink(IMAGES_FOLDER . $previous_file_name);
-            }
             $this->upload_file_name = $file;
             return true;
         } catch(RuntimeException $e) {

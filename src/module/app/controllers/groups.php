@@ -41,7 +41,22 @@ class Groups extends Controller {
                 && preg_match('/^[\(\)\!\?\:\;\.\, \d+\w+]{1,300}$/m', $descr)) {
                 $status = 1; //$this->user_info['role_id'];
                 if ($status == 1) {
-                    $data = $this->model->createGroup($this->user_info['id'], $name, $descr);
+                    $image = null;
+
+                    if (isset($_FILES['photo']['error']) && !is_array($_FILES['photo']['error'])) {
+                        $upload = new UploadImage($_FILES['photo']);
+                        if ($upload->checkFileError() && $upload->upload()) {
+                            $image = $upload->getUploadFileName();
+                        } else {
+                            $this->view->renderJson(array(
+                                'status' => $upload->getError()
+                            ));
+                            return;
+                        }
+                    }
+
+                    //$data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
+                    $data = $this->model->createGroup(1, $name, $descr, $image);
                     if ($data == null) {
                         $this->view->renderJson(array(
                             'status' => 'create_error'
