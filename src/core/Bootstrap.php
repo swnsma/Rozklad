@@ -7,18 +7,18 @@ class Bootstrap {
         Session::init($time,$ses);
         $_SESSION['status']="not";
 
-        require_once FILE . 'module/app/controllers/regist.php';
+        require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
         $this->checkRoute($controller,$action);
-        $file = FILE  . 'module/' . $module . '/controllers/' . $controller . '.php';
+        $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
             $c = new $controller;
         } else {
-            require_once  FILE . 'module/app/controllers/error.php';
+            require_once DOC_ROOT . 'module/app/controllers/error.php';
             $c = new Error();
         }
         $c->run($request->getAction());
