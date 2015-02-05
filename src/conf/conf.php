@@ -1,7 +1,7 @@
 <?php
 
 define('URL', 'http://' . $_SERVER['HTTP_HOST'] . '/src/');
-define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/src/');
+define('DOC_ROOT', __DIR__ . '/../');
 define('IMAGES_FOLDER', DOC_ROOT . 'cdn/images');
 
 define('BASE_URL', filter_var('http://localhost/src', FILTER_SANITIZE_URL));
