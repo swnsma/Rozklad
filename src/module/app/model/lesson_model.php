@@ -56,12 +56,12 @@ TANIA;
             return null;
         }
     }
-    public function updateLesson($title, $start,$end,$id) {
+    public function updateLesson($title, $start,$end,$id,$teacherId) {
         try {
             $date = $this->realDate()->format($this->formatDate());
 
 //            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
-            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date' WHERE id=$id");
+            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date',teacher='$teacherId' WHERE id=$id");
 
         } catch(PDOException $e) {
             echo $e;
@@ -210,20 +210,11 @@ BORIA;
     }
 
 
-    public function  getOurLessonForThisId($userinfo,$start,$end){
+    public function  getOurLessonForThisIdStudent($userinfo,$start,$end){
         try {
 
 //            print_r($userinfo);
             $id = $userinfo['id'];
-            if($userinfo['title']==='teacher') {
-                $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-              from lesson as l
-              INNER JOIN  user as u ON
-              u.id = l.teacher
-            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
-                $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-            }else{
                 $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
@@ -236,7 +227,55 @@ BORIA;
             WHERE (st_g.student_id='$id')
             AND (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-            }
+
+            $result = array_unique($var,SORT_REGULAR);
+            sort($result);
+//            print_r($result);
+            return $result;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end){
+        try {
+
+//            print_r($userinfo);
+            $id = $userinfo['id'];
+
+                $res = "select l.id,
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+              from lesson as l
+              INNER JOIN  user as u ON
+              (u.id = l.teacher) AND u.id='$id'
+            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+                $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
+            $result = array_unique($var,SORT_REGULAR);
+            sort($result);
+//            print_r($result);
+            return $result;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function  getOurLessonForThisIdTeacherNoCurrent($userinfo,$start,$end){
+        try {
+
+//            print_r($userinfo);
+            $id = $userinfo['id'];
+
+            $res = "select l.id,
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+              from lesson as l
+              INNER JOIN  user as u ON
+              (u.id = l.teacher) AND u.id!='$id'
+            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
 //            print_r($result);

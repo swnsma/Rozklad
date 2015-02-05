@@ -10,7 +10,10 @@ class Signin extends Controller {
 
     }
     public function index(){
-//        print_r ($_COOKIE);
+        if(isset($_SERVER['HTTP_REFERER'])){
+            if(!isset($_SESSION['unusedLink']))
+                $_SESSION['unusedLink']=$_SERVER['HTTP_REFERER'];
+        }
         $this->view->renderHtml("signin/index","not");
     }
 }

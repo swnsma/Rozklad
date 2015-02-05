@@ -100,6 +100,22 @@ TANIA;
     }
 
 
+    public function getOurTeacher(){
+        $sql ="Select u.name, u.id, u.surname
+        from 'user' as u
+        INNER JOIN role as r ON
+        r.id = u.role_id
+        WHERE r.title='teacher'";
+        try {
+            $date = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+//            print_r($date);
+            return $date;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
+    }
 
 
 

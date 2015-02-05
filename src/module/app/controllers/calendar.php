@@ -83,8 +83,9 @@ class Calendar extends Controller {
         $title= $req->getParam(0);
         $start= $req->getParam(1);
         $end= $req->getParam(2);
-//        print_r($this->userInfo);
-        $id=$this->model->addLesson($title,$start,$end,$this->userInfo['id']);
+        $teacher= $req->getParam(3);
+//        echo $teacher;
+        $id=$this->model->addLesson($title,$start,$end,$teacher);
 
 //        exit;
         if($id==null){
@@ -102,21 +103,37 @@ class Calendar extends Controller {
         $start= $req->getParam(1);
         $end= $req->getParam(2);
         $id= $req->getParam(3);
-        $this->model->updateLesson($title,$start,$end,$id);
+        $teacherId= $req->getParam(4);
+        $this->model->updateLesson($title,$start,$end,$id,$teacherId);
         $this->view->renderJson("succeess");
 
     }
 
     //використовую
-    public function addFullEvent(){
+    public function addFullEventDefault(){
         $this->model = $this->loadModel('lesson');
         $start=Request::getInstance()->getParam(0);
         $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisId($this->userInfo,$start,$end);
+        $id=$this->model->getOurLessonForThisIdStudent($this->userInfo,$start,$end);
         $this->view->renderJson($id);
     }
 
     //+
+    public function addFullEventTeacherCurrent(){
+        $this->model = $this->loadModel('lesson');
+        $start=Request::getInstance()->getParam(0);
+        $end=Request::getInstance()->getParam(1);
+        $id=$this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo,$start,$end);
+        $this->view->renderJson($id);
+    }
+
+    public function addFullEventTeacherNoCurrent(){
+        $this->model = $this->loadModel('lesson');
+        $start=Request::getInstance()->getParam(0);
+        $end=Request::getInstance()->getParam(1);
+        $id=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo,$start,$end);
+        $this->view->renderJson($id);
+    }
 
     public function getOurGroups(){
         $this->model = $this->loadModel('groups');
@@ -173,11 +190,10 @@ class Calendar extends Controller {
     }
 
     public function  getOurTeacher(){
-        $req=Request::getInstance();
         $this->model = $this->loadModel('user');
-        $id= $req->getParam(0);
-        $date =$this->model->restore($id);
-        $this->view->getOurTeacher($date);
+        $date=$this->model->getOurTeacher();
+//        echo $date;
+        $this->view->renderJson($date);
     }
 
 }
