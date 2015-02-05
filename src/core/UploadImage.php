@@ -1,6 +1,6 @@
 <?php
 
-require_once DOC_ROOT . 'core/Upload.php';
+require_once DOC_ROOT . 'core/include/upload.php';
 
 class UploadImage extends Upload {
     private $upload_file_name = null,

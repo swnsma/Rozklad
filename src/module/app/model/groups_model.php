@@ -35,21 +35,28 @@ HERE;
         return $randomString;
     }
 
-    public function createGroup($teacher_id, $name, $descr) {
+    private function getRandomColor() {
+        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+    }
+
+    public function createGroup($teacher_id, $name, $descr, $image) {
         try {
             $query = <<<HERE
             INSERT INTO `groups`
-                (`name`, `teacher_id`, `description`, `invite_code`)
+                (`name`, `teacher_id`, `description`, `invite_code`, `img_src`, `color`)
             VALUES
-                (:name, :id, :descr, :invite)
+                (:name, :id, :descr, :invite, :img, :color)
 HERE;
             $invite = $this->createInviteCode();
             $request = $this->db->prepare($query);
+            $color = $this->getRandomColor();
             $result = $request->execute(array(
                ':name' => $name,
                ':id' => $teacher_id,
                 'descr' => $descr,
-                ':invite' => $invite
+                ':invite' => $invite,
+                ':img' => $image,
+                ':color' => $color
             ));
             if ($request && $request->rowCount() > 0) {
                 return array(
