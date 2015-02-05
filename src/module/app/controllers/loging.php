@@ -46,7 +46,6 @@ class Loging extends Controller {
             $_SESSION['email']=$_SESSION['user']['email'];
             $_SESSION['gm_token'] = $this->client->getAccessToken();
             $_SESSION['logout_link']="http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout";
-            $status=$_SESSION['status'];
             $this->checkUser();
             exit;
         } else {
@@ -67,6 +66,13 @@ class Loging extends Controller {
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdGM($_SESSION["gm_ID"]);
             $_SESSION['id']=$id;
+            $isUnconf=$this->model->checkUnconfirmed($id);
+            if($isUnconf){
+                $_SESSION['status']="unconfirmed";
+                header("Location:".URL."app/signin");;
+                exit;
+            }
+            $_SESSION['status']="ok";
             header("Location:".URL."app/calendar");
             exit;
         }
@@ -79,6 +85,7 @@ class Loging extends Controller {
                 $this->model=$this->loadModel("user");
                 $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                 $_SESSION['id']=$id;
+                $_SESSION['status']="ok";
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -88,7 +95,6 @@ class Loging extends Controller {
                 exit;
             }
         }
-
     }
     public function logoutb(){
         echo "<a  href='https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout'>Logout</a>";

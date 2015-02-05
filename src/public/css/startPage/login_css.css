@@ -25,3 +25,13 @@ body{
     /* background-color:none;
    background-color:#446CB3;*/
 }
+.status{
+ font-size:30px;
+font-weight:bold;
+margin-left: auto;
+margin-right: auto;
+margin-top:25%;
+margin-bottom:50px;
+padding: 20px;
+
+}

@@ -13,6 +13,11 @@ class Signin extends Controller {
         }
         $this->view->renderHtml("signin/index","not");
     }
+    public function back_signin(){
+        $_SESSION['status']='not';
+        header("Location:".$_SESSION['logout_link']);
+        exit;
+    }
 }
 
 ?>

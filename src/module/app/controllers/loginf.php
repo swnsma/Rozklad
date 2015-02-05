@@ -82,9 +82,6 @@ class Loginf extends Controller {
             $_SESSION['lastname'] = $user_f['last_name'];
             $_SESSION['firstname']=$user_f['first_name'];
             $_SESSION['email'] =  $user_f['email'];
-            //checkuser($fuid,$ffname,$femail);
-            $status=$_SESSION['status'];
-
             $this->checkUser();
             exit;
 
@@ -105,11 +102,17 @@ class Loginf extends Controller {
         $check= $this->model->checkUserFB($_SESSION['fb_ID']);
 
         if($check){
-            $_SESSION['regist']=1;
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdFB($_SESSION["fb_ID"]);
             $_SESSION['id']=$id;
-//            echo $id;
+            $isUnconf=$this->model->checkUnconfirmed($id);
+            if($isUnconf){
+                $_SESSION['status']="unconfirmed";
+
+                header("Location:".URL."app/signin");;
+                exit;
+            }
+            $_SESSION['status']="ok";
             header("Location:".URL."app/calendar");
             exit;
         }
@@ -122,7 +125,7 @@ class Loginf extends Controller {
                 $this->model=$this->loadModel("user");
                 $id=$this->model->getIdFB($_SESSION["fb_ID"]);
                 $_SESSION['id']=$id;
-//                echo print_r($_SESSION["fb_ID"]);
+                $_SESSION['status']='ok';
                 header("Location:".URL."app/calendar");
                 exit;
             }
@@ -147,7 +150,6 @@ class Loginf extends Controller {
         $_SESSION['fb_email'] =  NULL;
         $_SESSION['status']='not';
         session_destroy();
-
         header("Location:".URL."app/signin");
     }
     public function getAppId(){

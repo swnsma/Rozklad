@@ -173,8 +173,8 @@ function getName(func){
             contentType: 'application/json',
             dataType: 'json',
             success:function(response){
-                    //console.log(response);
-                    func(response);
+                //console.log(response);
+                func(response);
             },
             error: function (error) {
                 console.log(error);

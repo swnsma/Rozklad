@@ -116,7 +116,18 @@ TANIA;
         }
 
     }
-
+    public function checkUnconfirmed($id){
+        try {
+            $sql=<<<sql
+                select * from unconfirmed_user where id='$id'
+sql;
+            $date = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return count($date);
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 
 
 
