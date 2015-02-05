@@ -39,7 +39,7 @@ class GroupPage extends Controller {
     public function renameGroup(){
         $req=Request::getInstance();
         $id=$req->getParam(0);
-        $newName= $req->getParam(1);
+        $newName= $_POST['title'];
         $this->model->renameGroup($id, $newName);
         $this->view->renderJson(Array('result'=>"success"));
 
@@ -53,7 +53,8 @@ class GroupPage extends Controller {
     public function editDescription(){
         $req= Request::getInstance();
         $id=$req->getParam(0);
-        $newDescription = $req->getParam(1);
+        $newDescription = $_POST['data'];
+
         $this->model->editDescription($id, $newDescription);
         $this->view->renderJson(Array('result'=>"success"));
     }
