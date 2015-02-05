@@ -62,7 +62,8 @@ abstract class Magic_Object
                 }
                 break;
             default:
-                throw new Magic_Object_Exception('MagicObjectExeption');
+                echo 'invalid prefics';
+                #throw new Magic_Object_Exception('MagicObjectExeption');
         }
     }
 
