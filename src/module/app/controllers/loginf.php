@@ -70,7 +70,7 @@ class Loginf extends Controller {
             $response = $request->execute();
 
             Session::set('fb_token',"".$session->getAccessToken());
-            Session::set('logout_link',"http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".Session::get('fb_token'));
+            Session::set('logout_link',"http://www.facebook.com/logout.php?next=".URL."/app/loginf/logout/&access_token=".Session::get('fb_token'));
             $user_f = $response->getGraphObject()->asArray();
             Session::set('fb_ID',$user_f['id']);
             Session::set('lastname',$user_f['last_name']);
