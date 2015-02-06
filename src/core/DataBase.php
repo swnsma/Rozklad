@@ -9,6 +9,7 @@ class DataBase{
             self::$pdo = new PDO('sqlite:' . DOC_ROOT . 'SQL/data/rozklad.sqlite');
             self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e){
+            //echo
             echo $e;
         }
     }
