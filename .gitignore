@@ -1,4 +1,4 @@
 .idea
 logs
 version.txt
-rozklad.sqlite
+src/SQL/data
