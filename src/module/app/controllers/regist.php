@@ -12,11 +12,13 @@ class Regist extends Controller
         $this->view->renderHtml("regist/index");
     }
     public function addUser(){
+
         $request=Request::getInstance();
         $name = $request->getParam(0);
         $surname =$request->getParam(1);
         $phone =$request->getParam(2);
         $role =$request->getParam(3);
+
         $this->model=$this->loadModel("regist");
         $fb_ID='';
         if(isset($_SESSION['fb_ID'])){
@@ -47,37 +49,38 @@ class Regist extends Controller
                     $this->model=$this->loadModel("user");
                     $id=$this->model->getIdGM($_SESSION["gm_ID"]);
                     $_SESSION['id']=$id;
-            }
-                /*if(isset($_SESSION['invitingInGroup'])){
-                    $var=$_SESSION['invitingInGroup'];
-                    header("Refresh: 5; url=$var");
-                }*/
-                echo "registed";
+                }
+                if($role=='0')
+                {
+                    $_SESSION['status']="ok";
+                }
+                else{
+                    $_SESSION['status']="unconfirmed";
+                }
+                $link='app/calendar';
+                if(isset($_SESSION['unusedLink'])){
+                    $link=$_SESSION['unusedLink'];
+                    $_SESSION['unusedLink']="";
+                }
+                $this->view->renderJson(array('result'=>'registed', 'link'=>$link)) ;
 
             }else{
-                echo "not_registed";
+                $this->view->renderJson(array('result'=> "not_registed"));
             }
         }
         else echo $existUserFb;
     }
-
-    private function unset_cookie()
-    {
-        if (isset($_SERVER['HTTP_COOKIE'])) {
-            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-            foreach ($cookies as $cookie) {
-                $parts = explode('=', $cookie);
-                $name = trim($parts[0]);
-                setcookie($name, '', time() - 1000);
-                setcookie($name, '', time() - 1000, '/');
-            }
-        }
-    }
-
     public function back_signin(){
         $_SESSION['status']='not';
         header("Location:".$_SESSION['logout_link']);
         exit;
+    }
+    public function getName(){
+        $this->view->renderJson(
+            [
+                'firstname'=>$_SESSION['firstname'],
+                'lastname'=>$_SESSION['lastname']
+            ]);
     }
 
 }

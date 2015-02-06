@@ -1,7 +1,7 @@
 body{
-    background: url(http://img.decor.com.ua/img_board/2012/10/24/83465-15262.jpg) repeat;
-    background-size: 100%;
-}
+     background: url(http://weblabfon.com/_ld/3/306_185.png)repeat ;
+ //background-size: 100%;
+ }
 .button {
     display: block;
     border: 2px solid #888;
@@ -18,10 +18,20 @@ body{
 }
 
 .google{
- background-color:none;
-    //background-color:#F22613;
+    /*background-color:none;
+       background-color:#F22613;*/
 }
 .facebook{
-background-color:none;
-   // background-color:#446CB3;
+    /* background-color:none;
+   background-color:#446CB3;*/
+}
+.status{
+ font-size:30px;
+font-weight:bold;
+margin-left: auto;
+margin-right: auto;
+margin-top:25%;
+margin-bottom:50px;
+padding: 20px;
+
 }

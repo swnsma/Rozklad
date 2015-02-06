@@ -1,7 +1,13 @@
 <?php
 class Session {
-    public static function init() {
+    public static function init($time,$ses) {
+
+        session_set_cookie_params($time);
+        session_name($ses);
         session_start();
+
+//        if (isset($_COOKIE[$ses]))
+//            setcookie($ses, $_COOKIE[$ses], time() + $time, "/");
     }
 
     public static function has($key) {

@@ -116,16 +116,19 @@ function ModelRegist(){
                 url:url + 'app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
                 type:"GET",
                 success:function(response){
-                    if(response==="registed") {
+                    if(response.result==="registed") {
                         $("#btn-success")
-                            .prop('disabled', false);
+                            .prop('disabled', false)
+                            .click(function(){
+                                window.location=url+response.link;
+                            });
                         $("#success")
                             .toggle();
                         $("#regist")
                             .toggle();
                     }
                     else{
-                        alert(response);
+                        alert(response.result);
                     }
                 },
                 error: function (error) {
@@ -135,6 +138,10 @@ function ModelRegist(){
             }
         );
     };
+    self.getName=function(response){
+        self.name(response['firstname']);
+        self.surname(response['lastname']);
+    }
     self.roleIndex=ko.computed(function(){
         if(!self.role()){
             return 0;
@@ -148,11 +155,9 @@ $(document).ready(function(){
     $("#success").hide();
     $("#btn-success")
         .prop('disabled', true)
-        .click(function(){
-            window.location=url+"app/calendar";
-        });
-    debugger;
-    ko.applyBindings(new ModelRegist);
+    var model=new ModelRegist
+    ko.applyBindings(model);
+    getName(model.getName);
     resetError($("#name"),$("#name_error"));
     resetError($("#surname"),$("#surname_error"));
     resetError($("#phone"),$("#phone_error"));
@@ -161,7 +166,23 @@ $(document).ready(function(){
         window.location=href;
     });
 });
-
+function getName(func){
+    $.ajax({
+            url:url + 'app/regist/getName',
+            type:"GET",
+            contentType: 'application/json',
+            dataType: 'json',
+            success:function(response){
+                //console.log(response);
+                func(response);
+            },
+            error: function (error) {
+                console.log(error);
+                alert('error: block get status');
+            }
+        }
+    );
+}
 ko.bindingHandlers.check={
     init:function(element, valueAccessor, allBindings, viewModel){
         viewModel.name();

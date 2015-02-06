@@ -1,17 +1,19 @@
 <?php
-
-require_once FILE . 'core/Response.php';
-
+/**
+ * Created by PhpStorm.
+ * User: Таня
+ * Date: 22.01.2015
+ * Time: 23:56
+ */
+require_once DOC_ROOT . 'core/Response.php';
 class Magic_Object_Exception extends Exception {
     public function __construct(){
         parent::__construct();
     }
 }
-
 function replace($matches){
     return strtolower('_'.$matches[0]);
 }
-
 abstract class Magic_Object
 {
     protected $array_var = Array();
@@ -60,7 +62,7 @@ abstract class Magic_Object
                 }
                 break;
             default:
-                echo 'invalid method';
+                echo 'invalid prefics';
                 #throw new Magic_Object_Exception('MagicObjectExeption');
         }
     }

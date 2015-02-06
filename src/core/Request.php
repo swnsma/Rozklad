@@ -29,7 +29,12 @@ class Request {
             }
         }
     }
-
+    function getUrl(){
+        if(isset($_GET['url'])){
+            return $_GET['url'];
+        }
+        else return null;
+    }
     function getParam($index){
         if (isset($this->data[$index])) return $this->data[$index];
         return null;

@@ -1,27 +1,27 @@
 <?php
-    echo '<style>';
-        require_once (FILE."public/css/common/bootstrap.css");
-        require_once (FILE."public/css/common/common.css");
-        require_once (FILE."public/css/user.css");
-        require_once (FILE."public/css/common/header/header.css");
-    echo '</style>';
+echo '<style>';
+//require_once (DOC_ROOT."public/css/common/bootstrap.css");
+require_once (DOC_ROOT."public/css/common/common.css");
+require_once (DOC_ROOT."public/css/user.css");
+require_once (DOC_ROOT."public/css/common/header/header.css");
+echo '</style>';
 ?>
 
 <?php
-    if (isset($data['files'])) {
-        foreach ($data['files'] as $file) {
-            echo "<link rel = \"stylesheet\" href = URL.public/css/.$file>";
-        }
+if (isset($data['files'])) {
+    foreach ($data['files'] as $file) {
+        echo "<link rel = \"stylesheet\" href = URL.'public/css/'.$file>";
     }
+}
 ?>
 
 <?php
-    echo '<script>';
-        require_once (FILE."public/js/vendor/knockout-3.2.0.js");
-        require_once (FILE."public/js/vendor/jQuery/jquery-2.1.1.js");
-        require_once (FILE."public/js/app/common.js");
-        require_once (FILE."public/js/app/common/header/header.js");
-    echo '</script>';
+echo '<script>';
+require_once (DOC_ROOT."public/js/vendor/knockout-3.2.0.js");
+require_once (DOC_ROOT."public/js/vendor/jQuery/jquery-2.1.1.js");
+require_once (DOC_ROOT."public/js/app/common.js");
+require_once (DOC_ROOT."public/js/app/common/header/header.js");
+echo '</script>';
 ?>
 
 <header class="header">

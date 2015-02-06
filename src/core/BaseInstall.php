@@ -1,4 +1,5 @@
 <?php
+
 class Base_Install{
     private function  __construct(){
     }
@@ -33,7 +34,7 @@ class Base_Install{
             }
         }
         $buff2=$version;
-        if($buff!=$buff2){
+        if($buff<$buff2){
             try{
                 //переделать
                 $DBH=DataBase::getInstance()->DB();
@@ -41,8 +42,8 @@ class Base_Install{
                     $buff++;
                     $file=fopen($path.'/install_'.$buff.'.sql', 'r'); print_r($buff);
                     while($buff_query=fgets($file, 10000)){
-                        echo $buff_query;
-                        echo"<br/>";
+                        //echo $buff_query;
+                        //echo"<br/>";
                         $DBH->query($buff_query);
                     }
                     print_r($query);

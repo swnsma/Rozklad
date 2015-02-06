@@ -8,14 +8,14 @@
 class UserModel extends Model {
     public function __construct() {
         parent::__construct();
-
     }
+
 
     public function getCurrentUserInfo(){
         static $userInfo;
 
-        //$id = $_SESSION('id');
-        $id = '4';
+        $id = $_SESSION['id'];
+//        $id = '4';
         if (is_null($userInfo)){
             $userInfo = array();
             $sql = <<<SQL
@@ -26,6 +26,7 @@ class UserModel extends Model {
                         user.phone,
                         user.fb_id,
                         user.gm_id,
+                        user.id,
                         role.title
                     from user
                     inner join role
@@ -67,5 +68,68 @@ TANIA;
             return null;
         }
     }
+    public function getIdFB($fb_id){
+        try {
+            $request = <<<TANIA
+select id from user
+where fb_id='$fb_id'
+TANIA;
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($var[0]['id']))
+            {return $var[0]['id'];
+                }
+            else return null;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function getIdGM($gm_id){
+        try {
+            $request = <<<TANIA
+            select id from user
+            where gm_id='$gm_id'
+TANIA;
+
+            $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            return $var[0]['id'];
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+
+    public function getOurTeacher(){
+        $sql ="Select u.name, u.id, u.surname
+        from 'user' as u
+        INNER JOIN role as r ON
+        r.id = u.role_id
+        WHERE r.title='teacher'";
+        try {
+            $date = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+//            print_r($date);
+            return $date;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
+    }
+    public function checkUnconfirmed($id){
+        try {
+            $sql=<<<sql
+                select * from unconfirmed_user where id='$id'
+sql;
+            $date = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return count($date);
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+
+
 }
 ?>

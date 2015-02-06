@@ -150,6 +150,7 @@ this.groups=[];
             }
         }
     };
+
     var date = new Date();
     var month=date.getMonth()+1;
     var year= date.getFullYear();
@@ -204,7 +205,7 @@ this.groups=[];
             if(event.deleted!=true)
             {
                     $(this).css({
-                        'color': '#fff',
+                        //'color': '#fff',
                         'fontWeight':'normal'
                     });
                 self.jqueryObject.tooltip.tooltip.hide();
@@ -220,7 +221,7 @@ this.groups=[];
                     var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
 
                     $.ajax({
-                        url: url+'app/calendar/addFullEvent'+'/'+start1+'/'+end1,
+                        url: url+'app/calendar/addFullEventDefault'+'/'+start1+'/'+end1,
                         contentType: 'application/json',
                         dataType: 'json',
                         success: function(doc) {
@@ -232,24 +233,13 @@ this.groups=[];
 
                         }
                     });
-                }
+                },
+                color: 'RGB(0,100,160)'  // an option!
+                //'RGB(0,100,160)'
+                //color: '#07375E'   // an option!
+                //textColor: 'black' // an option!
             }
         ]
-        //eventClick: function(event, element) {
-        //    debugger;
-        //    event.title = "CLICKED!";
-        //
-        //    $('#calendar').fullCalendar('updateEvent', event);
-        //
-        //},
-        //,events: [{
-        //        title  : 'event3',
-        //        start  : '2015-01-09 12:30:00',
-        //        allDay : false // will make the time show
-        //    }
-        //]
-
-
     };
 
     //дода тултіп
@@ -294,7 +284,7 @@ this.groups=[];
 
         });
         $(thet).css({
-            'color': '#000',
+            //'color': '#000',
             'fontWeight':'bold'
         });
 
@@ -319,8 +309,8 @@ this.groups=[];
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response[0];
-                return response[0];
+                currentUser=response;
+                return response;
             },
             error: function(er) {
 
