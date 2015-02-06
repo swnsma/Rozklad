@@ -8,7 +8,7 @@ masColor={
         color:'RGB(0,100,160)'
     },
     otherEvents:{
-        color:'#888'
+        color:'RGB(200,200,250)'
     }
 }
 function remove(elem) {
@@ -430,12 +430,14 @@ function Calendar_teacher(){
         reset_addGroups();
         var teacherSelect = new AddTeacherToList(self.jqueryObject.popup.selectTeacher,currentUser);
 
+
+
         self.jqueryObject.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         self.jqueryObject.popup.day.day.val(toFormat(date._d.getDate()));
         self.jqueryObject.popup.day.month.val(toFormat(date._d.getMonth()+1));
         self.jqueryObject.popup.day.year.val(date._d.getFullYear());
         self.jqueryObject.popup.popup.show();
-        self.jqueryObject.popup.typePopup.val('');
+        self.jqueryObject.popup.typePopup.val('Новое событие');
         self.jqueryObject.popup.start.hour.val('14');
         self.jqueryObject.popup.start.minutes.val('00');
         self.jqueryObject.popup.end.hour.val('16');
@@ -537,6 +539,8 @@ function Calendar_teacher(){
 
     };
 
+
+
     //моя функція
     function addGroups(lesson_id){
         var myAddGroups=[];
@@ -630,7 +634,7 @@ function Calendar_teacher(){
         focusDelete(this.jqueryObject.popup.end.hour);
         focusDelete(this.jqueryObject.popup.end.minutes);
 
-        focusDelete(this.jqueryObject.popupEdit.titleEvent);
+        //focusDelete(this.jqueryObject.popupEdit.titleEvent);
         focusDelete(this.jqueryObject.popupEdit.day.day);
         focusDelete(this.jqueryObject.popupEdit.day.month);
         focusDelete(this.jqueryObject.popupEdit.day.year);
@@ -906,7 +910,7 @@ function Calendar_teacher(){
         jqueryObjectPopup.button.submit.on('click',function(){
             var idUpdate = originalEvent.id;
             //константи
-            var title= (jqueryObjectPopup.titleEvent.val()||'Новый ивент');
+            var title= (jqueryObjectPopup.titleEvent.val()||'Новое событие');
             var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
             var month=(jqueryObjectPopup.day.month.val()||newDate.getMonth()+1);
             var day=(jqueryObjectPopup.day.day.val()||newDate.getDate());
@@ -916,7 +920,7 @@ function Calendar_teacher(){
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
             if(! /\S/.test( title )){
-                title="Новый ивент";
+                title="Новое событие";
             };
             if(+hourEnd<=+hourBegin){
                 hourEnd=hourBegin;
@@ -1018,7 +1022,7 @@ function Calendar_teacher(){
         var jqueryObjectPopup  = self.jqueryObject.popup;
         jqueryObjectPopup.button.submit.on('click',function(){
             //константи
-            var title= (jqueryObjectPopup.typePopup.val()||'Новый ивент');
+            var title= (jqueryObjectPopup.typePopup.val()||'Новое событие');
             var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
             var month=(jqueryObjectPopup.day.month.val()||newDate.getMonth()+1);
             var day=(jqueryObjectPopup.day.day.val()||newDate.getDate());
@@ -1028,7 +1032,7 @@ function Calendar_teacher(){
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
             if(! /\S/.test( title )){
-                title="Новый ивент";
+                title="Новое событие";
             }
             if(+hourEnd<=+hourBegin){
                 hourEnd=hourBegin;
