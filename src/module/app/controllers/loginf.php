@@ -135,10 +135,16 @@ class Loginf extends Controller {
                     header("Location:" . URL . "app/calendar");
                     exit;
                 }
+                else{
+                    header('Content-type: text/html; charset=utf-8');
+                    header("Location:".URL."app/regist");
+                    exit;
+                }
             }
-            else{
-
-                $this->view->renderHtml("regist/index");
+            else {
+                header('Content-type: text/html; charset=utf-8');
+                header("Location:" . URL . "app/regist");
+                exit;
             }
         }
     }
