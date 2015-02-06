@@ -10,11 +10,24 @@ class Calendar extends Controller {
 
     private $userInfo;
     private $role='teacher';
+    public function back_signin(){
+        $_SESSION['status']='not';
+        header("Location:".$_SESSION['logout_link']);
+        exit;
+    }
     public function __construct() {
         parent::__construct();
-        $this->model = $this->loadModel('user');
 
-        $this->userInfo=$this->model->getCurrentUserInfo();
+
+        $id = $_SESSION['id'];
+        if($id===null){
+            $this->back_signin();
+        }
+        $this->model = $this->loadModel('user');
+        $this->userInfo=$this->model->getCurrentUserInfo($id);
+        if($this->userInfo===null){
+            $this->back_signin();
+        }
     }
     public function getRole(){
         return $this->role;
