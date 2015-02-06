@@ -6,7 +6,9 @@ class DataBase{
 
      private function __construct() {
         try {
-            self::$pdo = new PDO('sqlite:' . DOC_ROOT . 'SQL/data/rozklad.sqlite');
+            self::$pdo = new PDO('sqlite:' . DOC_ROOT . 'SQL/data/rozklad.sqlite',"","",array(
+                PDO::ATTR_PERSISTENT => true
+            ));
             self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e){
             echo $e;
@@ -27,5 +29,7 @@ class DataBase{
     public function DB(){
         return self::$pdo;
     }
+
+
 }
 ?>

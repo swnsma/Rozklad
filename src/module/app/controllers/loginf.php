@@ -87,11 +87,6 @@ class Loginf extends Controller {
             } else {
                 Session::set('email','');
             }
-            else{
-                Session::set('email',NULL);
-            }
-
-
 
             $this->checkUser();
             exit;
