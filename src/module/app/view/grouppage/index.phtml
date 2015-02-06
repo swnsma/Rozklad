@@ -73,6 +73,7 @@
 
         <div data-bind="foreach: students">
             <!--ko if: fb_account-->
+            <!--ko if: notDeleted-->
             <div class=" col-md-6 list-group">
                 <div class="list-group-item">
                     <?php if ($data['role'] == 'teacher'): ?>
@@ -89,7 +90,19 @@
                 </div>
             </div>
             <!--/ko-->
+
+                         <!--ko ifnot: notDeleted-->
+            <div class=" col-md-6 list-group">
+                <div class="list-group-item deletedStudent">
+                    Вы удалили пользователя.  <a href="#">Восстановить</a>
+                </div>
+            </div>
+                         <!--/ko-->
+            <!--/ko-->
+
+
             <!--ko if: gm_account-->
+            <!--ko if: notDeleted-->
             <div class=" col-md-6 list-group" data-bind="if: gm_account">
                 <div class="list-group-item">
                     <?php if ($data['role'] == 'teacher'): ?>
@@ -105,6 +118,14 @@
 
                 </div>
             </div>
+            <!--/ko-->
+            <!--ko ifnot: notDeleted-->
+            <div class=" col-md-6 list-group">
+                <div class="list-group-item deletedStudent">
+                    Вы удалили пользователя.  <a href="#">Восстановить</a>
+                </div>
+            </div>
+            <!--/ko-->
             <!--/ko-->
         </div>
 
