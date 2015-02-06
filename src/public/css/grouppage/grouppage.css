@@ -26,36 +26,23 @@ h3
 .info-title input{
     margin-top: 20px;
 }
-.code{
-    margin-top: 5px;
-    margin-left: -21px;
-    background-color: #F5F5F5;
-    color: #000000;
-    border: 1px solid #000000;
-    height: 34px;
+.info-title a{
+    width: 160px;
+    margin-left: 210px;
 }
-.code:hover, .edt:hover{
-    color: #000000;
-    background-color: #dddddd;
+.info-desc a{
+    width: 160px;
+    margin-left: 216px;
 }
 .edt{
-    position: absolute;
-    z-index: 1;
-    left:807px;
-    top: 20px;
-    background-color: #F5F5F5;
-    color: #000000;
-    border: 1px solid #000000;
+    margin-top: 20px;
 }
-#inputName:hover{
-    background-color: #dddddd;
+.dismissButton
+{
 }
 #inputName{
-    height: 34px;
     cursor: default;
     margin: 5px 0 20px -15px;
-    background-color: #F5F5F5;
-    border: 1px solid #000000;
 }
 .col-lg-4 a{
     width: 160px;
@@ -125,8 +112,7 @@ display: inline-block;
 }
 .removeStudent:hover
 {
-    opacity:1;
-}
+    opacity:1;  }
 .list-group-item:hover
 {
     border: 1px solid #000000;
@@ -134,4 +120,9 @@ display: inline-block;
 .list-group-item-heading
 {
     margin-left: 15px;
+}
+.deletedStudent
+{
+    height: 92px;
+    background-color: #F5F5F5;
 }
