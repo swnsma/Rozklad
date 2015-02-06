@@ -15,6 +15,6 @@ define('ACCESS_TYPE','offline');
 define('APP_ID_FB','1536442079974268');
 define('APP_SECRET_FB','1d75987fcb8f4d7abc1a34287f9601cf');
 
-define('DEBUG', true);
+define('DEBUG', false);
 
 ?>
