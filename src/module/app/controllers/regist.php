@@ -70,11 +70,6 @@ class Regist extends Controller
         }
         else echo $existUserFb;
     }
-    public function back_signin(){
-        $_SESSION['status']='not';
-        header("Location:".$_SESSION['logout_link']);
-        exit;
-    }
     public function getName(){
         $this->view->renderJson(
             [
