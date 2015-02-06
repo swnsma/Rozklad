@@ -121,6 +121,11 @@ display: inline-block;
     position: absolute;
     margin-left: 91%;
     margin-top: -5px;
+    opacity: 0.5;
+}
+.removeStudent:hover
+{
+    opacity:1;
 }
 .list-group-item:hover
 {
