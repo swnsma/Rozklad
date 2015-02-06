@@ -88,6 +88,16 @@ var api= {
                 alert('Error! ' + xhr);
             }
         })
+    },
+    restoreUser:function(id,groupId,successFunction) {
+        $.ajax({
+            url: url + 'app/grouppage/restore/'+groupId+'/'+id ,
+            type: 'GET',
+            success: successFunction (),
+            error: function (xhr) {
+                alert('Error! ' + xhr);
+            }
+        })
     }
 };
 

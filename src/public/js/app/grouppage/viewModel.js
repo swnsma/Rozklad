@@ -72,29 +72,23 @@ function ViewModel() {
             that.errorTitle("1");
         }
     };
-
     that.deleteUser=function(userId){
         api.deleteUser(userId,that.id(),function(){
             //that.students.remove(that.students(3))
             location.reload();
         });
     };
-
     that.dismissStudent=function(userId){
-
+        api.deleteUser(userId,that.id(),function(){
         for(var i=0;i<that.students().length;i++ ) {
             if (that.students()[i].id == userId)
                  {
                     that.students()[i].notDeleted(false)
                  }
             }
-        //console.log(that.students())
-
-
-        //api.deleteUser(userId,that.id(),function(){
-       //     that.students.remove(function(item) { return item.id == userId});
-      //  });
+        });
     };
+
     that.errorDescMessage = ko.computed(function(){
         switch(that.errorDesc()){
             case "1":
@@ -125,12 +119,14 @@ function ViewModel() {
         })
     };
     that.restoreUser=function(userId){
-        for(var i=0;i<that.students().length;i++ ) {
-            if (that.students()[i].id == userId)
-            {
-                that.students()[i].notDeleted(true)
+
+        api.restoreUser(userId,that.id(),function() {
+            for (var i = 0; i < that.students().length; i++) {
+                if (that.students()[i].id == userId) {
+                    that.students()[i].notDeleted(true)
+                }
             }
-        }
+        })
     };
     that.activate = function () {
         var groupId = window.location.pathname;
