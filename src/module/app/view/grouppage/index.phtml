@@ -94,7 +94,7 @@
                          <!--ko ifnot: notDeleted-->
             <div class=" col-md-6 list-group">
                 <div class="list-group-item deletedStudent">
-                    Вы удалили пользователя.  <a href="#">Восстановить</a>
+                    Вы удалили пользователя.  <a href="#" data-bind="click:function(){$parent.restoreUser(id)}">Восстановить</a>
                 </div>
             </div>
                          <!--/ko-->
@@ -122,7 +122,7 @@
             <!--ko ifnot: notDeleted-->
             <div class=" col-md-6 list-group">
                 <div class="list-group-item deletedStudent">
-                    Вы удалили пользователя.  <a href="#">Восстановить</a>
+                    Вы удалили пользователя.  <a href="#" data-bind="click:function(){$parent.restoreUser(id)}">Восстановить</a>
                 </div>
             </div>
             <!--/ko-->
