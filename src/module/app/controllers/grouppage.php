@@ -15,18 +15,31 @@ class GroupPage extends Controller {
         $req =Request::getInstance();
         $groupId= $req->getParam(0);
         $model = $this->loadModel('user');
+        $flag=false;
         if(Session::has('fb_ID')){
         $id=Session::get('fb_ID');
         $id=$model->getInfoFB($id)['id'];
+        $flag=true;
         }else{
             if(Session::has('gm_ID')){
                 $id=Session::get('gm_ID');
                 $id=$model->getInfoGM($id)['id'];
-            }else return null;
+                $flag=true;
+            }
         }
-        $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
-        $data['id']=$id;
-        $this->view->renderHtml('grouppage/index', $data);
+        if($this->model->existGroup($groupId)){
+        if($flag){
+            $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
+            $data['id']=$id;
+        }else{
+            $data['role']=null;
+        }
+
+            $this->view->renderHtml('grouppage/index', $data);
+        }else{
+            $data['id']=$groupId;
+            $this->view->renderHtml('grouppage/404', $data);
+        }
     }
     public function delUser(){
         $req = Request::getInstance();
