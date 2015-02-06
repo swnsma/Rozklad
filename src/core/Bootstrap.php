@@ -5,12 +5,12 @@ class Bootstrap extends Controller{
     function __construct() {
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
-        echo "Hello<br>";
+        //echo "Hello<br>";
         $regist_model =  DOC_ROOT . 'module/app/controllers/regist.php';
         if (file_exists($regist_model)) {
-            echo "have file";
+            //echo "have file";
         } else {
-            echo "no file";
+            //echo "no file";
         }
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
@@ -29,7 +29,7 @@ class Bootstrap extends Controller{
             require_once $file;
             $c = new $controller;
         } else {
-            echo "no :".$file;
+            //echo "no :".$file;
             require_once  DOC_ROOT . 'module/app/controllers/error.php';
             $c = new Error();
         }
