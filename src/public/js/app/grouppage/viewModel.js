@@ -13,10 +13,10 @@ function ViewModel() {
     that.errorDesc=ko.observable("0");
     that.errorTitle= ko.observable("0");
     that.focusDesc=function(){
-        document.getElementById("descInput").focus();
+       focus("descInput");
     };
     that.focusTitle=function(){
-        document.getElementById("titleInput").focus();
+        focus("titleInput");
     };
     that.editDescOpen=function(){
         that.editDescription(true);
@@ -72,28 +72,16 @@ function ViewModel() {
             that.errorTitle("1");
         }
     };
-
     that.deleteUser=function(userId){
         api.deleteUser(userId,that.id(),function(){
-            //that.students.remove(that.students(3))
+           // that.students.remove(that.students(3))
             location.reload();
         });
     };
-
     that.dismissStudent=function(userId){
-
-        for(var i=0;i<that.students().length;i++ ) {
-            if (that.students()[i].id == userId)
-                 {
-                    that.students()[i].notDeleted(false)
-                 }
-            }
-        //console.log(that.students())
-
-
-        //api.deleteUser(userId,that.id(),function(){
-       //     that.students.remove(function(item) { return item.id == userId});
-      //  });
+        api.deleteUser(userId,that.id(),function(){
+            that.students.remove(function(item) { return item.id == userId});
+        });
     };
     that.errorDescMessage = ko.computed(function(){
         switch(that.errorDesc()){
@@ -124,14 +112,6 @@ function ViewModel() {
             that.code(response.code);
         })
     };
-    that.restoreUser=function(userId){
-        for(var i=0;i<that.students().length;i++ ) {
-            if (that.students()[i].id == userId)
-            {
-                that.students()[i].notDeleted(true)
-            }
-        }
-    };
     that.activate = function () {
         var groupId = window.location.pathname;
         var pos=groupId.search(/id[0-9]+/);
@@ -147,7 +127,6 @@ function ViewModel() {
         api.getUsers(groupId, function (response) {
             for (var i = 0; i < response.length; i++) {
                 var student = new Student(response[i]);
-                student.notDeleted=ko.observable(true);
                 that.students.push(student)
             }
             console.log(that.students());
@@ -159,5 +138,7 @@ function ViewModel() {
 }
 var viewModel = new ViewModel();
 viewModel.activate();
-
+function focus(id){
+    document.getElementById(id).focus();
+}
 ko.applyBindings(viewModel);
