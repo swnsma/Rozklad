@@ -78,9 +78,16 @@ HERE;
         }
     }
    public function delUser($id, $groupId){
-       if(isset($id));
-
+       $r=<<<CHECK
+        SELECT *
+        FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`=$groupId;
+CHECK;
        try{
+           $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+       if(isset($var[0]));
+
+
        $this->db->query("DELETE FROM student_group WHERE student_id='$id' AND group_id=$groupId");
        }
        catch(PDOException $e){
@@ -180,11 +187,19 @@ ADDUSER;
 
    }
    public function addUser($id, $userId){
+       try{
+       $r=<<<CHECK
+        SELECT * FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`= $userId;
+CHECK;
+          $var= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+           if(!isset($var[0])){
        $r=<<<ADD
         INSERT INTO `student_group` (`student_id`, `group_id`) VALUES ($userId,$id);
 ADD;
-       try{
+
        $this->db->query($r);
+           }
        } catch(PDOException $e){
            echo $e->getMessage();
        }

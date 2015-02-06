@@ -114,7 +114,6 @@ function ViewModel() {
     });
     that.changeCode= function(){
         api.changeCode(that.id(),function (response){
-            console.log(response);
             that.code(response.code);
         })
     };
