@@ -76,8 +76,9 @@
             <div class=" col-md-6 list-group">
                 <div class="list-group-item">
                     <?php if ($data['role'] == 'teacher'): ?>
-                        <a href="#" class="btn btn-primary btn-xs removeStudent"
-                           data-bind="click:function(){$parent.dismissStudent(id)}">Исключить студента</a>
+                        <a href="#" class=" removeStudent"
+                           data-bind="click:function(){$parent.dismissStudent(id)}">
+                            <img height="20" width="20" src="<?php echo URL; ?>public/img/closeButton.png""></a>
                     <?php endif; ?>
 
                     <a class="list-group-item-text " target="_blank" data-bind="attr:{href: fb_account}">
@@ -92,8 +93,9 @@
             <div class=" col-md-6 list-group" data-bind="if: gm_account">
                 <div class="list-group-item">
                     <?php if ($data['role'] == 'teacher'): ?>
-                        <a href="#" class="btn btn-primary btn-xs removeStudent"
-                           data-bind="click:function(){$parent.dismissStudent(id)}">Исключить студента </a>
+                        <a href="#" class=" removeStudent"
+                           data-bind="click:function(){$parent.dismissStudent(id)}">
+                            <img height="20" width="20" src="<?php echo URL; ?>public/img/closeButton.png""></a>
                     <?php endif; ?>
                     <a class="list-group-item-text " target="_blank" data-bind='attr:{href: gm_account}'><img
                             src="https://lh5.googleusercontent.com/-qWNMqcca81Y/AAAAAAAAAAI/AAAAAAAAAAA/g6oiN_9k82A/s120-c/photo.jpg"
