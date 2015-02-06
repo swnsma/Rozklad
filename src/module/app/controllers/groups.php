@@ -14,9 +14,14 @@ class Groups extends Controller {
         $data['title'] = 'Групи';
         $data['status'] = 1; //$this->user_info['role_id'];
         $data['groups'] = $this->model->getList();
-        $this->view->renderAllHTML('groups/index',
+        /*$this->view->renderAllHTML('groups/index',
             $data,
-            array('groups/groups.css'));
+            array('groups/groups.css'));*/
+        $this->view->renderHtml('common/head');
+        $this->view->renderHtml('common/header', $data);
+        $this->view->renderHtml('groups/index', $data);
+        $this->view->renderHtml('common/footer');
+        $this->view->renderHtml('common/foot');
     }
 
     public function create() {
