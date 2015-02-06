@@ -5,7 +5,8 @@ class Bootstrap extends Controller{
     function __construct() {
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
-        echo "Hello";
+        echo "Hello<br>";
+        echo DOC_ROOT . 'module/app/controllers/regist.php';
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
