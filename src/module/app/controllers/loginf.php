@@ -75,11 +75,22 @@ class Loginf extends Controller {
             Session::set('fb_ID',$user_f['id']);
             Session::set('lastname',$user_f['last_name']);
             Session::set('firstname',$user_f['first_name']);
+
+            if(isset($user_f['last_name'])) {
+                Session::set('lastname', $user_f['last_name']);
+            }
+            if(isset($user_f['first_name'])) {
+                Session::set('firstname', $user_f['first_name']);
+            }
             if(isset($user_f['email'])){
                 Session::set('email',$user_f['email']);
             } else {
                 Session::set('email','');
             }
+            else{
+                Session::set('email',NULL);
+            }
+
 
 
             $this->checkUser();
@@ -116,28 +127,36 @@ class Loginf extends Controller {
         else {
             Session::set('status','regist');
             $this->model=$this->loadModel("check");
-            if($this->model->checkEmail(Session::get('email'))){
-                $this->model=$this->loadModel("regist");
-                $this->model->updateFB(Session::get('fb_ID'),Session::get('email'));
-                $this->model=$this->loadModel("user");
-                $id=$this->model->getIdFB(Session::get("fb_ID"));
-                Session::set('id',$id);
-                Session::set('status','ok');
-                header("Location:".URL."app/calendar");
-                exit;
+            if(Session::has('email')&&Session::get('email')!='') {
+                if ($this->model->checkEmail(Session::get('email'))) {
+                    $this->model = $this->loadModel("regist");
+                    $this->model->updateFB(Session::get('fb_ID'), Session::get('email'));
+                    $this->model = $this->loadModel("user");
+                    $id = $this->model->getIdFB(Session::get("fb_ID"));
+                    Session::set('id', $id);
+                    Session::set('status', 'ok');
+                    header("Location:" . URL . "app/calendar");
+                    exit;
+                }
+                else{
+                    header('Content-type: text/html; charset=utf-8');
+                    header("Location:".URL."app/regist");
+                    exit;
+                }
             }
-            else{
-
-                $this->view->renderHtml("regist/index");
+            else {
+                header('Content-type: text/html; charset=utf-8');
+                header("Location:" . URL . "app/regist");
+                exit;
             }
         }
     }
     public function logout(){
         setcookie('fbs_'.APP_ID_FB, '', time()-100, '/', $_SERVER["SERVER_NAME"]);
-        unset($_SESSION['fb_'.APP_ID_FB.'_code']);
-        unset($_SESSION['fb_'.APP_ID_FB.'_access_token']);
-        unset($_SESSION['fb_'.APP_ID_FB.'_user_id']);
-        unset($_SESSION['fb_'.APP_ID_FB.'_state']);
+        Session::uns('fb_'.APP_ID_FB.'_code');
+        Session::uns('fb_'.APP_ID_FB.'_access_token');
+        Session::uns('fb_'.APP_ID_FB.'_user_id');
+        Session::uns('fb_'.APP_ID_FB.'_state');
         Session::set('fb_ID',NULL);
         Session::set('fb_fullname', NULL);
         Session::set('fb_email',NULL);

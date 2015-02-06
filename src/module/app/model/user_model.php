@@ -11,13 +11,9 @@ class UserModel extends Model {
     }
 
 
-    public function getCurrentUserInfo(){
-        static $userInfo;
-
-        $id = $_SESSION['id'];
-//        $id = '4';
-        if (is_null($userInfo)){
-            $userInfo = array();
+    public function getCurrentUserInfo($id){
+        $userInfo=Array();
+//        print $id;
             $sql = <<<SQL
                     select
                         user.name,
@@ -33,10 +29,12 @@ class UserModel extends Model {
                     on user.role_id = role.id
                     where user.id='$id'
 SQL;
-            $userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC)[0];
-        }
+            $userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-        return $userInfo;
+        if(count($userInfo)===0){
+            return null;
+        }
+        return $userInfo[0];
     }
 
     public function getInfoFB($fb_id){
