@@ -11,6 +11,9 @@
     color: #000000;
     padding: 0 5px;
 }
+.my-tooltip .top{
+    overflow: hidden;
+}
 .my-tooltip h3{
     margin: 0;
     padding: 0;
@@ -35,10 +38,10 @@
 }
 .my-tooltip .group-list{
     margin: 0 auto;
-    /*display: block;*/
+    display: block;
     /*background-color: #ffffff;*/
-    /*text-align:center;*/
-    /*padding:0 10px ;*/
+    text-align:left;
+    padding:0 10px ;
     /*border-bottom: 1px solid #000000;*/
 }
 .my-tooltip .group-list:first-child{
