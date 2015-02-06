@@ -6,8 +6,8 @@ class Session {
         session_name($ses);
         session_start();
 
-        if (isset($_COOKIE[$ses]))
-            setcookie($ses, $_COOKIE[$ses], time() + $time, "/");
+//        if (isset($_COOKIE[$ses]))
+//            setcookie($ses, $_COOKIE[$ses], time() + $time, "/");
     }
 
     public static function has($key) {

@@ -44,9 +44,7 @@ QUERY;
         WHERE `groups`.`id`=$groupId ;
 HERE;
            $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
-           $var[0]['teacher']=$var[0]['teacher'].' '.$var[0]['surname'];
-           unset($var[0]['surname']);
-           $this->setGroupInfo($var[0]);
+
            return $var[0];
        }
        catch(PDOException $e){

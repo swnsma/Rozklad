@@ -9,7 +9,7 @@ abstract class Upload {
         $this->file = $files;
     }
 
-    public function check_file_error() {
+    public function checkFileError() {
         try {
             switch ($this->file['error']) {
                 case UPLOAD_ERR_OK:
@@ -29,23 +29,23 @@ abstract class Upload {
         }
     }
 
-    public function check_size() {
+    public function checkSize() {
         return $this->file['size'] > $this->max_size;
     }
 
-    public function get_file() {
+    public function getFile() {
         return $this->file;
     }
 
-    public function get_error() {
+    public function getError() {
         return $this->error;
     }
 
-    public function get_max_size() {
+    public function getMaxSize() {
         return $this->max_size;
     }
 
-    public function set_max_size($size) {
+    public function setMaxSize($size) {
         $this->max_size = $size;
     }
 }

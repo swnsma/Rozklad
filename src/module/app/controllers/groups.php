@@ -1,5 +1,7 @@
 <?php
 
+require_once DOC_ROOT . 'core/UploadImage.php';
+
 class Groups extends Controller {
     public function __construct() {
         parent::__construct();
@@ -9,7 +11,7 @@ class Groups extends Controller {
     }
 
     public function index() {
-        $data['title'] = 'Group list';
+        $data['title'] = 'Групи';
         $data['status'] = 1; //$this->user_info['role_id'];
         $data['groups'] = $this->model->getList();
         $this->view->renderAllHTML('groups/index',
@@ -20,7 +22,6 @@ class Groups extends Controller {
     public function create() {
         $data['title'] = 'Create Group';
         $status = 1; //$$this->user_info['role_id'];
-
         if ($status == 1) {
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
             $this->view->renderAllHTML('groups/creategroup',
@@ -39,7 +40,21 @@ class Groups extends Controller {
                 && preg_match('/^[\(\)\!\?\:\;\.\, \d+\w+]{1,300}$/m', $descr)) {
                 $status = 1; //$this->user_info['role_id'];
                 if ($status == 1) {
-                    $data = $this->model->createGroup($this->user_info['id'], $name, $descr);
+                    $image = null;
+
+                    if (isset($_FILES['photo']['error']) && !is_array($_FILES['photo']['error'])) {
+                        $upload = new UploadImage($_FILES['photo']);
+                        if ($upload->checkFileError() && $upload->upload()) {
+                            $image = $upload->getUploadFileName();
+                        } else {
+                            $this->view->renderJson(array(
+                                'status' => $upload->getError()
+                            ));
+                            return;
+                        }
+                    }
+                    //$data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
+                    $data = $this->model->createGroup(1, $name, $descr, $image);
                     if ($data == null) {
                         $this->view->renderJson(array(
                             'status' => 'create_error'

@@ -5,11 +5,13 @@ function create_group(data, func) {
         dataType: 'json',
         data: data,
         success: func.success,
-        error: func.error
+        error: func.error,
+        processData: false,
+        contentType: false
     });
 }
 
-$('#create').click(function() {
+$('#createButton').click(function() {
     var el_name = $('#inputName');
     var el_descr = $('#inputDesc');
     var name = el_name.val();
@@ -21,16 +23,12 @@ $('#create').click(function() {
         el_name.addClass('error-input');
         return false;
     }
-
     if (!descr.match(/^[\(\)\!\?\:\;\.\, \s\S\d+\w+]{1,300}$/)) {
         el_descr.addClass('error-input');
         return false;
     }
 
-    create_group({
-        name: name,
-        descr: descr
-    }, {
+    create_group(new FormData(document.getElementById('create1')), {
         success: function(response) {
             if (response.status == 'group_create') {
                 $('#linkNewOnGroup').text(url + 'grouppage/' + response.id);
