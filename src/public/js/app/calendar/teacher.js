@@ -8,7 +8,7 @@ masColor={
         color:'RGB(0,100,160)'
     },
     otherEvents:{
-        color:'#888'
+        color:'RGB(200,200,250)'
     }
 }
 function remove(elem) {
@@ -536,6 +536,8 @@ function Calendar_teacher(){
         }
 
     };
+
+
 
     //моя функція
     function addGroups(lesson_id){

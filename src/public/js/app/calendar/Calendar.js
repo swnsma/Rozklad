@@ -1,6 +1,69 @@
 /**
  * Created by Таня on 23.01.2015.
  */
+function getHexRGBColor(color)
+{
+    color = color.replace(/\s/g,"");
+    var aRGB = color.match(/^rgb\((\d{1,3}[%]?),(\d{1,3}[%]?),(\d{1,3}[%]?)\)$/i);
+
+    if(aRGB)
+    {
+        color = '';
+        for (var i=1;  i<=3; i++) color += Math.round((aRGB[i][aRGB[i].length-1]=="%"?2.55:1)*parseInt(aRGB[i])).toString(16).replace(/^(.)$/,'0$1');
+    }
+    else color = color.replace(/^#?([\da-f])([\da-f])([\da-f])$/i, '$1$1$2$2$3$3');
+
+    return color;
+}
+
+function getRgbaHexColor(color){
+    var mas={
+        0:0,
+        1:1,
+        2:2,
+        3:3,
+        4:4,
+        5:5,
+        6:6,
+        7:7,
+        8:8,
+        9:9,
+        a:10,
+        b:11,
+        c:12,
+        d:13,
+        e:14,
+        f:15
+    };
+    function to10(p){
+        return (mas[p[0]]*16+(mas[p[1]])*1);
+    }
+    function lighting(R){
+        R=R+100;
+        return R;
+    }
+    var R=0;
+    var G=0;
+    var B=0;
+    var A=0;
+    R =color.substr(0,2);
+    G =color.substr(2,2);
+    B =color.substr(4,2);
+    R=to10(R);
+    G=to10(G);
+    B=to10(B);
+    R=lighting(R);
+    G=lighting(G);
+    B=lighting(B);
+
+    return 'RGB('+R+','+G+','+B+')';
+
+}
+   function  getRgbaRgbColor(color){
+       var colorHex = getHexRGBColor(color);
+       var colorRgba = getRgbaHexColor(colorHex);
+       return colorRgba;
+   }
 
 function toFormat(number){
     if((number+'').length!=2){
@@ -253,9 +316,6 @@ function Calendar(){
                     });
                 },
                 color: 'RGB(0,100,160)'  // an option!
-                //'RGB(0,100,160)'
-                //color: '#07375E'   // an option!
-                //textColor: 'black' // an option!
             }
         ]
     };
@@ -268,6 +328,13 @@ function Calendar(){
             events = events.substr(0, 78) + '...';
         }
 
+        var backColor = ( event.color || event.source.color );
+        var hex = getRgbaRgbColor(backColor);
+
+        debugger;
+        self.jqueryObject.tooltip.tooltip.css({
+            'backgroundColor':hex
+        });
         self.jqueryObject.tooltip.tooltipTitle.text(events);
 
 
@@ -309,6 +376,7 @@ function Calendar(){
 
         });
         $(thet).css({
+            //'color': '#000',
             'fontWeight':'bold'
         });
 
