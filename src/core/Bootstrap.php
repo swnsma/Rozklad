@@ -29,6 +29,7 @@ class Bootstrap extends Controller{
             require_once $file;
             $c = new $controller;
         } else {
+            echo "no :".$file;
             require_once  DOC_ROOT . 'module/app/controllers/error.php';
             $c = new Error();
         }
