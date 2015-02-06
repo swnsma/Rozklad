@@ -3,20 +3,22 @@
     border: 1px solid #666;
     position: absolute;
     z-index: 1000;
-    min-width: 170px;
-    /*max-width: 300px;*/
+    /*min-width: 115px;*/
+    width: 230px;
+    /*max-width: 1000px;*/
     display: none;
     background-color: #bce8f1;
     color: #000000;
+    padding: 0 5px;
 }
 .my-tooltip h3{
     margin: 0;
     padding: 0;
     text-align: center;
     border-bottom: 1px solid #666;
-    height: 25px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px;
+    word-wrap: break-word;
+    font-weight: bold;
 }
 .my-tooltip .time{
     text-align: center;
@@ -25,6 +27,11 @@
     display: block;
     text-align: center;
     font-style: italic;
+    width: 64%;
+    float: left;
+    word-wrap: break-word;
+    text-align: center;
+
 }
 .my-tooltip .group-list{
     margin: 0 auto;
@@ -36,4 +43,9 @@
 }
 .my-tooltip .group-list:first-child{
     /*border-top: 1px solid #000000;*/
+}
+.my-tooltip .time-tooltip{
+    display: block;
+    width: 33%;
+    float: right;
 }

@@ -72,11 +72,18 @@ class Loginf extends Controller {
             Session::set('fb_token',"".$session->getAccessToken());
             Session::set('logout_link',"http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".Session::get('fb_token'));
             $user_f = $response->getGraphObject()->asArray();
-
             Session::set('fb_ID',$user_f['id']);
             Session::set('lastname',$user_f['last_name']);
             Session::set('firstname',$user_f['first_name']);
-            Session::set('email',$user_f['email']);
+
+            if(isset($user_f['email'])){
+                Session::set('email',$user_f['email']);
+            }
+            else{
+                Session::set('email',NULL);
+            }
+
+
             $this->checkUser();
             exit;
 
@@ -94,7 +101,6 @@ class Loginf extends Controller {
     }
     public function checkUser(){
         $check= $this->model->checkUserFB(Session::get('fb_ID'));
-
         if($check){
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdFB(Session::get("fb_ID"));
@@ -102,7 +108,6 @@ class Loginf extends Controller {
             $isUnconf=$this->model->checkUnconfirmed($id);
             if($isUnconf){
                 Session::set('status',"unconfirmed");
-
                 header("Location:".URL."app/signin");;
                 exit;
             }
@@ -113,15 +118,17 @@ class Loginf extends Controller {
         else {
             Session::set('status','regist');
             $this->model=$this->loadModel("check");
-            if($this->model->checkEmail(Session::get('email'))){
-                $this->model=$this->loadModel("regist");
-                $this->model->updateFB(Session::get('fb_ID'),Session::get('email'));
-                $this->model=$this->loadModel("user");
-                $id=$this->model->getIdFB(Session::get("fb_ID"));
-                Session::set('id',$id);
-                Session::set('status','ok');
-                header("Location:".URL."app/calendar");
-                exit;
+            if(Session::has('email')&&Session::get('email')!='') {
+                if ($this->model->checkEmail(Session::get('email'))) {
+                    $this->model = $this->loadModel("regist");
+                    $this->model->updateFB(Session::get('fb_ID'), Session::get('email'));
+                    $this->model = $this->loadModel("user");
+                    $id = $this->model->getIdFB(Session::get("fb_ID"));
+                    Session::set('id', $id);
+                    Session::set('status', 'ok');
+                    header("Location:" . URL . "app/calendar");
+                    exit;
+                }
             }
             else{
 
@@ -135,10 +142,10 @@ class Loginf extends Controller {
         unset($_SESSION['fb_'.APP_ID_FB.'_access_token']);
         unset($_SESSION['fb_'.APP_ID_FB.'_user_id']);
         unset($_SESSION['fb_'.APP_ID_FB.'_state']);
-        Session::get('fb_ID',NULL);
-        Session::get('fb_fullname', NULL);
-        Session::get('fb_email',NULL);
-        Session::get('status','not');
+        Session::set('fb_ID',NULL);
+        Session::set('fb_fullname', NULL);
+        Session::set('fb_email',NULL);
+        Session::set('status','not');
         session_destroy();
         header("Location:".URL."app/signin");
     }

@@ -86,7 +86,7 @@ function Calendar(){
 
     var self=this;
     this.masEvent=[];
-this.groups=[];
+    this.groups=[];
     this.jqueryObject={
         calendar:$('#calendar'),
         popup: {
@@ -212,6 +212,24 @@ this.groups=[];
             }
 
         },
+        //eventRender:function(event, element) {
+        //    if(event.group){
+        //        for(var i=0;i<event.group.length;++i){
+        //            if(i===1){
+        //                debugger;
+        //            }
+        //            var $var = $('<span>');
+        //            $var.text();
+        //            $var.css({
+        //                'display':'inline-block',
+        //                'width':'10px',
+        //                'height':'10px',
+        //                'backgroundColor':'Yellow'
+        //            });
+        //            $(element).find('.fc-time').append($var);
+        //        }
+        //    }
+        //},
         eventSources: [
             {
                 events: function(start, end, timezone, callback) {
@@ -245,7 +263,13 @@ this.groups=[];
     //дода тултіп
     function toolTip(event, jsEvent, view,thet){
 
-        self.jqueryObject.tooltip.tooltipTitle.text(event.title);
+        var events = event.title;
+        if(events.length>=78){
+            events = events.substr(0, 78) + '...';
+        }
+
+        self.jqueryObject.tooltip.tooltipTitle.text(events);
+
 
         var dateEnd = new Date(event.end);
         var dateStart = new Date(event.start);
@@ -265,18 +289,19 @@ this.groups=[];
 
         dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' '+hourStart+':'+minutesStart;
 
-
         self.jqueryObject.tooltip.tooltipStart.text(dateStart);
 
         self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutesEnd);
-        self.jqueryObject.tooltip.tooltipAuthor.text(event.name + ' ' + event.surname);
-
+        var author = event.name + ' ' + event.surname;
+        if(author.length>=78){
+            author = author.substr(0, 78) + '...';
+        }
+        self.jqueryObject.tooltip.tooltipAuthor.text(author);
 
         var XX= jsEvent.offsetX||0;
         var YY=jsEvent.offsetY||0;
         var x = jsEvent.pageX - XX;
         var y = jsEvent.pageY - YY + 17;
-
 
         self.jqueryObject.tooltip.tooltip.css({
             'left': x,
