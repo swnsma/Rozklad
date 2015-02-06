@@ -76,6 +76,12 @@ class Loginf extends Controller {
             Session::set('lastname',$user_f['last_name']);
             Session::set('firstname',$user_f['first_name']);
 
+            if(isset($user_f['last_name'])) {
+                Session::set('lastname', $user_f['last_name']);
+            }
+            if(isset($user_f['first_name'])) {
+                Session::set('firstname', $user_f['first_name']);
+            }
             if(isset($user_f['email'])){
                 Session::set('email',$user_f['email']);
             }
