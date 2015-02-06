@@ -8,7 +8,7 @@ h3
     margin-left: 1px;
 }
 .info-title{
-    min-height: 85px;
+    min-height: 40px;
     padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{
@@ -17,7 +17,7 @@ h3
     color: red;
 }
 .info-desc{
-    min-height:  95px;
+    min-height:  40px;
     padding-left: 0 ;
 }
 textarea{
