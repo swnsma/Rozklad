@@ -72,7 +72,11 @@ class Loging extends Controller {
                 exit;
             }
             Session::set('status',"ok");
-            header("Location:".URL."app/calendar");
+            $link="app/calendar";
+            if(Session::has('unusedLink')){
+                $link = Session::get('unusedLink');
+            }
+            header("Location:".URL.$link);
             exit;
         }
         else {
@@ -87,7 +91,11 @@ class Loging extends Controller {
                     $id = $this->model->getIdGM(Session::get("gm_ID"));
                     Session::set('id', $id);
                     Session::set('status', "ok");
-                    header("Location:" . URL . "app/calendar");
+                    $link="app/calendar";
+                    if(Session::has('unusedLink')){
+                        $link = Session::get('unusedLink');
+                    }
+                    header("Location:" . URL . $link);
                     exit;
                 }
                 else{
