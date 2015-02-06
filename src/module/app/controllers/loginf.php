@@ -77,7 +77,10 @@ class Loginf extends Controller {
             Session::set('firstname',$user_f['first_name']);
             if(isset($user_f['email'])){
                 Session::set('email',$user_f['email']);
+            } else {
+                Session::set('email','');
             }
+
 
             $this->checkUser();
             exit;
