@@ -121,8 +121,8 @@ function Calendar(){
         tooltip:{
             tooltip:$('#tooltip'),
             tooltipTitle: $('#tooltipTitle'),
-            tooltipStart: $('#tooltipStart'),
-            tooltipEnd: $('#tooltipEnd'),
+            tooltipStart: $('#tooltipDate'),
+            tooltipEnd: $('#tooltipTimeStartEnd'),
             tooltipAuthor: $('#tooltipAuthor'),
             myTooltipGroupList:$('#myTooltipGroupList')
         },
@@ -287,11 +287,11 @@ function Calendar(){
         minutesStart=toFormat(minutesStart);
         hour=toFormat(hour);
 
-        dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' '+hourStart+':'+minutesStart;
+        dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' ';
 
         self.jqueryObject.tooltip.tooltipStart.text(dateStart);
 
-        self.jqueryObject.tooltip.tooltipEnd.text(hour + ':' + minutesEnd);
+        self.jqueryObject.tooltip.tooltipEnd.text(hourStart+':'+minutesStart+'-'+hour + ':' + minutesEnd);
         var author = event.name + ' ' + event.surname;
         if(author.length>=78){
             author = author.substr(0, 78) + '...';
@@ -309,7 +309,6 @@ function Calendar(){
 
         });
         $(thet).css({
-            //'color': '#000',
             'fontWeight':'bold'
         });
 
@@ -320,7 +319,7 @@ function Calendar(){
             $selectList.appendTo(self.jqueryObject.tooltip.myTooltipGroupList);
             $selectList.text(group[i].name);
             if(i!==group.length-1){
-                $selectList.text(group[i].name+' / ');
+                $selectList.text(group[i].name+',');
             }
         }
         self.jqueryObject.tooltip.tooltip.show();
