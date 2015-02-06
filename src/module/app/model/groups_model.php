@@ -11,7 +11,8 @@ class GroupsModel extends Model {
         SELECT
             `groups`.`id` as group_id,
             `groups`.`name` as name,
-            `user`.`name` as teacher_name
+            `user`.`name` as teacher_name,
+            `groups`.`img_src` as photo
         FROM `groups`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
 HERE;

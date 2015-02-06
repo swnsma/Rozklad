@@ -1,3 +1,13 @@
+<?php
+echo '<style>';
+require_once (DOC_ROOT."public/css/common/bootstrap.css");
+require_once (DOC_ROOT."public/css/common/common.css");
+require_once (DOC_ROOT."public/css/user.css");
+require_once (DOC_ROOT."public/css/admin/admin.css");
+require_once (DOC_ROOT."public/css/groups/groups.css");
+echo '</style>';
+?>
+
     <section class="container">
         <?php if ($data['status'] == 1): ?>
             <a href="<?php echo URL; ?>app/groups/create">створити групу</a>
@@ -5,8 +15,12 @@
         <div class="group-list">
             <?php foreach ($data['groups'] as $group) : ?>
             <div class="group">
-                <div class="group-icon" data-bind="style: {'background-image': 'url('+icon+')'}"></div>
-                <div class="padding-10px">
+                <?php if ($group['photo'] != null): ?>
+                    <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/default/default_group_photo.jpg' ?>)"></div>
+                <?php else: ?>
+                    <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/groups_photo/' . $group['photo']; ?>)"></div>
+                <?php endif; ?>
+                    <div class="padding-10px">
                     <h3 class="group-name"><?php echo $group['name']; ?></h3>
                     <p class="group-description">descr</p>
                     <div class="next-lesson">

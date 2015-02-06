@@ -7,16 +7,21 @@ class Groups extends Controller {
         parent::__construct();
         $this->model = $this->loadModel('groups');
         $this->user_model = $this->loadModel('user');
-        $this->user_info =$this->user_model->getInfo($_SESSION['fb_ID'])[0];
+        $this->user_info =$this->user_model->getInfo(Session::get('fb_ID'))[0];
     }
 
     public function index() {
         $data['title'] = 'Групи';
         $data['status'] = 1; //$this->user_info['role_id'];
         $data['groups'] = $this->model->getList();
-        $this->view->renderAllHTML('groups/index',
+        /*$this->view->renderAllHTML('groups/index',
             $data,
-            array('groups/groups.css'));
+            array('groups/groups.css'));*/
+        $this->view->renderHtml('common/head');
+        $this->view->renderHtml('common/header', $data);
+        $this->view->renderHtml('groups/index', $data);
+        $this->view->renderHtml('common/footer');
+        $this->view->renderHtml('common/foot');
     }
 
     public function create() {
