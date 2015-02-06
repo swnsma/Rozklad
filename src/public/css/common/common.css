@@ -1,5 +1,7 @@
 body{
-    background: url(http://img.decor.com.ua/img_board/2012/10/24/83465-15262.jpg) repeat;
+    background: url("../../../../src/public/img/bg.jpg");
+    color: #292929;
+    font-family: "Open Sans";
     background-size: 100%;
 }
 
@@ -18,4 +20,8 @@ body{
 a {
     color: #337AB7;
     text-decoration: none;
+}
+
+.button {
+    cursor: pointer;
 }
