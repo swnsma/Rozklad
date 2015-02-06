@@ -11,7 +11,6 @@ class GroupPage extends Controller {
         $this->model = $this->loadModel('grouppage');
 
     }
-
     public function index() {
         $req =Request::getInstance();
         $groupId= $req->getParam(0);
@@ -44,7 +43,7 @@ class GroupPage extends Controller {
         $this->view->renderJson(Array('result'=>"success"));
 
     }
-    public  function createInviteCode(){
+    public function createInviteCode(){
         $req= Request::getInstance();
         $id=$req->getParam(0);
         $this->model->createInviteCode($id);
@@ -129,5 +128,10 @@ class GroupPage extends Controller {
         $r=$r.'<br/><a href="/src/app/calendar">Перейти на главную страницу</a></div>';
         echo $r;
     }
-
+    public function restore(){
+        $req=Request::getInstance();
+        $groupId=$req->getParam(0);
+        $userId=$req->getParam(1);
+        $this->model->addUser($groupId, $userId);
+    }
 }
