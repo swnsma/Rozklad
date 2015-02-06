@@ -11,9 +11,6 @@ class Magic_Object_Exception extends Exception {
         parent::__construct();
     }
 }
-function replace($matches){
-    return strtolower('_'.$matches[0]);
-}
 abstract class Magic_Object
 {
     protected $array_var = Array();
@@ -24,9 +21,7 @@ abstract class Magic_Object
     }
     public function __call($method, $a)
     {
-
-        $method= preg_replace_callback("/[A-Z]/", "replace", $method);
-
+        $method= strtolower(preg_replace("/(.)([A-Z])/", "$1_$2", $method));
         $type=substr($method,0,3);
         $name=substr($method,4);
         switch($type){
