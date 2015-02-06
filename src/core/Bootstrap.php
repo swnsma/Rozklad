@@ -6,7 +6,12 @@ class Bootstrap extends Controller{
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
         echo "Hello<br>";
-        echo DOC_ROOT . 'module/app/controllers/regist.php';
+        $regist_model =  DOC_ROOT . 'module/app/controllers/regist.php';
+        if (file_exists($regist_model)) {
+            echo "have file";
+        } else {
+            echo "no file";
+        }
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
