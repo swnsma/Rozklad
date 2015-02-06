@@ -42,7 +42,12 @@ class Loging extends Controller {
             Session::set('lastname',$user_g['family_name']);
             Session::set('firstname',$user_g['given_name']);
             Session::set('gm_ID',Session::get('user')['id']);
-            Session::set('email',Session::get('user')['email']);
+                if(isset(Session::get('user')['email'])){
+                Session::set('email',Session::get('user')['email']);
+                }
+                else{
+                    Session::set('email',NULL);
+                }
             Session::set('gm_token',$this->client->getAccessToken());
             Session::set('logout_link',"http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout");
             $this->checkUser();
@@ -72,15 +77,17 @@ class Loging extends Controller {
         else {
             Session::set('status','regist');
             $this->model=$this->loadModel("check");
-            if($this->model->checkEmail(Session::get('email'))){
-                $this->model=$this->loadModel("regist");
-                $this->model->updateGM(Session::get('gm_ID'),Session::get('email'));
-                $this->model=$this->loadModel("user");
-                $id=$this->model->getIdGM(Session::get("gm_ID"));
-                Session::set('id',$id);
-                Session::set('status',"ok");
-                header("Location:".URL."app/calendar");
-                exit;
+            if(Session::has('email')&&Session::get('email')!='') {
+                if ($this->model->checkEmail(Session::get('email'))) {
+                    $this->model = $this->loadModel("regist");
+                    $this->model->updateGM(Session::get('gm_ID'), Session::get('email'));
+                    $this->model = $this->loadModel("user");
+                    $id = $this->model->getIdGM(Session::get("gm_ID"));
+                    Session::set('id', $id);
+                    Session::set('status', "ok");
+                    header("Location:" . URL . "app/calendar");
+                    exit;
+                }
             }
             else{
                 header('Content-type: text/html; charset=utf-8');

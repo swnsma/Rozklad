@@ -9,8 +9,8 @@ class Signin extends Controller {
         $this->view->renderHtml("signin/index");
     }
     public function back_signin(){
-        $_SESSION['status']='not';
-        header("Location:".$_SESSION['logout_link']);
+       Session::set('status', 'not');
+        header("Location:".Session::get('logout_link'));
         exit;
     }
 }
