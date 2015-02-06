@@ -5,7 +5,7 @@ class Bootstrap extends Controller{
     function __construct() {
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
-
+        $this->model=$this->loadModel('user');
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
@@ -35,6 +35,7 @@ class Bootstrap extends Controller{
     private  function dispatcher($controller,$action){
         $this->checkUnconf();
         $this->checkStatus();
+        $this->checkId($controller);
         $this->checkRoute($controller,$action);
     }
     private function checkController($controller){
@@ -59,6 +60,20 @@ class Bootstrap extends Controller{
     private  function changeLocation($location){
         header("Location:".URL.$location);
         exit;
+    }
+    private function checkId($controller){
+        if((Session::get('status')!='not')&&(Session::get('status')!='regist')&&$this->checkController($controller)) {
+            if (Session::has('id')){
+                $userInfo = $this->model->getCurrentUserInfo(Session::get('id'));
+                if ($userInfo === null) {
+                    $this->back_signin();
+                }
+            }
+            else {
+                $this->back_signin();
+
+            }
+        }
     }
     private function checkRoute($controller,$action){
         if(Session::has('status')){

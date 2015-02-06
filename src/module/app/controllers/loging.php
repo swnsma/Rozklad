@@ -28,7 +28,7 @@ class Loging extends Controller {
     public function login(){
         if (isset($_GET['code'])) {
             $this->client->authenticate($_GET['code']);
-           Session::set('token',$this->client->getAccessToken());
+            Session::set('token',$this->client->getAccessToken());
         }
         if (Session::has('token')) {
             $this->client->setAccessToken(Session::get('token'));
@@ -42,12 +42,12 @@ class Loging extends Controller {
             Session::set('lastname',$user_g['family_name']);
             Session::set('firstname',$user_g['given_name']);
             Session::set('gm_ID',Session::get('user')['id']);
-                if(isset(Session::get('user')['email'])){
+            if(isset(Session::get('user')['email'])){
                 Session::set('email',Session::get('user')['email']);
-                }
-                else{
-                    Session::set('email',NULL);
-                }
+            }
+            else{
+                Session::set('email',NULL);
+            }
             Session::set('gm_token',$this->client->getAccessToken());
             Session::set('logout_link',"http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout");
             $this->checkUser();
@@ -60,6 +60,7 @@ class Loging extends Controller {
 
     public function checkUser(){
         $check= $this->model->checkUserGM(Session::get("gm_ID"));
+
         if($check){
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdGM(Session::get("gm_ID"));
@@ -71,12 +72,17 @@ class Loging extends Controller {
                 exit;
             }
             Session::set('status',"ok");
-            header("Location:".URL."app/calendar");
+            $link="app/calendar";
+            if(Session::has('unusedLink')){
+                $link = Session::get('unusedLink');
+            }
+            header("Location:".URL.$link);
             exit;
         }
         else {
             Session::set('status','regist');
             $this->model=$this->loadModel("check");
+
             if(Session::has('email')&&Session::get('email')!='') {
                 if ($this->model->checkEmail(Session::get('email'))) {
                     $this->model = $this->loadModel("regist");
@@ -85,11 +91,21 @@ class Loging extends Controller {
                     $id = $this->model->getIdGM(Session::get("gm_ID"));
                     Session::set('id', $id);
                     Session::set('status', "ok");
-                    header("Location:" . URL . "app/calendar");
+                    $link="app/calendar";
+                    if(Session::has('unusedLink')){
+                        $link = Session::get('unusedLink');
+                    }
+                    header("Location:" . URL . $link);
+                    exit;
+                }
+                else{
+                    header('Content-type: text/html; charset=utf-8');
+                    header("Location:".URL."app/regist");
                     exit;
                 }
             }
             else{
+
                 header('Content-type: text/html; charset=utf-8');
                 header("Location:".URL."app/regist");
                 exit;

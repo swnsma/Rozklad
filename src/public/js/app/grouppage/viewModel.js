@@ -72,19 +72,23 @@ function ViewModel() {
             that.errorTitle("1");
         }
     };
-
     that.deleteUser=function(userId){
         api.deleteUser(userId,that.id(),function(){
-           // that.students.remove(that.students(3))
+            //that.students.remove(that.students(3))
             location.reload();
         });
     };
-
     that.dismissStudent=function(userId){
         api.deleteUser(userId,that.id(),function(){
-            that.students.remove(function(item) { return item.id == userId});
+        for(var i=0;i<that.students().length;i++ ) {
+            if (that.students()[i].id == userId)
+                 {
+                    that.students()[i].notDeleted(false)
+                 }
+            }
         });
     };
+
     that.errorDescMessage = ko.computed(function(){
         switch(that.errorDesc()){
             case "1":
@@ -110,8 +114,17 @@ function ViewModel() {
     });
     that.changeCode= function(){
         api.changeCode(that.id(),function (response){
-            console.log(response);
             that.code(response.code);
+        })
+    };
+    that.restoreUser=function(userId){
+
+        api.restoreUser(userId,that.id(),function() {
+            for (var i = 0; i < that.students().length; i++) {
+                if (that.students()[i].id == userId) {
+                    that.students()[i].notDeleted(true)
+                }
+            }
         })
     };
     that.activate = function () {
@@ -129,8 +142,10 @@ function ViewModel() {
         api.getUsers(groupId, function (response) {
             for (var i = 0; i < response.length; i++) {
                 var student = new Student(response[i]);
-                that.students.push(student)
+                student.notDeleted=ko.observable(true);
+                that.students.push(student);
             }
+            that.students.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) })
             console.log(that.students());
         });
         api.loadCode(groupId, function (response){

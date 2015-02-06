@@ -88,14 +88,24 @@ var api= {
                 alert('Error! ' + xhr);
             }
         })
+    },
+    restoreUser:function(id,groupId,successFunction) {
+        $.ajax({
+            url: url + 'app/grouppage/restore/'+groupId+'/'+id ,
+            type: 'GET',
+            success: successFunction (),
+            error: function (xhr) {
+                alert('Error! ' + xhr);
+            }
+        })
     }
 };
 
 var Student=function(obj){
     this.name=obj.name;
-    this.deleted=null;
+
     if(obj.fb_id) {
-        this.fb_account = 'https://www.facebook.com/profile.php?id=' + obj.fb_id;
+        this.fb_account = 'https://www.facebook.com/' + obj.fb_id;
         this.fb_photo = 'http://graph.facebook.com/' + obj.fb_id + '/picture?type=large';
     }
     else{

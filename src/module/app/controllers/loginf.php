@@ -118,7 +118,11 @@ class Loginf extends Controller {
                 exit;
             }
             Session::set('status',"ok");
-            header("Location:".URL."app/calendar");
+            $link="app/calendar";
+            if(Session::has('unusedLink')){
+                $link=Session::get('unusedLink');
+            }
+            header("Location:".URL.$link);
             exit;
         }
         else {
@@ -132,13 +136,23 @@ class Loginf extends Controller {
                     $id = $this->model->getIdFB(Session::get("fb_ID"));
                     Session::set('id', $id);
                     Session::set('status', 'ok');
-                    header("Location:" . URL . "app/calendar");
+                    $link="app/calendar";
+                    if(Session::has('unusedLink')){
+                        $link=Session::get('unusedLink');
+                    }
+                    header("Location:" . URL .$link );
+                    exit;
+                }
+                else{
+                    header('Content-type: text/html; charset=utf-8');
+                    header("Location:".URL."app/regist");
                     exit;
                 }
             }
-            else{
-
-                $this->view->renderHtml("regist/index");
+            else {
+                header('Content-type: text/html; charset=utf-8');
+                header("Location:" . URL . "app/regist");
+                exit;
             }
         }
     }

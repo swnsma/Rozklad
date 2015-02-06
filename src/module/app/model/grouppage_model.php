@@ -10,7 +10,7 @@ class GroupPageModel extends Model {
    public function __construct() {
         parent::__construct();
     }
-    public function getGroupByCode($code){
+   public function getGroupByCode($code){
         $r=<<<REQUEST
         SELECT *
         FROM `groups`
@@ -21,7 +21,7 @@ REQUEST;
             return $var[0];
         else return null;
     }
-    public function getRole ($groupId, $userId){
+   public function getRole ($groupId, $userId){
         $r=<<<QUERY
             SELECT `role`.`title`
 FROM `role`, `user`, `groups`, `student_group`
@@ -78,9 +78,16 @@ HERE;
         }
     }
    public function delUser($id, $groupId){
-       if(isset($id));
-
+       $r=<<<CHECK
+        SELECT *
+        FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`=$groupId;
+CHECK;
        try{
+           $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+       if(isset($var[0]));
+
+
        $this->db->query("DELETE FROM student_group WHERE student_id='$id' AND group_id=$groupId");
        }
        catch(PDOException $e){
@@ -178,5 +185,23 @@ ADDUSER;
            return 2;
        }
 
+   }
+   public function addUser($id, $userId){
+       try{
+       $r=<<<CHECK
+        SELECT * FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`= $userId;
+CHECK;
+          $var= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+           if(!isset($var[0])){
+       $r=<<<ADD
+        INSERT INTO `student_group` (`student_id`, `group_id`) VALUES ($userId,$id);
+ADD;
+
+       $this->db->query($r);
+           }
+       } catch(PDOException $e){
+           echo $e->getMessage();
+       }
    }
 }
