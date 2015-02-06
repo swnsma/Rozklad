@@ -117,3 +117,8 @@ display: inline-block;
 {
     margin-left: 15px;
 }
+.deletedStudent
+{
+    height: 92px;
+    background-color: #F5F5F5;
+}

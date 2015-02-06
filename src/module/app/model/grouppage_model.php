@@ -10,7 +10,7 @@ class GroupPageModel extends Model {
    public function __construct() {
         parent::__construct();
     }
-    public function getGroupByCode($code){
+   public function getGroupByCode($code){
         $r=<<<REQUEST
         SELECT *
         FROM `groups`
@@ -21,7 +21,7 @@ REQUEST;
             return $var[0];
         else return null;
     }
-    public function getRole ($groupId, $userId){
+   public function getRole ($groupId, $userId){
         $r=<<<QUERY
             SELECT `role`.`title`
 FROM `role`, `user`, `groups`, `student_group`
@@ -178,5 +178,15 @@ ADDUSER;
            return 2;
        }
 
+   }
+   public function addUser($id, $userId){
+       $r=<<<ADD
+        INSERT INTO `student_group` (`student_id`, `group_id`) VALUES ($userId,$id);
+ADD;
+       try{
+       $this->db->query($r);
+       } catch(PDOException $e){
+           echo $e->getMessage();
+       }
    }
 }
