@@ -144,8 +144,9 @@ function ViewModel() {
             for (var i = 0; i < response.length; i++) {
                 var student = new Student(response[i]);
                 student.notDeleted=ko.observable(true);
-                that.students.push(student)
+                that.students.push(student);
             }
+            that.students.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) })
             console.log(that.students());
         });
         api.loadCode(groupId, function (response){
