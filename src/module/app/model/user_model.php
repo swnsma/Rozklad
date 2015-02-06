@@ -14,7 +14,7 @@ class UserModel extends Model {
     public function getCurrentUserInfo(){
         static $userInfo;
 
-        $id = $_SESSION['id'];
+        $id = Session::get('id');
 //        $id = '4';
         if (is_null($userInfo)){
             $userInfo = array();
