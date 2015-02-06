@@ -10,8 +10,8 @@
 <section class="container">
     <div class="col-lg-12 info-title">
         <?php if ($data['role'] == 'student'): ?>
-            <a href="#" class="btn btn-default edt dismissButton"
-               data-bind="click:function(){deleteUser(<?php echo $data['id'] ?>)}">Покинуть группу</a>
+            <button class="btn edt dismissButton"
+               data-bind="click:function(){deleteUser(<?php echo $data['id'] ?>)}">Покинуть группу</button>
         <?php endif; ?>
         <!--ko ifnot: editGroupName-->
         <div class="col-lg-12 info-title">
@@ -58,11 +58,11 @@
             </div>
     <div class="col-lg-12">
         <span>По следующей ссылке студенты могут добавляться в группу:</span>
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <input type="text" data-bind="value:getCode" class="form-control " id="inputName" disabled="disabled">
         </div>
-        <div class="col-lg-4">
-            <a href="#" data-bind="click: changeCode" class="btn btn-default dismissButton">Сгенерировать код</a>
+        <div class="col-lg-2">
+            <a href="#" data-bind="click: changeCode" class="btn code dismissButton">Сгенерировать код</a>
         </div>
         <?php endif; ?>
 
