@@ -164,7 +164,8 @@ TANIA;
 b.id,
 b.name,
 b.description,
-b.teacher_id
+b.teacher_id,
+b.color
 FROM groups AS b
 JOIN group_lesson AS ba ON b.id = ba.group_id
 JOIN lesson AS a ON a.id = ba.lesson_id
@@ -251,6 +252,9 @@ BORIA;
               (u.id = l.teacher) AND u.id='$id'
             WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+            for($i=0;$i<count($var);$i++){
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+            }
 
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
@@ -276,6 +280,9 @@ BORIA;
             WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
             $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
 
+            for($i=0;$i<count($var);$i++){
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+            }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
 //            print_r($result);

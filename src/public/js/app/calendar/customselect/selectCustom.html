@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="customselect.js"></script>
+    <script src="../../../vendor/jQuery/jquery-2.1.1.js"></script>
+    <link rel="stylesheet" href="customselect.css"/>
+
+    <style>
+    </style>
+</head>
+<body>
+<div id="animal-select" class="custom-select">
+    <span class="custom-select-title"></span>
+    <span id="value"></span>
+    <ul class="custom-select-options">
+        <li data-value="1">Вал1</li>
+        <li data-value="2">Вал2</li>
+        <li data-value="3">вал2</li>
+        <li data-value="4">Вал3</li>
+        <li data-value="5">Вал4</li>
+    </ul>
+
+
+    <script>
+        var animalSelect = new CustomSelect({
+            elem: $('#animal-select')
+        });
+
+//        $([animalSelect, foodSelect]).on('select', function (event) {
+//            $('#result').html(event.value)
+//        });
+
+    </script>
+</div>
+</body>
+</html>

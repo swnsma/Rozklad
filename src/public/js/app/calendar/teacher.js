@@ -91,6 +91,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(doc) {
+                debugger;
                 groups=doc;
             },
             error: function(){
@@ -183,7 +184,20 @@ function Calendar_teacher(){
                     for (var j = 0; j < groups.length; ++j) {
                         opt = document.createElement('option');
                         opt.value = groups[j].id;
+                        opt.color = groups[j].color;
+                        var $colorTeg  = $('<span>');
+                        debugger;
+
+
+
                         opt.innerHTML = groups[j].name;
+                        $colorTeg.appendTo($(opt));
+                        $colorTeg.css({
+                            'backgroundColor':groups[j].color,
+                            'width':'20px',
+                            'height':'10px',
+                            'display':'inline-block'
+                        });
                         objectSelect.append($(opt));
                         i++;
                     }
@@ -215,7 +229,6 @@ function Calendar_teacher(){
                         i++;
                     }
                 }
-
                 if(select_obj){
                     var opt = document.createElement('option');
                     opt.value = +select_obj.id;
@@ -231,6 +244,9 @@ function Calendar_teacher(){
 
 
             }
+
+
+
             if (addGrops.status == 0) {
                 var typeVal=0;
                 if(selectedOption){
@@ -548,11 +564,7 @@ function Calendar_teacher(){
                 myAddGroups.push(addGrops.groups[i].id);
             }
         }
-        //if(myAddGroups.length===0){
-        //    for(var i =0;i<groups.length;++i){
-        //        myAddGroups.push(groups[i].id);
-        //    }
-        //}
+        debugger;
         var myget='';
         for(var i=0;i<myAddGroups.length;++i){
             myget=myget+'/'+myAddGroups[i];
@@ -566,7 +578,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             success: function(response){
                 if(response.success=='success'){
-                    //alert('ASDASD');
+
                 }
             },
             error: function(er) {
@@ -628,7 +640,6 @@ function Calendar_teacher(){
         function focusDeleteTitle(item){
 
             item.on('focus',function(){
-                debugger;
                 if (this.value===titleEvent)
                 this.value='';
             });

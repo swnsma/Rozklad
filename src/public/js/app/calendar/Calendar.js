@@ -96,7 +96,6 @@ function Calendar(){
                 success: function(date){
                     for(var i=0;i<date.length;++i){
                         if((+date[i].status)===2&&date[i].teacher===currentUser.id){
-                            //debugger;
                             for(var j=0;j<self.masEvent.length;++j){
                                 if(date[i].id===self.masEvent[j].id){
                                     if(self.masEvent[j].deleted){
@@ -109,7 +108,6 @@ function Calendar(){
                             continue;
                         }
                         if((+date[i].status)===2) {
-                            //debugger;
                             self.jqueryObject.calendar.fullCalendar('removeEvents',+date[i].id);
 
                         }else{
@@ -223,6 +221,9 @@ function Calendar(){
         //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
+            //left: 'prev,next today',
+            //center: 'title',
+            //right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -240,7 +241,6 @@ function Calendar(){
         //handleWindowResize:true,
         //fixedWeekCount:false,
         eventMouseover:function(event, jsEvent, view){
-            //debugger;
             if(!event.group&&!event.deleted){
                 $.ajax({
                     url: url + 'app/calendar/getAllGroupsForThisLesson/' + event.id,
@@ -275,24 +275,28 @@ function Calendar(){
             }
 
         },
-        //eventRender:function(event, element) {
-        //    if(event.group){
-        //        for(var i=0;i<event.group.length;++i){
-        //            if(i===1){
-        //                debugger;
-        //            }
-        //            var $var = $('<span>');
-        //            $var.text();
-        //            $var.css({
-        //                'display':'inline-block',
-        //                'width':'10px',
-        //                'height':'10px',
-        //                'backgroundColor':'Yellow'
-        //            });
-        //            $(element).find('.fc-time').append($var);
-        //        }
-        //    }
-        //},
+        eventRender:function(event, element) {
+            if(event.group){
+                for(var i=0;i<event.group.length;++i){
+
+                    var $var = $('<span>');
+                    $var.text(event.group[i].name[0]);
+                    $var.css({
+                        'display': 'inline-block',
+                        'width': '8px',
+                        'height': '8px',
+                        'fontSize': '8px',
+                        'textAlign': 'center',
+                        'marginLeft': '2px',
+                        'verticalAlign': 'baseline',
+                        'backgroundColor': event.group[i].color,
+                        'fontWeight': 'normal'
+                    });
+                    $(element).find('.fc-time').append($var);
+
+                }
+            }
+        },
         eventSources: [
             {
                 events: function(start, end, timezone, callback) {
@@ -330,8 +334,6 @@ function Calendar(){
 
         var backColor = ( event.color || event.source.color );
         var hex = getRgbaRgbColor(backColor);
-
-        debugger;
         self.jqueryObject.tooltip.tooltip.css({
             'backgroundColor':hex
         });

@@ -71,7 +71,7 @@ HERE;
     public function getOurGroups(){
         try {
             $request = <<<TANIA
-            select id,name from groups
+            select id,name,color from groups
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
