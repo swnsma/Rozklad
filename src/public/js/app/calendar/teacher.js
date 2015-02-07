@@ -26,6 +26,7 @@ function Calendar_teacher(){
 
     Calendar.call(this);
 
+    var titleEvent = 'Новое событие                                                                     ';
     var self=this;
     self.jqueryObject.popup.selectTeacher=$('#selectTeacher');
     self.jqueryObject.popupEdit.selectTeacher=$('#selectTeacherEdit');
@@ -437,13 +438,11 @@ function Calendar_teacher(){
         self.jqueryObject.popup.day.month.val(toFormat(date._d.getMonth()+1));
         self.jqueryObject.popup.day.year.val(date._d.getFullYear());
         self.jqueryObject.popup.popup.show();
-        self.jqueryObject.popup.typePopup.val('Новое событие');
+        self.jqueryObject.popup.typePopup.val(titleEvent);
         self.jqueryObject.popup.start.hour.val('14');
         self.jqueryObject.popup.start.minutes.val('00');
         self.jqueryObject.popup.end.hour.val('16');
         self.jqueryObject.popup.end.minutes.val('00');
-
-
 
         var b = new CreateSelect( self.jqueryObject.popup.listGroups);
         //self.jqueryObject.popup.typeAction.text('Создать событие');
@@ -625,7 +624,21 @@ function Calendar_teacher(){
                 }
             })
         }
-        focusDelete(this.jqueryObject.popup.typePopup);
+
+        function focusDeleteTitle(item){
+
+            item.on('focus',function(){
+                debugger;
+                if (this.value===titleEvent)
+                this.value='';
+            });
+            item.on('focusout',function(){
+                if(this.value===''){
+                    this.value=titleEvent;
+                }
+            });
+        }
+        focusDeleteTitle(this.jqueryObject.popup.typePopup);
         focusDelete(this.jqueryObject.popup.day.day);
         focusDelete(this.jqueryObject.popup.day.month);
         focusDelete(this.jqueryObject.popup.day.year);
