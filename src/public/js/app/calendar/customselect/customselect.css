@@ -1,7 +1,7 @@
 .custom-select {
     width: 200px;
     font-size: 14px;
-    display: inline-block;
+    display: /*inline-*/block;
 }
 
 .custom-select-title {
@@ -43,7 +43,7 @@
     border-left: 1px solid #add8e6;
     border-right: 1px solid #add8e6;
     box-sizing: border-box;
-    position: relative;
+    position: absolute;
     /*top: -3px;*/
 }
 .custom-select-open .custom-select-options {

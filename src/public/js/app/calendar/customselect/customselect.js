@@ -6,6 +6,7 @@ function CustomSelect(options) {
 
     var elem = options.elem;
 
+    debugger;
     elem.on('click', '.custom-select-title', onTitleClick);
     elem.on('click', 'li', onOptionClick);
 
@@ -14,6 +15,7 @@ function CustomSelect(options) {
     // ------ обработчики ------
 
     function onTitleClick(event) {
+        debugger;
         toggle();
     }
 
@@ -25,18 +27,15 @@ function CustomSelect(options) {
 
     function onOptionClick(event) {
         close();
-
         var name = $(event.target).html();
         var value = $(event.target).data('value');
         //$('#value').text(value);
-        setValue(name, value);
+        self.setValue(name, value);
     }
-
     // ------------------------
 
-    function setValue(name, value) {
+    self.setValue =function(name, value) {
         elem.find('.custom-select-title').html(name);
-
         $(self).triggerHandler({
             type: 'select',
             name: name,
@@ -58,5 +57,4 @@ function CustomSelect(options) {
         $(document).off('click', onDocumentClick);
         isOpen = false;
     }
-
 }
