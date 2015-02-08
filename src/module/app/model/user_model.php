@@ -11,23 +11,23 @@ class UserModel extends Model {
     }
 
 
-    public function getCurrentUserInfo($id){
+    public function getCurrentUserInfo(){
+        $id = Session::get('id');
         $userInfo=Array();
-//        print $id;
-            $sql = <<<SQL
-                    select
-                        user.name,
-                        user.surname,
-                        user.email,
-                        user.phone,
-                        user.fb_id,
-                        user.gm_id,
-                        user.id,
-                        role.title
-                    from user
-                    inner join role
-                    on user.role_id = role.id
-                    where user.id='$id'
+        $sql = <<<SQL
+                select
+                    user.name,
+                    user.surname,
+                    user.email,
+                    user.phone,
+                    user.fb_id,
+                    user.gm_id,
+                    user.id,
+                    role.title
+                from user
+                inner join role
+                on user.role_id = role.id
+                where user.id='$id'
 SQL;
             $userInfo = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
