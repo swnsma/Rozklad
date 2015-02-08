@@ -61,13 +61,15 @@ HERE;
                 ':img' => $image,
                 ':color' => $color
             ));
-            if ($request && $request->rowCount() > 0) {
+            if ($result && $request->rowCount() > 0) {
                 return array(
                     'key' => $invite,
                     'id' => $this->db->lastInsertId()
                 );
             }
-        } catch(PDOException $e) {}
+        } catch(PDOException $e) {
+            print $e->getMessage();
+        }
         return null;
     }
     public function getOurGroups(){
@@ -79,7 +81,6 @@ TANIA;
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch(PDOException $e) {
-            echo $e->getMessage();
             return null;
         }
     }
@@ -92,7 +93,6 @@ TANIA;
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch(PDOException $e) {
-            echo $e->getMessage();
             return null;
         }
     }

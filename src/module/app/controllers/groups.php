@@ -7,16 +7,15 @@ class Groups extends Controller {
         parent::__construct();
         $this->model = $this->loadModel('groups');
         $this->user_model = $this->loadModel('user');
-        $this->user_info =$this->user_model->getInfo(Session::get('fb_ID'))[0];
+        $this->user_info = $this->user_model->getCurrentUserInfo(Session::get('id'));
     }
 
     public function index() {
-        $data['title'] = 'Групи';
-        $data['status'] = 1; //$this->user_info['role_id'];
+        $data['title'] = 'Группы';
         $data['groups'] = $this->model->getList();
         $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
         $data['status'] = $this->user_info['title'];
-        $data['status'] = 'teacher';
+        $data['status'] = $this->user_info['title'];
         $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
         /*$this->view->renderAllHTML('groups/index',
             $data,
@@ -29,12 +28,23 @@ class Groups extends Controller {
     }
 
     public function create() {
-        $data['title'] = 'Create Group';
-        if ($this->user_info['title'] == 'teacher') {
+        $data['title'] = 'Создать группу';
+        if ($this->user_info['title'] == 'teacher') { // ==
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
-            $this->view->renderAllHTML('groups/creategroup',
+            $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
+            $data['status'] = $this->user_info['title'];
+            $data['status'] = 'teacher';
+            $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
+            /*$this->view->renderAllHTML('groups/creategroup',
                 $data,
-                array('groups/create_group.css'));
+                array('groups/create_group.css'));*/
+
+            $this->view->renderHtml('common/head');
+            $this->view->renderHtml('common/header', $data);
+            $this->view->renderHtml('groups/creategroup', $data);
+            $this->view->renderHtml('common/footer');
+            $this->view->renderHtml('common/foot');
+
         } else {
             $this->view->renderHtml('error/access');
         }
@@ -44,13 +54,13 @@ class Groups extends Controller {
         if (isset($_POST['name']) && isset($_POST['descr'])) {
             $name = $_POST['name'];
             $descr = $_POST['descr'];
-            if (preg_match('/^[\d+\w+]{1,50}$/', $name)
-                && preg_match('/^[\(\)\!\?\:\;\.\, \d+\w+]{1,300}$/m', $descr)) {
+            if (preg_match('/^[\d\w\x{0430}-\x{044F}\x{0410}-\x{042F} ]{1,50}$/u', $name)
+                && preg_match('/^[\(\)\!\?\:\;\.\,\-\x{0430}-\x{044F}\x{0410}-\x{042F} \d\w]{1,300}$/mu', $descr)) {
                 $status = 1; //$this->user_info['role_id'];
                 if ($status == 1) {
                     $image = null;
 
-                    if (isset($_FILES['photo']['error']) && !is_array($_FILES['photo']['error'])) {
+                    if (isset($_FILES['photo']['error']) || !is_array($_FILES['photo']['error'])) {
                         $upload = new UploadImage($_FILES['photo']);
                         if ($upload->checkFileError() && $upload->upload()) {
                             $image = $upload->getUploadFileName();
@@ -61,8 +71,8 @@ class Groups extends Controller {
                             return;
                         }
                     }
-                    //$data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
-                    $data = $this->model->createGroup(1, $name, $descr, $image);
+                    $data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
+                    //$data = $this->model->createGroup(1, $name, $descr, $image);
                     if ($data == null) {
                         $this->view->renderJson(array(
                             'status' => 'create_error'
