@@ -95,7 +95,7 @@ function Calendar(){
                 dataType: 'json',
                 success: function(date){
                     for(var i=0;i<date.length;++i){
-                        if((+date[i].status)===2&&date[i].teacher===currentUser.id){
+                        if((+date[i].status)===2&&date[i].teacher===self.currentUser.id){
                             for(var j=0;j<self.masEvent.length;++j){
                                 if(date[i].id===self.masEvent[j].id){
                                     if(self.masEvent[j].deleted){
@@ -143,9 +143,10 @@ function Calendar(){
             return interval;
         }
     }
-    var currentUser;
-
     var self=this;
+    self.currentUser;
+
+
     this.masEvent=[];
     this.groups=[];
     this.jqueryObject={
@@ -396,7 +397,7 @@ function Calendar(){
         self.jqueryObject.tooltip.tooltip.show();
     }
 
-    (this.option.getCurrentUser=function(){
+    self.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
             url: urls,
@@ -404,7 +405,7 @@ function Calendar(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response;
+                self.currentUser=response;
                 return response;
             },
             error: function(er) {
@@ -413,7 +414,7 @@ function Calendar(){
             }
 
         });
-    })();
+    };
 
     this.realTimeUpdate=function(){
         var a =new RealTimeUpdate();

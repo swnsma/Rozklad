@@ -69,4 +69,7 @@ function CustomSelect(options) {
     this.getValue = function(){
         return valuesss;
     }
+    this.setValues = function(i){
+        valuesss=i;
+    }
 }

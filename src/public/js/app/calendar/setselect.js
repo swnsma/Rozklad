@@ -10,6 +10,8 @@ function SetSelect(option){
     //батьківський елемент всіх селектів
     var element = option.element;
 
+    var selectElement =option.selectElement;
+
     //номер наступного селекта
     var numberSelect=0;
 
@@ -73,9 +75,25 @@ function SetSelect(option){
                 name: name
             });
         }
-        if(lenthSelect!==groups.length&&!bool) {
+        if(lenthSelect!==groups.length&&!bool &&noSelect!=1) {
             createSelect();
         }
+    }
+
+    var createSpanColorAndText = function(parent,group){
+        var $spanColor = $('<span class="color">');
+        $spanColor.appendTo(parent);
+        $spanColor.css({
+            'backgroundColor':group.color,
+            'width':'10px',
+            'height':'10px',
+            'display':'inline-block',
+            'marginRight':'3px',
+            'borderRadius':'2px'
+        });
+        var $spanText = $('<span class="text">');
+        $spanText.appendTo(parent);
+        $spanText.text(group.name);
     }
     function createOption(group,parent){
         $(parent).empty();
@@ -83,25 +101,14 @@ function SetSelect(option){
             var $li = $('<li>');
             $li.appendTo(parent);
             $li.attr({'data-value':group[i].id});
-            var $spanColor = $('<span class="color">');
-            $spanColor.appendTo($li);
-            $spanColor.css({
-                'backgroundColor':group[i].color,
-                'width':'10px',
-                'height':'10px',
-                'display':'inline-block',
-                'marginRight':'3px',
-                'borderRadius':'2px'
-            });
-            var $spanText = $('<span class="text">');
-            $spanText.appendTo($li);
-            $spanText.text(group[i].name);
 
+            createSpanColorAndText($li,group[i]);
             $li.on('click',function(){
                 clickLi($(this).find('.color').css('backgroundColor'),$(this).attr('data-value'),parent.parent().attr('id'),$(this).find('.text').text());
             });
         }
     }
+
     function createSelect(){
         lenthSelect++;
         noSelect++;
@@ -123,7 +130,6 @@ function SetSelect(option){
         var $delete = $('<span>');
         $delete.text('Вилучити');
         $delete.on('click',function(){
-
             var bool=false;
             var value = animalSelect.getValue();
             if(value!==0){
@@ -185,9 +191,33 @@ function SetSelect(option){
             createOption(newMas,$ul);
         });
 
-        //createOption(masCreateSelect,$ul);
+        if(selectElement){
+            for(var i=0;i<selectElement.length;++i){
+                selectOption.push({
+                    color:selectElement[i].color,
+                    idValue:''+selectElement[i].id,
+                    idSelect:name,
+                    name:selectElement[i].name
+                });
+                for(var j=0;j<masCreateSelect.length;++j){
+                    if(masCreateSelect[j].id===selectElement[i].id){
+                        masCreateSelect.splice(j,1);
+                        break;
+                    }
+                }
+                $title.empty();
+                noSelect--;
+                createSpanColorAndText($title,selectElement[i]);
+
+                animalSelect.setValues(selectElement[i].id);
+                selectElement.splice(i,1);
+                i--;
+                createSelect();
+            }
+        }
 
     }
+
     createSelect();
 
 
