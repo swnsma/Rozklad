@@ -8,8 +8,8 @@ h3
     margin-left: 1px;
 }
 .info-title{
-    min-height: 85px;
-   padding-left: 8px;
+    min-height: 40px;
+    padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{
     display: block;
@@ -17,32 +17,48 @@ h3
     color: red;
 }
 .info-desc{
-    min-height:  95px;
     padding-left: 0 ;
+    margin-bottom: 10px;
 }
- textarea{
+h1, h4{
+    float: left;
+}
+textarea{
     resize: none;
 }
 .info-title input{
     margin-top: 20px;
 }
-.info-title a{
-    width: 160px;
-    margin-left: 210px;
+.code{
+    margin-top: 5px;
+    margin-left: -21px;
+    background-color: #F5F5F5;
+    color: #000000;
+    border: 1px solid #000000;
+    height: 34px;
 }
-.info-desc a{
-    width: 160px;
-    margin-left: 216px;
+.code:hover, .edt:hover{
+    color: #000000;
+    background-color: #dddddd;
 }
 .edt{
-    margin-top: 20px;
+    position: absolute;
+    z-index: 1;
+    left:807px;
+    top: 20px;
+    background-color: #F5F5F5;
+    color: #000000;
+    border: 1px solid #000000;
 }
-.dismissButton
-{
+#inputName:hover{
+    background-color: #dddddd;
 }
 #inputName{
+    height: 34px;
     cursor: default;
     margin: 5px 0 20px -15px;
+    background-color: #F5F5F5;
+    border: 1px solid #000000;
 }
 .col-lg-4 a{
     width: 160px;
@@ -89,7 +105,7 @@ h3
 }
 .groupList h3
 {
-display: inline-block;
+    display: inline-block;
 }
 .clickable{
     cursor: pointer;
@@ -108,6 +124,11 @@ display: inline-block;
     position: absolute;
     margin-left: 91%;
     margin-top: -5px;
+    opacity: 0.5;
+}
+.removeStudent:hover
+{
+    opacity:1;
 }
 .list-group-item:hover
 {
@@ -119,6 +140,6 @@ display: inline-block;
 }
 .deletedStudent
 {
-    height: 92px;
-    background-color: #F5F5F5;
+    background-color: #F5F5f5;
+    height: 91px;
 }

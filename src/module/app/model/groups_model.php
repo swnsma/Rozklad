@@ -11,7 +11,9 @@ class GroupsModel extends Model {
         SELECT
             `groups`.`id` as group_id,
             `groups`.`name` as name,
-            `user`.`name` as teacher_name,
+            `groups`.`description` as descr,
+            `user`.`name` as teacher_fn,
+            `user`.`surname` as teacher_ln,
             `groups`.`img_src` as photo
         FROM `groups`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
@@ -59,13 +61,15 @@ HERE;
                 ':img' => $image,
                 ':color' => $color
             ));
-            if ($request && $request->rowCount() > 0) {
+            if ($result && $request->rowCount() > 0) {
                 return array(
                     'key' => $invite,
                     'id' => $this->db->lastInsertId()
                 );
             }
-        } catch(PDOException $e) {}
+        } catch(PDOException $e) {
+            print $e->getMessage();
+        }
         return null;
     }
     public function getOurGroups(){
@@ -77,7 +81,6 @@ TANIA;
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch(PDOException $e) {
-            echo $e->getMessage();
             return null;
         }
     }
@@ -90,7 +93,6 @@ TANIA;
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch(PDOException $e) {
-            echo $e->getMessage();
             return null;
         }
     }

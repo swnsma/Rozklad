@@ -9,69 +9,30 @@ echo '</style>';
 ?>
 
     <section class="container">
-        <?php if ($data['status'] == 1): ?>
-            <a href="<?php echo URL; ?>app/groups/create">створити групу</a>
+        <?php if ($data['status'] == 'teacher'): ?>
+            <a class="btn btn-default" style="margin: 10px; padding: 3px" href="<?php echo URL; ?>app/groups/create">создать группу</a>
         <?php endif; ?>
         <div class="group-list">
             <?php foreach ($data['groups'] as $group) : ?>
             <div class="group">
-                <?php if ($group['photo'] != null): ?>
-                    <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/default/default_group_photo.jpg' ?>)"></div>
+                <?php if ($group['photo'] == null): ?>
+                    <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/default/default_group_photo.jpg'; ?>)"></div>
                 <?php else: ?>
                     <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/groups_photo/' . $group['photo']; ?>)"></div>
                 <?php endif; ?>
                     <div class="padding-10px">
-                    <h3 class="group-name"><?php echo $group['name']; ?></h3>
-                    <p class="group-description">descr</p>
+                    <h3 class="group-name"><a href="<?php echo URL . 'app/grouppage/id' . $group['group_id']; ?>"><?php echo $group['name']; ?></a></h3>
+                    <p class="group-description"><?php echo $group['descr']; ?></p>
                     <div class="next-lesson">
                         <div>
-                            Наступне заняття:
+                            Преподаватель:
                         </div>
-                        <div class="time">time</div>
-                        <div class="title">title</div>
+                        <div class="time"><?php echo $group['teacher_fn'] . ' ' . $group['teacher_ln']; ?></div>
                     </div>
                 </div>
             </div>
             <?php endforeach; ?>
         </div>
     </section>
-<!--    <div class="row">
-        <div class="col-md-6 width-list">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Групи</h3>
-                    <div class="pull-right">
-							<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter" data-container="body">
-								<i class="glyphicon glyphicon-filter"></i>
-							</span>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <input type="text" class="form-control" id="task-table-filter" data-action="filter" data-filters="#task-table" placeholder="Пошук по групам" />
-                </div>
-                <table class="table table-hover" id="task-table">
-                    <thead>
-                    <tr>
-                        <th class="number">#</th>
-                        <th class="name">Група</th>
-                        <th class="teacher">Вчитель</th>
-                        <th class="next-lesson">Наступне заняття</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $i = 1; foreach ($data['groups'] as $group) : ?>
-                    <tr>
-                        <td><?php echo $i; ?></td>
-                        <td><a href="#/<?php echo $group['group_id']; ?>"><?php echo $group['name']; ?></a></td>
-                        <td><?php echo $group['teacher_name']; ?></td>
-                        <td><!-- //echo $group['next_lesson']; </td>
-                    </tr>
-                    <?php $i++; endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>-->
 <script src="<?php echo URL; ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/app/groups/groups.js"></script>

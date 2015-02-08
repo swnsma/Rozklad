@@ -10,16 +10,42 @@ class GroupPageModel extends Model {
    public function __construct() {
         parent::__construct();
     }
+   public function existGroup($id){
+       $r= <<<CHECKING
+        SELECT *
+        FROM `groups`
+        WHERE `groups`.`id`='$id';
+CHECKING;
+       try{
+       $var= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+           if(isset($var[0])){
+               return true;
+           }
+           else {
+               return false;
+           }
+       }
+       catch(PDOException $e){
+           echo $e->getMessage();
+           return null;
+       }
+
+   }
    public function getGroupByCode($code){
         $r=<<<REQUEST
         SELECT *
         FROM `groups`
         WHERE `groups`.`invite_code`='$code';
 REQUEST;
+       try{
         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
         if(isset($var[0]))
             return $var[0];
-        else return null;
+        else return null;}
+       catch(PDOException $e){
+           echo $e->getMessage();
+           return null;
+       }
     }
    public function getRole ($groupId, $userId){
         $r=<<<QUERY
@@ -28,10 +54,15 @@ FROM `role`, `user`, `groups`, `student_group`
 WHERE `user`.`role_id` = `role`.`id` AND `user`.`id`=$userId AND (( `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId)
 OR(`user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$groupId));
 QUERY;
+       try{
         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
         if(isset($var[0]))
         return $var[0]['title'];
-        else return null;
+        else return null;}
+       catch(PDOException $e){
+           echo $e->getMessage();
+           return null;
+       }
 
     }
    public function loadData($groupId){
@@ -78,9 +109,16 @@ HERE;
         }
     }
    public function delUser($id, $groupId){
-       if(isset($id));
-
+       $r=<<<CHECK
+        SELECT *
+        FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`=$groupId;
+CHECK;
        try{
+           $var=$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+       if(isset($var[0]));
+
+
        $this->db->query("DELETE FROM student_group WHERE student_id='$id' AND group_id=$groupId");
        }
        catch(PDOException $e){
@@ -145,6 +183,7 @@ HERE;
        FROM `groups`
        WHERE `invite_code`='$code';
 CHECKCODE;
+       try{
        $groupId= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
        if(isset($groupId[0]['id'])){
            $groupId=$groupId[0]['id'];
@@ -177,14 +216,26 @@ ADDUSER;
        }else{
            return 2;
        }
-
+}
+       catch(PDOException $e){
+           echo $e->getMessage();
+           return null;
+       }
    }
    public function addUser($id, $userId){
+       try{
+       $r=<<<CHECK
+        SELECT * FROM `student_group`
+        WHERE `student_id`=$id AND `group_id`= $userId;
+CHECK;
+          $var= $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+           if(!isset($var[0])){
        $r=<<<ADD
         INSERT INTO `student_group` (`student_id`, `group_id`) VALUES ($userId,$id);
 ADD;
-       try{
+
        $this->db->query($r);
+           }
        } catch(PDOException $e){
            echo $e->getMessage();
        }
