@@ -14,6 +14,10 @@ class Groups extends Controller {
         $data['title'] = 'Групи';
         $data['status'] = 1; //$this->user_info['role_id'];
         $data['groups'] = $this->model->getList();
+        $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
+        $data['status'] = $this->user_info['title'];
+        $data['status'] = 'teacher';
+        $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
         /*$this->view->renderAllHTML('groups/index',
             $data,
             array('groups/groups.css'));*/
@@ -26,8 +30,7 @@ class Groups extends Controller {
 
     public function create() {
         $data['title'] = 'Create Group';
-        $status = 1; //$$this->user_info['role_id'];
-        if ($status == 1) {
+        if ($this->user_info['title'] == 'teacher') {
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
             $this->view->renderAllHTML('groups/creategroup',
                 $data,
