@@ -10,13 +10,13 @@ echo '</style>';
 
     <section class="container">
         <?php if ($data['status'] == 'teacher'): ?>
-            <a href="<?php echo URL; ?>app/groups/create">створити групу</a>
+            <a class="btn btn-default" style="margin: 10px; padding: 3px" href="<?php echo URL; ?>app/groups/create">создать группу</a>
         <?php endif; ?>
         <div class="group-list">
             <?php foreach ($data['groups'] as $group) : ?>
             <div class="group">
-                <?php if ($group['photo'] != null): ?>
-                    <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/default/default_group_photo.jpg' ?>)"></div>
+                <?php if ($group['photo'] == null): ?>
+                    <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/default/default_group_photo.jpg'; ?>)"></div>
                 <?php else: ?>
                     <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/groups_photo/' . $group['photo']; ?>)"></div>
                 <?php endif; ?>
@@ -25,7 +25,7 @@ echo '</style>';
                     <p class="group-description"><?php echo $group['descr']; ?></p>
                     <div class="next-lesson">
                         <div>
-                            Вчитель:
+                            Преподаватель:
                         </div>
                         <div class="time"><?php echo $group['teacher_fn'] . ' ' . $group['teacher_ln']; ?></div>
                     </div>

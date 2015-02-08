@@ -1,27 +1,42 @@
-<div class="container">
+<?php
+echo '<style>';
+require_once (DOC_ROOT."public/css/common/bootstrap.css");
+require_once (DOC_ROOT."public/css/common/common.css");
+require_once (DOC_ROOT."public/css/user.css");
+require_once (DOC_ROOT."public/css/admin/admin.css");
+require_once (DOC_ROOT."public/css/groups/groups.css");
+require_once (DOC_ROOT."public/css/groups/create_group.css");
+echo '</style>';
+?>
+
+<section class="container">
     <div id="formCreate">
         <form id="create1" class="bs-docs-example form-horizontal">
             <div class="form-group">
                 <label for="inputName" class="bold">Ім'я групи</label>
                 <input name="name" type="text" class="form-control" id="inputName" placeholder="Введіть ім'я групи">
+                <div id="error1" class="info-error">Имя должно содержать только буквы и цифры и иметь длину не более 50 символов</div>
             </div>
             <div class="form-group">
                 <label for="inputDesc" class="bold">Опис</label>
                 <textarea name="descr" id="inputDesc" class="form-control" placeholder="Введіть опис групи"></textarea>
+                <div id="error2" class="info-error">Описание должно содержать только буквы, цифры и знаки пунктуации и иметь длину не более 300 символов</div>
             </div>
-            <input name="photo" type="file" />
-            <button id="createButton" type="button" class="btn btn-default">Создать групу</button>
+            <div class="form-group">
+                <input name="photo" type="file" />
+            </div>
+            <button id="createButton" type="button" class="btn btn-default">Создать группу</button>
         </form>
     </div>
     <div id="afterCreate">
         <div class="table">
             <div class="tr">
                 <div class="td h200">
-                    Посилання на групу <a href="#" id="linkNewOnGroup"></a><br />
-                    Інвайт: <span id="groupInvite"></span>
+                    Cсылка на группу <b><a href="#" id="linkNewOnGroup"></a></b><br />
+                    Инвайт: <b><span id="groupInvite"></span></b>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 <script src="<?php echo URL; ?>public/js/app/groups/create.js"></script>
