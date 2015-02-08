@@ -72,7 +72,8 @@ class Regist extends Controller
     }
     public function back_signin(){
         Session::set('status','not');
-        header("Location:".Session::get('logout_link'));
+        header("Location:".URL."app/signin");
+//        header("Location:".Session::get('logout_link'));
         exit;
     }
     public function getName(){
@@ -84,4 +85,3 @@ class Regist extends Controller
     }
 
 }
-?>

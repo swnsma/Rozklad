@@ -96,7 +96,7 @@ class Bootstrap extends Controller{
                     }
                     break;
                 case 'ok':
-                    if($controller=='signin'){
+                    if($controller=='signin'||$controller=='regist'){
                         $this->changeLocation("app/calendar");
                     }
                     break;
