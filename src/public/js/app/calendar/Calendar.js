@@ -288,6 +288,7 @@ function Calendar(){
                         'fontSize': '8px',
                         'textAlign': 'center',
                         'marginLeft': '2px',
+                        'borderRadius':'2px',
                         'verticalAlign': 'baseline',
                         'backgroundColor': event.group[i].color,
                         'fontWeight': 'normal'

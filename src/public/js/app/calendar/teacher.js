@@ -26,7 +26,7 @@ function Calendar_teacher(){
 
     Calendar.call(this);
 
-    var titleEvent = 'Новое событие                                                                     ';
+    var titleEvent = 'Новое событие ';
     var self=this;
     self.jqueryObject.popup.selectTeacher=$('#selectTeacher');
     self.jqueryObject.popupEdit.selectTeacher=$('#selectTeacherEdit');
@@ -53,7 +53,7 @@ function Calendar_teacher(){
         valueOption:[],
         groups:[]
     };
-
+    var selectGroups;
     var ourteacher=[];
 
     function AddTeacherToList(jquery_element,selected_obj,event){
@@ -91,7 +91,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(doc) {
-                debugger;
+
                 groups=doc;
             },
             error: function(){
@@ -167,227 +167,6 @@ function Calendar_teacher(){
         })
     }
 
-    function CreateSelect(parent){
-        var k=0;
-        var nNonSelect=1;
-        var lenthGroop=0;
-        function privateCreate(selectedOption) {
-            function addOption(objectSelect,del,select_obj){
-                console.log(select_obj);
-                objectSelect.empty();
-                var i = 1;
-                if (addGrops.groups.length === 0 ) {
-                    var opt = document.createElement('option');
-                    opt.value = 0;
-                    opt.innerHTML = "Пригласить групу";
-                    objectSelect.append($(opt));
-                    for (var j = 0; j < groups.length; ++j) {
-                        opt = document.createElement('option');
-                        opt.value = groups[j].id;
-                        opt.color = groups[j].color;
-                        var $colorTeg  = $('<span>');
-                        debugger;
-
-
-
-                        opt.innerHTML = groups[j].name;
-                        $colorTeg.appendTo($(opt));
-                        $colorTeg.css({
-                            'backgroundColor':groups[j].color,
-                            'width':'20px',
-                            'height':'10px',
-                            'display':'inline-block'
-                        });
-                        objectSelect.append($(opt));
-                        i++;
-                    }
-                }
-                else{
-                    if(!select_obj) {
-                        var opt = document.createElement('option');
-                        opt.innerHTML = "Пригласить групу";
-
-                        if (+$select.val() === 0 && lenthGroop == 1) {
-                            opt.innerHTML = "Пригласить групу";
-                        }
-
-                        opt.value = 0;
-                        objectSelect.append($(opt));
-                    }
-                    for (var j = 0; j < groups.length; ++j) {
-                        for(var m=0;m<addGrops.groups.length;++m){
-                            if(+addGrops.groups[m].id===+groups[j].id){
-                                break;
-                            }
-                            if(m===addGrops.groups.length-1){
-                                opt = document.createElement('option');
-                                opt.value = groups[j].id;
-                                opt.innerHTML = groups[j].name;
-                                objectSelect.append($(opt));
-                            }
-                        }
-                        i++;
-                    }
-                }
-                if(select_obj){
-                    var opt = document.createElement('option');
-                    opt.value = +select_obj.id;
-                    opt.innerHTML = select_obj.name;
-
-                    objectSelect.append($(opt));
-                    opt.selected=true;
-                    del.show();
-                }else{
-                    del.hide()
-                }
-
-
-
-            }
-
-
-
-            if (addGrops.status == 0) {
-                var typeVal=0;
-                if(selectedOption){
-                    typeVal=+selectedOption.id;
-                }
-                lenthGroop++;
-                var $div = $('<div class="group-add">');
-                $div.appendTo($(parent));
-
-                var $select = document.createElement('select');
-                $select.id = 'selectGroups' + k;
-                k++;
-                $select = $($select);
-                $select.appendTo($div);
-                var $del=$('<span class="del-groups-event"> X </span>');
-                addOption($select,$del);
-
-
-                $del.appendTo($div);
-                $del.on('click',function(){
-                    if($select.val()!='0') {
-                        lenthGroop--;
-                        var id = $select.attr('id');
-                        var valOption = addGrops.valueOption;
-                        var group = addGrops.groups;
-                        for (var i = 0; i < valOption.length; ++i) {
-                            if (valOption[i] === id) {
-                                addGrops.valueOption.splice(i, 1);
-                            }
-                        }
-                        for (var i = 0; i < group.length; ++i) {
-                            if (group[i].valueSelect === id) {
-                                addGrops.groups.splice(i, 1);
-                            }
-                        }
-                        if(lenthGroop===0||nNonSelect===0){
-                            privateCreate();
-                            nNonSelect++;
-                        }
-                        $select.remove();
-                        $(this).remove();
-
-                    }
-                });
-
-                $select.on('change', function () {
-                    if($select.val()===0){
-                        $del.hide();
-                    }else{
-                        $del.show();
-                    }
-                    var text =$select.attr('id');
-                    text='#'+text+' option:selected';
-                    var bool=false;
-                    for(var i =0;i<addGrops.valueOption.length;++i){
-                        if(addGrops.valueOption[i]===$select.attr('id')){
-                            bool=true;
-                            break;
-                        }
-                    }
-                    if(bool){
-                        for(var i =0;i<addGrops.groups.length;++i){
-                            if(addGrops.groups[i].valueSelect===$select.attr('id')){
-                                addGrops.groups[i]={
-                                    valueSelect: $select.attr('id'),
-                                    id: $select.val(),
-                                    name: $(text).text()
-                                };
-                                break;
-                            }
-                        }
-                    }
-                    if(!bool) {
-                        addGrops.valueOption.push($select.attr('id'));
-                        addGrops.groups.push({
-                            valueSelect: $select.attr('id'),
-                            id: $select.val(),
-                            name: $(text).text()
-                        });
-                    }
-                    if(+$select.val()!=0&&typeVal===0){
-                        nNonSelect--;
-                    }else
-                        if(+$select.val()===0)
-                        {
-                            lenthGroop--;
-                            $select.remove();
-
-                        if(nNonSelect<=0){
-                            nNonSelect++;
-                            privateCreate();
-                        }
-                    }
-                    if (lenthGroop < groups.length&&+$select.val()!=0&&typeVal===0) {
-                        if(+$select.val()!==0) {
-                            nNonSelect++;
-                            privateCreate();
-                        }
-
-
-                    }
-                    typeVal=$select.val();
-
-                });
-                $select.on('mouseover',function(){
-                    var text =$select.attr('id');
-                    text='#'+text+' option:selected';
-                    console.log($select.val());
-                    if(+$select.val()!==0) {
-
-                        addOption($select, $del,{
-                            id: $select.val(),
-                            name: $(text).text()
-                        });
-                    }else{
-                        addOption($select,$del);
-                    }
-                });
-            }
-
-
-            if(selectedOption){
-                addGrops.groups.push({
-                    valueSelect: 'selectGroups'+(k-1),
-                    id: selectedOption.id,
-                    name: selectedOption.name
-                });
-                addGrops.valueOption.push('selectGroups'+(k-1));
-                addOption($select,$del,selectedOption);
-
-            }
-        }
-
-        this.addSelected=function(idGroup){
-            privateCreate(idGroup);
-            var select  = $('#selectGroups0');
-        };
-
-        privateCreate();
-    }
-
     this.option.eventSources=[
         {
             events: function(start, end, timezone, callback) {
@@ -460,7 +239,11 @@ function Calendar_teacher(){
         self.jqueryObject.popup.end.hour.val('16');
         self.jqueryObject.popup.end.minutes.val('00');
 
-        var b = new CreateSelect( self.jqueryObject.popup.listGroups);
+        //var b = new CreateSelect( self.jqueryObject.popup.listGroups);
+        selectGroups = new SetSelect({
+            element:self.jqueryObject.popup.listGroups,
+            masGroups:groups
+        });
         //self.jqueryObject.popup.typeAction.text('Создать событие');
         self.jqueryObject.popup.button.submit.text('Создать');
         action = masAction[0];
@@ -542,7 +325,7 @@ function Calendar_teacher(){
         orig2=calEvent;
         action = masAction[1];
         posPopup(jsEvent);
-        var create =new CreateSelect( self.jqueryObject.popupEdit.listGroup);
+        //var create =new CreateSelect( self.jqueryObject.popupEdit.listGroup);
         if(calEvent.group) {
             for (var i = 0; i < calEvent.group.length; ++i) {
                 create.addSelected({
@@ -557,17 +340,13 @@ function Calendar_teacher(){
 
 
     //моя функція
-    function addGroups(lesson_id){
-        var myAddGroups=[];
-        for(var i =0;i<addGrops.groups.length;++i){
-            if(+addGrops.groups.id!==0){
-                myAddGroups.push(addGrops.groups[i].id);
-            }
-        }
+    function addGroups(lesson_id,masGroups){
+
+        var myAddGroups=masGroups;
         debugger;
         var myget='';
         for(var i=0;i<myAddGroups.length;++i){
-            myget=myget+'/'+myAddGroups[i];
+            myget=myget+'/'+myAddGroups[i].idValue;
         }
         var urls = url + 'app/calendar/addGroupsToLesson/'+lesson_id+myget;
 
@@ -1128,6 +907,7 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
+
                         self.masEvent.push({id: id.id,
                             title: title,
                             start: startFun(),
@@ -1143,9 +923,10 @@ function Calendar_teacher(){
                             teacher: teacher,
                             name: name,
                             surname: surname,
-                            color:color
+                            color:color,
+                            group:selectGroups.getMasGroups()
                         });
-                        addGroups(id.id);
+                        addGroups(id.id,selectGroups.getMasGroups());
 
 
                 },

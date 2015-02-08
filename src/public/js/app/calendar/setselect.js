@@ -2,30 +2,8 @@
  * Created by Таня on 08.02.2015.
  */
 
-var masSelect=[
-    {
-        id:'1',
-        name:'Name1',
-        color:'#111'
-    },
-    {
-        id: '2',
-        name: 'Name2',
-        color: '#222'
-    },
-    {
-        id:'3',
-        name:'Name3',
-        color:'#333'
-    },
-    {
-        id:'4',
-        name:'Name4',
-        color:'#444'
-    }
-];
-
 function SetSelect(option){
+    var self = this;
     //масив всіх елементів, з яких буде будуватися група селектів
     var groups = option.masGroups;
 
@@ -40,20 +18,72 @@ function SetSelect(option){
 
     var nameSelect='GroupSelect';
 
-    var selectOption = []
+    var selectOption = [];
 
-    var clickLi = function (){
-        if(lenthSelect!==groups.length) {
-            CreateSelect();
+    var masCreateSelect=[];
+
+    var noSelect =0;
+
+
+    //копіювання елементів з groups
+    (function(){
+        for(var i =0;i<groups.length;++i){
+            masCreateSelect.push(groups[i]);
+        }
+    })()
+
+    var clickLi = function (color,idValue,idSelect,name){
+        var bool=false;
+        for(var i=0;i<selectOption.length;++i){
+            if(selectOption[i].idSelect===idSelect){
+                bool=true;
+                for(var j=0;j<masCreateSelect.length;++j){
+                    if(masCreateSelect[j].id===idValue){
+                        masCreateSelect.splice(j,1);
+                    }
+                };
+                if(idValue!==selectOption[i].idValue) {
+                    masCreateSelect.push({
+                        id: selectOption[i].idValue,
+                        color: selectOption[i].color,
+                        name: selectOption[i].name
+                    });
+                }
+                selectOption[i]={
+                    color:color,
+                    idValue:idValue,
+                    idSelect:idSelect,
+                    name:name
+                }
+                break;
+            }
+        }
+        if(!bool) {
+            noSelect--;
+            for(var j=0;j<masCreateSelect.length;++j){
+                if(masCreateSelect[j].id===idValue){
+                    masCreateSelect.splice(j,1);
+                    break;
+                }
+            }
+            selectOption.push({
+                color: color,
+                idValue: idValue,
+                idSelect: idSelect,
+                name: name
+            });
+        }
+        if(lenthSelect!==groups.length&&!bool) {
+            createSelect();
         }
     }
     function createOption(group,parent){
+        $(parent).empty();
         for(var i = 0;i<group.length;++i){
             var $li = $('<li>');
             $li.appendTo(parent);
             $li.attr({'data-value':group[i].id});
-
-            var $spanColor = $('<span>');
+            var $spanColor = $('<span class="color">');
             $spanColor.appendTo($li);
             $spanColor.css({
                 'backgroundColor':group[i].color,
@@ -63,46 +93,107 @@ function SetSelect(option){
                 'marginRight':'3px',
                 'borderRadius':'2px'
             });
-            var $spanText = $('<span>');
+            var $spanText = $('<span class="text">');
             $spanText.appendTo($li);
             $spanText.text(group[i].name);
 
-            $li.on('click',clickLi);
+            $li.on('click',function(){
+                clickLi($(this).find('.color').css('backgroundColor'),$(this).attr('data-value'),parent.parent().attr('id'),$(this).find('.text').text());
+            });
         }
     }
-    function CreateSelect(){
+    function createSelect(){
         lenthSelect++;
+        noSelect++;
+       //створення контейнера для селекта
+        var $div = $('<div>');
+        $div.appendTo($(element));
 
         //ствоерння селекта
         var $select = $('<div>');
-        debugger;
         var name = nameSelect+''+numberSelect;
         $select.attr({
             'id':name
         });
-        $select.appendTo($(element));
+        $select.appendTo($div);
         $select.addClass('custom-select');
         numberSelect++;
+
+        //створення видалення селекта
+        var $delete = $('<span>');
+        $delete.text('Вилучити');
+        $delete.on('click',function(){
+
+            var bool=false;
+            var value = animalSelect.getValue();
+            if(value!==0){
+                for(var i =0;i<groups.length;++i){
+                    if(+groups[i].id===+value){
+                        bool=true;
+                        masCreateSelect.push(groups[i]);
+                        for(var j=0;j<selectOption.length;++j){
+                            if(+value===+selectOption[j].idValue){
+                                selectOption.splice(j,1);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(!bool){
+                }
+                $div.remove();
+                lenthSelect--;
+                if(noSelect===0){
+                    createSelect();
+                }
+            }
+
+
+        });
+        $delete.appendTo($div);
 
         //створення заголовку селекта
         var $title =$('<span>');
         $title.addClass('custom-select-title');
         $title.appendTo($select);
 
+
+
         //створення контейнера для опцій
         var $ul = $('<ul>');
         $ul.appendTo($select);
         $ul.addClass('custom-select-options');
-
-        createOption(groups,$ul);
         var animalSelect = new CustomSelect({
             elem: $('#'+name)
         });
+
+
+
         animalSelect.setValue('Добавить групу','-1');
 
+        $title.on('click',function(){
+            var newMas=[];
+            for (var i = 0; i < masCreateSelect.length; ++i) {
+                newMas.push(masCreateSelect[i]);
+            }
+            for (var i = 0; i < groups.length; ++i) {
+                if (+groups[i].id === +animalSelect.getValue()) {
+                    newMas.push(groups[i]);
+                    break;
+                }
+            }
+            createOption(newMas,$ul);
+        });
+
+        //createOption(masCreateSelect,$ul);
 
     }
-    CreateSelect();
+    createSelect();
+
+
+    self.getMasGroups = function(){
+        return selectOption;
+    }
 
 
 }
