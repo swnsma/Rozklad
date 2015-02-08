@@ -241,8 +241,11 @@ function Calendar(){
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
         //handleWindowResize:true,
         //fixedWeekCount:false,
+
+
+
         eventMouseover:function(event, jsEvent, view){
-            if(!event.group&&!event.deleted){
+           /* if(!event.group&&!event.deleted){
                 $.ajax({
                     url: url + 'app/calendar/getAllGroupsForThisLesson/' + event.id,
                     type: 'POST',
@@ -261,19 +264,19 @@ function Calendar(){
             else
             if(!event.deleted) {
                 toolTip(event, jsEvent, view,this);
-            }
+            }*/
 
 
         },
         eventMouseout:function(event, jsEvent, view){
-            if(event.deleted!=true)
+           /* if(event.deleted!=true)
             {
                     $(this).css({
                         //'color': '#fff',
                         'fontWeight':'normal'
                     });
                 self.jqueryObject.tooltip.tooltip.hide();
-            }
+            }*/
 
         },
         eventRender:function(event, element) {
@@ -297,6 +300,17 @@ function Calendar(){
                     $(element).find('.fc-time').append($var);
 
                 }
+            }
+            if(event.teacher){
+                var $var = $('<span>');
+                $var.text(event.name[0]+'.'+event.surname);
+                $var.css({
+                    'fontSize':'10px',
+                    'textAlign':'center',
+                    'display':'block'
+                });
+                $var.appendTo($(element));
+
             }
         },
         eventSources: [
