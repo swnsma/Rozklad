@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
     <title>Calendar|Rozklad</title>
@@ -10,7 +10,9 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
 
+
     <?php if ($data['title'] == 'teacher'): ?>
+        <link rel='stylesheet' href='<?php print URL; ?>public/js/app/calendar/customselect/customselect.css'/>
         <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
         <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
         <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
@@ -57,10 +59,11 @@
                 <div class='tr-create-lesson'>
                     <span class="date-span bold">Время проведения:</span>
                     <div class='data-ivent'>
-                        <input class='input-span width15px' type='text' name='day' id='day' />/<!--
+                        <input type='text' id='tcalInput' name='date' class='tcal' value='' /><!--
+                        --><input class='input-span width15px' type='text' name='day' id='day' />/<!--
                     --><input class='input-span width15px' type='text' name ='month' id='month' />/<!--
                     --><input class='input-span' type='text' name='year' id='year' /><!--
-                    --><input type='text' id='tcalInput' name='date' class='tcal' value='' /><!--
+                    --><!--
                     --></div><!--
                     --><div class='time-ivent'><!--
                        --><input class='input-span width15px' placeholder='---' type='text' name='hour-begin' id='hourBegin'/>:<!--
@@ -85,7 +88,7 @@
 
             <div class="padding28 inner-wrapper">
                 <div class='tr-create-lesson'>
-                    <span class="bold">Пригласить на ивент: </span>
+                    <span class="bold">Пригласить: </span>
                     <div id="listGroups" class="list-groups">
 
                     </div>
@@ -115,10 +118,11 @@
                 <div class='tr-create-lesson'>
                     <span class="date-span bold">Время проведения:</span>
                     <div class='data-ivent'>
-                        <input placeholder="-----" class='input-span width15px' type='text' name='day' id='dayEdit' />/<!--
+                        <input placeholder="-----" type='text' id='tcalInputEdit' name='date' class='tcal' value='' /><!--
+                        --><input placeholder="-----" class='input-span width15px' type='text' name='day' id='dayEdit' />/<!--
                     --><input placeholder="-----" class='input-span width15px' type='text' name ='month' id='monthEdit' />/<!--
                     --><input placeholder="-----" class='input-span' type='text' name='year' id='yearEdit' /><!--
-                    --><input placeholder="-----" type='text' id='tcalInputEdit' name='date' class='tcal' value='' />
+                    -->
                     </div>
                     <div class='time-ivent'>
                         <input class='input-span width15px' placeholder='---' type='text' name='hour-begin' id='hourBeginEdit'/>:<!--
@@ -151,7 +155,7 @@
             </div>
             <div class=' padding28 inner-wrapper'>
                 <div class='tr-create-lesson'>
-                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить ивент</button>
+                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить событие</button>
                     <button id='createNewLessonEdit' type='submit' class='submit'>Сохранить изменения</button>
                 </div>
             </div>
@@ -171,7 +175,8 @@
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <?php if ($data['title'] == 'teacher'): ?>
-
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>

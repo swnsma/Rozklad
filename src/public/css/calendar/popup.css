@@ -2,7 +2,16 @@ body{
 
 }
 
-.popup{
+.group-close{
+    background: url("../../img/closeButton.png");
+    /*background-position: 50%;*/
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-repeat: round;
+
+}
+.popup, .popupEdit{
     padding: 16px 0 0 0;
     box-shadow: 2px 2px 0 rgba(0,0,0,.7);
     border: 1px solid #666;
@@ -11,6 +20,7 @@ body{
     z-index: 1000;
     width: 380px;
     display: none;
+    padding: 10px;
 }
 .popup .bold{
     font-weight: bold;
@@ -41,7 +51,7 @@ body{
     padding-top: 0;
     padding-bottom: 0;
     margin: 0;
-    border-bottom: 1px solid #eeeeee;
+    /*border-bottom: 1px solid #eeeeee;*/
     text-align: center;
 }
 .input-span{
@@ -54,17 +64,12 @@ body{
     width: 100%;
     border: none;
     outline: none;
-    border-bottom: 1px dashed #016d92;
+    /*border-bottom: 1px dashed #016d92;*/
 }
 
 .width15px{
     width: 17px;
     text-align: center;
-}
-.data-ivent {
-    border-bottom: 1px dashed #016d92;
-    padding-bottom: 1px;
-    text-align: left;
 }
 
 .create-lesson .inner-wrapper{
@@ -72,28 +77,34 @@ body{
     margin-top: 10px;
     width: 100%;
     position: relative;
+    border-collapse: collapse;
+
 }
 .create-lesson .inner-wrapper .tr-create-lesson{
     display: table-row;
-}
-.tr-create-lesson .date-span{
-    width: 168px;
+    border-bottom: 1px solid #eeeeee;
 }
 .tr-create-lesson{
     position: relative;
 }
-.create-lesson .inner-wrapper .tr-create-lesson>*{
+.popup .tr-create-lesson>*,.popupEdit .tr-create-lesson>*{
     display: table-cell;
 }
-.create-lesson .inner-wrapper .tr-create-lesson .time-ivent{
+.popup .tr-create-lesson>*:first-child,.popupEdit .tr-create-lesson>*:first-child{
+    width: 41%;
+    padding-right: 2%;
     text-align: right;
-    display: inline;
-    padding-bottom: 1px;
+}
+.popup .tr-create-lesson>*:last-child,.popupEdit .tr-create-lesson>*:last-child{
+    width: 57%;
 
-    /*border-bottom: 1px dashed #016d92;*/
-    position: absolute;
-    right: 15px;
-    top: 0px;
+    text-align: left;
+    /*width: 100%;*/
+}
+.create-lesson .inner-wrapper .tr-create-lesson .time-ivent{
+    text-align: left;
+    display: inline;
+    /*width: 20px;*/
 }
 .tr-create-lesson .list-groups{
     width: 52%;
@@ -101,16 +112,20 @@ body{
 }
 .tr-create-lesson .submit{
 
-    width: 69%;
+    /*width: 69%;*/
+    /*width: 57%;*/
     margin-left: 1%;
 
 }
-.tr-create-lesson .submit, .tr-create-lesson .reset{
+.popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset,
+.popupEdit .tr-create-lesson .submit,.popupEdit .tr-create-lesson .reset{
     padding: 5px 0;
+    /*width: 33%;*/
     margin-top: 10px;
     margin-bottom: 10px;
     border:1px solid #bfc4c4;
     color: #000000;
+    text-align: center;
 }
 .tr-create-lesson .submit:hover,.tr-create-lesson .reset:hover {
     border:1px solid #bfc4c4;
@@ -125,35 +140,10 @@ body{
     width: 30%;
     background-color: #eeeeee;
 }
-.tr-create-lesson .list-groups select{
-    width: 95%;
-    outline: none;
-    border: none;
-    border-bottom: 1px dashed #016d92;
-    position: relative;
-}
-.tr-create-lesson .list-groups option{
-    width: 200px;
-}
-.group_block{
-    display:none;
-    position:absolute;
-    width:130px;
-    padding-top: 3px;
-    border: 1px solid black;
-    z-index: 1000;
-}
-.group{
-    background-color:rgb(78,205,196);
-    color:white;
-    border:1px solid #999;
-    border-radius: 3px;
-    margin-bottom: 0;
-    margin-top: 3px;
-    cursor:pointer;
-}
-.add_group{
-    cursor:pointer;
+
+
+.list-groups >div{
+    border-bottom: 1px solid #eeeeee;
 }
 .lessonGroup{
     heigth:10px;
@@ -164,30 +154,14 @@ body{
     padding-left: 3px;
     padding-right: 3px;
 }
-.deleteGroup{
-    width:10px;
-    cursor: pointer;
-    color:white;
-    margin-left: 5px;
-    border: 1px solid white;
-    display: inline;
-}
 
 
 .group-add{
     position: relative;
 }
-.del-groups-event{
-    display: block;
-    position: absolute;
-    top:0px;
-    right: 0;
-    font-weight: bold;
-    cursor: pointer;
-}
-.select-teacher{
+.popup .inner-wrapper .select-teacher,.popupEdit .inner-wrapper .select-teacher{
     border: none;
-    border-bottom: 1px dashed #016d92;
+    /*border-bottom: 1px dashed #016d92;*/
     width: 100%;
     outline: none;
 }

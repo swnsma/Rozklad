@@ -18,7 +18,7 @@
             <?php if ($data['role'] == 'teacher'): ?>
                 <div>
             <?php endif; ?>
-            <h1 data-bind="text:groupName, click: editTitleOpen"></h1>
+            <h1 data-bind="text:groupName<?php if($data['role'] == 'teacher'): ?>,click: editTitleOpen<?php endif;?>"></h1>
             <?php if ($data['role'] == 'teacher'): ?>
         </div>
     <?php endif; ?>
@@ -41,7 +41,7 @@
             <?php if ($data['role'] == 'teacher'): ?>
             <div>
                 <?php endif; ?>
-            <h4 data-bind="text:description,click: editDescOpen "></h4>
+            <h5 data-bind="text:description<?php if($data['role'] == 'teacher'): ?>,click: editDescOpen<?php endif;?>"></h5>
                 <?php if ($data['role'] == 'teacher'): ?>
             </div>
             <?php endif; ?>
@@ -82,9 +82,9 @@
                             <img height="20" width="20" src="<?php echo URL; ?>public/img/closeButton.png""></a>
                     <?php endif; ?>
 
-                    <a class="list-group-item-text " target="_blank" data-bind="attr:{href: fb_account}">
+                    <a data-title="Перейти к профилю в Facebook" class="list-group-item-text " target="_blank" data-bind="attr:{href: fb_account}">
                         <img class="avatar" data-bind="attr:{src: fb_photo}" height="70" width="70"></a>
-                    <a data-bind="attr:{href: fb_account}" target="_blank"><h4 class="list-group-item-heading"
+                    <a data-title="Перейти к профилю в Facebook" data-bind="attr:{href: fb_account}" target="_blank"><h4 class="list-group-item-heading"
                                                                                data-bind="text:name"></h4></a>
 
                 </div>
@@ -110,11 +110,11 @@
                            data-bind="click:function(){$parent.dismissStudent(id)}">
                             <img height="20" width="20" src="<?php echo URL; ?>public/img/closeButton.png""></a>
                     <?php endif; ?>
-                    <a class="list-group-item-text " target="_blank" data-bind='attr:{href: gm_account}'><img
+                    <a data-title="Перейти к профилю в Google+" class="list-group-item-text " target="_blank" data-bind='attr:{href: gm_account}'><img
                             src="https://lh5.googleusercontent.com/-qWNMqcca81Y/AAAAAAAAAAI/AAAAAAAAAAA/g6oiN_9k82A/s120-c/photo.jpg"
                             class="avatar" height="70" width="70"></a>
-                    <a data-bind="attr:{href: gm_account}" target="_blank"><h4 class="list-group-item-heading"
-                                                                               data-bind="text:name"></h4></a>
+                    <a data-title="Перейти к профилю в Google+" data-bind="attr:{href: gm_account}" target="_blank"><h4 class="list-group-item-heading"
+                                                                               data-bind="text:name" ></h4></a>
 
                 </div>
             </div>
