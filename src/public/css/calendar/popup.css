@@ -2,6 +2,15 @@ body{
 
 }
 
+.group-close{
+    background: url("../../img/closeButton.png");
+    /*background-position: 50%;*/
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-repeat: round;
+
+}
 .popup, .popupEdit{
     padding: 16px 0 0 0;
     box-shadow: 2px 2px 0 rgba(0,0,0,.7);

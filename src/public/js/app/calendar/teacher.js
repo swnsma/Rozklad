@@ -1016,10 +1016,5 @@ $(document).ready(function() {
     calendar.keyDown();
     calendar.getGroups();
     calendar.resetPopup();
-$(".deleteGroup").on("click",function(){
-    alert($(this).attr("id_g"));
-});
-
-
 
 });

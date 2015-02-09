@@ -133,7 +133,7 @@ function SetSelect(option){
 
         //створення видалення селекта
         var $delete = $('<span>');
-        $delete.text('X');
+        $delete.addClass('group-close');
         $delete.css({
             'cursor':'pointer'
         });
