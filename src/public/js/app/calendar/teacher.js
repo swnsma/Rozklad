@@ -5,10 +5,12 @@
 
 masColor={
     myEvents:{
-        color:'RGB(0,100,160)'
+        color:'RGB(0,100,160)',
+        textColor:'#fff'
     },
     otherEvents:{
-        color:'RGB(150,150,200)'
+        color:'RGBA(0,0,0,0)',
+        textColor:'#000'
     }
 }
 function remove(elem) {
@@ -30,8 +32,6 @@ function Calendar_teacher(){
     var self=this;
     self.jqueryObject.popup.selectTeacher=$('#selectTeacher');
     self.jqueryObject.popupEdit.selectTeacher=$('#selectTeacherEdit');
-
-
 
     var masAction = ['create','edit'];
     var action = masAction[0];
@@ -205,7 +205,10 @@ function Calendar_teacher(){
                     }
                 });
             },
-            color: masColor.otherEvents.color
+            color: masColor.otherEvents.color,
+            textColor:masColor.otherEvents.textColor
+            //borderColor:'#fff'
+
             //textColor: 'black' // an option!
         }
     ];
@@ -787,8 +790,10 @@ function Calendar_teacher(){
                 }
             }
             var color =masColor.myEvents.color;
+            var textColor = masColor.myEvents.textColor
             if(teacher!=self.currentUser.id){
                 color=masColor.otherEvents.color;
+                textColor = masColor.otherEvents.textColor
             }
             $.ajax({
                 url: urls,
@@ -806,6 +811,7 @@ function Calendar_teacher(){
                     originalEvent.name=nameteacher;
                     originalEvent.color=color;
                     originalEvent.group=toNormFormGroup();
+                    originalEvent.textColor = textColor;
 
                     self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
                     editGroups(idUpdate,originalEventGroup,toNormFormGroup());
@@ -903,8 +909,10 @@ function Calendar_teacher(){
 
 
             var color =masColor.myEvents.color;
+            var textColor =masColor.myEvents.textColor;
             if(teacher!=self.currentUser.id){
                 color=masColor.otherEvents.color;
+                var textColor = masColor.otherEvents.textColor;
             }
             $.ajax({
                 url: urls,
@@ -929,7 +937,8 @@ function Calendar_teacher(){
                             name: name,
                             surname: surname,
                             color:color,
-                            group:toNormFormGroup()
+                            group:toNormFormGroup(),
+                            textColor:textColor
                         });
                         addGroups(id.id,selectGroups.getMasGroups());
 

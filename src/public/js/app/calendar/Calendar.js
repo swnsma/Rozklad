@@ -293,12 +293,13 @@ function Calendar(){
                             'fontSize': '8px',
                             'textAlign': 'center',
                             'marginLeft': '2px',
+                            'marginRight':'2px',
                             'borderRadius': '2px',
                             'verticalAlign': 'baseline',
                             'backgroundColor': event.group[i].color,
                             'fontWeight': 'normal'
                         });
-                        $(element).find('.fc-time').append($var);
+                        $(element)/*.find('.fc-time')*/.append($var);
 
                     }
                 }
@@ -307,7 +308,7 @@ function Calendar(){
                     $var.text(event.name[0] + '.' + event.surname);
                     $var.css({
                         'fontSize': '10px',
-                        'display': 'block'
+                        'display': 'inline-block'
                     });
                     $var.appendTo($(element));
 
