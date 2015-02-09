@@ -58,7 +58,7 @@ class Calendar extends Controller {
         $lessonId = $request->getParam(0);
         $var =$request->getParams();
 
-        $this->model=$this->loadModel("grouplesson");
+        $this->model=$this->loadModel('grouplesson');
         for($i=1;$i<count($var);++$i){
             $this->model->addGroupToLesson($lessonId,$var[$i]);
         }

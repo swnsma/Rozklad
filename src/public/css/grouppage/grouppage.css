@@ -29,7 +29,8 @@ h3
     font-size: 10px;
     text-decoration: none;
     left: 105px;
-    top: 10px
+    top: 10px;
+
 }
 h4:hover{
     text-decoration: underline;
@@ -162,4 +163,7 @@ textarea{
 .groupList
 {
     clear: both;
+}
+.list-group{
+    height: 91px;
 }
