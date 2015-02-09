@@ -85,7 +85,8 @@ CHECKSTUD;
         $r=<<<HERE
         SELECT
             `groups`.`description`,
-            `groups`.`name`
+            `groups`.`name`,
+            `groups`.`img_src`
         FROM `groups`, `user`
         WHERE `groups`.`id`=$groupId ;
 HERE;

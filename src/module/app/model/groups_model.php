@@ -20,8 +20,16 @@ class GroupsModel extends Model {
 HERE;
 
         try {
-            $request = $this->db->query($r);
-            return $request->fetchAll(PDO::FETCH_ASSOC);
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            for($i=0; $i<count($request); $i++)
+            {
+                foreach($request[$i] as $key=>$value){
+                if($key=='descr'||$key=='name'){
+                    $request[0][$key]=htmlspecialchars($request[0][$key]);
+                }
+            }
+            }
+            return $request;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;

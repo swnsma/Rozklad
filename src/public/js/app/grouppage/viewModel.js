@@ -6,8 +6,10 @@ function ViewModel() {
     that.students = ko.observableArray([]);
     that.editGroupName= ko.observable(false);
     that.editDescription= ko.observable(false);
+    that.havePicture=ko.observable(false);
     that.id= ko.observable("");
     that.code= ko.observable("");
+    that.imgSrc = ko.observable("");
     that.buffDesc="";
     that.buffTitle="";
     that.errorDesc=ko.observable("0");
@@ -134,8 +136,12 @@ function ViewModel() {
         that.id(groupId);
         api.getGroupInfo(groupId, function (response) {
             that.groupName(response.name);
+            if(response.img_src){
+                that.imgSrc(url+'public/users_files/images/groups_photo/'+response.img_src);
+                that.havePicture(true);
+            }
             that.teacher(response.teacher);
-            that.description(response.description)
+            that.description(response.description);
             that.buffDesc=response.description;
             that.buffTitle=response.name;
         });
@@ -145,8 +151,7 @@ function ViewModel() {
                 student.notDeleted=ko.observable(true);
                 that.students.push(student);
             }
-            that.students.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) })
-            console.log(that.students());
+            that.students.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
         });
         api.loadCode(groupId, function (response){
             that.code(response.code);
