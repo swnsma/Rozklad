@@ -52,7 +52,8 @@ textarea{
     background-color: #F5F5F5;
     color: #000000;
     border: 1px solid #000000;
-    height: 34px;
+    padding: 7px;
+
 }
 .code:hover, .edt:hover{
     color: #000000;
