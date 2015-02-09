@@ -223,9 +223,9 @@ function Calendar(){
         //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
-            //left: 'prev,next today',
-            //center: 'title',
-            //right: 'month,agendaWeek,agendaDay'
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -308,7 +308,6 @@ function Calendar(){
                     $var.text(event.name[0] + '.' + event.surname);
                     $var.css({
                         'fontSize': '10px',
-                        'textAlign': 'center',
                         'display': 'block'
                     });
                     $var.appendTo($(element));
