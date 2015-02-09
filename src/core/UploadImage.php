@@ -26,6 +26,39 @@ class UploadImage extends Upload {
         imagejpeg($image, $result, $this->quality);
     }
 
+    private function crop($image, $w, $h) {
+        list($w_i, $h_i, $type) = getimagesize($image);
+        $types = array('', 'gif', 'jpeg', 'png');
+        $ext = $types[$type];
+        if ($ext) {
+            $func = 'imagecreatefrom'.$ext;
+            $img_i = $func($image);
+        } else {
+            return false;
+        }
+
+
+        $img_o = imagecreatetruecolor($w, $h);
+
+        if ($h_i > $h) {
+            $y_o = ($h_i-$h)/2;
+        } else {
+            $y_o = 0;
+        }
+
+        if ($w_i > $w) {
+            $x_o = ($w_i-$w)/2;
+        } else {
+            $x_o = 0;
+        }
+
+
+        imagecopy($img_o, $img_i, 0, 0, $x_o, $y_o, $w, $h);
+        $func = 'image'.$ext;
+        return $func($img_o, $image);
+    }
+
+
     public function getQuality() {
         return $this->quality;
     }
@@ -52,18 +85,19 @@ class UploadImage extends Upload {
 
             $file = uniqid() . '.' . $ext;
 
-           // $this->compress($tmp_name, $tmp_name, $ext);
+            $this->compress($tmp_name, $tmp_name, $ext);
 
-            if (!move_uploaded_file($tmp_name, IMAGES_FOLDER . 'groups_photo/' . $file)) {
-                throw new RuntimeException('failed to move uploaded file');
+            if ($this->crop($tmp_name, 100, 100)) {
+                if (!move_uploaded_file($tmp_name, IMAGES_FOLDER . 'groups_photo/' . $file)) {
+                    throw new RuntimeException('failed to move uploaded file');
+                }
+
+                $this->upload_file_name = $file;
+                return true;
             }
 
-            $this->upload_file_name = $file;
-            return true;
-        } catch(RuntimeException $e) {
-            //$this->error = $e->getMessage();
-            return false;
-        }
+        } catch(RuntimeException $e) {}
+        return false;
     }
 
     public function getUploadFileName() {
