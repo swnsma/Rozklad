@@ -18,7 +18,7 @@
             <?php if ($data['role'] == 'teacher'): ?>
                 <div>
             <?php endif; ?>
-            <h1 data-bind="text:groupName, click: editTitleOpen"></h1>
+            <h1 data-bind="text:groupName<?php if($data['role'] == 'teacher'): ?>,click: editTitleOpen<?php endif;?>"></h1>
             <?php if ($data['role'] == 'teacher'): ?>
         </div>
     <?php endif; ?>
@@ -41,7 +41,7 @@
             <?php if ($data['role'] == 'teacher'): ?>
             <div>
                 <?php endif; ?>
-            <h4 data-bind="text:description,click: editDescOpen "></h4>
+            <h5 data-bind="text:description<?php if($data['role'] == 'teacher'): ?>,click: editDescOpen<?php endif;?>"></h5>
                 <?php if ($data['role'] == 'teacher'): ?>
             </div>
             <?php endif; ?>
