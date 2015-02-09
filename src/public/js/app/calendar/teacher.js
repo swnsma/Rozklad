@@ -510,16 +510,16 @@ function Calendar_teacher(){
             $tcalInput.on('input', function () {
                 var val = this.value;
                 var mas = val.split('-');
-                date.day.val(mas[0]);
-                date.month.val(mas[1]);
-                date.year.val(mas[2]);
+                date.day.val(toFormat(mas[0]));
+                date.month.val(toFormat(mas[1]));
+                date.year.val(toFormat(mas[2]));
             });
             $tcalInputEdit.on('input', function () {
                 var val = this.value;
                 var mas = val.split('-');
-                date.day.val(mas[0]);
-                date.month.val(mas[1]);
-                date.year.val(mas[2]);
+                date.day.val(toFormat(mas[0]));
+                date.month.val(toFormat(mas[1]));
+                date.year.val(toFormat(mas[2]));
             });
 
         }
