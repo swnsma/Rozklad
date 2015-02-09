@@ -60,7 +60,7 @@ class Calendar extends Controller {
 
         $this->model=$this->loadModel("grouplesson");
         for($i=1;$i<count($var);++$i){
-            $success=$this->model->addGroupToLesson($lessonId,$var[$i]);
+            $this->model->addGroupToLesson($lessonId,$var[$i]);
         }
         $this->view->renderJson(Array('success'=>'success'));
     }
