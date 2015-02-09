@@ -159,3 +159,7 @@ textarea{
     background-color: #F5F5f5;
     height: 91px;
 }
+.groupList
+{
+    clear: both;
+}
