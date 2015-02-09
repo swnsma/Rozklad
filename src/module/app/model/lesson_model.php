@@ -146,6 +146,10 @@ where l.id=$id
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            for($i=0;$i<count($var);$i++){
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+            }
+
 //            echo $var;
             return $var;
 

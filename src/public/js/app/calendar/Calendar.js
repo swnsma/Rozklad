@@ -281,37 +281,39 @@ function Calendar(){
 
         },
         eventRender:function(event, element) {
-            if(event.group){
-                for(var i=0;i<event.group.length;++i){
+            if(event.backgroundColor!='RGBA(0,0,0,0)') {
+                if (event.group) {
+                    for (var i = 0; i < event.group.length; ++i) {
 
+                        var $var = $('<span>');
+                        $var.text(event.group[i].name[0]);
+                        $var.css({
+                            'display': 'inline-block',
+                            'width': '8px',
+                            'height': '8px',
+                            'fontSize': '8px',
+                            'textAlign': 'center',
+                            'marginLeft': '2px',
+                            'borderRadius': '2px',
+                            'verticalAlign': 'baseline',
+                            'backgroundColor': event.group[i].color,
+                            'fontWeight': 'normal'
+                        });
+                        $(element).find('.fc-time').append($var);
+
+                    }
+                }
+                if (event.teacher) {
                     var $var = $('<span>');
-                    $var.text(event.group[i].name[0]);
+                    $var.text(event.name[0] + '.' + event.surname);
                     $var.css({
-                        'display': 'inline-block',
-                        'width': '8px',
-                        'height': '8px',
-                        'fontSize': '8px',
+                        'fontSize': '10px',
                         'textAlign': 'center',
-                        'marginLeft': '2px',
-                        'borderRadius':'2px',
-                        'verticalAlign': 'baseline',
-                        'backgroundColor': event.group[i].color,
-                        'fontWeight': 'normal'
+                        'display': 'block'
                     });
-                    $(element).find('.fc-time').append($var);
+                    $var.appendTo($(element));
 
                 }
-            }
-            if(event.teacher){
-                var $var = $('<span>');
-                $var.text(event.name[0]+'.'+event.surname);
-                $var.css({
-                    'fontSize':'10px',
-                    'textAlign':'center',
-                    'display':'block'
-                });
-                $var.appendTo($(element));
-
             }
         },
         eventSources: [

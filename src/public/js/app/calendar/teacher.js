@@ -962,6 +962,8 @@ function Calendar_teacher(){
                     originalEvent.textColor='#000';
                     originalEvent.borderColor='RGBA(0,0,0,0)';
                     originalEvent.deleted=true;
+                    //originalEvent.name='';
+                    //originalEvent.surname='';
                     for(var i =0;i<self.masEvent.length;++i){
                         if(+self.masEvent[i].id===+originalEvent.id){
                             self.masEvent[i].deleted=true;
