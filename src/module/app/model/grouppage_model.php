@@ -48,17 +48,32 @@ REQUEST;
        }
     }
    public function getRole ($groupId, $userId){
-        $r=<<<QUERY
+        /*$r=<<<QUERY
             SELECT `role`.`title`
 FROM `role`, `user`, `groups`, `student_group`
 WHERE `user`.`role_id` = `role`.`id` AND `user`.`id`=$userId AND (( `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId)
 OR(`user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$groupId));
-QUERY;
+QUERY;*/
+       $r=<<<CHECKTEACH
+       SELECT `role`.`title`
+       FROM `role`, `user`, `groups`
+       WHERE `user`.`id`=$userId AND `user`.`role_id`=1 AND `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId AND `role`.`id`=`user`.`role_id`
+CHECKTEACH;
+       $r2=<<<CHECKSTUD
+       SELECT `role`.`title`
+       FROM `role`, `user`, `student_group`
+       WHERE `student_group`.`student_id`=$userId AND `user`.`role_id`=0 AND `role`.`id`=0 AND `student_group`.`group_id`=$groupId
+CHECKSTUD;
        try{
         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
         if(isset($var[0]))
         return $var[0]['title'];
-        else return null;}
+
+        else {
+            $var=$this->db->query($r2)->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($var[0]))
+                return $var[0]['title'];
+        }}
        catch(PDOException $e){
            echo $e->getMessage();
            return null;
