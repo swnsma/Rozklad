@@ -34,8 +34,9 @@ function SetSelect(option){
         }
     })()
 
-    var clickLi = function (color,idValue,idSelect,name){
+    var clickLi = function (color,idValue,idSelect,name,deleted){
         var bool=false;
+        deleted.show();
         for(var i=0;i<selectOption.length;++i){
             if(selectOption[i].idSelect===idSelect){
                 bool=true;
@@ -99,7 +100,7 @@ function SetSelect(option){
         $spanText.appendTo(parent);
         $spanText.text(group.name);
     }
-    function createOption(group,parent){
+    function createOption(group,parent,deleted){
         $(parent).empty();
         for(var i = 0;i<group.length;++i){
             var $li = $('<li>');
@@ -108,7 +109,7 @@ function SetSelect(option){
 
             createSpanColorAndText($li,group[i]);
             $li.on('click',function(){
-                clickLi($(this).find('.color').css('backgroundColor'),$(this).attr('data-value'),parent.parent().attr('id'),$(this).find('.text').text());
+                clickLi($(this).find('.color').css('backgroundColor'),$(this).attr('data-value'),parent.parent().attr('id'),$(this).find('.text').text(),deleted);
             });
         }
     }
@@ -164,6 +165,7 @@ function SetSelect(option){
 
         });
         $delete.appendTo($div);
+        $delete.hide();
 
         //створення заголовку селекта
         var $title =$('<span>');
@@ -195,11 +197,14 @@ function SetSelect(option){
                     break;
                 }
             }
-            createOption(newMas,$ul);
+            createOption(newMas,$ul,$delete);
         });
 
+
         if(selectElement){
+
             for(var i=0;i<selectElement.length;++i){
+                $delete.show();
                 selectOption.push({
                     color:selectElement[i].color,
                     idValue:''+selectElement[i].id,
