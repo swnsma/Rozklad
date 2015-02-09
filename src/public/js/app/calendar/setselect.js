@@ -219,7 +219,9 @@ function SetSelect(option){
                 animalSelect.setValues(selectElement[i].id);
                 selectElement.splice(i,1);
                 i--;
-                createSelect();
+                if(lenthSelect!==groups.length) {
+                    createSelect();
+                }
             }
         }
 
