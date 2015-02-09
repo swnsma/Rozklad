@@ -10,9 +10,10 @@ class Loging extends Controller {
     private $oauth2;
     public function __construct() {
         parent::__construct();
+        Session::uns("fb_ID");
         $this->model = $this->loadModel('check');
         $this->client = new Google_Client();
-        $this->client->setApplicationName("Idiot Minds Google Login Functionallity");
+        $this->client->setApplicationName("Rozklad");
         $this->client->setClientId(CLIENT_ID_GM);
         $this->client->setClientSecret(CLIENT_SECRET_GM);
         $this->client->setRedirectUri(URL . "app/loging/login");
@@ -49,7 +50,7 @@ class Loging extends Controller {
                 Session::set('email',NULL);
             }
             Session::set('gm_token',$this->client->getAccessToken());
-            Session::set('logout_link',"http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout");
+//            Session::set('logout_link',"http://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost/src/app/loging/logout");
             $this->checkUser();
             exit;
         } else {
@@ -59,22 +60,20 @@ class Loging extends Controller {
     }
 
     public function checkUser(){
-        $check= $this->model->checkUserGM(Session::get("gm_ID"));
+        $hasUser= $this->model->checkUserGM(Session::get("gm_ID"));
 
-        if($check){
+        if($hasUser){
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdGM(Session::get("gm_ID"));
             Session::set('id',$id);
-            $isUnconf=$this->model->checkUnconfirmed($id);
-            if($isUnconf){
-                Session::set('status',"unconfirmed");
-                header("Location:".URL."app/signin");;
-                exit;
-            }
             Session::set('status',"ok");
             $link="app/calendar";
             if(Session::has('unusedLink')){
                 $link = Session::get('unusedLink');
+            }
+            $isUnconf=$this->model->checkUnconfirmed($id);
+            if($isUnconf){
+                Session::set('status',"unconfirmed");
             }
             header("Location:".URL.$link);
             exit;
@@ -95,6 +94,10 @@ class Loging extends Controller {
                     if(Session::has('unusedLink')){
                         $link = Session::get('unusedLink');
                     }
+                    $isUnconf=$this->model->checkUnconfirmed($id);
+                    if($isUnconf){
+                        Session::set('status',"unconfirmed");
+                    }
                     header("Location:" . URL . $link);
                     exit;
                 }
@@ -105,7 +108,6 @@ class Loging extends Controller {
                 }
             }
             else{
-
                 header('Content-type: text/html; charset=utf-8');
                 header("Location:".URL."app/regist");
                 exit;
@@ -122,5 +124,3 @@ class Loging extends Controller {
         return $this->model->checkEmail($email);
     }
 }
-
-?>

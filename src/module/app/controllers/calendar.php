@@ -9,21 +9,18 @@
 class Calendar extends Controller {
 
     private $userInfo;
-    public function back_signin(){
-        $_SESSION['status']='not';
-        header("Location:".$_SESSION['logout_link']);
-        exit;
-    }
+    private $role='teacher';
+
     public function __construct() {
         parent::__construct();
         $id = $_SESSION['id'];
         if($id===null){
-            $this->back_signin();
+            $this->logout();
         }
         $this->model = $this->loadModel('user');
         $this->userInfo=$this->model->getCurrentUserInfo($id);
         if($this->userInfo===null){
-            $this->back_signin();
+            $this->logout();
         }
     }
     public function getUserInfo(){
@@ -224,4 +221,3 @@ class Calendar extends Controller {
 
 
 }
-?>

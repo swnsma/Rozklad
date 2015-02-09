@@ -33,6 +33,8 @@ class Bootstrap extends Controller{
         Session::init($time,$ses);
     }
     private  function dispatcher($controller,$action){
+        $this->setLogoutLink();
+        $this->checkLogout($controller);
         $this->checkUnconf();
         $this->checkStatus();
         $this->checkId($controller);
@@ -42,18 +44,37 @@ class Bootstrap extends Controller{
         return
             $controller=='calendar'||
             $controller=='grouppage'||
-            $controller=='admin';
+            $controller=='admin'||
+            $controller=='groups';
     }
     private  function checkStatus(){
         if(!Session::has('status')){
             Session::set("status",'not');
         }
     }
+    private function checkLogout($controller){
+        if($controller=='logout'){
+            $this->logout_link();
+        }
+    }
+    private function setLogoutLink(){
+        if(!Session::has("logout_link")){
+            Session::set('logout_link',URL."app/logout");
+        }
+    }
+    private function logout_link(){
+        Session::set("status","not");
+        Session::uns('id');
+        header("Location:".URL."app/signin");
+    }
     private  function checkUnconf(){
-        if(Session::has('status')&&(Session::get('status')=='unconfirmed')&&(Session::has('id'))){
+        if(Session::has('status')&&(Session::has('id'))){
             $this->model=$this->loadModel('user');
             if(!$this->model->checkUnconfirmed(Session::get('id'))){
                 Session::set('status','ok');
+            }
+            else{
+                Session::set('status','unconfirmed');
             }
         }
     }
@@ -66,11 +87,11 @@ class Bootstrap extends Controller{
             if (Session::has('id')){
                 $userInfo = $this->model->getCurrentUserInfo(Session::get('id'));
                 if ($userInfo === null) {
-                    $this->back_signin();
+                    $this->logout();
                 }
             }
             else {
-                $this->back_signin();
+                $this->logout();
 
             }
         }
@@ -91,7 +112,7 @@ class Bootstrap extends Controller{
                     }
                     break;
                 case 'unconfirmed':
-                    if($controller!='signin'){
+                    if($controller!="signin"&&$controller!="logout"){
                         $this->changeLocation("app/signin");
                     }
                     break;
@@ -110,4 +131,3 @@ class Bootstrap extends Controller{
         }
     }
 }
-?>

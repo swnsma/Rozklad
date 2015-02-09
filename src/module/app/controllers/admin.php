@@ -17,7 +17,7 @@ class Admin extends Controller {
     }
 
     public function index() {
-        $user = $this->userModel->getCurrentUserInfo();
+        $user = $this->userModel->getCurrentUserInfo(Session::get("id"));
         $data = [];
         $data['name']=$user["name"].' '.$user["surname"];
         $data['status']=$user["title"];

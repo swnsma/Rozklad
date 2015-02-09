@@ -31,12 +31,14 @@ class Regist extends Controller
         $email=Session::get('email');
         $existUserFb=0;
         $existUserGm=0;
+
         if($fb_ID) {
             $existUserFb = $this->model->checkUserFB($fb_ID);
         }
         if($gm_ID) {
             $existUserGm = $this->model->checkUserGM($gm_ID);
         }
+
         if((!$existUserFb)&&(!$existUserGm)) {
             $reg=$this->model->addUser($name, $surname, $phone,$role, $fb_ID,$gm_ID,$email);
             if($reg){
@@ -68,14 +70,11 @@ class Regist extends Controller
                 $this->view->renderJson(array('result'=> "not_registed"));
             }
         }
-        else echo $existUserFb;
+        else{
+            $this->view->renderJson(array('result'=> "has_user"));
+        }
     }
-    public function back_signin(){
-        Session::set('status','not');
-        header("Location:".URL."app/signin");
-//        header("Location:".Session::get('logout_link'));
-        exit;
-    }
+
     public function getName(){
         $this->view->renderJson(
             [
