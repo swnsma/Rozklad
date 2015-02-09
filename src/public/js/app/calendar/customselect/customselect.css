@@ -1,12 +1,12 @@
 .custom-select {
-    width: 200px;
+    width: 195px;
     font-size: 14px;
-    display: /*inline-*/block;
+    display: inline-block;
 }
 
 .custom-select-title {
     height: 17px;
-    border: 1px solid #ADD8E6;
+    /*border: 1px solid #ADD8E6;*/
     background-position: right;
     background-image: url('down_arrow_select.jpg');
     background-repeat: no-repeat;

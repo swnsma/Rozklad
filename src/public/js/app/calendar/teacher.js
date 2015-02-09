@@ -8,7 +8,7 @@ masColor={
         color:'RGB(0,100,160)'
     },
     otherEvents:{
-        color:'RGB(200,200,250)'
+        color:'RGB(150,150,200)'
     }
 }
 function remove(elem) {

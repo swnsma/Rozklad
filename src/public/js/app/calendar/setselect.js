@@ -128,7 +128,10 @@ function SetSelect(option){
 
         //створення видалення селекта
         var $delete = $('<span>');
-        $delete.text('Вилучити');
+        $delete.text('X');
+        $delete.css({
+            'cursor':'pointer'
+        });
         $delete.on('click',function(){
             var bool=false;
             var value = animalSelect.getValue();
