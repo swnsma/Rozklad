@@ -7,9 +7,21 @@ h3
 {
     margin-left: 1px;
 }
+.pict-cont .wrapp{
+    min-height: 20px;
+    min-width: 20px;
+    overflow: hidden;
+    max-height: 50px;
+    max-width: 50px;
+    margin:5px;
+}
+.pict-cont{
+    float: left;
+    line-height: 65px;
+}
 .info-title{
     word-wrap: break-word;
-    min-height: 40px;
+    min-height: 65px;
     padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{
