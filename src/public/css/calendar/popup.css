@@ -2,7 +2,7 @@ body{
 
 }
 
-.popup{
+.popup, .popupEdit{
     padding: 16px 0 0 0;
     box-shadow: 2px 2px 0 rgba(0,0,0,.7);
     border: 1px solid #666;
@@ -78,15 +78,15 @@ body{
 .tr-create-lesson{
     position: relative;
 }
-.popup .tr-create-lesson>*{
+.popup .tr-create-lesson>*,.popupEdit .tr-create-lesson>*{
     display: table-cell;
 }
-.popup .tr-create-lesson>*:first-child{
+.popup .tr-create-lesson>*:first-child,.popupEdit .tr-create-lesson>*:first-child{
     width: 41%;
     padding-right: 2%;
     text-align: right;
 }
-.popup .tr-create-lesson>*:last-child{
+.popup .tr-create-lesson>*:last-child,.popupEdit .tr-create-lesson>*:last-child{
     width: 57%;
 
     text-align: left;
@@ -108,7 +108,8 @@ body{
     margin-left: 1%;
 
 }
-.popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset{
+.popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset,
+.popupEdit .tr-create-lesson .submit,.popupEdit .tr-create-lesson .reset{
     padding: 5px 0;
     /*width: 33%;*/
     margin-top: 10px;
@@ -149,7 +150,7 @@ body{
 .group-add{
     position: relative;
 }
-.popup .inner-wrapper .select-teacher{
+.popup .inner-wrapper .select-teacher,.popupEdit .inner-wrapper .select-teacher{
     border: none;
     /*border-bottom: 1px dashed #016d92;*/
     width: 100%;

@@ -118,10 +118,11 @@
                 <div class='tr-create-lesson'>
                     <span class="date-span bold">Время проведения:</span>
                     <div class='data-ivent'>
-                        <input placeholder="-----" class='input-span width15px' type='text' name='day' id='dayEdit' />/<!--
+                        <input placeholder="-----" type='text' id='tcalInputEdit' name='date' class='tcal' value='' /><!--
+                        --><input placeholder="-----" class='input-span width15px' type='text' name='day' id='dayEdit' />/<!--
                     --><input placeholder="-----" class='input-span width15px' type='text' name ='month' id='monthEdit' />/<!--
                     --><input placeholder="-----" class='input-span' type='text' name='year' id='yearEdit' /><!--
-                    --><input placeholder="-----" type='text' id='tcalInputEdit' name='date' class='tcal' value='' />
+                    -->
                     </div>
                     <div class='time-ivent'>
                         <input class='input-span width15px' placeholder='---' type='text' name='hour-begin' id='hourBeginEdit'/>:<!--
@@ -154,7 +155,7 @@
             </div>
             <div class=' padding28 inner-wrapper'>
                 <div class='tr-create-lesson'>
-                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить ивент</button>
+                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить событие</button>
                     <button id='createNewLessonEdit' type='submit' class='submit'>Сохранить изменения</button>
                 </div>
             </div>
