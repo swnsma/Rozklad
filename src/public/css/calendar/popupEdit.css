@@ -6,6 +6,7 @@
     z-index: 1000;
     width: 365px;
     display: none;
+    padding: 10px;
 }
 .popupEdit .select-teacher{
     border: none;
@@ -16,6 +17,11 @@
     text-align: center;
     border: none;
 
+}
+.popupEdit .inner-wrapper .tr-create-lesson .input-create-lesson{
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 .popupEdit .inner-wrapper{
     border-bottom: 1px solid #eeeeee;

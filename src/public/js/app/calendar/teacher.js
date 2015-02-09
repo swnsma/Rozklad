@@ -8,7 +8,7 @@ masColor={
         color:'RGB(0,100,160)'
     },
     otherEvents:{
-        color:'RGB(200,200,250)'
+        color:'RGB(150,150,200)'
     }
 }
 function remove(elem) {
@@ -26,7 +26,7 @@ function Calendar_teacher(){
 
     Calendar.call(this);
 
-    var titleEvent = 'Новое событие                                                                     ';
+    var titleEvent = 'Новое событие ';
     var self=this;
     self.jqueryObject.popup.selectTeacher=$('#selectTeacher');
     self.jqueryObject.popupEdit.selectTeacher=$('#selectTeacherEdit');
@@ -46,14 +46,8 @@ function Calendar_teacher(){
     var lastEventColor;
 
 
-    var currentUser=[];
     var groups=[];
-    var addGrops={
-        status:0,
-        valueOption:[],
-        groups:[]
-    };
-
+    var selectGroups;
     var ourteacher=[];
 
     function AddTeacherToList(jquery_element,selected_obj,event){
@@ -83,6 +77,7 @@ function Calendar_teacher(){
 
     }
 
+
     //всі групи
     (function(){
         $.ajax({
@@ -91,6 +86,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(doc) {
+
                 groups=doc;
             },
             error: function(){
@@ -114,13 +110,6 @@ function Calendar_teacher(){
         });
     })();
 
-    function reset_addGroups(){
-        addGrops.valueOption=[];
-        addGrops.status=0;
-        addGrops.groups=[];
-    }
-
-
     function delPopup(){
         if(self.jqueryObject.popup.popup.css('display')==='block'||self.jqueryObject.popupEdit.popupEdit.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
@@ -143,6 +132,11 @@ function Calendar_teacher(){
         }
         return 0;
     }
+    self.option.eventMouseover=function(event, jsEvent, view){
+        $(this).css({
+            'cursor':'pointer'
+        });
+    }
 
     function posPopup(allDay){
         var x= allDay.pageX;
@@ -164,212 +158,6 @@ function Calendar_teacher(){
             'left':x,
             'top':y
         })
-    }
-
-    function CreateSelect(parent){
-        var k=0;
-        var nNonSelect=1;
-        var lenthGroop=0;
-        function privateCreate(selectedOption) {
-            function addOption(objectSelect,del,select_obj){
-                console.log(select_obj);
-                objectSelect.empty();
-                var i = 1;
-                if (addGrops.groups.length === 0 ) {
-                    var opt = document.createElement('option');
-                    opt.value = 0;
-                    opt.innerHTML = "Пригласить групу";
-                    objectSelect.append($(opt));
-                    for (var j = 0; j < groups.length; ++j) {
-                        opt = document.createElement('option');
-                        opt.value = groups[j].id;
-                        opt.innerHTML = groups[j].name;
-                        objectSelect.append($(opt));
-                        i++;
-                    }
-                }
-                else{
-                    if(!select_obj) {
-                        var opt = document.createElement('option');
-                        opt.innerHTML = "Пригласить групу";
-
-                        if (+$select.val() === 0 && lenthGroop == 1) {
-                            opt.innerHTML = "Пригласить групу";
-                        }
-
-                        opt.value = 0;
-                        objectSelect.append($(opt));
-                    }
-                    for (var j = 0; j < groups.length; ++j) {
-                        for(var m=0;m<addGrops.groups.length;++m){
-                            if(+addGrops.groups[m].id===+groups[j].id){
-                                break;
-                            }
-                            if(m===addGrops.groups.length-1){
-                                opt = document.createElement('option');
-                                opt.value = groups[j].id;
-                                opt.innerHTML = groups[j].name;
-                                objectSelect.append($(opt));
-                            }
-                        }
-                        i++;
-                    }
-                }
-
-                if(select_obj){
-                    var opt = document.createElement('option');
-                    opt.value = +select_obj.id;
-                    opt.innerHTML = select_obj.name;
-
-                    objectSelect.append($(opt));
-                    opt.selected=true;
-                    del.show();
-                }else{
-                    del.hide()
-                }
-
-
-
-            }
-            if (addGrops.status == 0) {
-                var typeVal=0;
-                if(selectedOption){
-                    typeVal=+selectedOption.id;
-                }
-                lenthGroop++;
-                var $div = $('<div class="group-add">');
-                $div.appendTo($(parent));
-
-                var $select = document.createElement('select');
-                $select.id = 'selectGroups' + k;
-                k++;
-                $select = $($select);
-                $select.appendTo($div);
-                var $del=$('<span class="del-groups-event"> X </span>');
-                addOption($select,$del);
-
-
-                $del.appendTo($div);
-                $del.on('click',function(){
-                    if($select.val()!='0') {
-                        lenthGroop--;
-                        var id = $select.attr('id');
-                        var valOption = addGrops.valueOption;
-                        var group = addGrops.groups;
-                        for (var i = 0; i < valOption.length; ++i) {
-                            if (valOption[i] === id) {
-                                addGrops.valueOption.splice(i, 1);
-                            }
-                        }
-                        for (var i = 0; i < group.length; ++i) {
-                            if (group[i].valueSelect === id) {
-                                addGrops.groups.splice(i, 1);
-                            }
-                        }
-                        if(lenthGroop===0||nNonSelect===0){
-                            privateCreate();
-                            nNonSelect++;
-                        }
-                        $select.remove();
-                        $(this).remove();
-
-                    }
-                });
-
-                $select.on('change', function () {
-                    if($select.val()===0){
-                        $del.hide();
-                    }else{
-                        $del.show();
-                    }
-                    var text =$select.attr('id');
-                    text='#'+text+' option:selected';
-                    var bool=false;
-                    for(var i =0;i<addGrops.valueOption.length;++i){
-                        if(addGrops.valueOption[i]===$select.attr('id')){
-                            bool=true;
-                            break;
-                        }
-                    }
-                    if(bool){
-                        for(var i =0;i<addGrops.groups.length;++i){
-                            if(addGrops.groups[i].valueSelect===$select.attr('id')){
-                                addGrops.groups[i]={
-                                    valueSelect: $select.attr('id'),
-                                    id: $select.val(),
-                                    name: $(text).text()
-                                };
-                                break;
-                            }
-                        }
-                    }
-                    if(!bool) {
-                        addGrops.valueOption.push($select.attr('id'));
-                        addGrops.groups.push({
-                            valueSelect: $select.attr('id'),
-                            id: $select.val(),
-                            name: $(text).text()
-                        });
-                    }
-                    if(+$select.val()!=0&&typeVal===0){
-                        nNonSelect--;
-                    }else
-                        if(+$select.val()===0)
-                        {
-                            lenthGroop--;
-                            $select.remove();
-
-                        if(nNonSelect<=0){
-                            nNonSelect++;
-                            privateCreate();
-                        }
-                    }
-                    if (lenthGroop < groups.length&&+$select.val()!=0&&typeVal===0) {
-                        if(+$select.val()!==0) {
-                            nNonSelect++;
-                            privateCreate();
-                        }
-
-
-                    }
-                    typeVal=$select.val();
-
-                });
-                $select.on('mouseover',function(){
-                    var text =$select.attr('id');
-                    text='#'+text+' option:selected';
-                    console.log($select.val());
-                    if(+$select.val()!==0) {
-
-                        addOption($select, $del,{
-                            id: $select.val(),
-                            name: $(text).text()
-                        });
-                    }else{
-                        addOption($select,$del);
-                    }
-                });
-            }
-
-
-            if(selectedOption){
-                addGrops.groups.push({
-                    valueSelect: 'selectGroups'+(k-1),
-                    id: selectedOption.id,
-                    name: selectedOption.name
-                });
-                addGrops.valueOption.push('selectGroups'+(k-1));
-                addOption($select,$del,selectedOption);
-
-            }
-        }
-
-        this.addSelected=function(idGroup){
-            privateCreate(idGroup);
-            var select  = $('#selectGroups0');
-        };
-
-        privateCreate();
     }
 
     this.option.eventSources=[
@@ -428,8 +216,7 @@ function Calendar_teacher(){
 
             return;
         }
-        reset_addGroups();
-        var teacherSelect = new AddTeacherToList(self.jqueryObject.popup.selectTeacher,currentUser);
+        var teacherSelect = new AddTeacherToList(self.jqueryObject.popup.selectTeacher,self.currentUser,self.currentUser);
 
 
 
@@ -444,7 +231,11 @@ function Calendar_teacher(){
         self.jqueryObject.popup.end.hour.val('16');
         self.jqueryObject.popup.end.minutes.val('00');
 
-        var b = new CreateSelect( self.jqueryObject.popup.listGroups);
+        //var b = new CreateSelect( self.jqueryObject.popup.listGroups);
+        selectGroups = new SetSelect({
+            element:self.jqueryObject.popup.listGroups,
+            masGroups:groups
+        });
         //self.jqueryObject.popup.typeAction.text('Создать событие');
         self.jqueryObject.popup.button.submit.text('Создать');
         action = masAction[0];
@@ -459,7 +250,6 @@ function Calendar_teacher(){
     };
 
     this.option.eventClick=function(calEvent, jsEvent, view) {
-        reset_addGroups();
         if(delPopup()){
             return;
         }
@@ -472,7 +262,7 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(date){
-                    if(date[0].teacher===currentUser.id){
+                    if(date[0].teacher===self.currentUser.id){
                         date[0].color=masColor.myEvents.color;
                     }else{
                         date[0].color=masColor.otherEvents.color;
@@ -492,6 +282,7 @@ function Calendar_teacher(){
             id:calEvent.teacher
         },calEvent);
         lastEventColor = $(this).css('backgroundColor');
+        originalEvent=calEvent;
         $(this).css({  'backgroundColor':'#07375E' });
 
         var hourStart = calEvent.start._d.getHours();
@@ -519,43 +310,35 @@ function Calendar_teacher(){
         self.jqueryObject.popupEdit.end.hour.val(hourEnd);
         self.jqueryObject.popupEdit.end.minutes.val(minutesEnd);
 
-        originalEvent=calEvent;
+
 
         idUpdate=calEvent.id;
 
         orig2=calEvent;
         action = masAction[1];
         posPopup(jsEvent);
-        var create =new CreateSelect( self.jqueryObject.popupEdit.listGroup);
-        if(calEvent.group) {
-            for (var i = 0; i < calEvent.group.length; ++i) {
-                create.addSelected({
-                    id: calEvent.group[i].id,
-                    name: calEvent.group[i].name
-                });
-            }
+        var mas=[];
+        for(var i =0;i<originalEvent.group.length;++i){
+            mas.push(originalEvent.group[i]);
         }
+        selectGroups = new SetSelect({
+            element:self.jqueryObject.popupEdit.listGroup,
+            masGroups:groups,
+            selectElement: mas
+        });
+
 
     };
 
 
 
     //моя функція
-    function addGroups(lesson_id){
-        var myAddGroups=[];
-        for(var i =0;i<addGrops.groups.length;++i){
-            if(+addGrops.groups.id!==0){
-                myAddGroups.push(addGrops.groups[i].id);
-            }
-        }
-        //if(myAddGroups.length===0){
-        //    for(var i =0;i<groups.length;++i){
-        //        myAddGroups.push(groups[i].id);
-        //    }
-        //}
+    function addGroups(lesson_id,masGroups){
+
+        var myAddGroups=masGroups;
         var myget='';
         for(var i=0;i<myAddGroups.length;++i){
-            myget=myget+'/'+myAddGroups[i];
+            myget=myget+'/'+myAddGroups[i].idValue;
         }
         var urls = url + 'app/calendar/addGroupsToLesson/'+lesson_id+myget;
 
@@ -566,7 +349,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             success: function(response){
                 if(response.success=='success'){
-                    //alert('ASDASD');
+
                 }
             },
             error: function(er) {
@@ -583,7 +366,7 @@ function Calendar_teacher(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response;
+                self.currentUser=response;
                 self.getGroups();
             },
             error: function(er) {
@@ -628,7 +411,6 @@ function Calendar_teacher(){
         function focusDeleteTitle(item){
 
             item.on('focus',function(){
-                debugger;
                 if (this.value===titleEvent)
                 this.value='';
             });
@@ -734,16 +516,16 @@ function Calendar_teacher(){
             $tcalInput.on('input', function () {
                 var val = this.value;
                 var mas = val.split('-');
-                date.day.val(mas[0]);
-                date.month.val(mas[1]);
-                date.year.val(mas[2]);
+                date.day.val(toFormat(mas[0]));
+                date.month.val(toFormat(mas[1]));
+                date.year.val(toFormat(mas[2]));
             });
             $tcalInputEdit.on('input', function () {
                 var val = this.value;
                 var mas = val.split('-');
-                date.day.val(mas[0]);
-                date.month.val(mas[1]);
-                date.year.val(mas[2]);
+                date.day.val(toFormat(mas[0]));
+                date.month.val(toFormat(mas[1]));
+                date.year.val(toFormat(mas[2]));
             });
 
         }
@@ -816,8 +598,7 @@ function Calendar_teacher(){
     };
 
     //моя функція
-    function editGroups(lesson_id,originalGroup){
-
+    function editGroups(lesson_id,originalGroup,addGrops){
 
         var myAddGroups=[];
         var myDelGroups=[];
@@ -827,24 +608,24 @@ function Calendar_teacher(){
         }
 
         if(originalGroup.length!==0&&addGrops.length!==0){
-            for(var i=0;i<addGrops.groups.length;++i){
+            for(var i=0;i<addGrops.length;++i){
                 for(var j=0;j<originalGroup.length;++j){
-                    if(addGrops.groups[i].id===originalGroup[j].id){
+                    if(addGrops[i].id===originalGroup[j].id){
                         break;
                     }
                     if(j===originalGroup.length-1){
-                        if(addGrops.groups[i].id!=='0') {
-                            myAddGroups.push(addGrops.groups[i].id);
+                        if(addGrops[i].id!=='0') {
+                            myAddGroups.push(addGrops[i].id);
                         }
                     }
                 }
             }
             for(var i=0;i<originalGroup.length;++i){
-                for(var j=0;j<addGrops.groups.length;++j){
-                    if(addGrops.groups[j].id===originalGroup[i].id){
+                for(var j=0;j<addGrops.length;++j){
+                    if(addGrops[j].id===originalGroup[i].id){
                         break;
                     }
-                    if(j===addGrops.groups.length-1){
+                    if(j===addGrops.length-1){
                         myDelGroups.push(originalGroup[i].id);
                     }
                 }
@@ -852,13 +633,13 @@ function Calendar_teacher(){
         }
 
         if(originalGroup.length===0){
-            for(var i=0;i<addGrops.groups.length;++i){
-                if(addGrops.groups[i].id!=='0') {
-                    myAddGroups.push(addGrops.groups[i].id);
+            for(var i=0;i<addGrops.length;++i){
+                if(addGrops[i].id!=='0') {
+                    myAddGroups.push(addGrops[i].id);
                 }
             }
         }
-        if(addGrops.groups.length===0){
+        if(addGrops.length===0){
             for(var i=0;i<originalGroup.length;++i){
                 myDelGroups.push(originalGroup[i].id);
             }
@@ -917,6 +698,18 @@ function Calendar_teacher(){
 
     }
 
+    function toNormFormGroup(){
+        var mas = [];
+        var g = selectGroups.getMasGroups();
+        for(var i=0;i< g.length;++i){
+            mas.push({
+                id:g[i].idValue,
+                color:g[i].color,
+                name:g[i].name
+            });
+        };
+        return mas;
+    }
     this.editLesson= function(){
         var newDate = new Date();
         var jqueryObjectPopup  = self.jqueryObject.popupEdit;
@@ -994,7 +787,7 @@ function Calendar_teacher(){
                 }
             }
             var color =masColor.myEvents.color;
-            if(teacher!=currentUser.id){
+            if(teacher!=self.currentUser.id){
                 color=masColor.otherEvents.color;
             }
             $.ajax({
@@ -1003,6 +796,7 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
+                    var originalEventGroup = originalEvent.group;
                     originalEvent.id=idUpdate;
                     originalEvent.title=title;
                     originalEvent.start=startFun();
@@ -1011,10 +805,11 @@ function Calendar_teacher(){
                     originalEvent.surname=surnameTeacher;
                     originalEvent.name=nameteacher;
                     originalEvent.color=color;
+                    originalEvent.group=toNormFormGroup();
 
                     self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
-                    editGroups(idUpdate,originalEvent.group);
-                    originalEvent.group=null;
+                    editGroups(idUpdate,originalEventGroup,toNormFormGroup());
+                    //originalEvent.group=null;
 
 
 
@@ -1108,7 +903,7 @@ function Calendar_teacher(){
 
 
             var color =masColor.myEvents.color;
-            if(teacher!=currentUser.id){
+            if(teacher!=self.currentUser.id){
                 color=masColor.otherEvents.color;
             }
             $.ajax({
@@ -1117,6 +912,7 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
+
                         self.masEvent.push({id: id.id,
                             title: title,
                             start: startFun(),
@@ -1132,9 +928,10 @@ function Calendar_teacher(){
                             teacher: teacher,
                             name: name,
                             surname: surname,
-                            color:color
+                            color:color,
+                            group:toNormFormGroup()
                         });
-                        addGroups(id.id);
+                        addGroups(id.id,selectGroups.getMasGroups());
 
 
                 },
@@ -1165,6 +962,8 @@ function Calendar_teacher(){
                     originalEvent.textColor='#000';
                     originalEvent.borderColor='RGBA(0,0,0,0)';
                     originalEvent.deleted=true;
+                    //originalEvent.name='';
+                    //originalEvent.surname='';
                     for(var i =0;i<self.masEvent.length;++i){
                         if(+self.masEvent[i].id===+originalEvent.id){
                             self.masEvent[i].deleted=true;
@@ -1215,14 +1014,7 @@ $(document).ready(function() {
     calendar.delLesson();
     //calendar.realTimeUpdate();
     calendar.keyDown();
-    calendar.getCurrentUser();
     calendar.getGroups();
     calendar.resetPopup();
-$(".deleteGroup").on("click",function(){
-    alert($(this).attr("id_g"));
-});
-    calendar.option.getCurrentUser();
-
-
 
 });

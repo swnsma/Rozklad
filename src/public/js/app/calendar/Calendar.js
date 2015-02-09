@@ -70,6 +70,7 @@ function toFormat(number){
         number='0'+number;
 
     }
+    debugger;
     return number;
 }
 function normDate(year,month,day,hour,minuts){
@@ -95,8 +96,7 @@ function Calendar(){
                 dataType: 'json',
                 success: function(date){
                     for(var i=0;i<date.length;++i){
-                        if((+date[i].status)===2&&date[i].teacher===currentUser.id){
-                            //debugger;
+                        if((+date[i].status)===2&&date[i].teacher===self.currentUser.id){
                             for(var j=0;j<self.masEvent.length;++j){
                                 if(date[i].id===self.masEvent[j].id){
                                     if(self.masEvent[j].deleted){
@@ -109,7 +109,6 @@ function Calendar(){
                             continue;
                         }
                         if((+date[i].status)===2) {
-                            //debugger;
                             self.jqueryObject.calendar.fullCalendar('removeEvents',+date[i].id);
 
                         }else{
@@ -145,9 +144,10 @@ function Calendar(){
             return interval;
         }
     }
-    var currentUser;
-
     var self=this;
+    self.currentUser;
+
+
     this.masEvent=[];
     this.groups=[];
     this.jqueryObject={
@@ -223,6 +223,9 @@ function Calendar(){
         //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
+            //left: 'prev,next today',
+            //center: 'title',
+            //right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -239,9 +242,11 @@ function Calendar(){
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
         //handleWindowResize:true,
         //fixedWeekCount:false,
+
+
+
         eventMouseover:function(event, jsEvent, view){
-            //debugger;
-            if(!event.group&&!event.deleted){
+           /* if(!event.group&&!event.deleted){
                 $.ajax({
                     url: url + 'app/calendar/getAllGroupsForThisLesson/' + event.id,
                     type: 'POST',
@@ -260,39 +265,57 @@ function Calendar(){
             else
             if(!event.deleted) {
                 toolTip(event, jsEvent, view,this);
-            }
+            }*/
 
 
         },
         eventMouseout:function(event, jsEvent, view){
-            if(event.deleted!=true)
+           /* if(event.deleted!=true)
             {
                     $(this).css({
                         //'color': '#fff',
                         'fontWeight':'normal'
                     });
                 self.jqueryObject.tooltip.tooltip.hide();
-            }
+            }*/
 
         },
-        //eventRender:function(event, element) {
-        //    if(event.group){
-        //        for(var i=0;i<event.group.length;++i){
-        //            if(i===1){
-        //                debugger;
-        //            }
-        //            var $var = $('<span>');
-        //            $var.text();
-        //            $var.css({
-        //                'display':'inline-block',
-        //                'width':'10px',
-        //                'height':'10px',
-        //                'backgroundColor':'Yellow'
-        //            });
-        //            $(element).find('.fc-time').append($var);
-        //        }
-        //    }
-        //},
+        eventRender:function(event, element) {
+            if(event.backgroundColor!='RGBA(0,0,0,0)') {
+                if (event.group) {
+                    for (var i = 0; i < event.group.length; ++i) {
+
+                        var $var = $('<span>');
+                        $var.text(event.group[i].name[0]);
+                        $var.css({
+                            'display': 'inline-block',
+                            'width': '8px',
+                            'height': '8px',
+                            'fontSize': '8px',
+                            'textAlign': 'center',
+                            'marginLeft': '2px',
+                            'borderRadius': '2px',
+                            'verticalAlign': 'baseline',
+                            'backgroundColor': event.group[i].color,
+                            'fontWeight': 'normal'
+                        });
+                        $(element).find('.fc-time').append($var);
+
+                    }
+                }
+                if (event.teacher) {
+                    var $var = $('<span>');
+                    $var.text(event.name[0] + '.' + event.surname);
+                    $var.css({
+                        'fontSize': '10px',
+                        'textAlign': 'center',
+                        'display': 'block'
+                    });
+                    $var.appendTo($(element));
+
+                }
+            }
+        },
         eventSources: [
             {
                 events: function(start, end, timezone, callback) {
@@ -330,8 +353,6 @@ function Calendar(){
 
         var backColor = ( event.color || event.source.color );
         var hex = getRgbaRgbColor(backColor);
-
-        debugger;
         self.jqueryObject.tooltip.tooltip.css({
             'backgroundColor':hex
         });
@@ -393,7 +414,7 @@ function Calendar(){
         self.jqueryObject.tooltip.tooltip.show();
     }
 
-    (this.option.getCurrentUser=function(){
+    self.getCurrentUser=function(){
         var urls = url + 'app/calendar/getUserInfo';
         $.ajax({
             url: urls,
@@ -401,7 +422,7 @@ function Calendar(){
             contentType: 'application/json',
             dataType: 'json',
             success: function(response){
-                currentUser=response;
+                self.currentUser=response;
                 return response;
             },
             error: function(er) {
@@ -410,7 +431,7 @@ function Calendar(){
             }
 
         });
-    })();
+    };
 
     this.realTimeUpdate=function(){
         var a =new RealTimeUpdate();
