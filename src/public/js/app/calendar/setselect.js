@@ -89,8 +89,12 @@ function SetSelect(option){
             'height':'10px',
             'display':'inline-block',
             'marginRight':'3px',
-            'borderRadius':'2px'
+            'borderRadius':'2px',
+            'fontSize':'10px',
+            'color':'white',
+            'textAlign':'center'
         });
+        $spanColor.text(group.name[0]);
         var $spanText = $('<span class="text">');
         $spanText.appendTo(parent);
         $spanText.text(group.name);
