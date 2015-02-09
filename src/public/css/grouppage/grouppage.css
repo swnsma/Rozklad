@@ -29,7 +29,8 @@ h3
     font-size: 10px;
     text-decoration: none;
     left: 105px;
-    top: 10px
+    top: 10px;
+
 }
 h4:hover{
     text-decoration: underline;
@@ -51,7 +52,8 @@ textarea{
     background-color: #F5F5F5;
     color: #000000;
     border: 1px solid #000000;
-    height: 34px;
+    padding: 7px;
+
 }
 .code:hover, .edt:hover{
     color: #000000;
@@ -162,4 +164,7 @@ textarea{
 .groupList
 {
     clear: both;
+}
+.list-group{
+    height: 91px;
 }
