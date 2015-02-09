@@ -70,7 +70,6 @@ function toFormat(number){
         number='0'+number;
 
     }
-    debugger;
     return number;
 }
 function normDate(year,month,day,hour,minuts){
