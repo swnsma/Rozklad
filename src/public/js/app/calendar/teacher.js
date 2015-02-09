@@ -3,16 +3,6 @@
  */
 
 
-masColor={
-    myEvents:{
-        color:'RGB(0,100,160)',
-        textColor:'#fff'
-    },
-    otherEvents:{
-        color:'RGBA(0,0,0,0)',
-        textColor:'#000'
-    }
-}
 function remove(elem) {
     return elem.parentNode ? elem.parentNode.removeChild(elem) : elem;
 }
@@ -257,28 +247,34 @@ function Calendar_teacher(){
             return;
         }
 
+
+        debugger;
         lastEvent=$(this);
         if(calEvent.deleted){
-            $.ajax({
-                url: url + 'app/calendar/restore/' + calEvent.id,
-                type: 'POST',
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function(date){
-                    if(date[0].teacher===self.currentUser.id){
-                        date[0].color=masColor.myEvents.color;
-                    }else{
-                        date[0].color=masColor.otherEvents.color;
+            if(jsEvent.target.className=="deletedEvent") {
+                $.ajax({
+                    url: url + 'app/calendar/restore/' + calEvent.id,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (date) {
+                        if (date[0].teacher === self.currentUser.id) {
+                            date[0].color = masColor.myEvents.color;
+                            date[0].textColor = masColor.myEvents.textColor;
+                        } else {
+                            date[0].color = masColor.otherEvents.color;
+                            date[0].textColor= masColor.otherEvents.textColor;
+                        }
+                        calEvent.deleted = false;
+                        self.jqueryObject.calendar.fullCalendar('removeEvents', calEvent.id);
+                        self.jqueryObject.calendar.fullCalendar('renderEvent', date[0]);
+                    },
+                    error: function (er) {
+                        alert(er);
                     }
-                    calEvent.deleted=false;
-                    self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,calEvent.id);
-                    self.jqueryObject.calendar.fullCalendar( 'renderEvent' ,date[0]);
-                },
-                error: function(er) {
-                    alert(er);
-                }
 
-            });
+                });
+            }
             return;
         }
         var teacher =  new AddTeacherToList(self.jqueryObject.popupEdit.selectTeacher,{
@@ -965,14 +961,11 @@ function Calendar_teacher(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(id){
-                    //self.jqueryObject.calendar.fullCalendar( 'removeEvents' ,originalEvent.id);
-                    originalEvent.title='Восстановить';
-                    originalEvent.backgroundColor='RGBA(0,0,0,0)';
-                    originalEvent.textColor='#000';
-                    originalEvent.borderColor='RGBA(0,0,0,0)';
+
+                    originalEvent.title='Вы удалили событие. Восстановить';
+                    originalEvent.color= masColor.delEvent.color;
+                    originalEvent.textColor = masColor.delEvent.textColor;
                     originalEvent.deleted=true;
-                    //originalEvent.name='';
-                    //originalEvent.surname='';
                     for(var i =0;i<self.masEvent.length;++i){
                         if(+self.masEvent[i].id===+originalEvent.id){
                             self.masEvent[i].deleted=true;
@@ -980,6 +973,8 @@ function Calendar_teacher(){
                         }
                     }
                     self.jqueryObject.calendar.fullCalendar( 'updateEvent' ,originalEvent);
+
+
                 },
                 error: function(er) {
 

@@ -1,7 +1,21 @@
 body{
 
 }
+.deletedEvent{
+    display: /*inline-*/block;
+    color: #000000;
+    /*margin-bottom: 1px;*/
+    text-align: right;
+    font-weight: bold;
+    font-size: 9px;
+    color: #aaa;
 
+
+}
+.deletedEvent:hover{
+    /*border-bottom: 1px solid red;*/
+    text-decoration: underline;
+}
 .group-close{
     background: url("../../img/closeButton.png");
     /*background-position: 50%;*/

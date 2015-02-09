@@ -1,6 +1,23 @@
 /**
  * Created by Таня on 23.01.2015.
  */
+
+
+masColor={
+    myEvents:{
+        color:'RGB(0,100,160)',
+        textColor:'#fff'
+    },
+    otherEvents:{
+        color:'RGBA(0,0,0,0)',
+        textColor:'#000'
+    },
+    delEvent:{
+        color:'RGBA(0,0,0,0)',
+        textColor:'#aaa'
+    }
+}
+
 function getHexRGBColor(color)
 {
     color = color.replace(/\s/g,"");
@@ -222,9 +239,9 @@ function Calendar(){
         //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            //left: 'prev,next today',
+            //center: 'title',
+            //right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -239,9 +256,6 @@ function Calendar(){
             day: "День"
         },
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
-        //handleWindowResize:true,
-        //fixedWeekCount:false,
-
 
 
         eventMouseover:function(event, jsEvent, view){
@@ -280,7 +294,7 @@ function Calendar(){
 
         },
         eventRender:function(event, element) {
-            if(event.backgroundColor!='RGBA(0,0,0,0)') {
+            if(event.color!==masColor.delEvent.color) {
                 if (event.group) {
                     for (var i = 0; i < event.group.length; ++i) {
 
@@ -288,8 +302,8 @@ function Calendar(){
                         $var.text(event.group[i].name[0]);
                         $var.css({
                             'display': 'inline-block',
-                            'width': '8px',
-                            'height': '8px',
+                            'width': '10px',
+                            'height': '10px',
                             'fontSize': '8px',
                             'textAlign': 'center',
                             'marginLeft': '2px',
@@ -309,10 +323,25 @@ function Calendar(){
                     $var.css({
                         'fontSize': '10px',
                         'display': 'inline-block'
+                        //'textAlign':'right'
                     });
                     $var.appendTo($(element));
 
                 }
+            }
+            if(event.color===masColor.delEvent.color){
+                var $textDeleted =  $(element).find('.fc-title');
+                $textDeleted.text('Событие удаленно');
+                $textDeleted.css({
+
+                    'fontSize':'9px'
+                });
+                var $link  = $('<span>');
+                $link.text('Востановить');
+                $link.addClass('deletedEvent');
+
+                $link.appendTo($(element));
+
             }
         },
         eventSources: [
