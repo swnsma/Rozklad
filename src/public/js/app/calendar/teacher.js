@@ -77,6 +77,7 @@ function Calendar_teacher(){
 
     }
 
+
     //всі групи
     (function(){
         $.ajax({
@@ -130,6 +131,11 @@ function Calendar_teacher(){
             return 1;
         }
         return 0;
+    }
+    self.option.eventMouseover=function(event, jsEvent, view){
+        $(this).css({
+            'cursor':'pointer'
+        });
     }
 
     function posPopup(allDay){
