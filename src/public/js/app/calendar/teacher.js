@@ -217,9 +217,6 @@ function Calendar_teacher(){
         if(delPopup()){
             return;
         }
-
-
-        debugger;
         lastEvent=$(this);
         if(calEvent.deleted){
             if(jsEvent.target.className=="deletedEvent") {
