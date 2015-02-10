@@ -68,7 +68,8 @@ textarea{
     background-color: #F5F5F5;
     color: #000000;
     border: 1px solid #000000;
-    padding: 7px;
+    line-height: 34px;
+    padding: 0;
 
 }
 .code:hover, .edt:hover{
@@ -88,7 +89,7 @@ textarea{
     background-color: #dddddd;
 }
 #inputName{
-    height: 34px;
+    height: 36px;
     cursor: default;
     margin: 5px 0 20px -15px;
     background-color: #F5F5F5;
