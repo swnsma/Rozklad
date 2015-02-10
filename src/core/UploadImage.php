@@ -81,18 +81,18 @@ class UploadImage extends Upload {
                 throw new RuntimeException('invalid file format');
             }
 
-            $file = uniqid();
+            $file = uniqid() . '.' . $ext;
 
             //$this->compress($tmp_name, $ext);
 
-            $img = IMAGES_FOLDER . 'groups_photo/' . $file;
+            $img_folder = IMAGES_FOLDER . 'groups_photo/';
 
-            if ($this->crop($tmp_name, $img . '_small.' . $ext, 100, 100)) {
-                if (!move_uploaded_file($tmp_name, $img . '.' . $ext)) {
+            if ($this->crop($tmp_name, $img_folder . 'small_' . $file, 100, 100)) {
+                if (!move_uploaded_file($tmp_name, $img_folder . $file)) {
                     throw new RuntimeException('failed to move uploaded file');
                 }
 
-                $this->upload_file_name = $file . '.' . $ext;
+                $this->upload_file_name = $file;
                 return true;
             }
 
