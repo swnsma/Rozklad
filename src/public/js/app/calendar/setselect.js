@@ -5,7 +5,7 @@
 function SetSelect(option){
     var self = this;
     //масив всіх елементів, з яких буде будуватися група селектів
-    var groups = option.masGroups;
+    var groups =  (option.masGroups || []);
 
     //батьківський елемент всіх селектів
     var element = option.element;
