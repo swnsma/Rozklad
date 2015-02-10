@@ -62,7 +62,7 @@ class Regist extends Controller
                 $link='app/calendar';
                 if(Session::has('unusedLink')){
                     $link=Session::get('unusedLink');
-                    Session::set('unusedLink', "");
+                    Session::uns('unusedLink');
                 }
                 $this->view->renderJson(array('result'=>'registed', 'link'=>$link)) ;
 

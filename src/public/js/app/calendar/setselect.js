@@ -135,8 +135,10 @@ function SetSelect(option){
         //створення видалення селекта
         var $delete = $('<span>');
         $delete.addClass('group-close');
+        $delete.text('X');
         $delete.css({
-            'cursor':'pointer'
+            'cursor':'pointer',
+            'fontWeight':'bold'
         });
         $delete.on('click',function(){
             var bool=false;
