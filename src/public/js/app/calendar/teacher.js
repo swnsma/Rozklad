@@ -120,15 +120,18 @@ function Calendar_teacher(){
 
     //функція яка відповідає за появленя popup'ів
     function posPopup(allDay){
+
         var x= allDay.pageX;
-        var y = allDay.pageY+10;
-        var height=screen.height;
-        var width=screen.width;
+        var y = allDay.pageY;
+        var yminus = y-allDay.clientY;
+        var height=document.documentElement.clientHeight;
+        var width=document.documentElement.clientWidth;
         var widthPopup=self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2);
         var heightPopup=self.jqueryObject.popup.popup.css('height').slice(0,self.jqueryObject.popup.popup.css('height').length-2);
 
         x=x-(+widthPopup)/2;
-        if((y+(+heightPopup)+90)>=height){
+        debugger;
+        if((y+(+heightPopup)-yminus)>=height){
             y=y-heightPopup;
         }
         self.jqueryObject.popup.popup.css({

@@ -10,7 +10,7 @@ echo '</style>';
 
     <section class="container">
         <?php if ($data['status'] == 'teacher'): ?>
-            <a class="btn btn-default" style="margin: 10px; padding: 3px" href="<?php echo URL; ?>app/groups/create">создать группу</a>
+            <a class="btn btn-default" style="margin: 10px; padding: 3px" href="<?php echo URL; ?>app/groups/create">Создать группу</a>
         <?php endif; ?>
         <div class="group-list">
             <?php foreach ($data['groups'] as $group) : ?>
@@ -21,13 +21,13 @@ echo '</style>';
                     <div class="group-icon" style="background-image: url(<?php echo URL . 'public/users_files/images/groups_photo/' . $group['photo']; ?>)"></div>
                 <?php endif; ?>
                     <div class="padding-10px">
-                    <h3 class="group-name"><a href="<?php echo URL . 'app/grouppage/id' . $group['group_id']; ?>"><?php echo html_entity_decode($group['name']); ?></a></h3>
-                    <p class="group-description"><?php echo html_entity_decode($group['descr']); ?></p>
+                    <h3 class="group-name"><a href="<?php echo URL . 'app/grouppage/id' . htmlspecialchars($group['group_id']); ?>"><?php echo htmlspecialchars($group['name']); ?></a></h3>
+                    <p class="group-description"><?php echo htmlspecialchars($group['descr']); ?></p>
                     <div class="next-lesson">
                         <div>
                             Преподаватель:
                         </div>
-                        <div class="time"><?php echo html_entity_decode($group['teacher_fn'] . ' ' . $group['teacher_ln']); ?></div>
+                        <div class="time"><?php echo htmlspecialchars($group['teacher_fn'] . ' ' . $group['teacher_ln']); ?></div>
                     </div>
                 </div>
             </div>

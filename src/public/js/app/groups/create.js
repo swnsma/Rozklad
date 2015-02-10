@@ -1,3 +1,5 @@
+
+
 function create_group(data, func) {
     $.ajax({
         url: url + 'app/groups/createNewGroup',
@@ -10,10 +12,35 @@ function create_group(data, func) {
         contentType: false
     });
 }
-
+function removeError(){
+    $(this).removeClass('error-input');
+    er1.css('display', 'none');
+    er2.css('display', 'none');
+}
+function trim(el){
+    var val=el.val();
+    val=val.replace(/^ */g, '');
+    val=val.replace(/ *$/g, '');
+    el.val(val);
+}
+function validScriptInsertion(el){
+    var val=el.val()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\n/g, '<br/>')
+        .replace(/\s/g,'&nbsp;');
+    debugger;
+    el.val(val);
+}
+function validLen(el){
+    return el.val().length<1;
+}
 $('#createButton').click(function() {
+    var flag_error=0;
     var el_name = $('#inputName');
     var el_descr = $('#inputDesc');
+    var  el_photo= $('#photo');
     var er1 = $('#error1');
     var er2 = $('#error2');
     var name = el_name.val();
@@ -23,16 +50,33 @@ $('#createButton').click(function() {
     er1.css('display', 'none');
     er2.css('display', 'none');
 
-    if (!name.match(/^[\d+\w+а-яА-Я ]{1,50}$/)) {
+    trim(el_name);
+    trim(el_descr);
+    validScriptInsertion(el_name);
+    validScriptInsertion(el_descr);
+    if(validLen(el_name)){
         el_name.addClass('error-input');
         er1.css('display', 'block');
-        return false;
+        flag_error=1;
     }
-    if (!descr.match(/^[\(\)\!\?\:\;\.\,\-А-Яа-я \s\S\d+\w+]{1,300}$/)) {
+    if(validLen(el_descr)){
         el_descr.addClass('error-input');
         er2.css('display', 'block');
+        flag_error=1;
+    }
+    if(flag_error){
         return false;
     }
+    //if (!name.match(/^[\d+\w+а-яА-Я ]{1,50}$/)) {
+    //    el_name.addClass('error-input');
+    //    er1.css('display', 'block');
+    //    return false;
+    //}
+    //if (!descr.match(/^[\(\)\!\?\:\;\.\,\-А-Яа-я \s\S\d+\w+]{1,300}$/)) {
+    //    el_descr.addClass('error-input');
+    //    er2.css('display', 'block');
+    //    return false;
+    //}
 
     create_group(new FormData(document.getElementById('create1')), {
         success: function(response) {
@@ -50,4 +94,66 @@ $('#createButton').click(function() {
         }
     });
     return false;
+});
+(function ($) {
+    $.fn.autogrow = function (options) {
+        var $this, minHeight, lineHeight, shadow, update;
+        this.filter('textarea').each(function () {
+            $this = $(this);
+            minHeight = $this.height();
+            lineHeight = $this.css('lineHeight');
+            $this.css('overflow','hidden');
+            shadow = $('<div></div>').css({
+                position: 'absolute',
+                'word-wrap': 'break-word',
+                top: -10000,
+                left: -10000,
+                width: $this.width(),
+                fontSize: $this.css('fontSize'),
+                fontFamily: $this.css('fontFamily'),
+                lineHeight: $this.css('lineHeight'),
+                resize: 'vertical'
+            }).appendTo(document.body);
+            update = function () {
+                shadow.css('width', $(this).width());
+                var val = this.value.replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/\n/g, '<br/>')
+                    .replace(/\s/g,'&nbsp;');
+                if (val.indexOf('<br/>', val.length - 5) !== -1) { val += '#'; }
+                shadow.html(val);
+                $(this).css('height', Math.max(shadow.height()+15, minHeight));
+            };
+            $this.change(update).keyup(update).keydown(update);
+            update.apply(this);
+        });
+        return this;
+    };
+    // On page-load, auto-expand textareas to be tall enough to contain initial content
+
+}(jQuery));
+
+$(document).ready(function(){
+    var el_name = $('#inputName');
+    var el_descr = $('#inputDesc');
+    var  el_photo= $('#photo');
+    var er1 = $('#error1');
+    var er2 = $('#error2');
+    $("textarea")
+        .autogrow()
+        .css("min-height","50px")
+        .css("padding-top","10px");
+    var er3 = $('#error3');
+    er3.css("display","block");
+    $(el_descr).on("focus",function(){
+        $(".form-control").removeClass('error-input');
+        er1.css('display', 'none');
+        er2.css('display', 'none');
+    });
+    $(el_name).on("focus",function(){
+        $('.form-control').removeClass('error-input');
+        er1.css('display', 'none');
+        er2.css('display', 'none');
+    });
 });
