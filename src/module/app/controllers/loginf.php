@@ -47,6 +47,7 @@ class Loginf extends Controller {
 
     public function __construct() {
         parent::__construct();
+        Session::uns("gm_ID");
         $this->model=$this->loadModel("check");
         FacebookSession::setDefaultApplication( APP_ID_FB,APP_SECRET_FB );
     }
@@ -70,7 +71,7 @@ class Loginf extends Controller {
             $response = $request->execute();
 
             Session::set('fb_token',"".$session->getAccessToken());
-            Session::set('logout_link',"http://www.facebook.com/logout.php?next=".URL."/app/loginf/logout/&access_token=".Session::get('fb_token'));
+//            Session::set('logout_link',"http://www.facebook.com/logout.php?next=http://localhost/src/app/loginf/logout/&access_token=".Session::get('fb_token'));
             $user_f = $response->getGraphObject()->asArray();
             Session::set('fb_ID',$user_f['id']);
             Session::set('lastname',$user_f['last_name']);
@@ -84,9 +85,11 @@ class Loginf extends Controller {
             }
             if(isset($user_f['email'])){
                 Session::set('email',$user_f['email']);
-            } else {
-                Session::set('email','');
             }
+            else{
+                Session::set('email',NULL);
+            }
+
 
             $this->checkUser();
             exit;
@@ -109,16 +112,15 @@ class Loginf extends Controller {
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdFB(Session::get("fb_ID"));
             Session::set('id',$id);
-            $isUnconf=$this->model->checkUnconfirmed($id);
-            if($isUnconf){
-                Session::set('status',"unconfirmed");
-                header("Location:".URL."app/signin");;
-                exit;
-            }
+
             Session::set('status',"ok");
             $link="app/calendar";
             if(Session::has('unusedLink')){
                 $link=Session::get('unusedLink');
+            }
+            $isUnconf=$this->model->checkUnconfirmed($id);
+            if($isUnconf){
+                Session::set('status',"unconfirmed");
             }
             header("Location:".URL.$link);
             exit;
@@ -137,6 +139,10 @@ class Loginf extends Controller {
                     $link="app/calendar";
                     if(Session::has('unusedLink')){
                         $link=Session::get('unusedLink');
+                    }
+                    $isUnconf=$this->model->checkUnconfirmed($id);
+                    if($isUnconf){
+                        Session::set('status',"unconfirmed");
                     }
                     header("Location:" . URL .$link );
                     exit;
@@ -167,8 +173,4 @@ class Loginf extends Controller {
         session_destroy();
         header("Location:".URL."app/signin");
     }
-
-
 }
-
-?>

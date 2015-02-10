@@ -91,9 +91,10 @@ function SetSelect(option){
             'display':'inline-block',
             'marginRight':'3px',
             'borderRadius':'2px',
-            'fontSize':'10px',
+            'fontSize':'8px',
             'color':'white',
-            'textAlign':'center'
+            'textAlign':'center',
+            'lineHeight':'10px'
         });
         $spanColor.text(group.name[0]);
         var $spanText = $('<span class="text">');

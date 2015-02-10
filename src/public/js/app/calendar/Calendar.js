@@ -1,6 +1,23 @@
 /**
  * Created by Таня on 23.01.2015.
  */
+
+
+masColor={
+    myEvents:{
+        color:'RGB(0,100,160)',
+        textColor:'#fff'
+    },
+    otherEvents:{
+        color:'RGBA(0,0,0,0)',
+        textColor:'#000'
+    },
+    delEvent:{
+        color:'RGBA(1,0,0,0)',
+        textColor:'#aaa'
+    }
+}
+
 function getHexRGBColor(color)
 {
     color = color.replace(/\s/g,"");
@@ -90,7 +107,7 @@ function Calendar(){
         var operation = function(){
             $.ajax({
                 url: url+'app/calendar/getRealTimeUpdate/'+interval/1000,
-                type: 'POST',
+                type: 'GET',
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(date){
@@ -143,6 +160,8 @@ function Calendar(){
             return interval;
         }
     }
+
+
     var self=this;
     self.currentUser;
 
@@ -218,13 +237,11 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
-        //selectable:true,
-        //eventLimit: true, // for all non-agenda views
         firstDay: 1,
         header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            //left: 'prev,next today',
+            //center: 'title',
+            //right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -239,48 +256,9 @@ function Calendar(){
             day: "День"
         },
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
-        //handleWindowResize:true,
-        //fixedWeekCount:false,
 
-
-
-        eventMouseover:function(event, jsEvent, view){
-           /* if(!event.group&&!event.deleted){
-                $.ajax({
-                    url: url + 'app/calendar/getAllGroupsForThisLesson/' + event.id,
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    success: function(date){
-                        event.group=date;
-                        toolTip(event,jsEvent,view,this);
-                    },
-                    error: function(er) {
-                        alert(er);
-                    }
-
-                });
-            }
-            else
-            if(!event.deleted) {
-                toolTip(event, jsEvent, view,this);
-            }*/
-
-
-        },
-        eventMouseout:function(event, jsEvent, view){
-           /* if(event.deleted!=true)
-            {
-                    $(this).css({
-                        //'color': '#fff',
-                        'fontWeight':'normal'
-                    });
-                self.jqueryObject.tooltip.tooltip.hide();
-            }*/
-
-        },
         eventRender:function(event, element) {
-            if(event.backgroundColor!='RGBA(0,0,0,0)') {
+            if(event.color!==masColor.delEvent.color) {
                 if (event.group) {
                     for (var i = 0; i < event.group.length; ++i) {
 
@@ -288,17 +266,18 @@ function Calendar(){
                         $var.text(event.group[i].name[0]);
                         $var.css({
                             'display': 'inline-block',
-                            'width': '8px',
-                            'height': '8px',
+                            'width': '10px',
+                            'height': '10px',
                             'fontSize': '8px',
                             'textAlign': 'center',
                             'marginLeft': '2px',
+                            'marginRight':'2px',
                             'borderRadius': '2px',
                             'verticalAlign': 'baseline',
                             'backgroundColor': event.group[i].color,
                             'fontWeight': 'normal'
                         });
-                        $(element).find('.fc-time').append($var);
+                        $(element)/*.find('.fc-time')*/.append($var);
 
                     }
                 }
@@ -307,11 +286,24 @@ function Calendar(){
                     $var.text(event.name[0] + '.' + event.surname);
                     $var.css({
                         'fontSize': '10px',
-                        'display': 'block'
+                        'display': 'inline-block'
+                        //'textAlign':'right'
                     });
                     $var.appendTo($(element));
 
                 }
+            }
+            if(event.color===masColor.delEvent.color){
+                var $textDeleted =  $(element).find('.fc-title');
+                $textDeleted.text('Событие удаленно');
+                $textDeleted.css({
+                    'fontSize':'9px'
+                });
+                var $link  = $('<span>');
+                $link.text('Восстановить');
+                $link.addClass('deletedEvent');
+                $link.appendTo($(element));
+
             }
         },
         eventSources: [
@@ -322,113 +314,30 @@ function Calendar(){
                     var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
                     var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
 
-                    $.ajax({
-                        url: url+'app/calendar/addFullEventDefault'+'/'+start1+'/'+end1,
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        success: function(doc) {
-                            self.masEvent=doc;
-                            callback(doc);
-                            return doc;
-                        },
-                        error: function(){
+                    var data={
+                        start:start1,
+                        end:end1
+                    }
+                    var success = function(doc){
+                        self.masEvent=doc;
+                        callback(doc);
+                        return doc;
+                    }
+                    ajax.getFullEventDefault(data,success);
 
-                        }
-                    });
                 },
                 color: 'RGB(0,100,160)'  // an option!
             }
         ]
     };
 
-    //дода тултіп
-    function toolTip(event, jsEvent, view,thet){
-
-        var events = event.title;
-        if(events.length>=78){
-            events = events.substr(0, 78) + '...';
-        }
-
-        var backColor = ( event.color || event.source.color );
-        var hex = getRgbaRgbColor(backColor);
-        self.jqueryObject.tooltip.tooltip.css({
-            'backgroundColor':hex
-        });
-        self.jqueryObject.tooltip.tooltipTitle.text(events);
-
-
-        var dateEnd = new Date(event.end);
-        var dateStart = new Date(event.start);
-        var minutesEnd = dateEnd.getMinutes();
-        var month = dateStart.getMonth()+1;
-        var date = dateStart.getDate();
-        var hourStart = dateStart.getHours();
-        var minutesStart = dateStart.getMinutes();
-        var hour = dateEnd.getHours();
-
-        month=toFormat(month);
-        date=toFormat(date);
-        hourStart=toFormat(hourStart);
-        minutesEnd=toFormat(minutesEnd);
-        minutesStart=toFormat(minutesStart);
-        hour=toFormat(hour);
-
-        dateStart =  dateStart.getFullYear()+'-'+month+'-'+date+' ';
-
-        self.jqueryObject.tooltip.tooltipStart.text(dateStart);
-
-        self.jqueryObject.tooltip.tooltipEnd.text(hourStart+':'+minutesStart+'-'+hour + ':' + minutesEnd);
-        var author = event.name + ' ' + event.surname;
-        if(author.length>=78){
-            author = author.substr(0, 78) + '...';
-        }
-        self.jqueryObject.tooltip.tooltipAuthor.text(author);
-
-        var XX= jsEvent.offsetX||0;
-        var YY=jsEvent.offsetY||0;
-        var x = jsEvent.pageX - XX;
-        var y = jsEvent.pageY - YY + 17;
-
-        self.jqueryObject.tooltip.tooltip.css({
-            'left': x,
-            'top': y
-
-        });
-        $(thet).css({
-            //'color': '#000',
-            'fontWeight':'bold'
-        });
-
-        self.jqueryObject.tooltip.myTooltipGroupList.empty();
-        var group=event.group;
-        for(var i=0;i<group.length;++i){
-            var $selectList =$('<span class="group-list">');
-            $selectList.appendTo(self.jqueryObject.tooltip.myTooltipGroupList);
-            $selectList.text(group[i].name);
-            if(i!==group.length-1){
-                $selectList.text(group[i].name+',');
-            }
-        }
-        self.jqueryObject.tooltip.tooltip.show();
-    }
-
     self.getCurrentUser=function(){
-        var urls = url + 'app/calendar/getUserInfo';
-        $.ajax({
-            url: urls,
-            type: 'GET',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function(response){
-                self.currentUser=response;
-                return response;
-            },
-            error: function(er) {
+        function success(response){
+            self.currentUser=response;
+            return response;
+        }
+        ajax.getCurrentUser(success);
 
-                alert(er);
-            }
-
-        });
     };
 
     this.realTimeUpdate=function(){

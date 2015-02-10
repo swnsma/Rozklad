@@ -7,9 +7,21 @@ h3
 {
     margin-left: 1px;
 }
+.pict-cont .wrapp{
+    min-height: 20px;
+    min-width: 20px;
+    overflow: hidden;
+    max-height: 50px;
+    max-width: 50px;
+    margin:5px;
+}
+.pict-cont{
+    float: left;
+    line-height: 65px;
+}
 .info-title{
     word-wrap: break-word;
-    min-height: 40px;
+    min-height: 65px;
     padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{
@@ -52,7 +64,8 @@ textarea{
     background-color: #F5F5F5;
     color: #000000;
     border: 1px solid #000000;
-    height: 34px;
+    padding: 7px;
+
 }
 .code:hover, .edt:hover{
     color: #000000;

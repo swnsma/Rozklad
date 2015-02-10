@@ -10,136 +10,180 @@ class Calendar extends Controller {
 
     private $userInfo;
     private $role='teacher';
-    public function back_signin(){
-        $_SESSION['status']='not';
-        header("Location:".$_SESSION['logout_link']);
-        exit;
-    }
+
     public function __construct() {
         parent::__construct();
-
-
         $id = $_SESSION['id'];
         if($id===null){
-            $this->back_signin();
+            $this->logout();
         }
         $this->model = $this->loadModel('user');
         $this->userInfo=$this->model->getCurrentUserInfo($id);
         if($this->userInfo===null){
-            $this->back_signin();
+            $this->logout();
         }
     }
-    public function getRole(){
-        return $this->role;
-    }
-    //використовую
-    private function privateGetRole($role_id){
-        if($role_id=='1'){
-            return 'teacher';
-        }
-        else return 'student';
-    }
-
-    //використовую
     public function getUserInfo(){
         $this->view->renderJson($this->userInfo);
     }
-
-    //використовую
     public function index() {
         $this->model = $this->loadModel('lesson');
         $data =$this->userInfo;
         $this->view->renderHtml('calendar/index', $data);
     }
-
-    //моє
-    public function addGroupsToLesson(){
-        $request=Request::getInstance();
-        $lessonId = $request->getParam(0);
-        $var =$request->getParams();
-
-        $this->model=$this->loadModel('grouplesson');
-        for($i=1;$i<count($var);++$i){
-            $this->model->addGroupToLesson($lessonId,$var[$i]);
-        }
-        $this->view->renderJson(Array('success'=>'success'));
-    }
-
-    //+
-    public function deleteGroupFromLesson(){
-        $request=Request::getInstance();
-        $lessonId = $request->getParam(0);
-        $var =$request->getParams();
-        $this->model=$this->loadModel("lesson");
-        for($i=1;$i<count($var);++$i){
-            $success=$this->model->deleteGroupFromLesson($lessonId,$var[$i]);
-        }
-
-        $this->view->renderJson(Array('success'=>$success));
-    }
-
-    //використовую
-    public function addEvent(){
-        $req=Request::getInstance();
-        $this->model = $this->loadModel('lesson');
-        $title= $req->getParam(0);
-        $start= $req->getParam(1);
-        $end= $req->getParam(2);
-        $teacher= $req->getParam(3);
-        $id=$this->model->addLesson($title,$start,$end,$teacher);
-
-        if($id==null){
-            echo 'Ошибка';
-        }else{
-            $this->view->renderJson(array('id' => $id));
-        }
-    }
-
-    //використовую
-    public function updateEvent(){
-        $req=Request::getInstance();
-        $this->model = $this->loadModel('lesson');
-        $title= $req->getParam(0);
-        $start= $req->getParam(1);
-        $end= $req->getParam(2);
-        $id= $req->getParam(3);
-        $teacherId= $req->getParam(4);
-        $this->model->updateLesson($title,$start,$end,$id,$teacherId);
-        $this->view->renderJson("succeess");
-
-    }
-
-    //використовую
     public function addFullEventDefault(){
-        $this->model = $this->loadModel('lesson');
-        $start=Request::getInstance()->getParam(0);
-        $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisIdStudent($this->userInfo,$start,$end);
-        $this->view->renderJson($id);
+        if(isset($_POST['start'])&&$_POST['end']) {
+            $this->model = $this->loadModel('lesson');
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $id = $this->model->getOurLessonForThisIdStudent($this->userInfo, $start, $end);
+            $this->view->renderJson($id);
+        }
     }
-
-    //+
-    public function addFullEventTeacherCurrent(){
-        $this->model = $this->loadModel('lesson');
-        $start=Request::getInstance()->getParam(0);
-        $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo,$start,$end);
-        $this->view->renderJson($id);
-    }
-
-    public function addFullEventTeacherNoCurrent(){
-        $this->model = $this->loadModel('lesson');
-        $start=Request::getInstance()->getParam(0);
-        $end=Request::getInstance()->getParam(1);
-        $id=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo,$start,$end);
-        $this->view->renderJson($id);
-    }
-
     public function getOurGroups(){
         $this->model = $this->loadModel('groups');
         $arr=$this->model->getOurGroups($this->userInfo['id']);
         $this->view->renderJson($arr);
     }
+    public function getOurTeacher(){
+        $this->model = $this->loadModel('user');
+        $date=$this->model->getOurTeacher();
+        $this->view->renderJson($date);
+    }
+    public function addFullEventTeacherCurrent(){
+        if(isset($_POST['start'])&&isset($_POST['end']));
+        {
+            $this->model = $this->loadModel('lesson');
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $id = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo, $start, $end);
+            $this->view->renderJson($id);
+        }
+    }
+    public function addFullEventTeacherNoCurrent(){
+        if(isset($_POST['start'])&&isset($_POST['end']));
+        {
+            $this->model = $this->loadModel('lesson');
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $id = $this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo, $start, $end);
+            $this->view->renderJson($id);
+        }
+    }
+    public function restore(){
+        if(isset($_POST['id'])) {
+            $this->model = $this->loadModel('lesson');
+            $id = $_POST['id'];
+            $date = $this->model->restore($id);
+            $this->view->renderJson($date);
+        }
+    }
+    public function addGroupsToLesson(){
+        print_r($_POST);
+        if(isset($_POST['lesson_id'])&&isset($_POST['group_id'])) {
+            $lessonId = $_POST['lesson_id'];
+            $var = $_POST['group_id'];
+
+            $this->model = $this->loadModel('grouplesson');
+            for ($i = 0; $i < count($var); ++$i) {
+                $this->model->addGroupToLesson($lessonId, $var[$i]);
+            }
+            $this->view->renderJson(Array('success' => 'success'));
+        }
+    }
+    public function deleteGroupFromLesson(){
+        print_r($_POST);
+        if(isset($_POST['lesson_id'])&&isset($_POST['group_id'])) {
+            $lessonId = $_POST['lesson_id'];
+            $var = $_POST['group_id'];
+            $this->model = $this->loadModel("lesson");
+            for ($i = 0; $i < count($var); ++$i) {
+                $success = $this->model->deleteGroupFromLesson($lessonId, $var[$i]);
+            }
+            $this->view->renderJson(Array('success' => $success));
+        }
+    }
+    public function updateEvent(){
+        if(isset($_POST['title']) && isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])&&isset($_POST['teacher'])) {
+            $this->model = $this->loadModel('lesson');
+            $title = $_POST['title'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $id = $_POST['id'];
+            $teacherId = $_POST['teacher'];
+            $this->model->updateLesson($title, $start, $end, $id, $teacherId);
+            $this->view->renderJson("succeess");
+        }
+    }
+    public function addEvent(){
+        if(isset($_POST['title'])&&isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['teacher'])) {
+            $this->model = $this->loadModel('lesson');
+            $title = $_POST['title'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $teacher = $_POST['teacher'];
+            $id = $this->model->addLesson($title, $start, $end, $teacher);
+
+            if ($id == null) {
+                echo 'Ошибка';
+            } else {
+                $this->view->renderJson(array('id' => $id));
+            }
+        }
+    }
+    public function delEvent(){
+
+        if(isset($_POST['id'])) {
+            $this->model = $this->loadModel('lesson');
+            $id = $_POST['id'];
+            $this->model->delEvent($id);
+
+            $this->view->renderJson("success");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function getGroups(){
         $this->model = $this->loadModel('groups');
 //        print $this->userInfo['id'];
@@ -169,29 +213,11 @@ class Calendar extends Controller {
     }
 
     //використовую
-    public function delEvent(){
-        $req=Request::getInstance();
-        $this->model = $this->loadModel('lesson');
-        $id= $req->getParam(0);
-        $this->model->delEvent($id);
 
-        $this->view->renderJson("success");
-    }
 
     //використовую
-    public function restore(){
-        $req=Request::getInstance();
-        $this->model = $this->loadModel('lesson');
-        $id= $req->getParam(0);
-        $date =$this->model->restore($id);
-        $this->view->renderJson($date);
-    }
 
-    public function  getOurTeacher(){
-        $this->model = $this->loadModel('user');
-        $date=$this->model->getOurTeacher();
-        $this->view->renderJson($date);
-    }
+
+
 
 }
-?>

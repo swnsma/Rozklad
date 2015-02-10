@@ -18,9 +18,10 @@ abstract class Controller {
     public function run($actionName = 'index') {
         $this->$actionName();
     }
-    public function back_signin(){
+    public function logout(){
         $_SESSION['status']='not';
-        header("Location:".$_SESSION['logout_link']);
+//        header("Location:".$_SESSION['logout_link']);
+        header("location:".URL."app/signin");
         exit;
     }
 }
