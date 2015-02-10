@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Calendar|Rozklad</title>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/html">-->
+<!--<head lang="en">-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Calendar|Rozklad</title>-->
+<!---->
+<!---->
+<!--</head>-->
+<!--<body>-->
 
-    <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
-    <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
+<link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
+<link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
+<link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
+<link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
+<link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
 
+<?php if ($data['status'] == 'teacher'): ?>
+    <link rel='stylesheet' href='<?php print URL; ?>public/js/app/calendar/customselect/customselect.css'/>
+    <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
+<?php endif; ?>
 
-    <?php if ($data['title'] == 'teacher'): ?>
-        <link rel='stylesheet' href='<?php print URL; ?>public/js/app/calendar/customselect/customselect.css'/>
-        <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
-        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
-        <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
-    <?php endif; ?>
-</head>
-<body>
 
 <div class="my-tooltip" id="tooltip">
     <h3  id="tooltipTitle">Title</h3>
@@ -40,7 +42,7 @@
 
 </div>
 
-<?php if ($data['title'] == 'teacher'): ?>
+<?php if ($data['status'] == 'teacher'): ?>
     <div class='popup' id='popup'>
         <!--        <span id="resetLesson" class="popup-close"> </span>-->
         <div class='content'>
@@ -175,7 +177,7 @@
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/ajax.js'></script>
-<?php if ($data['title'] == 'teacher'): ?>
+<?php if ($data['status'] == 'teacher'): ?>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
