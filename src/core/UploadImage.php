@@ -81,10 +81,9 @@ class UploadImage extends Upload {
                 throw new RuntimeException('invalid file format');
             }
 
-            $file = uniqid() . '.' . $ext;
-
             $this->compress($tmp_name, $ext);
 
+            $file = uniqid() . '.' . $ext;
             $img_folder = IMAGES_FOLDER . 'groups_photo/';
 
             if ($this->crop($tmp_name, $img_folder . 'small_' . $file, 100, 100)) {
