@@ -275,7 +275,8 @@ function Calendar(){
                             'borderRadius': '2px',
                             'verticalAlign': 'baseline',
                             'backgroundColor': event.group[i].color,
-                            'fontWeight': 'normal'
+                            'fontWeight': 'normal',
+                            'verticalAlign':'middle'
                         });
                         $(element)/*.find('.fc-time')*/.append($var);
 

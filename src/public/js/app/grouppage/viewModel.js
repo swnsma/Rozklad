@@ -90,7 +90,6 @@ function ViewModel() {
             }
         });
     };
-
     that.errorDescMessage = ko.computed(function(){
         switch(that.errorDesc()){
             case "1":

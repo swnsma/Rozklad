@@ -50,11 +50,17 @@ body {
 }
 
 .group .group-icon {
-    height: 150px;
     width: 100%;
     background-size: 100%;
 }
-
+.icon-container{
+    height: 150px;
+    overflow: hidden;
+}
+.add-btn{
+    margin: 10px 10px 10px 5px;
+    padding: 3px;
+}
 .title {
     font-weight: 600;
 }
