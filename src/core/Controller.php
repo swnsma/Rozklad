@@ -19,8 +19,11 @@ abstract class Controller {
         $this->$actionName();
     }
     public function logout(){
-        $_SESSION['status']='not';
+//        $_SESSION['status']='not';
 //        header("Location:".$_SESSION['logout_link']);
+        setcookie (session_id(), "", time() - 3600);
+        session_destroy();
+        session_write_close();
         header("location:".URL."app/signin");
         exit;
     }
