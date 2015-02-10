@@ -67,7 +67,7 @@ class Loginf extends Controller {
 // see if we have a session
         if ( isset( $session ) ) {
             // graph api request for user data
-            $request = new FacebookRequest( $session, 'GET', '/me' );
+            $request = new FacebookRequest( $session, 'GET', '/me?scope=email' );
             $response = $request->execute();
 
             Session::set('fb_token',"".$session->getAccessToken());
@@ -95,7 +95,9 @@ class Loginf extends Controller {
             exit;
 
         } else {
-            $loginUrl = $helper->getLoginUrl();
+            $loginUrl = $helper->getLoginUrl(array(
+                'scope' => 'email'
+            ));
             header("Location: ".$loginUrl);
         }
     }
