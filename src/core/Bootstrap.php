@@ -17,7 +17,6 @@ class Bootstrap extends Controller{
         $module = $request->getModule();
         $this->dispatcher($controller,$action);
 
-
         $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
             require_once $file;
@@ -68,8 +67,9 @@ class Bootstrap extends Controller{
         header("Location:".URL."app/signin");
     }
     private  function checkUnconf(){
-        if(Session::has('status')&&Session::has('status')!="not"&&(Session::has('id'))){
+        if(Session::has('status')&&Session::get('status')!="not"&&(Session::has('id'))){
             $this->model=$this->loadModel('user');
+
             if(!$this->model->checkUnconfirmed(Session::get('id'))){
                 Session::set('status','ok');
             }
