@@ -19,7 +19,10 @@ class Session {
     }
 
     public static function get($key) {
+        if(isset($_SESSION[$key])){
         return $_SESSION[$key];
+        }
+        else null;
     }
     public static function uns($key){
         unset($_SESSION[$key]);

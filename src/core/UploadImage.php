@@ -83,7 +83,7 @@ class UploadImage extends Upload {
 
             $file = uniqid();
 
-            $this->compress($tmp_name, $ext);
+            //$this->compress($tmp_name, $ext);
 
             $img = IMAGES_FOLDER . 'groups_photo/' . $file;
 
@@ -92,7 +92,7 @@ class UploadImage extends Upload {
                     throw new RuntimeException('failed to move uploaded file');
                 }
 
-                $this->upload_file_name = $file;
+                $this->upload_file_name = $file . '.' . $ext;
                 return true;
             }
 
