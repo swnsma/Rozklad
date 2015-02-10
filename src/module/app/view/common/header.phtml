@@ -29,9 +29,11 @@ if (isset($data['files'])) {
                 <h3 class="role" id="activeUserRole">
                     <?php echo $data['status']  ?>
                 </h3>
-                <a class="logout" id="logout" href="<?php echo $_SESSION['logout_link'];?>">Выйти из системы</a>
             </section>
             <img class="avatar" id="activeUserPhoto" src="<?php echo $data['photo']  ?>" />
+            <a class="logout" id="logout" href="<?php echo $_SESSION['logout_link'];?>">
+                <img style="width:20px; display: block;" src="<?php echo URL; ?>public/img/exit.svg"/>
+            </a>
         </article>
     </section>
     <div class="clear-both"></div>
