@@ -113,8 +113,11 @@ function ModelRegist(){
             role:self.roleIndex()
         };
         $.ajax({
-                url:url + 'app/regist/addUser/'+postData.name+'/'+postData.surname+'/'+postData.phone+'/'+postData.role+'/',
-                type:"GET",
+                url:url + 'app/regist/addUser/',
+                type:"POST",
+                data:{
+                    data:postData
+                },
                 success:function(response){
                     if(response.result==="registed") {
                         $("#btn-success")
