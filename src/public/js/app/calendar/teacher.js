@@ -129,24 +129,26 @@ function Calendar_teacher(){
         var widthPopup=self.jqueryObject.popup.popup.css('width').slice(0,self.jqueryObject.popup.popup.css('width').length-2);
         var heightPopup=self.jqueryObject.popup.popup.css('height').slice(0,self.jqueryObject.popup.popup.css('height').length-2);
 
+
         x=x-(+widthPopup)/2;
-        debugger;
         if((y+(+heightPopup)-yminus)>=height){
-            y=y-heightPopup;
+            y=y-heightPopup-20;
         }
-        //if((x-(+widthPopup)/2)<=0){
-        //    x=1;
-        //}else
-        //if((x+widthPopup/2)>=width){
-        //    x=width-widthPopup;
-        //}
+        debugger;
+        if(x<=0){
+            x=1;
+        }else
+        if((x+(+widthPopup))>=width){
+            x=width-widthPopup;
+
+        }
         self.jqueryObject.popup.popup.css({
             'left':x,
-            'top':y
+            'top':y+10
         });
         self.jqueryObject.popupEdit.popupEdit.css({
             'left':x,
-            'top':y
+            'top':y+10
         })
     }
 
@@ -907,7 +909,7 @@ $(document).ready(function() {
     calendar.timeIvent();
     calendar.addLesson();
     calendar.delLesson();
-    calendar.realTimeUpdate();
+    //calendar.realTimeUpdate();
     calendar.keyDown();
     calendar.resetPopup();
 
