@@ -29,6 +29,11 @@ class GroupPage extends Controller {
         }
         if($this->model->existGroup($groupId)){
         if($flag){
+            $user= $model->getCurrentUserInfo($id);
+            $data['name']=$user["name"].' '.$user["surname"];
+            $data['status']=$user["title"];
+            $data['photo']='http://graph.facebook.com/'.$user['fb_id'].'/picture?type=large';        $this->view->renderHtml('common/head');
+        $this->view->renderHtml('common/header', $data);
             $data['role'] = $this->model->getRole($groupId, $id) ; //викликаємо портрібні функції поделі
             $data['id']=$id;
         }else{
