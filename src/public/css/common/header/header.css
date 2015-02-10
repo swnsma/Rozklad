@@ -9,12 +9,12 @@
 }
 
 .header .logout {
-    display: block;
+    display: table-cell;
     color: inherit;
     text-decoration: inherit;
-    margin: -2px 0 0 0;
-    font-size: 13px;
     font-weight: 400;
+    vertical-align: middle;
+    padding-left: 5px;
 }
 
 .header .logout:hover {
@@ -39,7 +39,9 @@
 
 .login .user .info {
     display: table-cell;
-    vertical-align: top;
+    vertical-align: middle;
+    float: none;
+    font-size: 20px;
     padding: 0 5px 0 0;
 }
 
@@ -51,11 +53,10 @@
 }
 
 .login .user .name{
-    font-size: 20px;
+    display: inline;
 }
 
 .login .user .role{
-    margin: -5px 0 0 0;
-    font-size: 15px;
+    display: inline;
     font-weight: 400;
 }
