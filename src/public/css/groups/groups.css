@@ -31,6 +31,12 @@ body {
     margin: 0;
     font-weight: 400;
     font-size: 21px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #0000ff;
+}
+.group-name a{
+    white-space: nowrap;
 }
 
 .group-description {
