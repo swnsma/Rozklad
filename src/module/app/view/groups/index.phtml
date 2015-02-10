@@ -22,7 +22,7 @@ echo '</style>';
                 <?php endif; ?>
                     <div class="padding-10px">
                     <h3 class="group-name"><a href="<?php echo URL . 'app/grouppage/id' . htmlspecialchars($group['group_id']); ?>"><?php echo htmlspecialchars($group['name']); ?></a></h3>
-                    <p class="group-description"><?php echo html_entity_decode($group['descr']); ?></p>
+                    <p class="group-description"><?php echo htmlspecialchars($group['descr']); ?></p>
                     <div class="next-lesson">
                         <div>
                             Преподаватель:
