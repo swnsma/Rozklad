@@ -79,7 +79,6 @@ class Calendar extends Controller {
         }
     }
     public function addGroupsToLesson(){
-        print_r($_POST);
         if(isset($_POST['lesson_id'])&&isset($_POST['group_id'])) {
             $lessonId = $_POST['lesson_id'];
             $var = $_POST['group_id'];
@@ -92,7 +91,6 @@ class Calendar extends Controller {
         }
     }
     public function deleteGroupFromLesson(){
-        print_r($_POST);
         if(isset($_POST['lesson_id'])&&isset($_POST['group_id'])) {
             $lessonId = $_POST['lesson_id'];
             $var = $_POST['group_id'];
