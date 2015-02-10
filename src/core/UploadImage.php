@@ -83,7 +83,7 @@ class UploadImage extends Upload {
 
             $file = uniqid();
 
-            $this->compress($tmp_name, $ext);
+            //$this->compress($tmp_name, $ext);
 
             $img = IMAGES_FOLDER . 'groups_photo/' . $file;
 
