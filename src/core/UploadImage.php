@@ -92,7 +92,7 @@ class UploadImage extends Upload {
                     throw new RuntimeException('failed to move uploaded file');
                 }
 
-                $this->upload_file_name = $file;
+                $this->upload_file_name = $file . '.' . $ext;
                 return true;
             }
 
