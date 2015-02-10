@@ -28,8 +28,23 @@ class Calendar extends Controller {
     }
     public function index() {
         $this->model = $this->loadModel('lesson');
-        $data =$this->userInfo;
+//        $data =$this->userInfo;
+
+
+        $data['title'] = "Calendar|Rozklad";
+        $data['groups'] = $this->model->getList();
+        $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
+        $data['status'] = $this->userInfo['title'];
+        $data['photo']='http://graph.facebook.com/'. $this->userInfo['fb_id'] . '/picture?type=large';
+        /*$this->view->renderAllHTML('groups/index',
+            $data,
+            array('groups/groups.css'));*/
+        $this->view->renderHtml('common/head',$data);
+        $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('calendar/index', $data);
+//        $this->view->renderHtml('common/footer');
+//        $this->view->renderHtml('common/foot');
+
     }
     public function addFullEventDefault(){
         if(isset($_POST['start'])&&$_POST['end']) {

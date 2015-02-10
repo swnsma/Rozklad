@@ -117,6 +117,7 @@ class Loginf extends Controller {
             $link="app/calendar";
             if(Session::has('unusedLink')){
                 $link=Session::get('unusedLink');
+                Session::uns('unusedLink');
             }
             $isUnconf=$this->model->checkUnconfirmed($id);
             if($isUnconf){

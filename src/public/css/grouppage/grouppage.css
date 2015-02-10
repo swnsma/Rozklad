@@ -1,3 +1,7 @@
+body
+{
+    background-color: #fafafa;
+}
 .container
 {
     width: 1000px;
@@ -183,4 +187,9 @@ textarea{
 .backButton
 {
     margin-left: 5px;
+}
+header
+{
+    width: 950px;
+    margin: auto;
 }
