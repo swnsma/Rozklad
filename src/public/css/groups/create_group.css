@@ -1,5 +1,7 @@
 .bold {
     font-weight: bold;
+    font-size:25px;
+    color:#444444;
 }
 
 .container {
@@ -10,6 +12,9 @@
 #afterCreate {
     display: none;
 
+}
+.form-control{
+    color:#222;
 }
 
 div.table {
@@ -44,3 +49,6 @@ div.h200 {
     display: none;
 }
 
+#inputDesc{
+    resize: vertical;
+}
