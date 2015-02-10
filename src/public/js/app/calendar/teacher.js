@@ -134,12 +134,12 @@ function Calendar_teacher(){
         if((y+(+heightPopup)-yminus)>=height){
             y=y-heightPopup;
         }
-        if((x-(+widthPopup))/2<0){
-            x=1;
-        }
-        if((x+widthPopup)>width){
-            x=width-widthPopup;
-        }
+        //if((x-(+widthPopup)/2)<=0){
+        //    x=1;
+        //}else
+        //if((x+widthPopup/2)>=width){
+        //    x=width-widthPopup;
+        //}
         self.jqueryObject.popup.popup.css({
             'left':x,
             'top':y
