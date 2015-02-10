@@ -26,7 +26,12 @@ class Groups extends Controller {
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
     }
-
+    public function getGroupList(){
+        $var = $this->model->getList();
+        if(isset($var)){
+        $this->view->renderJson($var);
+        }
+    }
     public function create() {
         $data['title'] = 'Создать группу';
         if ($this->user_info['title'] == 'teacher') { // ==

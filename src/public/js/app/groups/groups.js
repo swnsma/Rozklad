@@ -1,43 +1,26 @@
-(function(){
-    'use strict';
-    var $ = jQuery;
-    $.fn.extend({
-        filterTable: function(){
-            return this.each(function(){
-                $(this).on('keyup', function(e){
-                    $('.filterTable_no_results').remove();
-                    var $this = $(this), search = $this.val().toLowerCase(), target = $this.attr('data-filters'), $target = $(target), $rows = $target.find('tbody tr');
-                    if(search == '') {
-                        $rows.show();
-                    } else {
-                        $rows.each(function(){
-                            var $this = $(this);
-                            $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
-                        })
-                        if($target.find('tbody tr:visible').size() === 0) {
-                            var col_count = $target.find('tr').first().find('td').size();
-                            var no_results = $('<tr class="filterTable_no_results"><td colspan="'+col_count+'">No results found</td></tr>')
-                            $target.find('tbody').append(no_results);
-                        }
-                    }
-                });
-            });
+function ViewModel(){
+    var that = this;
+    that.groups = ko.observableArray([]);
+    that. activate = function(){
+        universalAPI(url+'app/groups/getGroupList', 'GET', function(response){
+            for( var i=0; i< response.length; i++){
+                var group = new Group(response[i]);
+                that.groups.push(group);
+            }
+            that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
+        for(var j=0; j<2; j++){
+            console.log(that.groups()[j]);
         }
-    });
-    $('[data-action="filter"]').filterTable();
-})(jQuery);
-
-$(function(){
-    // attach table filter plugin to inputs
-    $('[data-action="filter"]').filterTable();
-
-    $('.container').on('click', '.panel-heading span.filter', function(e){
-        var $this = $(this),
-            $panel = $this.parents('.panel');
-
-        $panel.find('.panel-body').slideToggle();
-        if($this.css('display') != 'none') {
-            $panel.find('.panel-body input').focus();
-        }
-    });
-});
+        })
+    }
+}
+function Group(obj){
+    this.name = obj.name;
+    this.description=obj.descr;
+    this.teacher = obj.teacher_fn+' '+obj.teacher_ln;
+    this.imgSrc=url+'public/users_files/images/groups_photo/'+obj.photo;
+    this.groupLink=url+'app/grouppage/id'+obj.group_id;
+}
+var viewModel = new ViewModel();
+viewModel.activate();
+ko.applyBindings(viewModel);
