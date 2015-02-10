@@ -134,6 +134,12 @@ function Calendar_teacher(){
         if((y+(+heightPopup)-yminus)>=height){
             y=y-heightPopup;
         }
+        if((x-(+widthPopup))/2<0){
+            x=1;
+        }
+        if((x+widthPopup)>width){
+            x=width-widthPopup;
+        }
         self.jqueryObject.popup.popup.css({
             'left':x,
             'top':y
@@ -901,7 +907,7 @@ $(document).ready(function() {
     calendar.timeIvent();
     calendar.addLesson();
     calendar.delLesson();
-    //calendar.realTimeUpdate();
+    calendar.realTimeUpdate();
     calendar.keyDown();
     calendar.resetPopup();
 
