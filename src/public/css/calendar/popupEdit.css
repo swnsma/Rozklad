@@ -8,9 +8,9 @@
     display: none;
     padding: 10px;
 
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
 }
 .popupEdit .select-teacher{
     border: none;
