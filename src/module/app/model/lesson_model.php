@@ -91,11 +91,12 @@ TANIA;
             if($userinfo['title']==='teacher') {
                 $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-              from lesson as l
-              INNER JOIN  user as u ON
-              u.id = l.teacher
+              from lesson as l, user as u
             WHERE  (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+                for($i=0;$i<count($var);++$i){
+                    $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                }
             }else{
                 $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
@@ -109,6 +110,9 @@ TANIA;
             WHERE (st_g.student_id='$id')
             AND (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+            }
+            for($i=0;$i<count($var);++$i){
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
@@ -297,6 +301,30 @@ BORIA;
             echo $e->getMessage();
             return null;
         }
+    }
+
+
+
+
+    static public function realDeletedLesson(){
+        $start = date("2014-01-01");
+        $start = new DateTime($start);
+        $start=$start->format('Y-m-d H:i:s');
+
+
+        $var =date("Y-m-d H:i:s");
+        $var1=new DateTime($var);
+        $var1=$var1->modify("-1 day");
+        $var1=$var1->format('Y-m-d H:i:s');
+        $db = DataBase::getInstance()->DB();
+        try {
+            $db->query("DELETE FROM 'lesson'
+ WHERE  update_date BETWEEN '$start' AND '$var1' AND status='2'");
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
     }
 
 }

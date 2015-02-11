@@ -34,7 +34,7 @@ function validScriptInsertion(el){
     el.val(val);
 }
 function validLen(el){
-    return el.val().length<1;
+    return el.val().length < 1;
 }
 $('#createButton').click(function() {
     var flag_error=0;
@@ -43,17 +43,21 @@ $('#createButton').click(function() {
     var  el_photo= $('#photo');
     var er1 = $('#error1');
     var er2 = $('#error2');
+    var er3 = $('#error3');
+    var er4 = $('#error4');
     var name = el_name.val();
     var descr = el_descr.val();
     el_name.removeClass('error-input');
     el_descr.removeClass('error-input');
     er1.css('display', 'none');
     er2.css('display', 'none');
+    er3.css('display', 'none');
+    er4.css('display', 'none');
 
     trim(el_name);
     trim(el_descr);
-    validScriptInsertion(el_name);
-    validScriptInsertion(el_descr);
+    //validScriptInsertion(el_name);
+    //validScriptInsertion(el_descr);
     if(validLen(el_name)){
         el_name.addClass('error-input');
         er1.css('display', 'block');
@@ -67,26 +71,27 @@ $('#createButton').click(function() {
     if(flag_error){
         return false;
     }
-    //if (!name.match(/^[\d+\w+а-яА-Я ]{1,50}$/)) {
+    //if (name.match(/[^а-яА-Яa-zA-Z 0-9!?:;.,-<>]/)) {
     //    el_name.addClass('error-input');
-    //    er1.css('display', 'block');
-    //    return false;
+    //    er3.css('display', 'block');
+    //    flag_error=1;
     //}
-    //if (!descr.match(/^[\(\)\!\?\:\;\.\,\-А-Яа-я \s\S\d+\w+]{1,300}$/)) {
+    //if (!descr.match(/[^а-яА-Яa-zA-Z 0-9!?:;.,-<>]$/)) {
     //    el_descr.addClass('error-input');
-    //    er2.css('display', 'block');
+    //    er4.css('display', 'block');
+    //    flag_error=1;
+    //}
+    //if(flag_error){
     //    return false;
     //}
 
     create_group(new FormData(document.getElementById('create1')), {
         success: function(response) {
+            console.log(response);
             if (response.status == 'group_create') {
-                $('#linkNewOnGroup').text(url + 'app/grouppage/id' + response.id).attr('href', url + 'app/grouppage/id' + response.id);
-                $('#groupInvite').text(url + 'grouppage/inviteUser/' + response.key);
-                $('#afterCreate').css('display', 'block');
-                $('#formCreate').css('display', 'none')
+                window.location = url + 'app/grouppage/id' + response.id;
             } else {
-                alert(response.status);
+                alert(response);
             }
         },
         error: function() {
@@ -140,20 +145,26 @@ $(document).ready(function(){
     var  el_photo= $('#photo');
     var er1 = $('#error1');
     var er2 = $('#error2');
+    var er3 = $('#error3');
+    var er4 = $('#error4');
     $("textarea")
         .autogrow()
         .css("min-height","50px")
         .css("padding-top","10px");
-    var er3 = $('#error3');
-    er3.css("display","block");
+    var er5 = $('#error5');
+    er5.css("display","block");
     $(el_descr).on("focus",function(){
         $(".form-control").removeClass('error-input');
         er1.css('display', 'none');
         er2.css('display', 'none');
+        er3.css('display', 'none');
+        er4.css('display', 'none');
     });
     $(el_name).on("focus",function(){
         $('.form-control').removeClass('error-input');
         er1.css('display', 'none');
         er2.css('display', 'none');
+        er3.css('display', 'none');
+        er4.css('display', 'none');
     });
 });

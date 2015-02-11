@@ -7,6 +7,10 @@ body
     width: 1000px;
     margin: auto;
 }
+h1{
+    font-size: 32pt;
+    margin: 16px 0 0 5px ;
+}
 h3
 {
     margin-left: 1px;
@@ -17,15 +21,16 @@ h3
     overflow: hidden;
     max-height: 50px;
     max-width: 50px;
-    margin:5px;
+    margin-top: 5px;
 }
 .pict-cont{
     float: left;
-    line-height: 65px;
+    line-height: 50px;
 }
 .info-title{
+    margin-top: 10px;
     word-wrap: break-word;
-    min-height: 65px;
+    min-height: 50px;
     padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{
@@ -68,7 +73,8 @@ textarea{
     background-color: #F5F5F5;
     color: #000000;
     border: 1px solid #000000;
-    padding: 7px;
+    line-height: 34px;
+    padding: 0;
 
 }
 .code:hover, .edt:hover{
@@ -88,7 +94,7 @@ textarea{
     background-color: #dddddd;
 }
 #inputName{
-    height: 34px;
+    height: 36px;
     cursor: default;
     margin: 5px 0 20px -15px;
     background-color: #F5F5F5;

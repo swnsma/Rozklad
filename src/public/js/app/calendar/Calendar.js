@@ -111,36 +111,33 @@ function Calendar(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(date){
-                    for(var i=0;i<date.length;++i){
-                        if((+date[i].status)===2&&date[i].teacher===self.currentUser.id){
-                            for(var j=0;j<self.masEvent.length;++j){
-                                if(date[i].id===self.masEvent[j].id){
-                                    if(self.masEvent[j].deleted){
-                                        break;
-                                    }else{
-                                        self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
-                                    }
-                                }
+                    debugger;
+                    if(self.currentUser.title==='student') {
+                        for (var i = 0; i < date.length; ++i) {
+                            if (+date[i].status === 1) {
+                                date[i].color=masColor.myEvents.color;
+                                date[i].textColor=masColor.myEvents.textColor;
+                                self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
+                                self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
                             }
-                            continue;
-                        }
-                        if((+date[i].status)===2) {
-                            self.jqueryObject.calendar.fullCalendar('removeEvents',+date[i].id);
-
-                        }else{
-                            for(var j =0;j<self.masEvent.length;++j){
-
-                                if( (+date[i].id)===(+self.masEvent[j].id)){
-                                    self.jqueryObject.calendar.fullCalendar('removeEvents',date[i].id);
-                                    //self.jqueryObject.calendar.fullCalendar('renderEvent',date[i]);
-                                    self.masEvent.push(date[i]);
-                                    break;
-                                }
+                            if(+date[i].status===2){
+                                self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
                             }
                         }
-                        if(+date[i].status!=2) {
-                            self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
-                            self.masEvent.push(date[i]);
+                    }
+                    if(self.currentUser.title==='teacher'){
+                        for (var i = 0; i < date.length; ++i){
+                            if (+date[i].status === 1) {
+                                if(+date[i].teacher===+self.currentUser.id) {
+                                    date[i].color = masColor.myEvents.color;
+                                    date[i].textColor = masColor.myEvents.textColor;
+                                }else{
+                                    date[i].color = masColor.otherEvents.color;
+                                    date[i].textColor = masColor.otherEvents.textColor;
+                                }
+                                self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
+                                self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
+                            }
                         }
                     }
                 },
@@ -275,7 +272,9 @@ function Calendar(){
                             'borderRadius': '2px',
                             'verticalAlign': 'baseline',
                             'backgroundColor': event.group[i].color,
-                            'fontWeight': 'normal'
+                            'fontWeight': 'normal',
+                            'verticalAlign':'middle',
+                            'color':'white'
                         });
                         $(element)/*.find('.fc-time')*/.append($var);
 
@@ -287,7 +286,6 @@ function Calendar(){
                     $var.css({
                         'fontSize': '10px',
                         'display': 'inline-block'
-                        //'textAlign':'right'
                     });
                     $var.appendTo($(element));
 
@@ -295,7 +293,7 @@ function Calendar(){
             }
             if(event.color===masColor.delEvent.color){
                 var $textDeleted =  $(element).find('.fc-title');
-                $textDeleted.text('Событие удаленно');
+                $textDeleted.text('Событие удалено');
                 $textDeleted.css({
                     'fontSize':'9px'
                 });

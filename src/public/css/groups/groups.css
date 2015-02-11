@@ -31,6 +31,12 @@ body {
     margin: 0;
     font-weight: 400;
     font-size: 21px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #0000ff;
+}
+.group-name a{
+    white-space: nowrap;
 }
 
 .group-description {
@@ -44,11 +50,17 @@ body {
 }
 
 .group .group-icon {
-    height: 150px;
     width: 100%;
     background-size: 100%;
 }
-
+.icon-container{
+    height: 150px;
+    overflow: hidden;
+}
+.add-btn{
+    margin: 10px 10px 10px 5px;
+    padding: 3px;
+}
 .title {
     font-weight: 600;
 }
@@ -58,6 +70,6 @@ body {
 }
 
 .container {
-    width: 900px;
-    margin: 0 auto;
+    width: 1000px;
+    margin-left: -12px;
 }

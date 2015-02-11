@@ -13,11 +13,11 @@ class Regist extends Controller
     }
     public function addUser(){
 
-        $request=Request::getInstance();
-        $name = $request->getParam(0);
-        $surname =$request->getParam(1);
-        $phone =$request->getParam(2);
-        $role =$request->getParam(3);
+        $data=$_POST['data'];
+        $name =$data['name'];
+        $surname =$data['surname'];
+        $phone =$data['phone'];
+        $role =$data['role'];
 
         $this->model=$this->loadModel("regist");
         $fb_ID='';
@@ -29,6 +29,10 @@ class Regist extends Controller
             $gm_ID=Session::get('gm_ID');
         }
         $email=Session::get('email');
+        if(!$email||count($email)<1){
+            $this->view->renderJson(array('result'=> "error: hasn't email"));
+            exit;
+        }
         $existUserFb=0;
         $existUserGm=0;
 

@@ -9,6 +9,7 @@ require_once 'core/View.php';
 require_once 'core/BaseInstall.php';
 require_once 'core/Request.php';
 require_once 'core/Session.php';
+require_once 'module/app/model/lesson_model.php';
 
 if (DEBUG) {
     error_reporting(E_ALL);
@@ -18,6 +19,7 @@ if (DEBUG) {
     ini_set('display_errors', 0);
 }
 Base_Install::Run();
+LessonModel::realDeletedLesson();
 //Base_Install::LoadDummy();
 
 $app = new Bootstrap();

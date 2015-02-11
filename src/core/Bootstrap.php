@@ -9,14 +9,13 @@ class Bootstrap extends Controller{
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
-        if(!Session::has('unusedLink')&&!preg_match('/signin/', $urla)&&Session::get('status')!='ok'){
+        if(preg_match('/grouppage/', $urla)||preg_match('/groups/', $urla)){
             Session::set('unusedLink',$urla);
         }
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
         $this->dispatcher($controller,$action);
-
 
         $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
@@ -63,13 +62,13 @@ class Bootstrap extends Controller{
         }
     }
     private function logout_link(){
-        Session::set("status","not");
-        Session::uns('id');
+        $this->logout();
         header("Location:".URL."app/signin");
     }
     private  function checkUnconf(){
-        if(Session::has('status')&&(Session::has('id'))){
+        if(Session::has('status')&&Session::get('status')!="not"&&(Session::has('id'))){
             $this->model=$this->loadModel('user');
+
             if(!$this->model->checkUnconfirmed(Session::get('id'))){
                 Session::set('status','ok');
             }
