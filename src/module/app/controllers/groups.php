@@ -61,6 +61,7 @@ class Groups extends Controller {
             $name = $_POST['name'];
             $descr = $_POST['descr'];
 
+
             if (count($name)&&count($descr)) {
                 $status = 1;
 //            $this->user_info['role_id'];
