@@ -1,6 +1,7 @@
 .header {
     position: relative;
     color: #666666;
+    box-shadow: 0 0 2px;
 }
 
 .header .background{
@@ -15,17 +16,26 @@
 
 .header .menu{
     float: left;
+    display: table;
+    height: 50px;
 }
 
 .header .menu img{
     display: inline-block;
 }
 
-.header .menu h2{
-    margin: 0;
-    font-size:20px;
-    font-weight: 400;
-    display: inline-block;
+.header .menu .button{
+    padding: 0 0 0 18px;
+    font-size: 20px;
+    font-weight: 500;
+    display: table-cell;
+    vertical-align: middle;
+    color:  inherit;
+    text-decoration: inherit;
+}
+
+.header .menu .button:hover {
+    color: black;
 }
 
 .header .logout {
@@ -42,31 +52,28 @@
 }
 
 .header .logo {
-
-    width: 40px;
-    margin: 5px;
+    width: 177px;
+    margin: 0 0 0 5px;
 }
 
 .header section.login {
     float: right;
     text-align: right;
     position: relative;
-    min-width: 200px;
 }
 
-.login .user {
+.header .login .user {
     display: table;
     padding: 5px;
     width:auto;
     position: relative;
 }
 
-.login :hover{
-    background-color: #f7f7f7;
+.header .login :hover{
+    background-color: inherit;
 }
 
-
-.login .user .info {
+.header .login .user .info {
     display: table-cell;
     vertical-align: middle;
     float: none;
@@ -74,27 +81,28 @@
     padding: 0 0 0 5px;
 }
 
-.login .user .avatar {
+.header .login .user .avatar {
     display: table-cell;
     width:40px;
     height:40px;
     border-radius:30px;
 }
 
-.login .user .name{
+.header .login .user .name{
     margin: 0px;
     font-size: 20px;
     font-weight: 500;
-    height: 20px;
-    line-height: 25px;
+    /*height: 20px;*/
+    /*line-height: 25px;*/
 }
 
-.login .user .role{
+.header .login .user .role{
     text-transform: lowercase;
     font-weight: 400;
     font-size: 12px;
     margin: 0;
     padding-left: 3px;
+    display: none;
 }
 
 .header .login .user:hover .expand{
@@ -110,11 +118,22 @@
     width: 100%;
     top: 50px;
     left: 0;
+    box-shadow: 0 0 2px;
+}
+
+.header .fill-gape {
+    background-color: rgb(237, 237, 237);
+    height: 3px;
+    width: 100%;
+    position: absolute;
+    z-index: 6;
+    bottom: 0;
+    left:0;
+    pointer-events: none;
 }
 
 .header .expand .controls {
-    background-color: #f7f7f7;
-
+    background-color: rgb(237, 237, 237);
     margin: 0;
     padding: 10px 0 0 0;
     text-align: left;
@@ -123,6 +142,7 @@
     display: table;
     width: 100%;
 }
+
 .header .expand .controls li{
     display: table-row;
 }
@@ -140,6 +160,7 @@
 
 .header .expand .controls li a:hover{
     font-weight: 600;
+    color: black;
 }
 
 .header .expand .controls li a .icon-wrapper{
@@ -149,8 +170,13 @@
     vertical-align: middle;
 }
 
-.header .expand .controls li a .label{
+.header .h-label{
     display: table-cell;
     width: 50px;
     vertical-align: middle;
+}
+
+.arrow-down {
+    width:20px;
+    height:20px;
 }
