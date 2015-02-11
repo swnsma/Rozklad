@@ -9,7 +9,7 @@ class Bootstrap extends Controller{
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
-        if(!preg_match('/signin/', $urla)&&Session::get('status')!='ok'&&!preg_match('/login/', $urla)){
+        if(preg_match('/grouppage/', $urla)||preg_match('/groups/', $urla)){
             Session::set('unusedLink',$urla);
         }
         $controller = $request->getController();
