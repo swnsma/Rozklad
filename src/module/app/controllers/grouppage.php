@@ -128,7 +128,7 @@ class GroupPage extends Controller {
         switch($error){
             case 1:
                 header("Refresh: 3; url=$link");
-                $r=$r."Вы уже являетесь членом группы $name!<br/><a href=".'"'.$link.'id'.$groupInfo['id'].'"> Перейти к странице группы</a>';
+                $r=$r."Вы уже являетесь членом группы $name!<br/><a href=".'"'.$link.'"> Перейти к странице группы</a>';
                 break;
             case 2:
                 header("Refresh: 3; url=$outlink");
@@ -136,7 +136,7 @@ class GroupPage extends Controller {
                 break;
             case 4:
                 header("Refresh: 3; url=$link");
-                $r=$r."Преподаватель не может быть членом группы!<br/><a href=".'"'.$link.'id'.$groupInfo['id'].'"> Перейти к странице группы</a>';
+                $r=$r."Преподаватель не может быть членом группы!<br/><a href=".'"'.$link.'"> Перейти к странице группы</a>';
                 break;
             default:
                 header("Refresh: 3; url=$link");

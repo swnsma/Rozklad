@@ -24,7 +24,7 @@ function load(){
         }
         self.unConfirm = function (user){
             $.ajax({
-                url: 'admin/unConfirmUser/'+user.id,
+                url: url+"/src/admin/unConfirmUser/"+user.id,
                 success: function(response){
                     user.confirmed(false);
                 },
@@ -40,7 +40,7 @@ function load(){
 
         function loadUsers(self){
             $.ajax({
-                url: 'admin/getUnconfirmedUsers',
+                url: url+"admin/getUnconfirmedUsers",
                 success: function(response){
                     for(var i in response){
                         var user = {};
