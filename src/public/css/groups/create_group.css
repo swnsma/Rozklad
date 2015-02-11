@@ -48,7 +48,9 @@ div.h200 {
     color: #B94A48;
     display: none;
 }
-
+#createButton{
+    margin-left: -15px;
+}
 #inputDesc{
     resize: vertical;
 }
