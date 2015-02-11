@@ -21,3 +21,7 @@ body{
     color: #000000;
 }
 
+.user-list .user:hover {
+    background-color: rgb(237, 237, 237);
+    box-shadow: 0 0 2px;
+}

@@ -40,13 +40,14 @@ function load(){
 
         function loadUsers(self){
             $.ajax({
-                url: url+"admin/getUnconfirmedUsers",
+                url: url+"app/admin/getUnconfirmedUsers",
                 success: function(response){
+                    debugger;
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
                         user.photo = '../../../src/public/img/avatar.png';
-                        user.role = response[i].role_id==1?'Студент':'Преподаватель';//TODO: do this switch on server side
+                        user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
 
