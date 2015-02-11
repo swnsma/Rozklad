@@ -19,22 +19,65 @@ if (isset($data['files'])) {
 
 <header class="header">
     <div class="background"></div>
-    <img class="logo" src="<?php echo URL; ?>public/img/logo.png"/>
+    <section class="menu">
+        <img class="logo" src="<?php echo URL; ?>public/img/calendar157.svg"/>
+        <h2 style="display: none">Расписание</h2>
+        <img style="display: none" class="logo" src="<?php echo URL; ?>public/img/group.svg"/>
+        <h2 style="display: none">Группы</h2>
+    </section>
+
     <section class="login" id="login">
         <article class="user" id="activeUser">
+            <div class="table-cell">
+                <img class="avatar" id="activeUserPhoto" src="<?php echo  $data['photo']  ?>" />
+            </div>
             <section class="info">
                 <h2 class="name" id="activeUserName">
-                    <?php echo $data['name']  ?>
+                    <?php echo htmlspecialchars($data['name'])  ?>
                 </h2>
                 <h3 class="role" id="activeUserRole">
-                    <?php echo $data['status']  ?>
+                    <?php echo htmlspecialchars($data['status'])  ?>
                 </h3>
             </section>
-            <img class="avatar" id="activeUserPhoto" src="<?php echo $data['photo']  ?>" />
-            <a class="logout" id="logout" href="<?php echo $_SESSION['logout_link'];?>">
+            <a style="display: none" class="logout" id="logout" href="<?php echo $_SESSION['logout_link'];?>">
                 <img style="width:20px; display: block;" src="<?php echo URL; ?>public/img/exit.svg"/>
             </a>
+            <section class="expand">
+                <ul class="controls">
+                    <li>
+                        <a>
+                            <div class="icon-wrapper">
+                                <img class="icon" src="<?php echo URL; ?>public/img/settings.svg"/>
+                            </div>
+                            <div class="label">
+                                Настройки
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <div class="icon-wrapper">
+                                <img class="icon" src="<?php echo URL; ?>public/img/user.svg"/>
+                            </div>
+                            <div class="label">
+                                Профиль
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $_SESSION['logout_link'];?>">
+                            <div class="icon-wrapper">
+                                <img class="icon" src="<?php echo URL; ?>public/img/power.svg"/>
+                            </div>
+                            <div class="label">
+                                Выйти
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
         </article>
+
     </section>
     <div class="clear-both"></div>
 </header>
