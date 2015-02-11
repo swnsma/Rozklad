@@ -7,6 +7,7 @@ function Calendar_student(){
 }
 $(document).ready(function() {
     var calendar = new Calendar_student();
+    calendar.getCurrentUser();
     calendar.realTimeUpdate();
 
 });

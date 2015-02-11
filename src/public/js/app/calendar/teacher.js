@@ -909,7 +909,7 @@ $(document).ready(function() {
     calendar.timeIvent();
     calendar.addLesson();
     calendar.delLesson();
-    //calendar.realTimeUpdate();
+    calendar.realTimeUpdate();
     calendar.keyDown();
     calendar.resetPopup();
 
