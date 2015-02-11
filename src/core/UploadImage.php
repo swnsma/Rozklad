@@ -109,7 +109,7 @@ class UploadImage extends Upload {
             $small_img = $img_folder . 'small_' . $file;
 
             if ($this->crop($tmp_name, $small_img)
-                && $this->resize($small_img, 100, 100)) {
+                && $this->resize($small_img, 50, 50)) {
                 if (!move_uploaded_file($tmp_name, $img_folder . $file)) {
                     throw new RuntimeException('failed to move uploaded file');
                 }
