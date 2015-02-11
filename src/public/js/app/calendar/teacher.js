@@ -410,7 +410,6 @@ function Calendar_teacher(){
                 self.jqueryObject.popupEdit.tcalInput.val(date.day.val() + '-' + date.month.val() + '-' + date.year.val());
             }
 
-            date.day.mask('99', {placeholder: "-----"});
             date.day.on('input', function () {
                 if (this.value > 31) {
                     this.value = 31;
@@ -427,8 +426,6 @@ function Calendar_teacher(){
                 }
                 sync();
             });
-
-            date.month.mask('99', {placeholder: "-----"});
             date.month.on('input', function () {
                 if (this.value > 12) {
                     this.value = 12;
@@ -440,8 +437,6 @@ function Calendar_teacher(){
                 }
                 sync();
             });
-
-            date.year.mask('9999', {placeholder: "---------"});
             date.year.on('input', function () {
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
@@ -889,6 +884,7 @@ function Calendar_teacher(){
         });
     };
 
+
     this.resetPopup=function(){
         self.jqueryObject.popup.button.reset.on('click',function(){
             delPopup();
@@ -897,6 +893,70 @@ function Calendar_teacher(){
 
     }
 
+    function getCaretPos(input) {
+        if (input.createTextRange) {
+            var range = document.selection.createRange.duplicate();
+            range.moveStart('character', -input.value.length);
+            return range.text.length;
+        } else {
+            return input.selectionStart;
+        }
+    }
+    function elementFocus(startElement,element,keyCode){
+        startElement.on('keydown',function(e){
+            if(e.keyCode===keyCode) {
+                switch (keyCode) {
+                    case 39:
+                        console.log(getCaretPos(startElement[0]));
+                        console.log(startElement.val().length);
+                        if (getCaretPos(startElement[0]) === startElement.val().length)
+                        {
+                            element.focus();
+                        }
+                        break;
+                    case 37:
+                        if (getCaretPos(startElement[0]) === 0)
+                        {
+                            element.focus();
+                        }
+                        break;
+                    case 8:
+                        if (startElement.val().length === 0)
+                        {
+                            element.focus();
+                        }
+                }
+            }
+        });
+    }
+
+    this.focusDate = function(){
+        function createFocus(element){
+            elementFocus(element.day.day,element.day.month,39);
+            elementFocus(element.day.month,element.day.year,39);
+            elementFocus(element.day.year,element.start.hour,39);
+            elementFocus(element.start.hour,element.start.minutes,39);
+            elementFocus(element.start.minutes,element.end.hour,39);
+            elementFocus(element.end.hour,element.end.minutes,39);
+
+            elementFocus(element.end.minutes,element.end.hour,37);
+            elementFocus(element.end.hour,element.start.minutes,37);
+            elementFocus(element.start.minutes,element.start.hour,37);
+            elementFocus(element.start.hour,element.day.year,37);
+            elementFocus(element.day.year,element.day.month,37);
+            elementFocus(element.day.month,element.day.day,37);
+
+            elementFocus(element.end.minutes,element.end.hour,8);
+            elementFocus(element.end.hour,element.start.minutes,8);
+            elementFocus(element.start.minutes,element.start.hour,8);
+            elementFocus(element.start.hour,element.day.year,8);
+            elementFocus(element.day.year,element.day.month,8);
+            elementFocus(element.day.month,element.day.day,8);
+        }
+
+        createFocus(self.jqueryObject.popup);
+        createFocus(self.jqueryObject.popupEdit);
+    }
 }
 
 $(document).ready(function() {
@@ -912,5 +972,6 @@ $(document).ready(function() {
     calendar.realTimeUpdate();
     calendar.keyDown();
     calendar.resetPopup();
+    calendar.focusDate();
 
 });

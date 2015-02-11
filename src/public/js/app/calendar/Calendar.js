@@ -100,9 +100,12 @@ function normDate(year,month,day,hour,minuts){
 }
 
 function Calendar(){
+
+    var fullcalendarEvent=[];
+    var statusRender=0;
     function RealTimeUpdate(){
         //var interval = 60000;//раз в хвилину оновлення
-        var interval = 60000;//раз в хвилину оновлення
+        var interval = 10000;//раз в хвилину оновлення
         var setTime;
         var operation = function(){
             $.ajax({
@@ -111,7 +114,6 @@ function Calendar(){
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function(date){
-                    debugger;
                     if(self.currentUser.title==='student') {
                         for (var i = 0; i < date.length; ++i) {
                             if (+date[i].status === 1) {
@@ -127,16 +129,31 @@ function Calendar(){
                     }
                     if(self.currentUser.title==='teacher'){
                         for (var i = 0; i < date.length; ++i){
+
+                            if(+date[i].teacher===+self.currentUser.id) {
+                                date[i].color = masColor.myEvents.color;
+                                date[i].textColor = masColor.myEvents.textColor;
+                            }else{
+                                date[i].color = masColor.otherEvents.color;
+                                date[i].textColor = masColor.otherEvents.textColor;
+                            }
+
                             if (+date[i].status === 1) {
-                                if(+date[i].teacher===+self.currentUser.id) {
-                                    date[i].color = masColor.myEvents.color;
-                                    date[i].textColor = masColor.myEvents.textColor;
-                                }else{
-                                    date[i].color = masColor.otherEvents.color;
-                                    date[i].textColor = masColor.otherEvents.textColor;
-                                }
                                 self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
                                 self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
+                            }
+                            if (+date[i].status === 2) {
+                                var bool=false;
+                                debugger;
+                                for(var j=0;j<fullcalendarEvent.length;++j){
+                                    if(+fullcalendarEvent[j].id===+date[i].id){
+                                        debugger;
+                                        bool=true;
+                                    }
+                                }
+                                if(!bool) {
+                                    self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
+                                }
                             }
                         }
                     }
@@ -234,6 +251,7 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
+        dragScroll:false,
         firstDay: 1,
         header: {
             //left: 'prev,next today',
@@ -253,12 +271,20 @@ function Calendar(){
             day: "День"
         },
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
-
+        eventAfterAllRender: function(){
+            statusRender=1;
+        },
         eventRender:function(event, element) {
+            if(statusRender===1){
+                fullcalendarEvent=[];
+                statusRender=0;
+            }
+            if(event.deleted) {
+                fullcalendarEvent.push(event);
+            }
             if(event.color!==masColor.delEvent.color) {
                 if (event.group) {
                     for (var i = 0; i < event.group.length; ++i) {
-
                         var $var = $('<span>');
                         $var.text(event.group[i].name[0]);
                         $var.css({

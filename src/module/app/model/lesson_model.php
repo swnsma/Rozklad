@@ -49,7 +49,8 @@ TANIA;
     public function addLesson($title, $start,$end,$id_teacher) {
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES ('$title','$start','$end','$date','$date',1,$id_teacher)");
+            $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
             return $this->db->lastInsertId();
         } catch(PDOException $e) {
             echo $e;
@@ -61,7 +62,8 @@ TANIA;
             $date = $this->realDate()->format($this->formatDate());
 
 //            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
-            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date',teacher='$teacherId' WHERE id=$id");
+            $SHT=$this->db->prepare("UPDATE lesson SET title=:title, start=:start,end=:end,update_date=:update_date,teacher=:teacher WHERE id=:id");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'update_date'=>$date, 'teacher'=>$teacherId, 'id'=>$id));
 
         } catch(PDOException $e) {
             echo $e;
@@ -91,7 +93,9 @@ TANIA;
             if($userinfo['title']==='teacher') {
                 $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-              from lesson as l, user as u
+              from lesson as l
+               INNER JOIN user as u ON
+               l.teacher = u.id
             WHERE  (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
                 for($i=0;$i<count($var);++$i){
@@ -128,7 +132,10 @@ TANIA;
     public function delEvent($id){
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $this->db->query("UPDATE lesson SET status='2',update_date='$date' WHERE id=$id");
+            $SHT=$this->db->prepare("UPDATE lesson SET status='2',update_date=:update_date WHERE id=:id");
+            $SHT->execute(array('update_date'=>$date, 'id'=>$id));
+//            $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
+//            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
 
 
         } catch(PDOException $e) {
@@ -139,7 +146,11 @@ TANIA;
     public function restore($id){
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $this->db->query("UPDATE lesson SET status='1',update_date='$date' WHERE id=$id");
+            $STH = $this->db->prepare("UPDATE lesson SET status='1',update_date=:update_date WHERE id=:id");
+            $STH->execute(array('update_date'=>$date,'id'=>$id));
+
+//  $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
+//            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
 
             $request = <<<TANIA
 select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
@@ -191,8 +202,12 @@ BORIA;
     public function addGroupToLesson($lessonId,$groupId){
         try {
             $request = <<<BORIA
-            insert into group_lesson(group_id,lesson_id)values('$groupId','$lessonId')
+
 BORIA;
+
+
+            $STH = $this->db->prepare(" insert into group_lesson(group_id,lesson_id)values(:group_id , :lesson_id)");
+            $STH->execute(array('lesson_id'=>$lessonId,'group_id'=>$groupId));
 
             $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
 //            echo $var;
@@ -205,11 +220,10 @@ BORIA;
     }
     public function deleteGroupFromLesson($lessonId,$groupId){
         try {
-            $request = <<<BORIA
-            delete from group_lesson where group_id='$groupId' AND lesson_id='$lessonId'
-BORIA;
-            $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+
 //            echo $var;
+            $STH = $this->db->prepare("delete from group_lesson where group_id=:group_id AND lesson_id=:lesson_id");
+            $STH->execute(array('lesson_id'=>$lessonId,'group_id'=>$groupId));
             return "ok";
 
         } catch(PDOException $e) {

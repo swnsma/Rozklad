@@ -1,10 +1,7 @@
 
 <section class="container">
-
-
-
     <div class="col-lg-12 info-title">
-        <a href="<?php echo URL;?>app/groups" class="backButton">Вернуться к списку групп</a>
+        <a href="<?php echo URL;?>app/groups" class="backButton"><img width="30px" height="30px" src="<?php echo URL;?>public/img/arrow.png"/>Список групп</a>
         <?php if ($data['role'] == 'student'): ?>
             <button class="btn edt dismissButton"
                data-bind="click:function(){deleteUser(<?php echo $data['id'] ?>)}">Покинуть группу</button>
@@ -34,40 +31,16 @@
             <!--/ko-->
         <?php endif; ?>
     </div>
-
-    <div class="col-lg-12 ">
-
-        <!--ko ifnot: editDescription-->
-        <div class="col-lg-12 info-desc">
-            <?php if ($data['role'] == 'teacher'): ?>
-            <div>
-                <?php endif; ?>
-            <h5 data-bind="text:description<?php if($data['role'] == 'teacher'): ?>,click: editDescOpen<?php endif;?>"></h5>
-                <?php if ($data['role'] == 'teacher'): ?>
-            </div>
-            <?php endif; ?>
-        </div>
-
-        <!--/ko-->
         <?php if ($data['role'] == 'teacher'): ?>
-            <!--ko if: editDescription-->
-            <div class="col-lg-12 info-desc">
-                <textarea id="descInput" rows="3" data-bind="value: description, event:{ blur:saveDesc}" class="form-control"></textarea>
-                <span data-bind="text:errorDescMessage"></span>
-            </div>
-            <!--/ko-->
-            </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12 invite">
         <span>По следующей ссылке студенты могут добавляться в группу:</span>
-        <div class="col-lg-10">
+        <div class="col-lg-11">
             <label type="text" data-bind="text:getCode" class="form-control " id="inputName" ></label>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-1">
             <a href="#" data-bind="click: changeCode" class="btn code dismissButton">Сгенерировать код</a>
         </div>
         <?php endif; ?>
-
-    </div>
 
     <section class="groupList col-md-12">
 
