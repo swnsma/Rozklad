@@ -49,7 +49,8 @@ TANIA;
     public function addLesson($title, $start,$end,$id_teacher) {
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $this->db->query("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES ('$title','$start','$end','$date','$date',1,$id_teacher)");
+            $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
             return $this->db->lastInsertId();
         } catch(PDOException $e) {
             echo $e;
@@ -61,7 +62,8 @@ TANIA;
             $date = $this->realDate()->format($this->formatDate());
 
 //            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
-            $this->db->query("UPDATE lesson SET title='$title', start='$start',end='$end',update_date='$date',teacher='$teacherId' WHERE id=$id");
+            $SHT=$this->db->prepare("UPDATE lesson SET title=:title, start=:start,end=:end,update_date=:update_date,teacher=:teacher WHERE id=:id");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'update_date'=>$date, 'teacher'=>$teacherId, 'id'=>$id));
 
         } catch(PDOException $e) {
             echo $e;

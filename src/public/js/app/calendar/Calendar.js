@@ -234,6 +234,7 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
+        dragScroll:false,
         firstDay: 1,
         header: {
             //left: 'prev,next today',
