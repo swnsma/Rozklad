@@ -16,15 +16,17 @@ echo '</style>';
                 <label for="inputName" class="bold">Название групы</label>
                 <input name="name" type="text" class="form-control" id="inputName" >
                 <div id="error1" class="info-error">Введите название групы</div>
+                <div id="error3" class="info-error">Название должно содержать только буквы, цифры и знаки пунктуации</div>
             </div>
             <div class="form-group">
                 <label for="inputDesc" class="bold">Описание</label>
                 <textarea name="descr" id="inputDesc" class="form-control"></textarea>
                 <div id="error2" class="info-error">Введите описание групы</div>
+                <div id="error4" class="info-error">Описание должно содержать только буквы, цифры и знаки пунктуации</div>
             </div>
             <div class="form-group">
                 <input name="photo" type="file" id="photo" class="photo-button"/>
-                <div id="error3">Выберите изображение формата jpeg, jpg или gif</div>
+                <div id="error5">Выберите изображение формата png, jpg или gif</div>
             </div>
             <button id="createButton" type="button" class="btn btn-default">Создать группу</button>
         </form>
