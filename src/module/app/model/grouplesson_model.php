@@ -11,11 +11,8 @@ class GrouplessonModel extends Model {
     }
     function addGroupToLesson($lessonId,$groupId){
         try {
-            $request = <<<BORIA
-            insert into group_lesson(group_id,lesson_id)values('$groupId','$lessonId')
-BORIA;
-
-            $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            $STH = $this->db->prepare("insert into group_lesson(group_id,lesson_id)values(:group_id,:lesson_id)");
+            $STH->execute(array('group_id'=>$groupId, 'lesson_id'=>$lessonId));
             return "ok";
 
         } catch(PDOException $e) {
