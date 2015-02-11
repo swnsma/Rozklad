@@ -91,7 +91,7 @@ $('#createButton').click(function() {
             if (response.status == 'group_create') {
                 window.location = url + 'app/grouppage/id' + response.id;
             } else {
-                alert(response);
+                alert(response.status);
             }
         },
         error: function() {

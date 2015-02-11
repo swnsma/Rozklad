@@ -5,6 +5,10 @@ body{
     background-size: 100%;
 }
 
+.table-cell {
+    display: table-cell;
+}
+
 .clear-both {
     clear: both;
 }
