@@ -62,8 +62,7 @@ class Bootstrap extends Controller{
         }
     }
     private function logout_link(){
-        Session::set("status","not");
-        Session::uns('id');
+        $this->logout();
         header("Location:".URL."app/signin");
     }
     private  function checkUnconf(){

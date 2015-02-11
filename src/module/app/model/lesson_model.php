@@ -299,6 +299,30 @@ BORIA;
         }
     }
 
+
+
+
+    static public function realDeletedLesson(){
+        $start = date("2014-01-01");
+        $start = new DateTime($start);
+        $start=$start->format('Y-m-d H:i:s');
+
+
+        $var =date("Y-m-d H:i:s");
+        $var1=new DateTime($var);
+        $var1=$var1->modify("-1 day");
+        $var1=$var1->format('Y-m-d H:i:s');
+        $db = DataBase::getInstance()->DB();
+        try {
+            $db->query("DELETE FROM 'lesson'
+ WHERE  update_date BETWEEN '$start' AND '$var1' AND status='2'");
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
+    }
+
 }
 
 

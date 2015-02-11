@@ -15,7 +15,8 @@ class UploadImage extends Upload {
         parent::__construct($files);
     }
 
-    private function compress($source, $type) {
+    private function compress($source, $type)
+    {
         $image = null;
         if ($type == 'jpg')
             $image = imagecreatefromjpeg($source);
@@ -26,7 +27,7 @@ class UploadImage extends Upload {
         imagejpeg($image, $source, $this->quality);
     }
 
-    private function crop($image, $r_image, $w, $h) {
+    private function crop($image, $r_image) {
         list($w_i, $h_i, $type) = getimagesize($image);
         $types = array('', 'gif', 'jpeg', 'png');
         $ext = $types[$type];
@@ -37,23 +38,43 @@ class UploadImage extends Upload {
             return false;
         }
 
-        $img_o = imagecreatetruecolor($w, $h);
+        $min = $w_i < $h_i ? $w_i : $h_i;
 
-        if ($h_i > $h) {
-            $y_o = ($h_i-$h)/2;
-        } else {
-            $y_o = 0;
-        }
+        $img_o = imagecreatetruecolor($min, $min);
 
-        if ($w_i > $w) {
-            $x_o = ($w_i-$w)/2;
-        } else {
-            $x_o = 0;
-        }
-
-        imagecopy($img_o, $img_i, 0, 0, $x_o, $y_o, $w, $h);
+        imagecopy($img_o, $img_i, 0, 0, ($w_i-$min)/2, ($h_i-$min)/2, $min, $min);
         $func = 'image'.$ext;
         return $func($img_o, $r_image);
+    }
+
+    function resize($image, $w_o, $h_o) {
+        list($w_i, $h_i, $type) = getimagesize($image);
+        if (!$w_i || !$h_i) {
+            return false;
+        }
+        $types = array('', 'gif', 'jpeg', 'png');
+        $ext = $types[$type];
+
+        if ($ext) {
+            $func = 'imagecreatefrom' . $ext;
+            $img = $func($image);
+        } else {
+            return false;
+        }
+
+        if (!$h_o) $h_o = $w_o/($w_i/$h_i);
+        if (!$w_o) $w_o = $h_o/($h_i/$w_i);
+
+        $img_o = imagecreatetruecolor($w_o, $h_o);
+
+        imagecopyresampled($img_o, $img, 0, 0, 0, 0, $w_o, $h_o, $w_i, $h_i);
+
+        if ($type == 2) {
+            return imagejpeg($img_o, $image, 100);
+        } else {
+            $func = 'image'.$ext;
+            return $func($img_o, $image);
+        }
     }
 
 
@@ -85,8 +106,10 @@ class UploadImage extends Upload {
 
             $file = uniqid() . '.' . $ext;
             $img_folder = IMAGES_FOLDER . 'groups_photo/';
+            $small_img = $img_folder . 'small_' . $file;
 
-            if ($this->crop($tmp_name, $img_folder . 'small_' . $file, 100, 100)) {
+            if ($this->crop($tmp_name, $small_img)
+                && $this->resize($small_img, 100, 100)) {
                 if (!move_uploaded_file($tmp_name, $img_folder . $file)) {
                     throw new RuntimeException('failed to move uploaded file');
                 }
