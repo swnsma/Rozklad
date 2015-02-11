@@ -34,7 +34,7 @@ function validScriptInsertion(el){
     el.val(val);
 }
 function validLen(el){
-    return el.val().length > 1;
+    return el.val().length < 1;
 }
 $('#createButton').click(function() {
     var flag_error=0;
