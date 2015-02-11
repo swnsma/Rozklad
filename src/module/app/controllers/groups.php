@@ -29,7 +29,7 @@ class Groups extends Controller {
     public function getGroupList(){
         $var = $this->model->getList();
         if(isset($var)){
-        $this->view->renderJson($var);
+            $this->view->renderJson($var);
         }
     }
     public function create() {
@@ -56,12 +56,15 @@ class Groups extends Controller {
     }
 
     public function createNewGroup() {
+
         if (isset($_POST['name']) && isset($_POST['descr'])) {
             $name = $_POST['name'];
             $descr = $_POST['descr'];
-            if (preg_match('/^[\d\w\x{0430}-\x{044F}\x{0410}-\x{042F} ]{1,50}$/u', $name)
-                && preg_match('/^[\(\)\!\?\:\;\.\,\-\x{0430}-\x{044F}\x{0410}-\x{042F} \d\w]{1,300}$/mu', $descr)) {
-                $status = 1; //$this->user_info['role_id'];
+
+            if (count($name)&&count($descr)) {
+                $status = 1;
+//            $this->user_info['role_id'];
+
                 if ($status == 1) {
                     $image = null;
 
