@@ -1,11 +1,31 @@
+.header {
+    position: relative;
+    color: #666666;
+}
+
 .header .background{
     position: absolute;
     width: 100%;
-    height: 71px;
+    height: 50px;
     z-index: -1;
-    background-color: rgba(256,256,256,0.8);
+    background-color: rgb(237, 237, 237);
     top: 0;
     left: 0;
+}
+
+.header .menu{
+    float: left;
+}
+
+.header .menu img{
+    display: inline-block;
+}
+
+.header .menu h2{
+    margin: 0;
+    font-size:20px;
+    font-weight: 400;
+    display: inline-block;
 }
 
 .header .logout {
@@ -22,41 +42,115 @@
 }
 
 .header .logo {
-    float: left;
+
+    width: 40px;
+    margin: 5px;
 }
 
 .header section.login {
     float: right;
     text-align: right;
+    position: relative;
+    min-width: 200px;
 }
 
 .login .user {
-    float: right;
     display: table;
     padding: 5px;
     width:auto;
+    position: relative;
 }
+
+.login :hover{
+    background-color: #f7f7f7;
+}
+
 
 .login .user .info {
     display: table-cell;
     vertical-align: middle;
     float: none;
     font-size: 20px;
-    padding: 0 5px 0 0;
+    padding: 0 0 0 5px;
 }
 
 .login .user .avatar {
     display: table-cell;
-    width:60px;
-    height:60px;
+    width:40px;
+    height:40px;
     border-radius:30px;
 }
 
 .login .user .name{
-    display: inline;
+    margin: 0px;
+    font-size: 20px;
+    font-weight: 500;
+    height: 20px;
+    line-height: 25px;
 }
 
 .login .user .role{
-    display: inline;
+    text-transform: lowercase;
     font-weight: 400;
+    font-size: 12px;
+    margin: 0;
+    padding-left: 3px;
+}
+
+.header .login .user:hover .expand{
+    max-height: 200px;
+}
+
+.header .expand{
+    max-height: 0px;
+    position:absolute;
+    overflow: hidden;
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    top: 50px;
+    left: 0;
+}
+
+.header .expand .controls {
+    background-color: #f7f7f7;
+
+    margin: 0;
+    padding: 10px 0 0 0;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    display: table;
+    width: 100%;
+}
+.header .expand .controls li{
+    display: table-row;
+}
+
+.header .expand .controls li .icon{
+    text-align: center;
+    width:20px;
+    height:20px;
+}
+
+.header .expand .controls li a{
+    text-decoration: inherit;
+    color: inherit;
+ }
+
+.header .expand .controls li a:hover{
+    font-weight: 600;
+}
+
+.header .expand .controls li a .icon-wrapper{
+    display: table-cell;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.header .expand .controls li a .label{
+    display: table-cell;
+    width: 50px;
+    vertical-align: middle;
 }
