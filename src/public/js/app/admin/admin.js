@@ -40,7 +40,7 @@ function load(){
 
         function loadUsers(self){
             $.ajax({
-                url: url+"admin/getUnconfirmedUsers",
+                url: url+"app/admin/getUnconfirmedUsers",
                 success: function(response){
                     for(var i in response){
                         var user = {};
