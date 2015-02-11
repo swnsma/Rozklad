@@ -51,6 +51,7 @@
     float: right;
     text-align: right;
     position: relative;
+    min-width: 200px;
 }
 
 .login .user {
@@ -91,6 +92,9 @@
 .login .user .role{
     text-transform: lowercase;
     font-weight: 400;
+    font-size: 12px;
+    margin: 0;
+    padding-left: 3px;
 }
 
 .header .login .user:hover .expand{
@@ -127,7 +131,6 @@
     text-align: center;
     width:20px;
     height:20px;
-    padding: 5px;
 }
 
 .header .expand .controls li a{
