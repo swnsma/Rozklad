@@ -52,11 +52,11 @@ class UploadImage extends Upload {
         if (!$w_i || !$h_i) {
             return false;
         }
-        $types = array('','gif','jpeg','png');
+        $types = array('', 'gif', 'jpeg', 'png');
         $ext = $types[$type];
 
         if ($ext) {
-            $func = 'imagecreatefrom'.$ext;
+            $func = 'imagecreatefrom' . $ext;
             $img = $func($image);
         } else {
             return false;
@@ -70,7 +70,7 @@ class UploadImage extends Upload {
         imagecopyresampled($img_o, $img, 0, 0, 0, 0, $w_o, $h_o, $w_i, $h_i);
 
         if ($type == 2) {
-            return imagejpeg($img_o, $image,100);
+            return imagejpeg($img_o, $image, 100);
         } else {
             $func = 'image'.$ext;
             return $func($img_o, $image);
