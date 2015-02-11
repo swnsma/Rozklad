@@ -34,7 +34,7 @@ function validScriptInsertion(el){
     el.val(val);
 }
 function validLen(el){
-    return el.val().length<1;
+    return el.val().length > 1;
 }
 $('#createButton').click(function() {
     var flag_error=0;
@@ -88,10 +88,7 @@ $('#createButton').click(function() {
     create_group(new FormData(document.getElementById('create1')), {
         success: function(response) {
             if (response.status == 'group_create') {
-                $('#linkNewOnGroup').text(url + 'app/grouppage/id' + response.id).attr('href', url + 'app/grouppage/id' + response.id);
-                $('#groupInvite').text(url + 'grouppage/inviteUser/' + response.key);
-                $('#afterCreate').css('display', 'block');
-                $('#formCreate').css('display', 'none')
+                window.location = url + 'app/grouppage/id' + response.id;
             } else {
                 alert(response.status);
             }
