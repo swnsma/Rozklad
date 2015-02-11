@@ -71,26 +71,27 @@ $('#createButton').click(function() {
     if(flag_error){
         return false;
     }
-    if (!name.match(/^[\d+\w+а-яА-Я ]$/)) {
-        el_name.addClass('error-input');
-        er3.css('display', 'block');
-        flag_error=1;
-    }
-    if (!descr.match(/^[\(\)\!\?\:\;\.\,\-А-Яа-я \s\S\d+\w+]$/)) {
-        el_descr.addClass('error-input');
-        er4.css('display', 'block');
-        flag_error=1;
-    }
-    if(flag_error){
-        return false;
-    }
+    //if (name.match(/[^а-яА-Яa-zA-Z 0-9!?:;.,-<>]/)) {
+    //    el_name.addClass('error-input');
+    //    er3.css('display', 'block');
+    //    flag_error=1;
+    //}
+    //if (!descr.match(/[^а-яА-Яa-zA-Z 0-9!?:;.,-<>]$/)) {
+    //    el_descr.addClass('error-input');
+    //    er4.css('display', 'block');
+    //    flag_error=1;
+    //}
+    //if(flag_error){
+    //    return false;
+    //}
 
     create_group(new FormData(document.getElementById('create1')), {
         success: function(response) {
+            console.log(response);
             if (response.status == 'group_create') {
                 window.location = url + 'app/grouppage/id' + response.id;
             } else {
-                alert(response.status);
+                alert(response);
             }
         },
         error: function() {
