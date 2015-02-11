@@ -70,6 +70,6 @@ body {
 }
 
 .container {
-    width: 900px;
-    margin: 0 auto;
+    width: 1000px;
+    margin-left: -12px;
 }

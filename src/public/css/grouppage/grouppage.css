@@ -7,6 +7,10 @@ body
     width: 1000px;
     margin: auto;
 }
+h1{
+    font-size: 32pt;
+    margin: 16px 0 0 5px ;
+}
 h3
 {
     margin-left: 1px;
@@ -17,15 +21,16 @@ h3
     overflow: hidden;
     max-height: 50px;
     max-width: 50px;
-    margin:5px;
+    margin-top: 5px;
 }
 .pict-cont{
     float: left;
-    line-height: 65px;
+    line-height: 50px;
 }
 .info-title{
+    margin-top: 10px;
     word-wrap: break-word;
-    min-height: 65px;
+    min-height: 50px;
     padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{

@@ -105,7 +105,6 @@ function ModelRegist(){
             check=0;
         }
         if(!check)return;
-
         var postData= {
             name:self.name(),
             surname:self.surname(),
@@ -120,6 +119,7 @@ function ModelRegist(){
                 },
                 success:function(response){
                     if(response.result==="registed") {
+                        console.log(response.link);
                         $("#btn-success")
                             .prop('disabled', false)
                             .click(function(){

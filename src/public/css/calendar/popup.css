@@ -43,7 +43,7 @@ body{
     padding: 10px;
 
     white-space: nowrap;
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
 }
 .popup .bold{
