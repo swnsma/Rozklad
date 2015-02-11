@@ -9,7 +9,7 @@ body
 }
 h1{
     font-size: 32pt;
-    margin: 16px 0 0 5px ;
+    margin: 5px 0 20px 5px ;
 }
 h3
 {
@@ -27,10 +27,16 @@ h3
     float: left;
     line-height: 50px;
 }
+.invite {
+    margin: 0px;
+}
+.invite .col-lg-11{
+    padding-right: 50px;
+}
 .info-title{
     margin-top: 10px;
     word-wrap: break-word;
-    min-height: 50px;
+    min-height: 75px;
     padding-left: 8px;
 }
 .info-title .col-lg-7 span, .info-desc .col-lg-7 span{
@@ -69,12 +75,12 @@ textarea{
 }
 .code{
     margin-top: 5px;
-    margin-left: -21px;
+    margin-left: -55px;
     background-color: #F5F5F5;
     color: #000000;
     border: 1px solid #000000;
     line-height: 34px;
-    padding: 0;
+    padding: 0 2px 0 2px ;
 
 }
 .code:hover, .edt:hover{
@@ -96,7 +102,7 @@ textarea{
 #inputName{
     height: 36px;
     cursor: default;
-    margin: 5px 0 20px -15px;
+    margin: 5px 0 10px -16px;
     background-color: #F5F5F5;
     border: 1px solid #000000;
 }
@@ -192,7 +198,12 @@ textarea{
 }
 .backButton
 {
+    color: #000000;
     margin-left: 5px;
+}
+.backButton:hover{
+    text-decoration: none;
+    color: red;
 }
 header
 {
