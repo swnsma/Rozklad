@@ -28,11 +28,11 @@ ErrorDocument 503 views/error/index.php?error=503
 ErrorDocument 504 views/error/index.php?error=504
 ErrorDocument 505 views/error/index.php?error=505
 
-SetEnvIfNoCase Request_URI "^/src/admin" SECURED
+SetEnvIfNoCase Request_URI "^/src/app/admin" SECURED
 
 AuthType Basic
 AuthName "Login"
-AuthUserFile /home/vova/sites/localhost/www/src/conf/.htpasswd
+AuthUserFile D:/openserver/OpenServer\domains\localhost\Rozklad\src\conf\.htpasswd
 Require valid-user
 Order allow,deny
 Allow from env=!SECURED
