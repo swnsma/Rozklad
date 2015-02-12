@@ -29,6 +29,7 @@ class Groups extends Controller {
     public function getGroupList(){
         $var = $this->model->getList();
         if(isset($var)){
+            $var[count($var)]=Session::get('id');
             $this->view->renderJson($var);
         }
     }

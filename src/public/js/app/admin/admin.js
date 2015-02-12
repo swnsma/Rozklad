@@ -9,7 +9,7 @@ function load(){
 
         self.confirm = function (user){
             $.ajax({
-                url: 'admin/confirmUser/'+user.id,
+                url: url+"app/admin/confirmUser/"+user.id,
                 success: function(response){
                     user.confirmed(true);
                 },
@@ -24,7 +24,7 @@ function load(){
         }
         self.unConfirm = function (user){
             $.ajax({
-                url: url+"/src/admin/unConfirmUser/"+user.id,
+                url: url+"app/admin/unConfirmUser/"+user.id,
                 success: function(response){
                     user.confirmed(false);
                 },
@@ -42,11 +42,10 @@ function load(){
             $.ajax({
                 url: url+"app/admin/getUnconfirmedUsers",
                 success: function(response){
-                    debugger;
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = '../../../src/public/img/avatar.png';
+                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?type=large";
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
