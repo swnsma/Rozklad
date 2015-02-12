@@ -9,7 +9,7 @@ function load(){
 
         self.confirm = function (user){
             $.ajax({
-                url: 'admin/confirmUser/'+user.id,
+                url: url+"app/admin/confirmUser/"+user.id,
                 success: function(response){
                     user.confirmed(true);
                 },
@@ -24,7 +24,7 @@ function load(){
         }
         self.unConfirm = function (user){
             $.ajax({
-                url: url+"/src/admin/unConfirmUser/"+user.id,
+                url: url+"app/admin/unConfirmUser/"+user.id,
                 success: function(response){
                     user.confirmed(false);
                 },
