@@ -10,8 +10,7 @@ function ViewModel(){
                 group.host = ko.observable(that.currentId==response[i].teacher_id);
                 group.name = ko.observable(response[i].name);
                 group.description = ko.observable(response[i].description);
-                group.arhived = ko.observable(response[i]===1);
-                console.log(group.arhived());
+                group.arhived = ko.observable(response[i].archived==1);
                 that.groups.push(group);
             }
             that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
