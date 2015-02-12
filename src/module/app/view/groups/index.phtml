@@ -17,6 +17,8 @@ echo '</style>';
                 <div class="icon-container">
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
+                <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
+                <img class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
                 <div data-bind="click: goAway" class="padding-10px">
                     <h3 class="group-name" data-bind="text: name"></h3>
                     <p class="group-description" data-bind="text: description"></p>
