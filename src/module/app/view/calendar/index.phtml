@@ -155,17 +155,24 @@
                     </div>
                 </div>
             </div>
-            <div class=' padding28 inner-wrapper'>
-                <div class='tr-create-lesson'>
-                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить событие</button>
-                    <button id='createNewLessonEdit' type='submit' class='submit'>Сохранить изменения</button>
-                </div>
+
+            <div class="gotoLesson-wrapper">
+                <span class="gotoLesson" id="popupEditGoToLesson">Перейти к событию</span>
             </div>
+
+
+            <div class="button">
+<!--                <div class='tr-create-lesson'>-->
+                    <span id='resetLessonEdit'  class='reset'>Удалить событие</span>
+                    |
+                    <span id='createNewLessonEdit'  class='submit'>Сохранить изменения</span>
+            </div>
+<!--                </div>-->
         </form>
     </div>
 <?php endif; ?>
 
-<div style="margin: 20px auto" class="calendar" id='calendar'></div>
+<div class="calendar" id='calendar'></div>
 
 
 
@@ -177,18 +184,19 @@
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/ajax.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendar/ajaxParam.js'></script>
+
 <?php if ($data['status'] == 'teacher'): ?>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
-
 <?php else: ?>
 
     <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
 <?php endif; ?>
 
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

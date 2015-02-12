@@ -105,68 +105,19 @@ function Calendar(){
     var statusRender=0;
     function RealTimeUpdate(){
         //var interval = 60000;//раз в хвилину оновлення
-        var interval = 10000;//раз в хвилину оновлення
+        var interval = 60000;//раз в хвилину оновлення
         var setTime;
         var operation = function(){
-            $.ajax({
-                url: url+'app/calendar/getRealTimeUpdate/'+interval/1000,
-                type: 'GET',
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function(date){
-                    if(self.currentUser.title==='student') {
-                        for (var i = 0; i < date.length; ++i) {
-                            if (+date[i].status === 1) {
-                                date[i].color=masColor.myEvents.color;
-                                date[i].textColor=masColor.myEvents.textColor;
-                                self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
-                                self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
-                            }
-                            if(+date[i].status===2){
-                                self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
-                            }
-                        }
-                    }
-                    if(self.currentUser.title==='teacher'){
-                        for (var i = 0; i < date.length; ++i){
-
-                            if(+date[i].teacher===+self.currentUser.id) {
-                                date[i].color = masColor.myEvents.color;
-                                date[i].textColor = masColor.myEvents.textColor;
-                            }else{
-                                date[i].color = masColor.otherEvents.color;
-                                date[i].textColor = masColor.otherEvents.textColor;
-                            }
-
-                            if (+date[i].status === 1) {
-                                self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
-                                self.jqueryObject.calendar.fullCalendar('renderEvent', date[i]);
-                            }
-                            if (+date[i].status === 2) {
-                                var bool=false;
-                                debugger;
-                                for(var j=0;j<fullcalendarEvent.length;++j){
-                                    if(+fullcalendarEvent[j].id===+date[i].id){
-                                        debugger;
-                                        bool=true;
-                                    }
-                                }
-                                if(!bool) {
-                                    self.jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
-                                }
-                            }
-                        }
-                    }
-                },
-                error: function(er) {
-                    alert('Ви розлогінились');
-                }
-
-            });
+            ajaxParam.realTimeUpdate(self.currentUser,fullcalendarEvent,self.jqueryObject,masColor,interval);
         };
         this.start = function(){
+
             setTime=setInterval(operation,interval);
         };
+        this.stop= function () {
+            clearInterval(setTime);
+
+        }
         this.setInterval=function(interval1){
             interval=interval1;
         };
@@ -178,7 +129,6 @@ function Calendar(){
 
     var self=this;
     self.currentUser;
-
 
     this.masEvent=[];
     this.groups=[];
@@ -225,6 +175,7 @@ function Calendar(){
             tcalInput: $('#tcalInputEdit'),
             popupEdit:$('#popupEdit'),
             titleEvent:$('#titleEventEdit'),
+            goToLesson:$('#popupEditGoToLesson'),
             start:{
                 hour:$('#hourBeginEdit'),
                 minutes:$('#minutesBeginEdit')
@@ -338,35 +289,26 @@ function Calendar(){
                     var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
                     var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
 
-                    var data={
-                        start:start1,
-                        end:end1
-                    }
-                    var success = function(doc){
-                        self.masEvent=doc;
-                        callback(doc);
-                        return doc;
-                    }
-                    ajax.getFullEventDefault(data,success);
+                    ajaxParam.getFullEventDefault(callback,start1,end1);
 
                 },
                 color: 'RGB(0,100,160)'  // an option!
             }
-        ]
+        ],
+        eventClick: function(calEvent, jsEvent, view){
+            window.location= url + 'app/lesson/id'+calEvent.id;
+        }
     };
 
     self.getCurrentUser=function(){
-        function success(response){
-            self.currentUser=response;
-            return response;
-        }
-        ajax.getCurrentUser(success);
-
+        ajaxParam.getCurrentUser(self.currentUser);
     };
-
+    var a =new RealTimeUpdate();
     this.realTimeUpdate=function(){
-        var a =new RealTimeUpdate();
         a.start();
+    }
+    this.realTimeStop = function(){
+        a.stop();
     }
 
 
