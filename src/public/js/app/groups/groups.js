@@ -6,8 +6,6 @@ function ViewModel(){
         for(var i=0; i<that.groups().length; i++){
             if (that.groups()[i].name==name){
                 that.groups()[i].edit(true);
-                alert('hello');
-                alert(that.groups()[i].name());
             }
         }
 
@@ -21,7 +19,7 @@ function ViewModel(){
                 group.name = ko.observable(response[i].name);
                 group.description = ko.observable(response[i].description);
                 group.archived = ko.observable(response[i].archived==1);
-                group.edit = ko.observable(false);
+                group.edit = ko.observable();
                 that.groups.push(group);
             }
             that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });

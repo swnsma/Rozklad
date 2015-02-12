@@ -15,7 +15,7 @@ echo '</style>';
         <div data-bind="foreach: groups" class="group-list">
             <!-- ko ifnot: archived()-->
             <div class="group">
-                <!--ko ifnot: edit() -->
+                <!--ko ifnot: edit -->
                 <div class="icon-container">
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
@@ -34,10 +34,13 @@ echo '</style>';
                     </div>
                 </div>
                 <!--/ko-->
+                <!--ko if: edit -->
+<div>хуй</div>
+                <!--/ko-->
             </div>
             <!--/ko-->
         </div>
     </section>
 <script src="<?php echo URL; ?>public/js/app/common.js"></script>
-<script src="<?php echo URL; ?>public/js/app/groups/groups.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script src="<?php echo URL; ?>public/js/app/groups/groups.js"></script>
