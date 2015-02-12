@@ -2,6 +2,16 @@ function ViewModel(){
     var that = this;
     that.groups = ko.observableArray([]);
     that.currentId="";
+    that.startEdit=function(name){
+        for(var i=0; i<that.groups().length; i++){
+            if (that.groups()[i].name==name){
+                that.groups()[i].edit(true);
+                alert('hello');
+                alert(that.groups()[i].name());
+            }
+        }
+
+    };
     that.activate = function(){
         universalAPI(url+'app/groups/getGroupList', 'GET', function(response){
             that.currentId= response[response.length-1];
@@ -10,7 +20,8 @@ function ViewModel(){
                 group.host = ko.observable(that.currentId==response[i].teacher_id);
                 group.name = ko.observable(response[i].name);
                 group.description = ko.observable(response[i].description);
-                group.arhived = ko.observable(response[i].archived==1);
+                group.archived = ko.observable(response[i].archived==1);
+                group.edit = ko.observable(false);
                 that.groups.push(group);
             }
             that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
