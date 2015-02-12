@@ -43,7 +43,7 @@ class Bootstrap extends Controller{
         return
             $controller=='calendar'||
             $controller=='grouppage'||
-            $controller=='admin'||
+            //$controller=='admin'||
             $controller=='groups';
     }
     private  function checkStatus(){
