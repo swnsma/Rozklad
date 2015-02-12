@@ -159,7 +159,7 @@ function Calendar(){
                     }
                 },
                 error: function(er) {
-                    alert(er)
+                    alert('Ви розлогінились');
                 }
 
             });
