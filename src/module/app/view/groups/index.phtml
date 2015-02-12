@@ -15,10 +15,10 @@ echo '</style>';
         <div data-bind="foreach: groups" class="group-list">
             <div class="group">
                 <div class="icon-container">
-                    <img class="group-icon" data-bind="attr: {src: imgSrc}"/>
+                    <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
-                <div class="padding-10px">
-                    <h3 class="group-name"><a data-bind="attr: {href: groupLink}, text:name"></a></h3>
+                <div data-bind="click: goAway" class="padding-10px">
+                    <h3 class="group-name" data-bind="text: name"></h3>
                     <p class="group-description" data-bind="text: description"></p>
                     <div class="next-lesson">
                         <div>
