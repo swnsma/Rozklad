@@ -80,10 +80,13 @@ TANIA;
     public function getRealTimeUpdate($iteration,$userinfo){
         $end =$this->realDate();
         $start =$this->realDate();
-        $myIteration = $iteration+10;
+        $myIteration = $iteration;
         $start=$start->modify("-$myIteration second");
         $start=$start->format($this->formatDate());
         $end=$end->format($this->formatDate());
+
+//        print $start;
+//        print $end;
 
 
         try {

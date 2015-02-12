@@ -93,28 +93,20 @@ class Calendar extends Controller {
             $this->view->renderJson($date);
         }
     }
-    public function addGroupsToLesson(){
-        if(isset($_POST['lesson_id'])&&isset($_POST['group_id'])) {
-            $lessonId = $_POST['lesson_id'];
-            $var = $_POST['group_id'];
-
-            $this->model = $this->loadModel('grouplesson');
-            for ($i = 0; $i < count($var); ++$i) {
-                $this->model->addGroupToLesson($lessonId, $var[$i]);
-            }
-            $this->view->renderJson(Array('success' => 'success'));
+    private function addGroupsToLesson($lessonId, $groupId){
+        $this->model = $this->loadModel('grouplesson');
+        for ($i = 0; $i < count($groupId); ++$i) {
+            $this->model->addGroupToLesson($lessonId, $groupId[$i]);
         }
     }
-    public function deleteGroupFromLesson(){
-        if(isset($_POST['lesson_id'])&&isset($_POST['group_id'])) {
-            $lessonId = $_POST['lesson_id'];
-            $var = $_POST['group_id'];
-            $this->model = $this->loadModel("lesson");
-            for ($i = 0; $i < count($var); ++$i) {
-                $success = $this->model->deleteGroupFromLesson($lessonId, $var[$i]);
-            }
-            $this->view->renderJson(Array('success' => $success));
+
+    private function deleteGroupFromLesson($lessonId, $groupId){
+        $this->model = $this->loadModel("lesson");
+        for ($i = 0; $i < count($groupId); ++$i) {
+            $success = $this->model->deleteGroupFromLesson($lessonId, $groupId[$i]);
         }
+//        $this->view->renderJson(Array('success' => $success));
+
     }
     public function updateEvent(){
         if(isset($_POST['title']) && isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])&&isset($_POST['teacher'])) {
@@ -125,12 +117,23 @@ class Calendar extends Controller {
             $id = $_POST['id'];
             $teacherId = $_POST['teacher'];
             $this->model->updateLesson($title, $start, $end, $id, $teacherId);
+            if(isset($_POST['group'])){
+                if(isset($_POST['group']['del'])){
+//                    print $_POST['group']['del'];
+                    $this->deleteGroupFromLesson($id,$_POST['group']['del']);
+                }
+                if(isset($_POST['group']['add'])){
+                    $this->addGroupsToLesson($id,$_POST['group']['add']);
+                }
+            }
             $this->view->renderJson("succeess");
         }
     }
+
     public function addEvent(){
         if(isset($_POST['title'])&&isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['teacher'])) {
             $this->model = $this->loadModel('lesson');
+//            print_r($_POST);
             $title = $_POST['title'];
             $start = $_POST['start'];
             $end = $_POST['end'];
@@ -140,6 +143,10 @@ class Calendar extends Controller {
             if ($id == null) {
                 echo 'Ошибка';
             } else {
+                if(isset($_POST['group']))
+                {
+                    $this->addGroupsToLesson($id,$_POST['group']);
+                }
                 $this->view->renderJson(array('id' => $id));
             }
         }
@@ -153,6 +160,12 @@ class Calendar extends Controller {
 
             $this->view->renderJson("success");
         }
+    }
+    public function getRealTimeUpdate(){
+        $this->model = $this->loadModel('lesson');
+        $interval=Request::getInstance()->getParam(0);
+        $id=$this->model->getRealTimeUpdate($interval,$this->userInfo);
+        $this->view->renderJson($id);
     }
 
 
@@ -216,14 +229,7 @@ class Calendar extends Controller {
 
 
     //використовую
-    public function getRealTimeUpdate(){
-        $this->model = $this->loadModel('lesson');
-        $interval=Request::getInstance()->getParam(0);
 
-        $id=$this->model->getRealTimeUpdate($interval,$this->userInfo);
-
-        $this->view->renderJson($id);
-    }
 
     //використовую
 

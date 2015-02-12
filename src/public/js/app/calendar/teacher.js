@@ -87,8 +87,10 @@ function Calendar_teacher(){
 
     //функція яка відповідає за зникнення popup'iв
     function delPopup(){
+
         if(self.jqueryObject.popup.popup.css('display')==='block'||self.jqueryObject.popupEdit.popupEdit.css('display')==='block'){
             self.jqueryObject.popup.popup.hide();
+            self.realTimeUpdate();
             self.jqueryObject.popupEdit.popupEdit.hide();
             if(lasSelecrDay) {
                 lasSelecrDay.css({
@@ -120,7 +122,7 @@ function Calendar_teacher(){
 
     //функція яка відповідає за появленя popup'ів
     function posPopup(allDay){
-
+        self.realTimeStop();
         var x= allDay.pageX;
         var y = allDay.pageY;
         var yminus = y-allDay.clientY;
@@ -134,7 +136,7 @@ function Calendar_teacher(){
         if((y+(+heightPopup)-yminus)>=height){
             y=y-heightPopup-20;
         }
-        debugger;
+
         if(x<=0){
             x=1;
         }else
@@ -307,19 +309,13 @@ function Calendar_teacher(){
 
 
     //моя функція
-    function addGroups(lesson_id,masGroups){
-
+    function getAddGroups(masGroups){
         var myAddGroups=masGroups;
         var myget=[];
         for(var i=0;i<myAddGroups.length;++i){
             myget.push(myAddGroups[i].idValue);
         }
-
-        var data={
-            lesson_id:lesson_id,
-            group_id:myget
-        }
-        ajax.addGroupsToLesson(data);
+        return myget;
     }
 
     self.getCurrentUser=function(){
@@ -410,6 +406,7 @@ function Calendar_teacher(){
                 self.jqueryObject.popupEdit.tcalInput.val(date.day.val() + '-' + date.month.val() + '-' + date.year.val());
             }
 
+            date.day.mask('99');
             date.day.on('input', function () {
                 if (this.value > 31) {
                     this.value = 31;
@@ -426,6 +423,7 @@ function Calendar_teacher(){
                 }
                 sync();
             });
+            date.month.mask('99');
             date.month.on('input', function () {
                 if (this.value > 12) {
                     this.value = 12;
@@ -437,6 +435,7 @@ function Calendar_teacher(){
                 }
                 sync();
             });
+            date.year.mask('99');
             date.year.on('input', function () {
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
@@ -532,11 +531,14 @@ function Calendar_teacher(){
     };
 
     //моя функція
-    function editGroups(lesson_id,originalGroup,addGrops){
+    function editGroups(originalGroup,addGrops){
 
         var myAddGroups=[];
         var myDelGroups=[];
 
+        var r={
+
+        }
         if(!originalGroup) {
             originalGroup=[];
         }
@@ -588,11 +590,7 @@ function Calendar_teacher(){
             for(var i=0;i<myAddGroups.length;++i){
                 myget.push(myAddGroups[i]);
             }
-            var data = {
-                lesson_id:lesson_id,
-                group_id:myget
-            }
-            ajax.addGroupsToLesson(data);
+            r.add=myget;
 
         }
         if(myDelGroups.length!==0){
@@ -600,13 +598,9 @@ function Calendar_teacher(){
             for(var i=0;i<myDelGroups.length;++i){
                 myget.push(myDelGroups[i]);
             }
-            var data = {
-                lesson_id:lesson_id,
-                group_id:myget
-            };
-            ajax.deleteGroupFromLesson(data);
+            r.del=myget;
         }
-
+        return r;
     }
 
     function toNormFormGroup(){
@@ -703,15 +697,17 @@ function Calendar_teacher(){
                 color=masColor.otherEvents.color;
                 textColor = masColor.otherEvents.textColor
             }
+            var originalEventGroup = originalEvent.group;
             var data = {
                 title:title,
                 start:startFun(),
                 end:endFun(),
                 id:+idUpdate,
-                teacher:teacher
+                teacher:teacher,
+                group:editGroups(originalEventGroup,toNormFormGroup())
             }
             function success(id){
-                var originalEventGroup = originalEvent.group;
+
                 originalEvent.id=idUpdate;
                 originalEvent.title=title;
                 originalEvent.start=startFun();
@@ -724,7 +720,7 @@ function Calendar_teacher(){
                 originalEvent.textColor = textColor;
 
                 self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
-                editGroups(idUpdate,originalEventGroup,toNormFormGroup());
+
             }
             ajax.updateEvent(data,success);
             delPopup();
@@ -819,7 +815,8 @@ function Calendar_teacher(){
                 title:title,
                 start:startFun(),
                 end:endFun(),
-                teacher:teacher
+                teacher:teacher,
+                group: getAddGroups(selectGroups.getMasGroups())
             };
             function success(id){
                 self.masEvent.push({id: id.id,
@@ -841,7 +838,7 @@ function Calendar_teacher(){
                     group:toNormFormGroup(),
                     textColor:textColor
                 });
-                addGroups(id.id,selectGroups.getMasGroups());
+
             }
             ajax.addEvent(data,success);
 

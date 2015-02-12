@@ -177,13 +177,14 @@
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
 <script src='<?php print URL; ?>public/js/app/calendar/ajax.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendar/ajaxParam.js'></script>
+
 <?php if ($data['status'] == 'teacher'): ?>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
-
 <?php else: ?>
 
     <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>";
