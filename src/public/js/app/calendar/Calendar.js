@@ -175,6 +175,7 @@ function Calendar(){
             tcalInput: $('#tcalInputEdit'),
             popupEdit:$('#popupEdit'),
             titleEvent:$('#titleEventEdit'),
+            goToLesson:$('#popupEditGoToLesson'),
             start:{
                 hour:$('#hourBeginEdit'),
                 minutes:$('#minutesBeginEdit')

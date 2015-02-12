@@ -27,16 +27,19 @@ class Lesson extends Controller {
         $req =Request::getInstance();
         $lessonId= $req->getParam(0);
         $this->model = $this->loadModel('lesson');
-        $data['title'] = "Lesson|Rozklad";
+        if($this->model->existLesson($lessonId)) {
+            $data['title'] = "Lesson|Rozklad";
+            $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
+            $data['status'] = $this->userInfo['title'];
+            $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
 
-        $data['groups'] = $this->model->getList();
-        $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
-        $data['status'] = $this->userInfo['title'];
-        $data['photo']='http://graph.facebook.com/'. $this->userInfo['fb_id'] . '/picture?type=large';
-
-        $this->view->renderHtml('common/head',$data);
-        $this->view->renderHtml('common/header', $data);
-        $this->view->renderHtml('lesson/index');
+            $this->view->renderHtml('common/head', $data);
+            $this->view->renderHtml('common/header', $data);
+            $this->view->renderHtml('lesson/index');
+        }else{
+            $data['id']=$lessonId;
+            $this->view->renderHtml('lesson/404',$data);
+        }
 
     }
 }

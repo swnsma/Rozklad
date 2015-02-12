@@ -30,7 +30,6 @@ class Calendar extends Controller {
         $this->model = $this->loadModel('lesson');
 //        $data =$this->userInfo;
 
-
         $data['title'] = "Calendar|Rozklad";
         $data['groups'] = $this->model->getList();
         $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
@@ -43,7 +42,7 @@ class Calendar extends Controller {
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('calendar/index', $data);
 //        $this->view->renderHtml('common/footer');
-//        $this->view->renderHtml('common/foot');
+        $this->view->renderHtml('common/foot');
 
     }
     public function addFullEventDefault(){

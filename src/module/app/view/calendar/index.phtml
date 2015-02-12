@@ -155,17 +155,24 @@
                     </div>
                 </div>
             </div>
-            <div class=' padding28 inner-wrapper'>
-                <div class='tr-create-lesson'>
-                    <button id='resetLessonEdit' type='reset' class='reset'>Удалить событие</button>
-                    <button id='createNewLessonEdit' type='submit' class='submit'>Сохранить изменения</button>
-                </div>
+
+            <div class="gotoLesson-wrapper">
+                <span class="gotoLesson" id="popupEditGoToLesson">Перейти к событию</span>
             </div>
+
+
+            <div class="button">
+<!--                <div class='tr-create-lesson'>-->
+                    <span id='resetLessonEdit'  class='reset'>Удалить событие</span>
+                    |
+                    <span id='createNewLessonEdit'  class='submit'>Сохранить изменения</span>
+            </div>
+<!--                </div>-->
         </form>
     </div>
 <?php endif; ?>
 
-<div style="margin: 20px auto" class="calendar" id='calendar'></div>
+<div class="calendar" id='calendar'></div>
 
 
 
@@ -191,5 +198,5 @@
 <?php endif; ?>
 
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

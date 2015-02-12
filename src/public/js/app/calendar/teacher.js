@@ -285,6 +285,9 @@ function Calendar_teacher(){
         self.jqueryObject.popupEdit.start.minutes.val(minutesStart);
         self.jqueryObject.popupEdit.end.hour.val(hourEnd);
         self.jqueryObject.popupEdit.end.minutes.val(minutesEnd);
+        self.jqueryObject.popupEdit.goToLesson.on('click',function(){
+            window.location=url+'app/lesson/id'+calEvent.id;
+        });
 
 
 

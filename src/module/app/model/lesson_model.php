@@ -234,8 +234,6 @@ BORIA;
             return null;
         }
     }
-
-
     public function  getOurLessonForThisIdStudent($userinfo,$start,$end){
         try {
 
@@ -265,7 +263,6 @@ BORIA;
             return null;
         }
     }
-
     public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end){
         try {
 
@@ -292,7 +289,6 @@ BORIA;
             return null;
         }
     }
-
     public function  getOurLessonForThisIdTeacherNoCurrent($userinfo,$start,$end){
         try {
 
@@ -319,10 +315,6 @@ BORIA;
             return null;
         }
     }
-
-
-
-
     static public function realDeletedLesson(){
         $start = date("2014-01-01");
         $start = new DateTime($start);
@@ -338,6 +330,25 @@ BORIA;
             $db->query("DELETE FROM 'lesson'
  WHERE  update_date BETWEEN '$start' AND '$var1' AND status='2'");
         } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+
+    }
+
+    public function existLesson($id){
+        try{
+            $var = $this->db->prepare("SELECT * FROM lesson where (id=:id and status=1)");
+            $var->execute(array(':id'=>$id));
+            $var1=$var->fetchAll();
+            if(isset($var1[0])){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch(PDOException $e){
             echo $e->getMessage();
             return null;
         }
