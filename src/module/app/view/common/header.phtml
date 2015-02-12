@@ -10,20 +10,18 @@ if (isset($data['files'])) {
 }
 ?>
 
-
 <script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
 <script src="<?php print URL; ?>public/js/app/common/header/header.js"></script>
 
-
 <header class="header">
     <div class="background"></div>
     <section class="menu">
-        <img class="logo" src="<?php echo URL; ?>public/img/calendar157.svg"/>
-        <h2 style="display: none">Расписание</h2>
-        <img style="display: none" class="logo" src="<?php echo URL; ?>public/img/group.svg"/>
-        <h2 style="display: none">Группы</h2>
+<!--        <img class="logo" src="--><?php //echo URL; ?><!--public/img/logo.png"/>-->
+        <a class="button" href="<?php echo URL; ?>app/calendar">Расписание</a>
+<!--        <img style="display: none" class="logo" src="--><?php //echo URL; ?><!--public/img/group.svg"/>-->
+        <a class="button" href="<?php echo URL; ?>app/groups">Группы</a>
     </section>
 
     <section class="login" id="login">
@@ -34,6 +32,7 @@ if (isset($data['files'])) {
             <section class="info">
                 <h2 class="name" id="activeUserName">
                     <?php echo htmlspecialchars($data['name'])  ?>
+                    <img class="arrow-down" src="<?php echo URL; ?>public/img/arrow-down.png"/>
                 </h2>
                 <h3 class="role" id="activeUserRole">
                     <?php echo htmlspecialchars($data['status'])  ?>
@@ -42,6 +41,7 @@ if (isset($data['files'])) {
             <a style="display: none" class="logout" id="logout" href="<?php echo $_SESSION['logout_link'];?>">
                 <img style="width:20px; display: block;" src="<?php echo URL; ?>public/img/exit.svg"/>
             </a>
+            <div class="fill-gape"></div>
             <section class="expand">
                 <ul class="controls">
                     <li>
@@ -49,7 +49,7 @@ if (isset($data['files'])) {
                             <div class="icon-wrapper">
                                 <img class="icon" src="<?php echo URL; ?>public/img/settings.svg"/>
                             </div>
-                            <div class="label">
+                            <div class="h-label">
                                 Настройки
                             </div>
                         </a>
@@ -59,7 +59,7 @@ if (isset($data['files'])) {
                             <div class="icon-wrapper">
                                 <img class="icon" src="<?php echo URL; ?>public/img/user.svg"/>
                             </div>
-                            <div class="label">
+                            <div class="h-label">
                                 Профиль
                             </div>
                         </a>
@@ -69,7 +69,7 @@ if (isset($data['files'])) {
                             <div class="icon-wrapper">
                                 <img class="icon" src="<?php echo URL; ?>public/img/power.svg"/>
                             </div>
-                            <div class="label">
+                            <div class="h-label">
                                 Выйти
                             </div>
                         </a>

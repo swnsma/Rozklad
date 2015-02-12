@@ -31,7 +31,24 @@ class AdminModel extends Model {
 
     public function getUnconfirmedUsers(){
         try {
-            $var =$this->db->query("SELECT * FROM user INNER JOIN unconfirmed_user ON unconfirmed_user.id=user.id; ")->fetchAll(PDO::FETCH_ASSOC);
+            $sql = <<<SQL
+                select
+                    user.name,
+                    user.surname,
+                    user.email,
+                    user.phone,
+                    user.fb_id,
+                    user.gm_id,
+                    user.id,
+                    role.title
+                from user
+                inner join role
+                on user.role_id = role.id
+                inner join unconfirmed_user
+                on user.id = unconfirmed_user.id
+SQL;
+
+            $var = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch(PDOException $e) {
             echo $e;
