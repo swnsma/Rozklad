@@ -17,13 +17,11 @@ class Admin extends Controller {
     }
 
     public function index() {
-        $user = $this->userModel->getCurrentUserInfo(Session::get("id"));
         $data = [];
-        $data['name']=$user["name"].' '.$user["surname"];
-        $data['status']=$user["title"];
-        $data['photo']='http://graph.facebook.com/'.$user['fb_id'].'/picture?type=large';        $this->view->renderHtml('common/head');
-        $this->view->renderHtml('common/header', $data);
-        $this->view->renderHtml('admin/admin_page');
+        $data['database']=URL.'SQL/data/index.php?sqlite=&username=&db=rozklad.sqlite';
+        $this->view->renderHtml('common/head');
+        $this->view->renderHtml('admin/admin_header', $data);
+        $this->view->renderHtml('admin/admin_page', $data);
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
     }

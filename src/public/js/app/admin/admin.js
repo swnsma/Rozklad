@@ -42,11 +42,10 @@ function load(){
             $.ajax({
                 url: url+"app/admin/getUnconfirmedUsers",
                 success: function(response){
-                    debugger;
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = '../../../src/public/img/avatar.png';
+                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?type=large";
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
