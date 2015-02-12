@@ -28,13 +28,13 @@ h3
     line-height: 50px;
 }
 .invite {
-    margin: 0px;
+    margin: -15px 0 0 0;
 }
 .invite .col-lg-11{
     padding-right: 50px;
 }
 .info-title{
-    margin-top: 10px;
+    margin-top: 2px;
     word-wrap: break-word;
     min-height: 75px;
     padding-left: 8px;
@@ -44,11 +44,7 @@ h3
     text-align: center;
     color: red;
 }
-.info-desc{
-    word-wrap: break-word;
-    padding-left: 0 ;
-    margin-bottom: 10px;
-}
+
 .list-group-item a:hover::after {
     content: attr(data-title);
     position: absolute;
@@ -66,12 +62,6 @@ h1, h5{
     float: left;
     word-wrap: break-word;
     max-width: 900px;
-}
-textarea{
-    resize: none;
-}
-.info-title input{
-    margin-top: 20px;
 }
 .code{
     margin-top: 5px;
@@ -98,6 +88,9 @@ textarea{
 }
 #inputName:hover{
     background-color: #dddddd;
+}
+.info-title input{
+    margin-top: 15px;
 }
 #inputName{
     height: 36px;
