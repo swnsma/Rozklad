@@ -1,0 +1,1 @@
+ALTER TABLE 'groups' ADD COLUMN 'archived'TEXT NULL DEFAULT '0';
