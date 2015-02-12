@@ -33,9 +33,8 @@ body {
     font-size: 21px;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #0000ff;
 }
-.group-name a{
+.group-name h3{
     white-space: nowrap;
 }
 

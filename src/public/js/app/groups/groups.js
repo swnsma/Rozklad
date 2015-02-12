@@ -20,6 +20,9 @@ function Group(obj){
     this.teacher = obj.teacher_fn+' '+obj.teacher_ln;
     this.imgSrc=url+'public/users_files/images/groups_photo/'+obj.photo;
     this.groupLink=url+'app/grouppage/id'+obj.group_id;
+    this.goAway = function(){
+        window.location = this.groupLink;
+    }
 }
 var viewModel = new ViewModel();
 viewModel.activate();
