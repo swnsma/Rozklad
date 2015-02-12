@@ -12,6 +12,8 @@ class GroupsModel extends Model {
             `groups`.`id` as group_id,
             `groups`.`name` as name,
             `groups`.`description` as descr,
+            `groups`.`teacher_id`,
+            `groups`.`archived`,
             `user`.`name` as teacher_fn,
             `user`.`surname` as teacher_ln,
             `groups`.`img_src` as photo

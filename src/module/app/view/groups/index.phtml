@@ -13,15 +13,18 @@ echo '</style>';
             <a class="btn btn-default add-btn"  href="<?php echo URL; ?>app/groups/create">Создать группу</a>
         <?php endif; ?>
         <div data-bind="foreach: groups" class="group-list">
+            <!-- ko ifnot: arhived()-->
             <div class="group">
                 <div class="icon-container">
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
-                <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
-                <img class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
+                <div data-bind="if: host()">
+                    <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
+                    <img class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
+                </div>
                 <div data-bind="click: goAway" class="padding-10px">
-                    <h3 class="group-name" data-bind="text: name"></h3>
-                    <p class="group-description" data-bind="text: description"></p>
+                    <h3 class="group-name" data-bind="text: name()"></h3>
+                    <p class="group-description" data-bind="text: description()"></p>
                     <div class="next-lesson">
                         <div>
                             Преподаватель:
@@ -30,6 +33,7 @@ echo '</style>';
                     </div>
                 </div>
             </div>
+            <!--/ko-->
         </div>
     </section>
 <script src="<?php echo URL; ?>public/js/app/common.js"></script>
