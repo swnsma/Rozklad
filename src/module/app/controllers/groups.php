@@ -33,6 +33,7 @@ class Groups extends Controller {
             $this->view->renderJson($var);
         }
     }
+
     public function create() {
         $data['title'] = 'Создать группу';
         if ($this->user_info['title'] == 'teacher') { // ==
@@ -53,6 +54,35 @@ class Groups extends Controller {
 
         } else {
             $this->view->renderHtml('error/access');
+        }
+    }
+    public function archive() {
+        $data['title'] = 'Создать группу';
+        if ($this->user_info['title'] == 'teacher') { // ==
+            $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
+            $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
+            $data['status'] = $this->user_info['title'];
+            $data['status'] = 'teacher';
+            $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
+            /*$this->view->renderAllHTML('groups/creategroup',
+                $data,
+                array('groups/create_group.css'));*/
+
+            $this->view->renderHtml('common/head');
+            $this->view->renderHtml('common/header', $data);
+            $this->view->renderHtml('groups/archive', $data);
+            $this->view->renderHtml('common/footer');
+            $this->view->renderHtml('common/foot');
+
+        } else {
+            $this->view->renderHtml('error/access');
+        }
+    }
+    public function getArchiveList(){
+        $var = $this->model->getArchive();
+        if(isset($var)){
+            $var[count($var)]=Session::get('id');
+            $this->view->renderJson($var);
         }
     }
 

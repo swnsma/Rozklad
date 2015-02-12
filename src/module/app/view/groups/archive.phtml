@@ -1,0 +1,41 @@
+<?php
+echo '<style>';
+require_once (DOC_ROOT."public/css/common/bootstrap.css");
+require_once (DOC_ROOT."public/css/common/common.css");
+require_once (DOC_ROOT."public/css/user.css");
+require_once (DOC_ROOT."public/css/admin/admin.css");
+require_once (DOC_ROOT."public/css/groups/groups.css");
+echo '</style>';
+?>
+
+
+<?php if ($data['status'] == 'teacher'): ?>
+
+<section class="container">
+
+    <div data-bind="foreach: groups" class="group-list">
+        <div class="group">
+            <div class="icon-container">
+                <a ><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
+            </div>
+            <div >
+                <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
+            </div>
+            <div class="padding-10px">
+                <h3 class="group-name" data-bind="text: name()"></h3>
+
+                <div class="next-lesson">
+                    <div>
+                        Преподаватель:
+                    </div>
+                    <div class="time" data-bind="text: teacher"></div>
+                </div>
+           </div>
+        </div>
+
+    </div>
+</section>
+<?php endif; ?>
+<script src="<?php echo URL; ?>public/js/app/common.js"></script>
+<script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script src="<?php echo URL; ?>public/js/app/groups/archive.js"></script>

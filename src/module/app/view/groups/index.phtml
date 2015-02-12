@@ -11,6 +11,7 @@ echo '</style>';
     <section class="container">
         <?php if ($data['status'] == 'teacher'): ?>
             <a class="btn btn-default add-btn"  href="<?php echo URL; ?>app/groups/create">Создать группу</a>
+            <a class="btn btn-default add-btn"  href="<?php echo URL; ?>app/groups/archive">Архив групп</a>
         <?php endif; ?>
         <div data-bind="foreach: groups" class="group-list">
             <!-- ko ifnot: archived()-->

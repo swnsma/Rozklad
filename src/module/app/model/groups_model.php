@@ -20,6 +20,30 @@ class GroupsModel extends Model {
         FROM `groups`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
 HERE;
+        try {
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            return $request;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function getArchive() {
+        $r = <<<HERE
+        SELECT
+            `groups`.`id` as group_id,
+            `groups`.`name` as name,
+            `groups`.`description` as descr,
+            `groups`.`teacher_id`,
+
+            `user`.`name` as teacher_fn,
+            `user`.`surname` as teacher_ln,
+            `groups`.`img_src` as photo
+        FROM `groups`, `user`
+        WHERE `user`.`id` = `groups`.`teacher_id`
+        AND `groups`.`archived` = 1
+HERE;
 
         try {
             $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
