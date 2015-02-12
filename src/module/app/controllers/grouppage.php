@@ -143,7 +143,7 @@ class GroupPage extends Controller {
                 $r=$r."Теперь вы член группы $name!<br/><a href=".'"'.$link.'"> Перейти к странице группы</a>';
                 break;
         }
-        $r=$r.'<br/><a href="/src/app/calendar">Перейти на главную страницу</a></div>';
+        $r=$r.'<br/><a href="'.URL.'app/calendar">Перейти на главную страницу</a></div>';
         echo $r;
     }
     public function restore(){
