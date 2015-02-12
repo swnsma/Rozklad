@@ -15,3 +15,8 @@ function universalAPI(urla, type, success, fail, data){
     });
 
 }
+
+
+if (window.location.hash && window.location.hash == '#_=_') {
+    window.location.hash = '';
+}
