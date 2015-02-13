@@ -15,6 +15,7 @@ class Bootstrap extends Controller{
         $controller = $request->getController();
         $action=$request->getAction();
         $module = $request->getModule();
+
         $this->dispatcher($controller,$action);
 
         $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
@@ -43,7 +44,7 @@ class Bootstrap extends Controller{
         return
             $controller=='calendar'||
             $controller=='grouppage'||
-            //$controller=='admin'||
+            $controller=='admin'||
             $controller=='groups';
     }
     private  function checkStatus(){

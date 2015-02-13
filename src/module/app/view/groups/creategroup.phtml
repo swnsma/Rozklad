@@ -25,7 +25,13 @@ echo '</style>';
                 <div id="error4" class="info-error">Описание должно содержать только буквы, цифры и знаки пунктуации</div>
             </div>
             <div class="form-group">
-                <input name="photo" type="file" id="photo" class="photo-button"/>
+                <div class="file_button_container" id="file_button_container">
+                    <span>Выберите файл</span>
+                    <input name="photo" id="photo" type="file" />
+                </div>
+                <div id="file_name">
+                    Нечего не выбрано
+                </div>
                 <div id="error5">Выберите изображение формата png, jpg или gif</div>
                 <div id="error_file"></div>
             </div>
