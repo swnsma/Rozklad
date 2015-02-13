@@ -86,7 +86,7 @@ CHECKSTUD;
         SELECT
             `groups`.`description`,
             `groups`.`name`,
-            'small_' || `groups`.`img_src` as img_src
+            `groups`.`img_src`
         FROM `groups`, `user`
         WHERE `groups`.`id`=$groupId ;
 HERE;
