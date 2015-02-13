@@ -16,6 +16,9 @@ function universalAPI(urla, type, success, fail, data){
 
 }
 
+function include(arr,obj) {
+    return (arr.indexOf(obj) != -1);
+}
 
 if (window.location.hash && window.location.hash == '#_=_') {
     window.location.hash = '';
