@@ -57,7 +57,7 @@ class Groups extends Controller {
         }
     }
     public function archive() {
-        $data['title'] = 'Создать группу';
+        $data['title'] = 'Архив групп';
         if ($this->user_info['title'] == 'teacher') { // ==
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
             $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
@@ -78,6 +78,15 @@ class Groups extends Controller {
             $this->view->renderHtml('error/access');
         }
     }
+    public function moveToArchive(){
+        $req = Request::getInstance();
+        $groupId= $req->getParam(0);
+        $value=$req->getParam(1);
+        $this->model->archive($groupId,$value);
+        $this->view->renderJson(Array('result'=>"success"));
+    }
+
+
     public function getArchiveList(){
         $var = $this->model->getArchive();
         if(isset($var)){

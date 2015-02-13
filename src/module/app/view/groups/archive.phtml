@@ -19,7 +19,7 @@ echo '</style>';
                 <a ><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
             </div>
             <div >
-                <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
+                <img class="trash" data-bind="click:function(){test()}" src = "<?php echo URL; ?>public/img/trash.png"/>
             </div>
             <div class="padding-10px">
                 <h3 class="group-name" data-bind="text: name()"></h3>
