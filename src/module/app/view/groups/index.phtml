@@ -22,11 +22,11 @@ echo '</style>';
                 </div>
                 <div data-bind="if: host()">
                     <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
-                    <img data-bind="click: function(){ $parent.startEdit(name)}" class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
+                    <img data-bind="click: startEdit" class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
                 </div>
                 <div data-bind="click: goAway" class="padding-10px">
-                    <h3 class="group-name" data-bind="text: name()"></h3>
-                    <p class="group-description" data-bind="text: description()"></p>
+                    <h3 class="group-name" data-bind="text: name"></h3>
+                    <p class="group-description" data-bind="text: description"></p>
                     <div class="next-lesson">
                         <div>
                             Преподаватель:
@@ -36,7 +36,17 @@ echo '</style>';
                 </div>
                 <!--/ko-->
                 <!--ko if: edit -->
-<div>тут будет едитинг</div>
+                <div class="editing">
+                    <div>
+                        <span>Название:</span><br/>
+                        <input data-bind="value: name"/>
+                    </div>
+                    <div>
+                        <span>Описание:</span><br/>
+                        <textarea data-bind="value: description"></textarea>
+                    </div>
+                    <div><a data-bind="click: cancelEdit">Отмена</a><a data-bind="click: saveChanges">Подтвердить</a></div>
+                </div>
                 <!--/ko-->
             </div>
             <!--/ko-->
