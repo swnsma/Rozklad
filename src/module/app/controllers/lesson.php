@@ -27,7 +27,7 @@ class Lesson extends Controller {
         $req =Request::getInstance();
         $lessonId= $req->getParam(0);
         $this->model = $this->loadModel('lesson');
-        if($this->model->existLesson($lessonId)) {
+        if($this->model->existLesson($lessonId,$this->userInfo)) {
             $data['title'] = "Lesson|Rozklad";
             $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
             $data['status'] = $this->userInfo['title'];
@@ -35,7 +35,7 @@ class Lesson extends Controller {
 
             $this->view->renderHtml('common/head', $data);
             $this->view->renderHtml('common/header', $data);
-            $this->view->renderHtml('lesson/index');
+            $this->view->renderHtml('lesson/index',$data);
         }else{
             $data['id']=$lessonId;
             $this->view->renderHtml('lesson/404',$data);
