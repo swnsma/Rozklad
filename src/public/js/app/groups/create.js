@@ -117,6 +117,7 @@ $('#createButton').click(function() {
                     window.location = url + 'app/grouppage/id' + response.id;
                 } else {
                     alert(response.status);
+                    $("#file_name").html("Ничего не выбрано");
                 }
             },
             error: function () {
@@ -194,4 +195,15 @@ $(document).ready(function(){
         er3.css('display', 'none');
         er4.css('display', 'none');
     });
+    el_photo
+        .change(function(){
+            var name = this.files[0].name;
+            if(this.value.length){
+                $("#file_name").html("Выбран файл: "+name);
+            }
+            else{
+                $("#file_name").html("Нечего не выбрано");
+            }
+            $(this).click();
+        });
 });
