@@ -109,17 +109,18 @@ class Groups extends Controller {
                 if ($status == 1) {
                     $image = null;
 
-                    if (isset($_FILES['photo']['error']) || !is_array($_FILES['photo']['error'])) {
-                        $upload = new UploadImage($_FILES['photo']);
-                        if ($upload->checkFileError() && $upload->upload()) {
-                            $image = $upload->getUploadFileName();
-                        } else {
+                    $upload = new UploadImage($_FILES['photo']);
+                    if ($upload->checkFileError() && $upload->upload()) {
+                        $image = $upload->getUploadFileName();
+                    } else {
+                        if ($upload->getError() != 'File wasn\'t sent') {
                             $this->view->renderJson(array(
                                 'status' => $upload->getError()
                             ));
                             return;
                         }
                     }
+
                     $data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
                     //$data = $this->model->createGroup(1, $name, $descr, $image);
                     if ($data == null) {

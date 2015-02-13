@@ -15,12 +15,12 @@ abstract class Upload {
                 case UPLOAD_ERR_OK:
                     break;
                 case UPLOAD_ERR_NO_FILE:
-                    throw new RuntimeException('File wasn\'t sent. Please try again later');
+                    throw new RuntimeException('File wasn\'t sent');
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
                     throw new RuntimeException('File is too big');
                 default:
-                    throw new RuntimeException('Something went wrong. Please try again later');
+                    throw new RuntimeException('Something went wrong');
             }
             return true;
         } catch(RuntimeException $e) {
