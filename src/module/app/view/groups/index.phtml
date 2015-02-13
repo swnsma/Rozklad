@@ -21,7 +21,7 @@ echo '</style>';
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
                 <div data-bind="if: host()">
-                    <img class="trash" src = "<?php echo URL; ?>public/img/trash.png"/>
+                    <img class="trash" data-bind='click:function(){$parent.archivate($data)}' src = "<?php echo URL; ?>public/img/trash.png"/>
                     <img data-bind="click: function(){ $parent.startEdit(name)}" class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
                 </div>
                 <div data-bind="click: goAway" class="padding-10px">
@@ -39,6 +39,9 @@ echo '</style>';
 <div>тут будет едитинг</div>
                 <!--/ko-->
             </div>
+            <!--/ko-->
+            <!-- ko if: archived()-->
+            <div class="group deletedGroup">Вы Отправили группу в архив</div>
             <!--/ko-->
         </div>
     </section>
