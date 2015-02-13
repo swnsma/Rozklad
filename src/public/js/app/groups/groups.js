@@ -46,7 +46,7 @@ function ViewModel(){
 }
 function Group(obj){
     this.teacher = obj.teacher_fn+' '+obj.teacher_ln;
-    this.imgSrc=url+'public/users_files/images/groups_photo/'+obj.photo;
+    this.imgSrc=obj.photo ? url+'public/users_files/images/groups_photo/'+obj.photo : url+'public/users_files/images/default/default_group_photo.jpg';
     this.groupLink=url+'app/grouppage/id'+obj.group_id;
     this.groupId=obj.group_id;
     this.goAway = function(){
