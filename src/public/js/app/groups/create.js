@@ -36,6 +36,28 @@ function validScriptInsertion(el){
 function validLen(el){
     return el.val().length < 1;
 }
+
+
+var file_err = true;
+$(document).on('change','#photo', function() {
+    var types = ['image/jpeg', 'image/png', 'image/gif'];
+    var file = document.getElementById('photo').files;
+    if (file.length != 0) {
+        var photo = file[0];
+        if (photo.size > 4 * 1024 * 1024) {
+            alert(1);
+            file_err = false;
+            return;
+        }
+
+        if (!include(types, photo.type)) {
+            alert(2);
+            file_err = false;
+        }
+    }
+});
+
+
 $('#createButton').click(function() {
     var flag_error=0;
     var el_name = $('#inputName');
@@ -85,21 +107,26 @@ $('#createButton').click(function() {
     //    return false;
     //}
 
-    create_group(new FormData(document.getElementById('create1')), {
-        success: function(response) {
-            console.log(response);
-            if (response.status == 'group_create') {
-                window.location = url + 'app/grouppage/id' + response.id;
-            } else {
-                alert(response.status);
+    alert(23323);
+
+    if (file_err) {
+        create_group(new FormData(document.getElementById('create1')), {
+            success: function (response) {
+                console.log(response);
+                if (response.status == 'group_create') {
+                    window.location = url + 'app/grouppage/id' + response.id;
+                } else {
+                    alert(response.status);
+                }
+            },
+            error: function () {
+                alert('error');
             }
-        },
-        error: function() {
-            alert('error');
-        }
-    });
+        });
+    }
     return false;
 });
+
 (function ($) {
     $.fn.autogrow = function (options) {
         var $this, minHeight, lineHeight, shadow, update;

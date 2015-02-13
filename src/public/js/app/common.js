@@ -1,6 +1,5 @@
-//var url = 'http://rozklad.loc:83/src/';
-//var url ='http://rozklad:10000/src/';
 var url =window.location.origin +'/src/';
+
 function universalAPI(urla, type, success, fail, data){
     $.ajax({
         url: urla,
@@ -14,6 +13,10 @@ function universalAPI(urla, type, success, fail, data){
     }
     });
 
+}
+
+function include(arr,obj) {
+    return (arr.indexOf(obj) != -1);
 }
 
 
