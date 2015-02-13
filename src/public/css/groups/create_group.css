@@ -54,6 +54,7 @@ div.h200 {
 }
 #createButton{
     margin-left: -15px;
+    width: 150px;
 }
 #inputDesc{
     resize: vertical;
