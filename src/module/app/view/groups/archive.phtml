@@ -13,14 +13,13 @@ echo '</style>';
 
 <section class="container">
 
+    <div class="archiveTitle">Вы находитесь в архиве удаленных групп. Для восстановления группы кликните пожалуйста по иконке группы!</div>
     <div data-bind="foreach: groups" class="group-list">
-        <div class="group">
+        <div class="group" data-bind="click:function(){$parent.restore($data.groupId)}">
             <div class="icon-container">
                 <a ><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
             </div>
-            <div >
-                <img class="trash" data-bind="click:function(){$parent.restore($data.groupId)}" src = "<?php echo URL; ?>public/img/trash.png"/>
-            </div>
+
             <div class="padding-10px">
                 <h3 class="group-name" data-bind="text: name()"></h3>
 
