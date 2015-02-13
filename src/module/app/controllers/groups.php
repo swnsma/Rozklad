@@ -33,6 +33,7 @@ class Groups extends Controller {
             $this->view->renderJson($var);
         }
     }
+
     public function create() {
         $data['title'] = 'Создать группу';
         if ($this->user_info['title'] == 'teacher') { // ==
@@ -55,6 +56,44 @@ class Groups extends Controller {
             $this->view->renderHtml('error/access');
         }
     }
+    public function archive() {
+        $data['title'] = 'Архив групп';
+        if ($this->user_info['title'] == 'teacher') { // ==
+            $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
+            $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
+            $data['status'] = $this->user_info['title'];
+            $data['status'] = 'teacher';
+            $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
+            /*$this->view->renderAllHTML('groups/creategroup',
+                $data,
+                array('groups/create_group.css'));*/
+
+            $this->view->renderHtml('common/head');
+            $this->view->renderHtml('common/header', $data);
+            $this->view->renderHtml('groups/archive', $data);
+            $this->view->renderHtml('common/footer');
+            $this->view->renderHtml('common/foot');
+
+        } else {
+            $this->view->renderHtml('error/access');
+        }
+    }
+    public function moveToArchive(){
+        $req = Request::getInstance();
+        $groupId= $req->getParam(0);
+        $value=$req->getParam(1);
+        $this->model->archive($groupId,$value);
+        $this->view->renderJson(Array('result'=>"success"));
+    }
+
+
+    public function getArchiveList(){
+        $var = $this->model->getArchive();
+        if(isset($var)){
+            $var[count($var)]=Session::get('id');
+            $this->view->renderJson($var);
+        }
+    }
 
     public function createNewGroup() {
 
@@ -70,17 +109,18 @@ class Groups extends Controller {
                 if ($status == 1) {
                     $image = null;
 
-                    if (isset($_FILES['photo']['error']) || !is_array($_FILES['photo']['error'])) {
-                        $upload = new UploadImage($_FILES['photo']);
-                        if ($upload->checkFileError() && $upload->upload()) {
-                            $image = $upload->getUploadFileName();
-                        } else {
+                    $upload = new UploadImage($_FILES['photo']);
+                    if ($upload->checkFileError() && $upload->upload()) {
+                        $image = $upload->getUploadFileName();
+                    } else {
+                        if ($upload->getError() != 'File wasn\'t sent') {
                             $this->view->renderJson(array(
                                 'status' => $upload->getError()
                             ));
                             return;
                         }
                     }
+
                     $data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
                     //$data = $this->model->createGroup(1, $name, $descr, $image);
                     if ($data == null) {

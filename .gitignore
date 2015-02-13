@@ -1,7 +1,7 @@
 .idea
 logs
-version.txt
+src/SQL/install/version.txt
 src/SQL/data
 test
-sqc/public/users_files/images/groups_photo
-.htaccess
+src/public/users_files/images/groups_photo
+src/.htaccess

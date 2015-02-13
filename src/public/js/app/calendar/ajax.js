@@ -98,36 +98,6 @@ var ajax={
 
         });
     },
-    addGroupsToLesson:function(data){
-        $.ajax({
-            url: url+'app/calendar/addGroupsToLesson',
-            type: 'post',
-            data:data,
-            success: function(response){
-                if(response.success=='success'){
-
-                }
-            },
-            error: function(er) {
-                alert('Не вдалося запросити групу на Подію');
-            }
-        });
-    },
-    deleteGroupFromLesson:function(data){
-        $.ajax({
-            url: url + 'app/calendar/deleteGroupFromLesson',
-            type: 'post',
-            data:data,
-            success: function(response){
-                if(response.success=='success'){
-
-                }
-            },
-            error: function(er) {
-                alert('Не вдалося вилучити групи з події');
-            }
-        });
-    },
     updateEvent:function(data,success){
         $.ajax({
             url: url + 'app/calendar/updateEvent/',
@@ -165,10 +135,11 @@ var ajax={
                 success(id);
             },
             error: function(er) {
-                alert('Подя не була видалена');
+                alert('Подія не була видалена');
             }
 
         });
     }
+
 
 }

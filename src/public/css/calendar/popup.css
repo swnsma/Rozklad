@@ -84,13 +84,13 @@ body{
     display: inline;
     width: 35px;
 }
-.input-create-lesson{
+.popup .inner-wrapper .tr-create-lesson  .input-create-lesson,
+.popupEdit .inner-wrapper .tr-create-lesson  .input-create-lesson
+{
     width: 100%;
     border: none;
     outline: none;
-    /*border-bottom: 1px dashed #016d92;*/
 }
-
 .width15px{
     width: 17px;
     text-align: center;
@@ -134,15 +134,14 @@ body{
     width: 52%;
 
 }
-.tr-create-lesson .submit{
+.popup .tr-create-lesson .submit{
 
     /*width: 69%;*/
     /*width: 57%;*/
     margin-left: 1%;
 
 }
-.popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset,
-.popupEdit .tr-create-lesson .submit,.popupEdit .tr-create-lesson .reset{
+.popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset{
     padding: 5px 0;
     /*width: 33%;*/
     margin-top: 10px;
@@ -151,7 +150,7 @@ body{
     color: #000000;
     text-align: center;
 }
-.tr-create-lesson .submit:hover,.tr-create-lesson .reset:hover {
+.popup .tr-create-lesson .submit:hover,.popup .tr-create-lesson .reset:hover {
     border:1px solid #bfc4c4;
     background-color: #d9dddd; background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
     background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
@@ -160,8 +159,7 @@ body{
     background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
     background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
 }
-.tr-create-lesson .reset{
-    width: 30%;
+.popup .tr-create-lesson .reset{
     background-color: #eeeeee;
 }
 

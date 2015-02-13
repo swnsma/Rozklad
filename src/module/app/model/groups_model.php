@@ -19,6 +19,31 @@ class GroupsModel extends Model {
             `groups`.`img_src` as photo
         FROM `groups`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
+        AND `groups`.`archived` = 0
+HERE;
+        try {
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            return $request;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function getArchive() {
+        $r = <<<HERE
+        SELECT
+            `groups`.`id` as group_id,
+            `groups`.`name` as name,
+            `groups`.`description` as descr,
+            `groups`.`teacher_id`,
+
+            `user`.`name` as teacher_fn,
+            `user`.`surname` as teacher_ln,
+            `groups`.`img_src` as photo
+        FROM `groups`, `user`
+        WHERE `user`.`id` = `groups`.`teacher_id`
+        AND `groups`.`archived` = 1
 HERE;
 
         try {
@@ -27,6 +52,16 @@ HERE;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
+        }
+    }
+
+    public function archive($groupId, $value){
+        try{
+           $STH=$this->db->prepare("UPDATE groups SET archived = :value WHERE id=:groupId");
+            $STH->execute(array('value'=>$value,'groupId'=>$groupId));
+           }
+        catch(PDOException $e){
+            echo $e->getMessage();
         }
     }
 

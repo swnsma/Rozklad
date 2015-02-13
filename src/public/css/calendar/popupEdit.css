@@ -7,20 +7,54 @@
     width: 365px;
     display: none;
     padding: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #555;
+}
+.popupEdit .gotoLesson,
+.popupEdit .reset,
+.popupEdit .submit{
+    /*text-align: right;*/
+    cursor: pointer;
+    font-weight: bold;
+    /*font-size: 10px;*/
+    margin: 0;
+    padding: 0;
+}
 
-    /*white-space: nowrap;*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
+.popupEdit .gotoLesson:hover,
+.popupEdit .reset:hover,
+.popupEdit .submit:hover{
+    text-decoration: underline;
+    color: #222;
+}
+.popupEdit .gotoLesson-wrapper{
+    text-align: right;
+}
+.popupEdit .gotoLesson{
+    font-size: 10px;
+    color: #111;
+    /*font-style: italic;*/
+    text-decoration: underline;
+}
+.popupEdit .reset,
+.popupEdit .submit{
+    font-size: 15px;
+}
+.popupEdit .button{
+    text-align: center;
 }
 .popupEdit .select-teacher{
     border: none;
 }
 .popupEdit .input-create-lesson{
-    color: #000000;
+    /*color: #000000;*/
     font-weight: bold;
     text-align: center;
     border: none;
-
+}
+.popupEdit .tr-create-lesson >*:last-child{
+    font-weight: normal;
 }
 .popupEdit .inner-wrapper .tr-create-lesson .input-create-lesson{
     display: block;
@@ -40,25 +74,20 @@
     /*border-bottom: 1px solid #000000;*/
 }
 .popupEdit  .data-ivent{
-    color: #000000;
+    /*color: #000000;*/
+    font-weight: normal;
 }
 .popupEdit  .time-ivent{
-    color: #000000;
+    /*color: #000000;*/
 }
 .popupEdit .list-groups{
-    color: #000000;
+    /*color: #000000;*/
     width: 80%;
 }
 .popupEdit .list-groups select{
     border-bottom: 1px solid #eeeeee;
 }
-.popupEdit .reset{
-    width: 40%;
-}
-.popupEdit .submit{
-    width: 59%;
-    margin-left: 1%;
-}
+
 .popupEdit .date-span{
     width: 150px;
 }
