@@ -44,6 +44,7 @@ $(document).on('change','#photo', function() {
     var file = document.getElementById('photo').files;
     var err = $('#error_file');
     err.text('');
+    file_err = true;
     if (file.length != 0) {
         var photo = file[0];
         if (photo.size > 4 * 1024 * 1024) {
@@ -107,8 +108,6 @@ $('#createButton').click(function() {
     //if(flag_error){
     //    return false;
     //}
-
-    alert(23323);
 
     if (file_err) {
         create_group(new FormData(document.getElementById('create1')), {
