@@ -336,16 +336,34 @@ BORIA;
 
     }
 
-    public function existLesson($id){
+    public function existLesson($id,$userInfo){
         try{
-            $var = $this->db->prepare("SELECT * FROM lesson where (id=:id and status=1)");
-            $var->execute(array(':id'=>$id));
-            $var1=$var->fetchAll();
-            if(isset($var1[0])){
-                return true;
+            if($userInfo['title']==='teacher') {
+                $var = $this->db->prepare("SELECT * FROM lesson where (id=:id and status=1)");
+                $var->execute(array(':id' => $id));
+                $var1 = $var->fetchAll();
+                if (isset($var1[0])) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            else {
-                return false;
+            else{
+                $var = $this->db->prepare("SELECT * FROM user as u
+                                               INNER JOIN student_group as sg ON
+                                               u.id=sg.student_id
+                                                INNER JOIN group_lesson as gl ON
+                                                gl.group_id=sg.group_id
+                                                INNER JOIN lesson as l ON
+                                                l.id=gl.lesson_id
+                                                where (l.id=:id AND l.status=1 and u.id = :UID)");
+                $var->execute(array('id' => $id, 'UID'=>$userInfo['id']));
+                $var1 = $var->fetchAll();
+                if (isset($var1[0])) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
         catch(PDOException $e){
