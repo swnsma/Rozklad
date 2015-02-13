@@ -135,10 +135,10 @@ function ViewModel() {
         that.id(groupId);
         api.getGroupInfo(groupId, function (response) {
             that.groupName(response.name);
-            if(response.img_src){
-                that.imgSrc(url+'public/users_files/images/groups_photo/'+response.img_src);
-                that.havePicture(true);
-            }
+            var img = response.img_src ? url + 'public/users_files/images/groups_photo/small_' + response.img_src : url + 'public/users_files/images/default/small_default_group_photo.jpg';
+            that.imgSrc(img);
+            that.havePicture(true);
+
             that.teacher(response.teacher);
             that.description(response.description);
             that.buffDesc=response.description;
