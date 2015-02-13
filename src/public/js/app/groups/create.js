@@ -36,6 +36,30 @@ function validScriptInsertion(el){
 function validLen(el){
     return el.val().length < 1;
 }
+
+
+var file_err = true;
+$(document).on('change','#photo', function() {
+    var types = ['image/jpeg', 'image/png', 'image/gif'];
+    var file = document.getElementById('photo').files;
+    var err = $('#error_file');
+    err.text('');
+    file_err = true;
+    if (file.length != 0) {
+        var photo = file[0];
+        if (photo.size > 4 * 1024 * 1024) {
+            err.text('Файл должен быть не более 4 мб');
+            file_err = false;
+            return;
+        }
+
+        if (!include(types, photo.type)) {
+            err.text('Файл должен иметь другой тип');
+            file_err = false;
+        }
+    }
+});
+
 $('#createButton').click(function() {
     var flag_error=0;
     var el_name = $('#inputName');
@@ -85,21 +109,25 @@ $('#createButton').click(function() {
     //    return false;
     //}
 
-    create_group(new FormData(document.getElementById('create1')), {
-        success: function(response) {
-            console.log(response);
-            if (response.status == 'group_create') {
-                window.location = url + 'app/grouppage/id' + response.id;
-            } else {
-                alert(response.status);
+    if (file_err) {
+        create_group(new FormData(document.getElementById('create1')), {
+            success: function (response) {
+                console.log(response);
+                if (response.status == 'group_create') {
+                    window.location = url + 'app/grouppage/id' + response.id;
+                } else {
+                    alert(response.status);
+                    $("#file_name").html("Ничего не выбрано");
+                }
+            },
+            error: function () {
+                alert('error');
             }
-        },
-        error: function() {
-            alert('error');
-        }
-    });
+        });
+    }
     return false;
 });
+
 (function ($) {
     $.fn.autogrow = function (options) {
         var $this, minHeight, lineHeight, shadow, update;
@@ -167,4 +195,15 @@ $(document).ready(function(){
         er3.css('display', 'none');
         er4.css('display', 'none');
     });
+    el_photo
+        .change(function(){
+            var name = this.files[0].name;
+            if(this.value.length){
+                $("#file_name").html("Выбран файл: "+name);
+            }
+            else{
+                $("#file_name").html("Нечего не выбрано");
+            }
+            $(this).click();
+        });
 });
