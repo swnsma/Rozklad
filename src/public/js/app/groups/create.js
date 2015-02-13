@@ -42,21 +42,22 @@ var file_err = true;
 $(document).on('change','#photo', function() {
     var types = ['image/jpeg', 'image/png', 'image/gif'];
     var file = document.getElementById('photo').files;
+    var err = $('#error_file');
+    err.text('');
     if (file.length != 0) {
         var photo = file[0];
         if (photo.size > 4 * 1024 * 1024) {
-            alert(1);
+            err.text('Файл должен быть не более 4 мб');
             file_err = false;
             return;
         }
 
         if (!include(types, photo.type)) {
-            alert(2);
+            err.text('Файл должен иметь другой тип');
             file_err = false;
         }
     }
 });
-
 
 $('#createButton').click(function() {
     var flag_error=0;
