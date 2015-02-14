@@ -28,6 +28,8 @@ body{
     display: inline-block;
     width: 15px;
     height: 15px;
+    color: #000000;
+    padding-left: 5px;
     /*background-repeat: ;*/
 
 }
