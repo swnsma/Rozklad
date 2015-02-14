@@ -160,7 +160,7 @@ select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
  u.name, u.surname from lesson as l
 INNER JOIN User as u ON
 l.teacher = u.id
-where l.id=$id AND
+where l.id=$id
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
