@@ -141,6 +141,24 @@ CHECK;
            echo $e->getMessage();
        }
    }
+    public function checkName($name){
+        try{
+            $r=<<<NAMECHECK
+            SELECT *
+            FROM `groups`
+            WHERE `groups`.`name`='$name';
+NAMECHECK;
+         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($var[0])){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
    public function renameGroup($id, $newName){
        try{
        $STH=$this->db->prepare("UPDATE groups SET name = :name WHERE id=:id;");
@@ -149,7 +167,6 @@ CHECK;
        catch(PDOException $e){
            echo $e->getMessage();
        }
-       $this->setName($newName);
    }
    public function createInviteCode($id){
         try{
@@ -193,7 +210,33 @@ HERE;
         $var['description']=$newDescription;
         $this->setGroupInfo($var);
     }
-   public function addUserToGroup($id, $code){
+    public function deletePhoto($id){
+        $r=<<<CHECKING
+           SELECT `img_src`
+           FROM `groups`
+           WHERE id=$id;
+CHECKING;
+        $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($var[0])){
+            unlink(DOC_ROOT.'public/users_files/images/groups_photo/'.$var[0]['img_src']);
+            unlink(DOC_ROOT.'public/users_files/images/groups_photo/small_'.$var[0]['img_src']);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public function changeImage($id, $img){
+        $r=<<<QUER
+            UPDATE `groups`
+            SET `img_src` = :img
+            WHERE id=:id
+QUER;
+        $STH = $this->db->prepare($r);
+        $STH->execute(array('id'=>$id, 'img'=>$img));
+
+    }
+    public function addUserToGroup($id, $code){
        $r=<<<CHECKCODE
        SELECT `id`
        FROM `groups`

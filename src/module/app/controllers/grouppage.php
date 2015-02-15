@@ -5,6 +5,7 @@
  * Date: 1/28/2015
  * Time: 3:53 PM
  */
+require_once DOC_ROOT . 'core/UploadImage.php';
 class GroupPage extends Controller {
     public function __construct() {
         parent::__construct();
@@ -56,8 +57,18 @@ class GroupPage extends Controller {
     public function renameGroup(){
         $req=Request::getInstance();
         $id=$req->getParam(0);
-        $newName= $_POST['title'];
-        $this->model->renameGroup($id, $newName);
+        if(isset($_POST['title'])&&$_POST['title']){
+        $title = $_POST['title'];
+        if($this->model->checkName($title)){
+            $this->view->renderJson(array('errormess'=>"Группа с данным именем уже существует"));
+            return;
+        }
+            $this->model->renameGroup($id, $title);
+        }
+        if(isset($_POST['data'])&&$_POST['data']){
+        $newDescription = $_POST['data'];
+        $this->model->editDescription($id, $newDescription);
+        }
         $this->view->renderJson(Array('result'=>"success"));
 
     }
@@ -81,6 +92,39 @@ class GroupPage extends Controller {
         $var=$this->model->loadUsers($id);
 
         $this->view->renderJson($var);
+    }
+    public function changeImage(){
+        $req = Request::getInstance();
+        $id = $req->getParam(0);
+        if(isset($_POST['title'])&&$_POST['title']){
+        $title = $_POST['title'];
+            if($this->model->checkName($title)){
+                $this->view->renderJson(array('errormess'=>"Группа с данным именем уже существует"));
+                return;
+            }
+            $this->model->renameGroup($id, $title);
+        }
+        if(isset($_POST['data'])&&$_POST['data']){
+        $desc = $_POST['data'];
+        $this->model->editDescription($id, $desc);
+        }
+        $a= $_FILES['photo'];
+        $upload = new UploadImage($a);
+        if ($upload->checkFileError() && $upload->upload()) {
+            $image = $upload->getUploadFileName();
+        } else {
+            if ($upload->getError() != 'File wasn\'t sent') {
+                $this->view->renderJson(array(
+                    'status' => $upload->getError()
+                ));
+                return;
+            }
+        }
+        $this->model->deletePhoto($id);
+        $this->model->changeImage($id, $image);
+        $this->view->renderJson(array("result"=>$image, "title"=>$_POST['title'], "descr"=>$_POST['data']));;
+
+
     }
     public function sendGroupInfo(){
         $req=Request::getInstance();

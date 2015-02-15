@@ -7,6 +7,9 @@ require_once (DOC_ROOT."public/css/admin/admin.css");
 require_once (DOC_ROOT."public/css/groups/groups.css");
 echo '</style>';
 ?>
+<!-- ko if:loadScreen-->
+<div class="loadScreen"><img src="<?php echo URL?>public/img/load.gif"></div>
+<!--/ko-->
 
     <section class="container">
         <?php if ($data['status'] == 'teacher'): ?>
@@ -36,16 +39,31 @@ echo '</style>';
                 </div>
                 <!--/ko-->
                 <!--ko if: edit -->
-                <div>
+                <div class = "editing">
+                    <!--ko if: sending-->
+                    <div class = loading><img src="<?php echo URL?>public/img/load.gif"></div>
+                    <!--/ko-->
+                    <form data-bind="attr:{id:groupId}">
                     <div>
-                        <span>Название:</span><br/>
-                        <input data-bind="value: name"/>
+                        <label for="inputDesc" class="bold">Название:</label><br/>
+                        <input class="form-control" name="title" data-bind="value: name, valueUpdate: 'afterkeydown'"/>
+                        <span data-bind="text: errorTitle"></span>
                     </div>
                     <div>
-                        <span>Описание:</span><br/>
-                        <textarea data-bind="value: description"></textarea>
+                        <label for="inputDesc" class="bold">Описание:</label><br/>
+                        <textarea class="form-control" name= "data" data-bind="value: description, valueUpdate: 'afterkeydown'"></textarea>
+                        <span data-bind="text: errorDesc"></span>
                     </div>
-                    <a data-bind="click: cancelEditing">Отмена</a><a data-bind="click: sendChanges">Подтвердить</a>
+                        <div class="file_button_container" id="file_button_container">
+                            <span> Выберете изображение</span>
+                            <input  name="photo" id="photo" type="file" />
+                        </div>
+                        <div id="file_name">
+                            Нечего не выбрано
+                        </div>
+                        </form>
+                        <span data-bind="text: fileStatus, valueUpdate: 'afterkeydown'"></span>
+                    <div><a data-bind="click: cancelEditing">Отмена</a><a data-bind="click: sendChanges">Подтвердить</a></div>
                 </div>
                 <!--/ko-->
             </div>
@@ -55,6 +73,7 @@ echo '</style>';
              <!--/ko-->
         </div>
     </section>
-<script src="<?php echo URL; ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script src="<?php echo URL; ?>public/js/vendor/somelibrary.js"></script>
+<script src="<?php echo URL; ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/app/groups/groups.js"></script>
