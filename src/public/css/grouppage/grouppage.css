@@ -53,6 +53,16 @@ h3
     text-decoration: none;
     left: 105px;
 }
+.code:hover{
+    text-decoration: none;
+    border:1px solid #bfc4c4;
+    background-color: #d9dddd; background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
+    background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
+}
 .list-group-item-text:hover::after{
     top: 11px
 }
@@ -67,12 +77,13 @@ h1, h5{
 }
 .code{
     margin-top: 5px;
-    margin-left: -55px;
-    background-color: #F5F5F5;
+    margin-left: -70px;
+    border: 1px solid #bfc4c4;
     color: #000000;
-    border: 1px solid #000000;
+    text-align: center;
+    background-color: #eeeeee;
     line-height: 34px;
-    padding: 0 2px 0 2px ;
+    padding: 0 8px 0 8px ;
 
 }
 .code:hover, .edt:hover{
