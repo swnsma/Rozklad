@@ -64,6 +64,9 @@ function ViewModel(){
                     this.edit(true);
                 };
                 group.cancelEditing = function(){
+                    this.errorDesc("");
+                    this.errorTitle("");
+                    this.fileError("");
                     this.file("");
                     this.name(this.buffName);
                     this.description(this.buffDesc);
