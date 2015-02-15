@@ -47,8 +47,11 @@ function ViewModel()
 
         function sendData(){
             $.ajax({
-                url: url+'app/lesson/changeLessonInfo/1/'+datasend,
+                url: url+'app/lesson/changeLessonInfo/1/',
                 type: 'POST',
+                data:{
+                    data:datasend
+                },
 
                 success: function(response){
                     console.log(response);
