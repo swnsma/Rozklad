@@ -70,6 +70,8 @@ $('#createButton').click(function() {
     var er2 = $('#error2');
     var er3 = $('#error3');
     var er4 = $('#error4');
+    var er7 = $('#error7');
+    var aferr = $('#after_error');
     var name = el_name.val();
     var descr = el_descr.val();
     el_name.removeClass('error-input');
@@ -78,6 +80,8 @@ $('#createButton').click(function() {
     er2.css('display', 'none');
     er3.css('display', 'none');
     er4.css('display', 'none');
+    er7.css('display', 'none');
+    aferr.text();
 
     trim(el_name);
     trim(el_descr);
@@ -114,11 +118,14 @@ $('#createButton').click(function() {
         create_group(new FormData(document.getElementById('create1')), {
             success: function (response) {
                 console.log(response);
-                if (response.status == 'group_create') {
+                var status = response.status;
+                if (status == 'group_create') {
                     window.location = url + 'app/grouppage/id' + response.id;
+                } else if (status == 'groups_already_exists') {
+                    er7.css('display', 'block');
+                    el_name.addClass('error-input');
                 } else {
-                    alert(response.status);
-                    $("#file_name").html("Ничего не выбрано");
+                    aferr.text(status);
                 }
             },
             error: function () {
@@ -176,6 +183,7 @@ $(document).ready(function(){
     var er2 = $('#error2');
     var er3 = $('#error3');
     var er4 = $('#error4');
+    var er7 = $('#error7');
     $("textarea")
         .autogrow()
         .css("min-height","50px")
@@ -188,6 +196,7 @@ $(document).ready(function(){
         er2.css('display', 'none');
         er3.css('display', 'none');
         er4.css('display', 'none');
+        er7.css('display', 'none');
     });
     $(el_name).on("focus",function(){
         $('.form-control').removeClass('error-input');
@@ -195,6 +204,7 @@ $(document).ready(function(){
         er2.css('display', 'none');
         er3.css('display', 'none');
         er4.css('display', 'none');
+        er7.css('display', 'none');
     });
     el_photo
         .change(function(){
