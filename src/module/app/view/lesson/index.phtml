@@ -2,7 +2,37 @@
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo URL?>public/css/lesson/lesson.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL?>public/css/common/bootstrap.css">
 
+
+
+
+
+<section class="main-content">
+
+
+    <h2>Домашнее Задание</h2>
+    <!-- ko ifnot: descriptionEdit-->
+    <div  class='description' data-bind="text:homeWorkDescription, click:function(){descriptionEditStart()}">нажмите сюда для редактирования</div>
+    <!--/ko-->
+    <!-- ko if: descriptionEdit-->
+    <input type="text" class="col-md-12" data-bind="value:homeWorkDescription, event: {blur: saveDesc}">
+    <!--/ko-->
+    <div class="links" data-bind="foreach:links">
+        <br><a data-bind="text: name, attr: {href:name}">ссылка</a>
+    </div>
+
+    <!-- ko ifnot: linkAdding-->
+    <button class="btn"
+            data-bind="click:function(){addLink()}">Добавить ссылку</button>
+    <!--/ko-->
+    <!-- ko if: linkAdding-->
+    <input type="text" class="col-md-12" placeholder="Вставьте ссылку" data-bind="value:linkToAdd, event: {blur:saveLink()}">
+    <!--/ko-->
+
+
+</section>
+<!--
 <div class="disqus" id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -15,12 +45,8 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+-->
 
-
-<section class="container">
-<?php if ($data['status'] == 'teacher'): ?>
-
-
-<?php endif; ?>
-</section>
+<script  type="text/javascript" src="<?php echo URL?>public/js/app/common.js"></script>
+<script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
+<script  type="text/javascript" src="<?php echo URL?>public/js/app/lesson/lesson.js"></script>

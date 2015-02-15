@@ -8,7 +8,10 @@
     /*height: 17px;*/
     /*border: 1px solid #ADD8E6;*/
     background-position: right;
-    background-image: url('down_arrow_select.jpg');
+    background-image: url('../../../../img/arrow-down.png');
+    background-size: 10px;
+    /*height: 5px;*/
+
     background-repeat: no-repeat;
     /*padding: 2px 0 0 0;*/
     margin: 0;

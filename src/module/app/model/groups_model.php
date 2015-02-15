@@ -112,7 +112,7 @@ HERE;
     public function getOurGroups(){
         try {
             $request = <<<TANIA
-            select id,name,color from groups
+            select id,name,color from groups where archived=0
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
