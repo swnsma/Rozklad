@@ -2,15 +2,23 @@ function ViewModel(){
     var that = this;
     that.groups = ko.observableArray([]);
     that.currentId="";
+    that.loadScr = ko.observable("load-screen");
 
 
-
-    that.restore=function(groupId){
+    that.restore=function(groupId, elem){
         $.ajax({
             url: url+'app/groups/moveToArchive/'+groupId+'/'+0,
             type: 'GET',
             success: function(){
-               location.href=url+'app/groups';
+               for(var i=0; i< that.groups().length; i++){
+                   if(that.groups()[i].groupId==groupId){
+                       $(elem).addClass('out');
+                       setInterval(function(){
+                       that.groups.destroy(that.groups()[i]);
+                       }, 600);
+                       break;
+                   }
+               }
             },
             error: function (xhr){
                 alert("Error! "+xhr);
@@ -25,8 +33,12 @@ function ViewModel(){
                 group.name = ko.observable(response[i].name);
                 that.groups.push(group);
             }
-            console.log(response)
+            console.log(response);
             that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
+            that.loadScr("out");
+            setInterval(function(){
+                that.loadScr("no");
+            }, 600)
         })
     }
 }
