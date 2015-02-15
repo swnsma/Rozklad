@@ -68,6 +68,18 @@ function ViewModel()
     //method that starts magic
     that.activate = function () {
 
+        universalAPI(url+'app/lesson/getLessonInfo/1', 'GET', function(response){
+
+
+        var incomingData= JSON.parse(response[0].lesson_info);
+            console.log(incomingData)
+
+            that.homeWorkDescription(incomingData.description);
+            that.links(incomingData.links)
+
+
+        });
+
 
     };
 }
@@ -88,6 +100,5 @@ ko.applyBindings(viewModel);
 
 //приклад запиту до метода опису
 
-universalAPI(url+'app/lesson/getLessonInfo/1', 'GET', function(response){console.log(response)});
 
 
