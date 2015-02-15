@@ -1,8 +1,10 @@
+
 function ViewModel(){
     var that = this;
     that.groups = ko.observableArray([]);
     that.currentId="";
     that.loadScreen = ko.observable(true);
+    that.loadScr = ko.observable("load-screen");
     that.archivate=function(obj){
                 $.ajax({
                        url: url+'app/groups/moveToArchive/'+obj.groupId+'/'+1,
@@ -34,7 +36,27 @@ function ViewModel(){
                 group.buffName = "";
                 group.buffDesc= "";
                 group.sending = ko.observable(false);
-                group.fileStatus = "";
+                group.file = ko.observable("Ничего не выбрано");
+                group.fileError=ko.observable("");
+                group.fileStatus = function(file){
+                    console.log(file);
+                    if(!file){
+                        this.file("Ничего не выбрано");
+                        console.log("hi1")
+                    }
+                    else{
+                        this.file(file.name);
+                        if(!file.type.match(/image.*/)){
+                            this.fileError("Неверное расширение файла!");
+                        }else{
+                            if( file.size> 4 * 1024 * 1024){
+                                this.fileError("Файл должен быть не более 4 мб")
+                            }else{
+                            this.fileError("");
+                            }
+                        }
+                    }
+                };
                 group.imgSrc= ko.observable(response[i].photo ? url+'public/users_files/images/groups_photo/'+response[i].photo : url+'public/users_files/images/default/default_group_photo.jpg');
                 group.startEditing = function(){
                     this.buffName = this.name();
@@ -42,6 +64,7 @@ function ViewModel(){
                     this.edit(true);
                 };
                 group.cancelEditing = function(){
+                    this.file("");
                     this.name(this.buffName);
                     this.description(this.buffDesc);
                     this.edit(false);
@@ -56,7 +79,7 @@ function ViewModel(){
 
                     if(!title){those.errorTitle("Поле не может быть пустым!");}
 
-                    if(those.errorDesc()||those.errorTitle()){return;}
+                    if(those.errorDesc()||those.errorTitle()||those.fileError()){return;}
 
                     if(title==those.buffName){those.name("");}
 
@@ -108,7 +131,10 @@ function ViewModel(){
                 };
                 that.groups.push(group);
             }
-            that.loadScreen(false);
+            that.loadScr("out");
+            setInterval(function(){
+                that.loadScr("no");
+            }, 600)
 
         })
     }
@@ -121,6 +147,9 @@ function Group(obj){
         window.location = this.groupLink;
     }
 }
+
 var viewModel = new ViewModel();
 viewModel.activate();
 ko.applyBindings(viewModel);
+
+

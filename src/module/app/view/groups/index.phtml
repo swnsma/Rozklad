@@ -7,9 +7,7 @@ require_once (DOC_ROOT."public/css/admin/admin.css");
 require_once (DOC_ROOT."public/css/groups/groups.css");
 echo '</style>';
 ?>
-<!-- ko if:loadScreen-->
-<div class="loadScreen"><img src="<?php echo URL?>public/img/load.gif"></div>
-<!--/ko-->
+<div data-bind="attr:{class:loadScr}" id="loadScreen"><img src="<?php echo URL?>public/img/load.gif"></div>
 
     <section class="container">
         <?php if ($data['status'] == 'teacher'): ?>
@@ -20,6 +18,7 @@ echo '</style>';
             <!-- ko ifnot: archived()-->
             <div class="group">
                 <!--ko ifnot: edit -->
+                <div class="group-container">
                 <div class="icon-container">
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
@@ -37,6 +36,7 @@ echo '</style>';
                         <div class="time" data-bind="text: teacher"></div>
                     </div>
                 </div>
+                </div>
                 <!--/ko-->
                 <!--ko if: edit -->
                 <div class = "editing">
@@ -44,20 +44,25 @@ echo '</style>';
                     <div class = loading><img src="<?php echo URL?>public/img/load.gif"></div>
                     <!--/ko-->
                     <form data-bind="attr:{id:groupId}">
-                    <div>
+                    <div class="ed-title">
                         <label for="inputDesc" class="bold">Название:</label><br/>
                         <input class="form-control" name="title" data-bind="value: name, valueUpdate: 'afterkeydown'"/>
-                        <span data-bind="text: errorTitle"></span>
+                        <span class="error-message" data-bind="text: errorTitle"></span>
                     </div>
-                    <div>
+                    <div class="ed-desc">
                         <label for="inputDesc" class="bold">Описание:</label><br/>
                         <textarea class="form-control" name= "data" data-bind="value: description, valueUpdate: 'afterkeydown'"></textarea>
-                        <span data-bind="text: errorDesc"></span>
+                        <span class="error-message" data-bind="text: errorDesc"></span>
                     </div>
-                            <input  name="photo" id="photo" type="file" />
+                        <div class="file_button_container special" id="file_button_container">
+                            <span>Выберите файл</span>
+                            <input  data-bind="event: {change: function(){fileStatus($element.files[0])}}" name="photo" id="photo" type="file" />
+                        </div>
+                        <div class="special" data-bind="text: file" id="file_name">
+                        </div>
+                        <span class="special error-message" data-bind="text: fileError"></span>
                         </form>
-                        <span data-bind="text: fileStatus, valueUpdate: 'afterkeydown'"></span>
-                    <div><a data-bind="click: cancelEditing">Отмена</a><a data-bind="click: sendChanges">Подтвердить</a></div>
+                    <div class="buttons"><a data-bind="click: cancelEditing">Отмена</a><a data-bind="click: sendChanges">Подтвердить</a></div>
                 </div>
                 <!--/ko-->
             </div>
