@@ -51,6 +51,12 @@ class Lesson extends Controller {
             $this->view->renderJson($var);
         }
     }
-
+    public function changeLessonInfo(){
+        $req = Request::getInstance();
+        $lessonId= $req->getParam(0);
+        $value=$req->getParam(1);
+        $this->model->newInfo($lessonId,$value);
+        $this->view->renderJson(Array('result'=>"success"));
+    }
 
 }

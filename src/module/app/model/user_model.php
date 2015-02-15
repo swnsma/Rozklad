@@ -143,6 +143,16 @@ HERE;
             return null;
         }
     }
+    public function newInfo ($lessonId,$value){
+        try{
+            $STH=$this->db->prepare("UPDATE lesson SET lesson_info = :value WHERE id=:id");
+            $STH->execute(array('value'=>$value,'id'=>$lessonId));
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
 
+
+    }
 
 }

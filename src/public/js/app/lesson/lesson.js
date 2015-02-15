@@ -43,7 +43,23 @@ function ViewModel()
             description: that.homeWorkDescription(),
             links: that.links()
         };
-        console.log(data)
+        var datasend=JSON.stringify(data)
+
+        function sendData(){
+            $.ajax({
+                url: url+'app/lesson/changeLessonInfo/1/'+datasend,
+                type: 'POST',
+
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(xhr){
+                    fail(xhr);
+                }
+            });
+
+        }
+        sendData()
     };
 
     //method that starts magic
