@@ -14,7 +14,12 @@ body{
     padding: 20px 0;
     margin: auto;
 }
-.container{
+.main-content{
     width: 900px;
     margin: 0 auto;
+}
+.description
+{
+    font-size: 16px;
+
 }
