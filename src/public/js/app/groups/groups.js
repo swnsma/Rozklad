@@ -36,7 +36,7 @@ function ViewModel(){
                 group.buffName = "";
                 group.buffDesc= "";
                 group.sending = ko.observable(false);
-                group.file = ko.observable("Ничего не выбрано");
+                group.file = ko.observable("Ничего не выбрано (Max - 4mb)");
                 group.fileError=ko.observable("");
                 group.deArchivate = function(){
                     var those=this;
@@ -73,7 +73,7 @@ function ViewModel(){
                     this.errorDesc("");
                     this.errorTitle("");
                     this.fileError("");
-                    this.file("");
+                    this.file("Ничего не выбрано (Max - 4mb)");
                     this.name(this.buffName);
                     this.description(this.buffDesc);
                     this.edit(false);
@@ -107,6 +107,7 @@ function ViewModel(){
                                 those.sending(false);
                             }else{
                             those.imgSrc( url+'public/users_files/images/groups_photo/'+response.result);
+                            those.file("Ничего не выбрано (Max - 4mb)");
                             those.sending(false);
                             those.edit(false);
                             }
