@@ -416,6 +416,7 @@ function Calendar_teacher(){
                 }
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
+                        this.value=parseInt(this.value);
                         //this.value = parseInt(this.value);
                         if(this.value==='00'){
                             this.value='01';
@@ -433,6 +434,7 @@ function Calendar_teacher(){
                 }
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
+                        this.value=parseInt(this.value);
                         date.year.focus();
                     }
                 }
@@ -442,6 +444,7 @@ function Calendar_teacher(){
             date.year.on('input', function () {
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
+                        this.value=parseInt(this.value);
                         self.jqueryObject.popup.start.hour.focus();
                         self.jqueryObject.popupEdit.start.hour.focus();
                     }
@@ -487,6 +490,7 @@ function Calendar_teacher(){
                     }
                     if(this.value.length==2){
                         if(parseInt(this.value) || this.value==='00') {
+                            this.value=parseInt(this.value);
                             focus.focus();
                         }
                     }
@@ -500,7 +504,7 @@ function Calendar_teacher(){
                     if(type!='minutesEnd') {
                         if (this.value.length === 2) {
                             if (parseInt(this.value) || this.value==='00') {
-
+                                this.value=parseInt(this.value);
                                 if(mask!=$minutesEnd) {
                                     focus.focus();
                                 }
