@@ -24,6 +24,7 @@ abstract class Upload {
             }
             return true;
         } catch(RuntimeException $e) {
+            $this->error = $e->getMessage();
             return false;
         }
     }
