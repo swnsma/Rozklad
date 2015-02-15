@@ -15,7 +15,7 @@ echo '</style>';
             <a class="btn btn-default add-btn"  href="<?php echo URL; ?>app/groups/archive">Архив групп</a>
         <?php endif; ?>
         <div data-bind="foreach: groups" class="group-list">
-            <!-- ko ifnot: archived()-->
+            <!-- ko ifnot: archived-->
             <div class="group">
                 <!--ko ifnot: edit -->
                 <div class="group-container">
@@ -67,8 +67,10 @@ echo '</style>';
                 <!--/ko-->
             </div>
             <!--/ko-->
-            <!-- ko if: archived()-->
-             <div class="group deletedGroup">Вы Отправили группу в архив</div>
+            <!-- ko if: archived-->
+             <div  class="group deletedGroup">Вы Отправили группу в архив
+                 <span class="error-message" data-bind="click:deArchivate">Восcтановить</span>
+             </div>
              <!--/ko-->
         </div>
     </section>

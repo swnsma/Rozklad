@@ -38,8 +38,14 @@ function ViewModel(){
                 group.sending = ko.observable(false);
                 group.file = ko.observable("Ничего не выбрано");
                 group.fileError=ko.observable("");
+                group.deArchivate = function(){
+                    var those=this;
+                    universalAPI(url+'app/groups/moveToArchive/'+those.groupId+'/'+0, "GET", function(){
+                        those.archived(false);
+                    });
+
+                };
                 group.fileStatus = function(file){
-                    console.log(file);
                     if(!file){
                         this.file("Ничего не выбрано");
                         console.log("hi1")

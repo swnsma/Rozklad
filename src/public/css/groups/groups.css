@@ -163,6 +163,12 @@ form{
 .editing textarea{
     resize: none;
 }
+.deletedGroup{
+    text-align: center;
+    font-size: 13pt;
+    color: #000000;
+    padding-top: 100px;
+}
 .loading{
     position: absolute;
     width: 100%;
