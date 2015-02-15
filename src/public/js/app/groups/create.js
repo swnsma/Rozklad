@@ -47,6 +47,7 @@ $(document).on('change','#photo', function() {
     file_err = true;
     if (file.length != 0) {
         var photo = file[0];
+        $('#file_name').text(photo.name);
         if (photo.size > 4 * 1024 * 1024) {
             err.text('Файл должен быть не более 4 мб');
             file_err = false;
