@@ -42,4 +42,15 @@ class Lesson extends Controller {
         }
 
     }
+    public function getLessonInfo(){
+        $req = Request::getInstance();
+        $lessonId= $req->getParam(0);
+        $var = $this->model->getInfo($lessonId);
+        if(isset($var)){
+
+            $this->view->renderJson($var);
+        }
+    }
+
+
 }

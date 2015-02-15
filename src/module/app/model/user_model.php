@@ -126,7 +126,23 @@ sql;
             return null;
         }
     }
+    public function getInfo($lessonId) {
+        $r = <<<HERE
+        SELECT
+            `lesson`.`lesson_info` as lesson_info
+             from lesson
+        WHERE `lesson`.`id` = $lessonId
 
+HERE;
+
+        try {
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            return $request;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 
 
 }
