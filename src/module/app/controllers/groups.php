@@ -98,36 +98,40 @@ class Groups extends Controller {
             $name = $_POST['name'];
             $descr = $_POST['descr'];
             if (count($name)&&count($descr)) {
-                $status = 1;
-//            $this->user_info['role_id'];
 
-                if ($status == 1) {
-                    $image = null;
+                if ($this->user_info['title'] == 'teacher') {
 
-                    $upload = new UploadImage($_FILES['photo']);
-                    if ($upload->checkFileError() && $upload->upload()) {
-                        $image = $upload->getUploadFileName();
+                    if ($this->model->existsGroup($name)) {
+                        $this->view->renderJson(array(
+                            'status' => 'groups_already_exists'
+                        ));
                     } else {
-                        if ($upload->getError() != 'File wasn\'t sent') {
-                            $this->view->renderJson(array(
-                                'status' => $upload->getError()
-                            ));
-                            return;
+                        $image = null;
+                        $upload = new UploadImage($_FILES['photo']);
+                        if ($upload->checkFileError() && $upload->upload()) {
+                            $image = $upload->getUploadFileName();
+                        } else {
+                            if ($upload->getError() != 'File wasn\'t sent') {
+                                $this->view->renderJson(array(
+                                    'status' => $upload->getError()
+                                ));
+                                return;
+                            }
                         }
-                    }
 
-                    $data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
-                    //$data = $this->model->createGroup(1, $name, $descr, $image);
-                    if ($data == null) {
-                        $this->view->renderJson(array(
-                            'status' => 'create_error'
-                        ));
-                    } else {
-                        $this->view->renderJson(array(
-                            'status' => 'group_create',
-                            'key' => $data['key'],
-                            'id' => $data['id']
-                        ));
+                        $data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
+                        //$data = $this->model->createGroup(1, $name, $descr, $image);
+                        if ($data == null) {
+                            $this->view->renderJson(array(
+                                'status' => 'create_error'
+                            ));
+                        } else {
+                            $this->view->renderJson(array(
+                                'status' => 'group_create',
+                                'key' => $data['key'],
+                                'id' => $data['id']
+                            ));
+                        }
                     }
                 } else {
                     $this->view->renderJson(array(

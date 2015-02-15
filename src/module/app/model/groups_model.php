@@ -30,6 +30,16 @@ HERE;
         }
     }
 
+    public function existsGroup($name) {
+        $r = $this->db->prepare('SELECT * FROM `groups` WHERE `name` = :n');
+        $r->bindParam(':n', $name);
+        if ($r->execute() && count($r->fetchAll()) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function getArchive() {
         $r = <<<HERE
         SELECT
