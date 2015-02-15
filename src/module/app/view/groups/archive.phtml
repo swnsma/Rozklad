@@ -10,14 +10,15 @@ echo '</style>';
 
 
 <?php if ($data['status'] == 'teacher'): ?>
-
+    <div data-bind="attr:{class:loadScr}" id="loadScreen"><img src="<?php echo URL?>public/img/load.gif"></div>
 <section class="container">
-
-    <div class="archiveTitle">Вы находитесь в архиве удаленных групп. Для восстановления группы кликните, пожалуйста, по иконке группы!</div>
+    <div class="go-away"><a href="<?php echo URL?>app/groups"><img width="30" height="30" src="<?php echo URL;?>public/img/arrow.png">Назад</a></div>
+    <div class="archiveTitle">Вы находитесь в архиве групп. Для восстановления группы кликните по иконке группы!</div>
     <div data-bind="foreach: groups" class="group-list">
-        <div class="group" data-bind="click:function(){$parent.restore($data.groupId)}">
+        <div class="group-container" data-bind="click:function(){$parent.restore($data.groupId, $element)}">
+        <div class="group">
             <div class="icon-container">
-                <a ><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
+                <a><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
             </div>
 
             <div class="padding-10px">
@@ -31,10 +32,12 @@ echo '</style>';
                 </div>
            </div>
         </div>
+        </div>
 
     </div>
 </section>
 <?php endif; ?>
+<script src="<?php echo URL; ?>public/js/vendor/somelibrary.js"></script>
 <script src="<?php echo URL; ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php echo URL; ?>public/js/app/groups/archive.js"></script>
