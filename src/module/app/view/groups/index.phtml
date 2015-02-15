@@ -23,8 +23,12 @@ echo '</style>';
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
                 <div data-bind="if: host()">
-                    <img class="trash"  data-bind='click:function(){$parent.archivate($data)}' src = "<?php echo URL; ?>public/img/trash.png"/>
-                    <img data-bind="click:startEditing" class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
+                    <div class="icons icons-archive" data-title="Заархивировать">
+                        <img  class="trash"  data-bind='click:function(){$parent.archivate($data)}' src = "<?php echo URL; ?>public/img/trash.png"/>
+                    </div>
+                    <div class="icons icons-trash" data-title="Редактировать">
+                        <img data-bind="click:startEditing" class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
+                    </div>
                 </div>
                 <div data-bind="click: goAway" class="padding-10px">
                     <h3 class="group-name" data-bind="text: name()"></h3>
@@ -68,7 +72,7 @@ echo '</style>';
             </div>
             <!--/ko-->
             <!-- ko if: archived-->
-             <div  class="group deletedGroup">Вы Отправили группу в архив
+             <div  class="group deletedGroup">Вы отправили группу в архив
                  <span class="error-message" data-bind="click:deArchivate">Восcтановить</span>
              </div>
              <!--/ko-->

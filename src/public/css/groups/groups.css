@@ -163,6 +163,20 @@ form{
 .editing textarea{
     resize: none;
 }
+.icons:hover::after{
+    content: attr(data-title);
+    position: absolute;
+    color: #000000;
+
+}
+.icons-trash:hover::after{
+    left: 170px;
+    bottom: 40px;
+}
+.icons-archive:hover:after{
+    left: 160px;
+    bottom: 16px;
+}
 .deletedGroup{
     text-align: center;
     font-size: 13pt;
@@ -218,11 +232,11 @@ form{
     transition-duration: 500ms;
 }
 .trash{
-    bottom: 2px;
+    bottom: 12px;
     right: 5px;
 }
 .settings{
-    bottom: 25px;
+    bottom: 35px;
     right: 1px;
 }
 .trash:hover{
@@ -247,14 +261,13 @@ form{
     white-space: nowrap;
 }
 .group-description {
-    margin: 0;
+    margin: 0 0 10px 0;
     white-space: nowrap;
     overflow: hidden;
-    font-size: 13pt;
+    font-size: 14pt;
     text-overflow: ellipsis;
     font-weight: 300;
     color: rgb(150,150,150);
-    margin-bottom: 10px;
 }
 .group .group-icon {
     width: 100%;
