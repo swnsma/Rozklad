@@ -438,7 +438,7 @@ function Calendar_teacher(){
                 }
                 sync();
             });
-            date.year.mask('99');
+            date.year.mask('9999');
             date.year.on('input', function () {
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
