@@ -191,7 +191,7 @@ b.color
 FROM groups AS b
 JOIN group_lesson AS ba ON b.id = ba.group_id
 JOIN lesson AS a ON a.id = ba.lesson_id
-WHERE ba.lesson_id = $id
+WHERE ba.lesson_id = $id AND  b.archived=0
 BORIA;
 
             $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
@@ -242,6 +242,8 @@ BORIA;
                 $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
+            INNER JOIN 'groups' as g ON
+            g.id=st_g.group_id
             INNER JOIN  'group_lesson' as  gr ON
             st_g.group_id=gr.group_id
             INNER JOIN 'lesson' as l ON
@@ -249,7 +251,7 @@ BORIA;
             INNER JOIN 'user' as u ON
             u.id=l.teacher
             WHERE (st_g.student_id='$id')
-            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);

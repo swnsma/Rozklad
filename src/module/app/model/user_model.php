@@ -126,7 +126,33 @@ sql;
             return null;
         }
     }
+    public function getInfo($lessonId) {
+        $r = <<<HERE
+        SELECT
+            `lesson`.`lesson_info` as lesson_info
+             from lesson
+        WHERE `lesson`.`id` = $lessonId
+
+HERE;
+
+        try {
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            return $request;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function newInfo ($lessonId,$value){
+        try{
+            $STH=$this->db->prepare("UPDATE lesson SET lesson_info = :value WHERE id=:id");
+            $STH->execute(array('value'=>$value,'id'=>$lessonId));
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
 
 
+    }
 
 }

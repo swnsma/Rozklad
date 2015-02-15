@@ -17,9 +17,6 @@ class Groups extends Controller {
         $data['status'] = $this->user_info['title'];
         $data['status'] = $this->user_info['title'];
         $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
-        /*$this->view->renderAllHTML('groups/index',
-            $data,
-            array('groups/groups.css'));*/
         $this->view->renderHtml('common/head');
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('groups/index', $data);
@@ -100,8 +97,6 @@ class Groups extends Controller {
         if (isset($_POST['name']) && isset($_POST['descr'])) {
             $name = $_POST['name'];
             $descr = $_POST['descr'];
-
-
             if (count($name)&&count($descr)) {
                 $status = 1;
 //            $this->user_info['role_id'];
