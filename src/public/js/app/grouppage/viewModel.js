@@ -14,6 +14,7 @@ function ViewModel() {
     that.buffTitle="";
     that.errorDesc=ko.observable("0");
     that.errorTitle= ko.observable("0");
+    that.loadScr=ko.observable("load-screen");
     that.focusDesc=function(){
         document.getElementById("descInput").focus();
     };
@@ -129,16 +130,17 @@ function ViewModel() {
         })
     };
     that.activate = function () {
+
         var groupId = window.location.pathname;
         var pos=groupId.search(/id[0-9]+/);
         groupId= +groupId.substr(pos+2, 2);
         that.id(groupId);
+        that.loadScr('out');
         api.getGroupInfo(groupId, function (response) {
             that.groupName(response.name);
             var img = response.img_src ? url + 'public/users_files/images/groups_photo/small_' + response.img_src : url + 'public/users_files/images/default/small_default_group_photo.jpg';
             that.imgSrc(img);
             that.havePicture(true);
-
             that.teacher(response.teacher);
             that.description(response.description);
             that.buffDesc=response.description;
@@ -150,10 +152,15 @@ function ViewModel() {
                 student.notDeleted=ko.observable(true);
                 that.students.push(student);
             }
+
             that.students.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
+            setInterval(function(){
+                that.loadScr('no')
+            }, 600);
         });
         api.loadCode(groupId, function (response){
             that.code(response.code);
+
         });
     }
 }
