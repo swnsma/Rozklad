@@ -54,13 +54,7 @@ echo '</style>';
                         <textarea class="form-control" name= "data" data-bind="value: description, valueUpdate: 'afterkeydown'"></textarea>
                         <span data-bind="text: errorDesc"></span>
                     </div>
-                        <div class="file_button_container" id="file_button_container">
-                            <span> Выберете изображение</span>
                             <input  name="photo" id="photo" type="file" />
-                        </div>
-                        <div id="file_name">
-                            Нечего не выбрано
-                        </div>
                         </form>
                         <span data-bind="text: fileStatus, valueUpdate: 'afterkeydown'"></span>
                     <div><a data-bind="click: cancelEditing">Отмена</a><a data-bind="click: sendChanges">Подтвердить</a></div>
