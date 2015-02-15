@@ -16,10 +16,10 @@
     <div  class='description' data-bind="text:homeWorkDescription, click:function(){descriptionEditStart()}">нажмите сюда для редактирования</div>
     <!--/ko-->
     <!-- ko if: descriptionEdit-->
-    <input type="text" class="col-md-12" data-bind="value:homeWorkDescription, event: {blur: saveDesc}">
+    <textarea rows="3" type="text" class="col-md-12" data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
     <!--/ko-->
     <div class="links" data-bind="foreach:links">
-        <br><a data-bind="text: name, attr: {href:name}">ссылка</a>
+        <br><a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
     </div>
 
     <!-- ko ifnot: linkAdding-->

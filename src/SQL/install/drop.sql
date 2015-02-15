@@ -4,3 +4,4 @@ DROP TABLE IF EXISTS "lesson";
 DROP TABLE IF EXISTS "role";
 DROP TABLE IF EXISTS "student_group";
 DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "result";

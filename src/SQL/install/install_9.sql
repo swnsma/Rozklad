@@ -1,1 +1,1 @@
-ALTER TABLE 'lesson' ADD COLUMN 'lesson_info'TEXT NULL DEFAULT '0';
+ALTER TABLE 'lesson' ADD COLUMN 'lesson_info'TEXT NULL;

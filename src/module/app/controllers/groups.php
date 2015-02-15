@@ -113,7 +113,7 @@ class Groups extends Controller {
                         } else {
                             if ($upload->getError() != 'File wasn\'t sent') {
                                 $this->view->renderJson(array(
-                                    'status' => $upload->getError()
+                                    'status' => 'sarfs' . $upload->getError()
                                 ));
                                 return;
                             }
