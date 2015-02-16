@@ -267,8 +267,6 @@ BORIA;
     }
     public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end){
         try {
-
-//            print_r($userinfo);
             $id = $userinfo['id'];
 
                 $res = "select l.id,
