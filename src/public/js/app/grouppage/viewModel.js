@@ -16,10 +16,10 @@ function ViewModel() {
     that.errorTitle= ko.observable("0");
     that.loadScr=ko.observable("load-screen");
     that.focusDesc=function(){
-        document.getElementById("descInput").focus();
+        focusElement("descInput");
     };
     that.focusTitle=function(){
-        document.getElementById("titleInput").focus();
+        focusElement("descInput");
     };
     that.editDescOpen=function(){
         that.editDescription(true);
@@ -166,5 +166,7 @@ function ViewModel() {
 }
 var viewModel = new ViewModel();
 viewModel.activate();
-
+function focusElement(id){
+    document.getElementById(id).focus();
+}
 ko.applyBindings(viewModel);
