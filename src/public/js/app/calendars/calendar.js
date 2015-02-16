@@ -6,6 +6,7 @@
 function Calendar(){
     this.option={
         fixedWeekCount:false,
+        aspectRatio:1.5,
         firstDay: 1,
         header: {
             //left: 'prev,next today',
