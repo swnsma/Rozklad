@@ -23,12 +23,8 @@ echo '</style>';
                     <a data-bind="attr: {href: groupLink}"><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
                 </div>
                 <div data-bind="if: host()">
-                    <div class="icons icons-archive" data-title="Заархивировать">
-                        <img  class="trash"  data-bind='click:function(){$parent.archivate($data)}' src = "<?php echo URL; ?>public/img/trash.png"/>
-                    </div>
-                    <div class="icons icons-trash" data-title="Редактировать">
-                        <img data-bind="click:startEditing" class="settings" src = "<?php echo URL; ?>public/img/set.png"/>
-                    </div>
+                    <div data-bind="click:startEditing" class="butto icons icons-trash">Редактировать</div>
+                    <div data-bind='click:function(){$parent.archivate($data)}' class="butto icons icons-archive">Заархивировать</div>
                 </div>
                 <div data-bind="click: goAway" class="padding-10px">
                     <h3 class="group-name" data-bind="text: name()"></h3>

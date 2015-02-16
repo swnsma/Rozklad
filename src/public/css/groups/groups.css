@@ -89,20 +89,6 @@ form{
 .editing textarea{
     resize: none;
 }
-.icons:hover::after{
-    content: attr(data-title);
-    position: absolute;
-    color: #000000;
-
-}
-.icons-trash:hover::after{
-    left: 170px;
-    bottom: 40px;
-}
-.icons-archive:hover:after{
-    left: 160px;
-    bottom: 16px;
-}
 .deletedGroup{
     text-align: center;
     font-size: 13pt;
@@ -178,6 +164,32 @@ form{
 .group .group-icon {
     width: 100%;
     background-size: 100%;
+}
+.group:hover .icons{
+    display: block;
+}
+.butto{
+    background-color: #000000;
+    color:white;
+    text-align: center;
+    font-weight: 900;
+    border-radius: 5px;
+}
+.icons{
+    width: 130px;
+    line-height: 50px;
+    position: absolute;
+    display: none;
+    top:70px;
+}
+.icons-archive{
+    right: 10px;
+}
+.icons-trash{
+    left: 10px;
+}
+.icons:hover{
+    background-color: #0000ff;
 }
 .icon-container{
     height: 150px;
