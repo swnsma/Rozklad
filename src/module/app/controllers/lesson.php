@@ -29,6 +29,8 @@ class Lesson extends Controller {
         $this->model = $this->loadModel('lesson');
         if($this->model->existLesson($lessonId,$this->userInfo)) {
             $data['title'] = "Lesson|Rozklad";
+            $data['id']=$this->userInfo['id'];
+            $data['email']=$this->userInfo['email'];
             $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
             $data['status'] = $this->userInfo['title'];
             $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
