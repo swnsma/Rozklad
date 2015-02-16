@@ -156,7 +156,7 @@ function ViewModel() {
             that.students.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
             setInterval(function(){
                 that.loadScr('no')
-            }, 600);
+            }, 300);
         });
         api.loadCode(groupId, function (response){
             that.code(response.code);

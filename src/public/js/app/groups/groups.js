@@ -145,7 +145,7 @@ function ViewModel(){
             that.loadScr("out");
             setInterval(function(){
                 that.loadScr("no");
-            }, 600)
+            }, 300)
 
         })
     }

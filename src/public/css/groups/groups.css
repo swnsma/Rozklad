@@ -228,6 +228,10 @@ form{
 .time {
     font-weight: 600;
     font-size: 13pt;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
 }
 
 .container {
@@ -253,8 +257,8 @@ form{
 }
 .dearchive-icon{
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: -3px;
+    right: -3px;
     opacity: 0.5;
 }
 .dearchive-icon:hover{
