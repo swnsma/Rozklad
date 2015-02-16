@@ -85,4 +85,13 @@ class RegistModel extends Model{
             return null;
         }
     }
+    public function getRoles(){
+        try {
+            $arr=$this->db->query("select title as roleName from role")->fetchAll();
+            return $arr;
+        } catch (PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
 }
