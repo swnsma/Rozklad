@@ -34,7 +34,8 @@ function ViewModel(){
                 that.groups.push(group);
             }
             console.log(response);
-            that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
+            //that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
+            that.groups.reverse();
             that.loadScr("out");
             setInterval(function(){
                 that.loadScr("no");
