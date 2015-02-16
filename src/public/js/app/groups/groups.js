@@ -23,8 +23,11 @@ function ViewModel(){
         };
     that.activate = function(){
         universalAPI(url+'app/groups/getGroupList', 'GET', function(response){
-            that.currentId= response[response.length-1];
-            for( var i=0; i< response.length-1; i++){
+            /*that.currentId= response[response.length-1];
+            for( var i=0; i< response.length-1; i++){*/
+
+            that.currentId= response[0];
+            for(var i=response.length-2; i>=0; i--) {
                 var group = new Group(response[i]);
                 group.host = ko.observable(that.currentId==response[i].teacher_id);
                 group.name = ko.observable(response[i].name);
