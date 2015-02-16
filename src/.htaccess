@@ -28,7 +28,7 @@ ErrorDocument 503 views/error/index.php?error=503
 ErrorDocument 504 views/error/index.php?error=504
 ErrorDocument 505 views/error/index.php?error=505
 
-SetEnvIfNoCase Request_URI "^/app/admin" SECURED
+SetEnvIfNoCase Request_URI "^/src/app/admin" SECURED
 
 AuthType Basic
 AuthName "Login"

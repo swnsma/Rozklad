@@ -86,7 +86,7 @@ class Groups extends Controller {
 
     public function getArchiveList(){
         $var = $this->model->getArchive();
-        if(isset($var)){
+        if(!is_null($var)){
             $var[count($var)]=Session::get('id');
             $this->view->renderJson($var);
         }
