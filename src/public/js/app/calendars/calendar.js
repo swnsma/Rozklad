@@ -5,6 +5,7 @@
 
 function Calendar(){
     this.option={
+        fixedWeekCount:false,
         firstDay: 1,
         header: {
             //left: 'prev,next today',
