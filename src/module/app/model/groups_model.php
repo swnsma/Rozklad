@@ -11,15 +11,16 @@ class GroupsModel extends Model {
         SELECT
             `groups`.`id` as group_id,
             `groups`.`name` as name,
-            `groups`.`description` as descr,
             `groups`.`teacher_id`,
             `groups`.`archived`,
             `user`.`name` as teacher_fn,
             `user`.`surname` as teacher_ln,
-            `groups`.`img_src` as photo
-        FROM `groups`, `user`
+            `groups`.`img_src` as photo,
+        count(`student_group`.`student_id`) as descr
+        FROM `groups`LEFT JOIN `student_group` ON `groups`.`id`=`student_group`.`group_id`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
         AND `groups`.`archived` = 0
+        GROUP BY `groups`.`name`ORDER BY `groups`.`id`;
 HERE;
         try {
             $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);

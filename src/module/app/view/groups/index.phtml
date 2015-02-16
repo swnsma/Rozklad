@@ -49,11 +49,6 @@ echo '</style>';
                         <input class="form-control" name="title" data-bind="value: name, valueUpdate: 'afterkeydown'"/>
                         <span class="error-message" data-bind="text: errorTitle"></span>
                     </div>
-                    <div class="ed-desc">
-                        <label for="inputDesc" class="bold">Описание:</label><br/>
-                        <textarea class="form-control" name= "data" data-bind="value: description, valueUpdate: 'afterkeydown'"></textarea>
-                        <span class="error-message" data-bind="text: errorDesc"></span>
-                    </div>
                         <div class="file_button_container special" id="file_button_container">
                             <span>Выберите файл</span>
                             <input  data-bind="event: {change: function(){fileStatus($element.files[0])}}" name="photo" id="photo" type="file" />

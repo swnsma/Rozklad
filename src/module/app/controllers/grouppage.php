@@ -65,10 +65,6 @@ class GroupPage extends Controller {
         }
             $this->model->renameGroup($id, $title);
         }
-        if(isset($_POST['data'])&&$_POST['data']){
-        $newDescription = $_POST['data'];
-        $this->model->editDescription($id, $newDescription);
-        }
         $this->view->renderJson(Array('result'=>"success"));
 
     }
@@ -122,7 +118,7 @@ class GroupPage extends Controller {
         }
         $this->model->deletePhoto($id);
         $this->model->changeImage($id, $image);
-        $this->view->renderJson(array("result"=>$image, "title"=>$_POST['title'], "descr"=>$_POST['data']));;
+        $this->view->renderJson(array("result"=>$image, "title"=>$_POST['title']));;
 
 
     }
