@@ -239,3 +239,12 @@ form{
     color: black;
     cursor: default;
 }
+.dearchive-icon{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0.5;
+}
+.dearchive-icon:hover{
+    opacity: 1;
+}

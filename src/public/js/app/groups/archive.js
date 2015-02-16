@@ -12,7 +12,7 @@ function ViewModel(){
             success: function(){
                for(var i=0; i< that.groups().length; i++){
                    if(that.groups()[i].groupId==groupId){
-                       $(elem).addClass('out');
+                       $(elem).parent().parent().parent().addClass('out');
                        setInterval(function(){
                        that.groups.destroy(that.groups()[i]);
                        }, 600);
@@ -33,8 +33,6 @@ function ViewModel(){
                 group.name = ko.observable(response[i].name);
                 that.groups.push(group);
             }
-            console.log(response);
-            //that.groups.sort(function(left, right) { return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1) });
             that.groups.reverse();
             that.loadScr("out");
             setInterval(function(){
