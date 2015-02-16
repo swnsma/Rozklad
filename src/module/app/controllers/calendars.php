@@ -94,4 +94,33 @@ class Calendars extends Controller {
         }
     }
 
+    public function eventDrop(){
+
+        if($this->userInfo['title']==='teacher'){
+
+            if(isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])){
+                $start = $_POST['start'];
+                $end = $_POST['end'];
+                $idlesson = $_POST['id'];
+                $this->model = $this->loadModel('lessons');
+
+
+                if($this->model->eventDrop($idlesson, $start, $end)){
+                    $id['status']='ok';
+                    $this->view->renderJson($id);
+                }else{
+                    $id['status']='notOk';
+                    $this->view->renderJson($id);
+                }
+
+            }else{
+                $returns['status'] = 'problem';
+                $this->view->renderJson($returns);
+            }
+        }else{
+            $returns['status'] = 'noteacher';
+            $this->view->renderJson($returns);
+        }
+    }
+
 }

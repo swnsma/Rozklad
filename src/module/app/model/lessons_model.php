@@ -128,4 +128,17 @@ BORIA;
             return null;
         }
     }
+
+    public function eventDrop($id, $start, $end){
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+            $SHT=$this->db->prepare("UPDATE lesson SET start=:start,end=:end,update_date=:update_date WHERE id=:id");
+            $SHT->execute(array( 'start'=>$start, 'end'=>$end, 'update_date'=>$date,  'id'=>$id));
+            return true;
+
+        } catch(PDOException $e) {
+            echo $e;
+            return false;
+        }
+    }
 }

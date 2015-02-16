@@ -5,7 +5,6 @@
 
 function Calendar(){
     this.option={
-        dragScroll:false,
         firstDay: 1,
         header: {
             //left: 'prev,next today',
