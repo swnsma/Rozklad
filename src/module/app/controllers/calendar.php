@@ -44,6 +44,7 @@ class Calendar extends Controller
         $this->view->renderHtml('common/head', $data);
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('calendar/index', $data);
+        $this->view->renderHtml('calendar/deadlinetask', $data);
 //        $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
 
@@ -208,38 +209,60 @@ class Calendar extends Controller
         $this->view->renderJson($arr);
     }
 
+    public function eventDrop(){
+
+        if($this->userInfo['title']==='teacher'){
+
+            if(isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])){
+                $start = $_POST['start'];
+                $end = $_POST['end'];
+                $idlesson = $_POST['id'];
+                $this->model = $this->loadModel('lesson');
+
+
+                if($this->model->eventDrop($idlesson, $start, $end)){
+                    $id['status']='ok';
+                    $this->view->renderJson($id);
+                }else{
+                    $id['status']='notOk';
+                    $this->view->renderJson($id);
+                }
+
+            }else{
+                $returns['status'] = 'problem';
+                $this->view->renderJson($returns);
+            }
+        }else{
+            $returns['status'] = 'noteacher';
+            $this->view->renderJson($returns);
+        }
+    }
+
     public function import() {
         $client = new Google_Client();
+        $client->setApplicationName("Rozklad");
         $client->setClientId(CLIENT_ID_GM);
         $client->setClientSecret(CLIENT_SECRET_GM);
-        $gm_token = json_decode(Session::get('gm_token'));
-        echo '<pre>';
-        print_r($gm_token);
-        echo '</pre>';
-        $client->setAccessToken(Session::get('gm_token'));
-        if ($client->getAccessToken()) {
-            echo $client->getAccessToken();
-        } else {
-            echo 122332;
-        }
-
-
+        $client->setRedirectUri(URL . "app/loging/login");
+        $client->setApprovalPrompt(APPROVAL_PROMPT);
+        $client->setAccessType(ACCESS_TYPE);
+        $client->setAccessToken(Session::get('token'));
         $service = new Google_Service_Calendar($client);
 
         //
-        $event = new Google_Service_Calendar_Event();;
+        $event = new Google_Service_Calendar_Event();
         $event->setSummary('Event 1');
         $event->setLocation('Somewhere');
         $start = new Google_Service_Calendar_EventDateTime();;
-        $start->setDateTime('2013-10-22T19:00:00.000+01:00');
+        $start->setDateTime('2015-02-17T19:00:00.000+01:00');
         $start->setTimeZone('Europe/London');
         $event->setStart($start);
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime('2013-10-22T19:25:00.000+01:00');
+        $end->setDateTime('2015-02-17T20:00:00.000+01:00');
         $end->setTimeZone('Europe/London');
         $event->setEnd($end);
         //
-        $calendar_id = "sd7h90sdja97sdg9ahd0sa8bd@group.calendar.google.com";
+        $calendar_id = "myrozklad@gmail.com";
         //
         $new_event = null;
         //
