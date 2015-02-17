@@ -60,5 +60,18 @@ class Lesson extends Controller {
         $this->model->newInfo($lessonId,$value);
         $this->view->renderJson(Array('result'=>"success"));
     }
+    public function upload(){
+
+       $fileName = $_FILES["file"]["name"];
+
+      $ext=pathinfo($fileName, PATHINFO_EXTENSION);
+      $fileTmpLoc = $_FILES["file"]["tmp_name"];
+      $name=uniqid(). '.' . $ext;
+      $pathAndName = "public/users_files/tasks/".$name ;
+      move_uploaded_file($fileTmpLoc, $pathAndName);
+      // $this->view->renderJson(Array($pathAndName));
+        echo($name);
+    }
+
 
 }
