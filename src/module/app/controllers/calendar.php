@@ -44,6 +44,7 @@ class Calendar extends Controller
         $this->view->renderHtml('common/head', $data);
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('calendar/index', $data);
+        $this->view->renderHtml('calendar/deadlinetask', $data);
 //        $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
 
@@ -206,6 +207,35 @@ class Calendar extends Controller
         $this->model = $this->loadModel('lesson');
         $arr=$this->model->getAllGroupsForThisLesson($request->getParam(0));
         $this->view->renderJson($arr);
+    }
+
+    public function eventDrop(){
+
+        if($this->userInfo['title']==='teacher'){
+
+            if(isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])){
+                $start = $_POST['start'];
+                $end = $_POST['end'];
+                $idlesson = $_POST['id'];
+                $this->model = $this->loadModel('lesson');
+
+
+                if($this->model->eventDrop($idlesson, $start, $end)){
+                    $id['status']='ok';
+                    $this->view->renderJson($id);
+                }else{
+                    $id['status']='notOk';
+                    $this->view->renderJson($id);
+                }
+
+            }else{
+                $returns['status'] = 'problem';
+                $this->view->renderJson($returns);
+            }
+        }else{
+            $returns['status'] = 'noteacher';
+            $this->view->renderJson($returns);
+        }
     }
 
     public function import() {
