@@ -38,10 +38,15 @@ body{
 {
     white-space: nowrap;
     overflow: hidden;
-
 }
 
 .elipsis
 {
     text-overflow: ellipsis;
+}
+.deleteButton
+{
+    border: none;
+    background-color: inherit;
+    outline: none;
 }

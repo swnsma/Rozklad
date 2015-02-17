@@ -22,37 +22,37 @@
     <section class="content col-md-4">
         <div>
             <h4>Полезные ссылки:</h4>
-
             <div>
                 <?php if ($data['status'] == 'teacher'): ?>
-
                     <input type="text" class="col-md-8" placeholder="Вставьте ссылку"
                            data-bind="value:linkToAdd">
                     <button data-bind="click:function(){saveLink()}">Добавить</button>
                 <?php endif ?>
             </div>
             <div class="col-md-12" data-bind="foreach:links">
-                <div class="wordBreak elipsis">
-                    <a class='' data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
+                <div class="col-lg-10 wordBreak elipsis">
+                    <a  data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
                 </div>
+                <?php if ($data['status'] == 'teacher'): ?>
+                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">Удалить</button></div>
+                <?php endif ?>
             </div>
         </div>
 
-        <h4>Файлы для скачивания:</h4>
         <?php if ($data['status'] == 'teacher'): ?>
-            <div id="content">
-                <form data-bind="submit: loadFile" enctype="multipart/form-data">
-                    <input type="file" name="file" name="files[] id=" file" />
-                    <div align="right">
-                        <div id="status"></div>
-                        <input type="submit" class="submitButton" name="go" id="go" value="Загрузить"/></div>
-                </form>
-            </div>
+            <h4>Загрузить файл</h4>
+            <form data-bind="loadFile"  enctype="multipart/form-data">
+                <input type="file" name="file" id=" file" />
+            </form>
         <?php endif ?>
+        <h4>Файлы для скачивания:</h4>
         <div class='col-md-12 ' data-bind="foreach: files">
-            <div class="wordBreak elipsis">
-                <a download="" data-bind="text:newName, attr:{ href:url}">файл</a>
+            <div class=" col-lg-10">
+                <a  download="" data-bind="text:newName, attr:{ href:url}">файл</a>
             </div>
+            <?php if ($data['status'] == 'teacher'): ?>
+                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data)}">Удалить</button></div>
+            <?php endif ?>
         </div>
     </section>
 </section>
