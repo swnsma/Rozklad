@@ -190,6 +190,63 @@ function Calendar_teacher(){
         }
     ];
 
+    this.option.editable=true;
+    this.option.dragOpacity=0.8;
+
+    this.option.eventDrop=function( event, delta, revertFunc, jsEvent, ui, view ){
+        var start  = new Date(event.start);
+        //start.setDate(start.getDate()+delta._data.days);
+        start= normDate(start.getFullYear(),toFormat(start.getMonth()+1),start.getDate(),start.getHours(),start.getMinutes());
+
+        var end = new Date(event.end);
+        //end.setDate(end.getDate()+delta._data.days);
+        end= normDate(end.getFullYear(),toFormat(end.getMonth()+1),end.getDate(),end.getHours(),end.getMinutes());
+        universalAPI(
+            url+'app/calendar/eventDrop',
+            'post',
+            function(data){
+                if(data.status!=='ok'){
+                    alert('щось трапилось дивне');
+                }else{
+                    var myevent={
+                        start: start,
+                        end: end,
+                        teacher: event.teacher,
+                        id:event.id,
+                        name:event.name,
+                        surname:event.surname,
+                        group:event.group,
+                        title:event.title,
+                        color: (function(){
+                            if(userInfo.id===event.teacher){
+                                return masColor.myEvents.color;
+                            }else{
+                                return masColor.otherEvents.color;
+                            }
+                        })(),
+                        textColor: (function(){
+                            if(userInfo.id===event.teacher){
+                                return masColor.myEvents.textColor;
+                            }else{
+                                return masColor.otherEvents.textColor;
+                            }
+                        })()
+                    }
+                    self.jqueryObject.calendar.fullCalendar('removeEvents', event.id);
+                    self.jqueryObject.calendar.fullCalendar('renderEvent',myevent);
+                }
+            },
+            function(){
+                alert('Помилка');
+            },
+            {
+                start:start,
+                end:end,
+                id:event.id
+            }
+
+        )
+    };
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){

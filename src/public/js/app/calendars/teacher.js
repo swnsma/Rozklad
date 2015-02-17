@@ -29,7 +29,6 @@ function Calendar_teacher(myoption){
     this.option.editable=true;
     this.option.dragOpacity=0.8;
     this.option.eventDrop=function( event, delta, revertFunc, jsEvent, ui, view ){
-        debugger;
         var start  = new Date(event.start);
         //start.setDate(start.getDate()+delta._data.days);
         start= normDate(start.getFullYear(),toFormat(start.getMonth()+1),start.getDate(),start.getHours(),start.getMinutes());
@@ -37,7 +36,6 @@ function Calendar_teacher(myoption){
         var end = new Date(event.end);
         //end.setDate(end.getDate()+delta._data.days);
         end= normDate(end.getFullYear(),toFormat(end.getMonth()+1),end.getDate(),end.getHours(),end.getMinutes());
-        debugger;
         universalAPI(
             url+'app/calendars/eventDrop',
             'post',
@@ -84,6 +82,11 @@ function Calendar_teacher(myoption){
 
         )
     };
+
+
+    this.option.dayClick=function(){
+
+    }
     //безпосереднє завантаження
     this.option.eventSources=[
         {

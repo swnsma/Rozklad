@@ -202,6 +202,7 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
+        fixedWeekCount:false,
         dragScroll:false,
         firstDay: 1,
         header: {
