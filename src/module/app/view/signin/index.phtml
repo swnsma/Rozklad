@@ -4,23 +4,24 @@
     <title>Расписание</title>
     <link rel="stylesheet" href="<?php print URL; ?>public/css/common/common.css" />
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/signin.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <?php if (Session::get('status')!= 'unconfirmed'): ?>
     <section class="logIn" id="signIn">
-        <h1>Розклад</h1>
+        <h1>Расписание</h1>
         <div class="signin" id="signIn">
         <h2>Выберите способ входа</h2>
             <div class="button social google" href="<?php print URL; ?>app/loging/login">
                 <img src="<?php print URL; ?>/public/img/google.svg"/>
                 <div>
-                    Ввійти через Google+
+                    Войти через Google+
                 </div>
             </div>
             <div class="button social facebook" href="<?php print URL; ?>app/loginf/login">
                 <img src="<?php print URL; ?>/public/img/facebook.svg"/>
                 <div>
-                    Ввійти через Facebook
+                    Войти через Facebook
                 </div>
             </div>
         </div>
