@@ -9,13 +9,15 @@ class Mail {
     public function __construct() {
         $this->mail = new phpmailer();
         $this->mail->IsSendmail();
-        $this->mail->Mailer = "smtp";
+        $this->mail->Mailer = 'smtp';
         $this->mail->IsSMTP();
         $this->mail->SMTPDebug = 0;
-        $this->mail->Host = 'aspmx.l.google.com';
-        $this->mail->Port =  25;
-        $this->mail->SMTPAuth = false;
-        $this->mail->setFrom('myrozklad@gmail.com', 'My Rozklad');
+        $this->mail->Host = MAIL_HOST;
+        $this->mail->Port =  MAIL_PORT;
+        $this->mail->SMTPAuth = true;
+        $this->mail->Username = MAIL_USERNAME;
+        $this->mail->Password = MAIL_PASSWORD;
+        $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
     public function send($address, $subject, $body) {
