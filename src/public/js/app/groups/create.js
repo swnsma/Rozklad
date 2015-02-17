@@ -73,7 +73,7 @@ $('#createButton').click(function() {
     var er7 = $('#error7');
     var aferr = $('#after_error');
     var name = el_name.val();
-    var descr = el_descr.val();
+    //var descr = el_descr.val();
     el_name.removeClass('error-input');
     //el_descr.removeClass('error-input');
     er1.css('display', 'none');
@@ -189,14 +189,14 @@ $(document).ready(function(){
         .css("padding-top","10px");
     var er5 = $('#error5');
     er5.css("display","block");
-    $(el_descr).on("focus",function(){
+    /*$(el_descr).on("focus",function(){
         $(".form-control").removeClass('error-input');
         er1.css('display', 'none');
         //er2.css('display', 'none');
         er3.css('display', 'none');
         //er4.css('display', 'none');
         er7.css('display', 'none');
-    });
+    });*/
     $(el_name).on("focus",function(){
         $('.form-control').removeClass('error-input');
         er1.css('display', 'none');
