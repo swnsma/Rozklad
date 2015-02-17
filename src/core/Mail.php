@@ -20,6 +20,7 @@ class Mail {
         $this->mail->Password = MAIL_PASSWORD;
         $this->mail->SMTPSecure = 'ssl';
         $this->mail->CharSet = 'UTF-8';
+        $this->mail->IsHTML(true);
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
@@ -34,6 +35,10 @@ class Mail {
         } else {
             return false;
         }
+    }
+
+    public function addFile($file, $file_name) {
+        $this->mail->AddAttachment($file, $file_name);
     }
 
     public function getErrorInfo() {
@@ -59,4 +64,6 @@ class Mail {
         }
         return self::$instance;
     }
+
+    private function __clone() {}
 }
