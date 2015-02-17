@@ -5,8 +5,9 @@ require_once DOC_ROOT . '/lib/mail/class.smtp.php';
 
 class Mail {
     private $mail;
+    private static $instance = null;
 
-    public function __construct() {
+    private function __construct() {
         $this->mail = new phpmailer();
         $this->mail->IsSendmail();
         $this->mail->Mailer = 'smtp';
@@ -18,6 +19,7 @@ class Mail {
         $this->mail->Username = MAIL_USERNAME;
         $this->mail->Password = MAIL_PASSWORD;
         $this->mail->SMTPSecure = 'ssl';
+        $this->mail->CharSet = 'UTF-8';
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
@@ -36,5 +38,12 @@ class Mail {
 
     public function getErrorInfo() {
         return $this->mail->ErrorInfo;
+    }
+
+    static public function getInstance() {
+        if(is_null(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 }
