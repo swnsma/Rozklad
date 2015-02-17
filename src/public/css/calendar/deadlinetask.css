@@ -1,15 +1,56 @@
-.deadlinetask-bt{
+.deadlinetask-bt {
     width: 250px;
     position: fixed;
     z-index: 100000;
-    height: 40px;
+    height: 30px;
     right: 30px;
     bottom: 0;
-    background-color: rgb(0, 100, 160);
-}
-.deadlinetask-bt  h2{
-    color: #000000;
-    font-weight: bold;
-    font-style: italic;
+    border: 1px solid #000000;
+    border-bottom: none;
 
 }
+.deadlinetask-bt,.deadlinetask-content .deadlinetask-content-title{
+    background-color: #222;
+    font: 13px/27px Arial,sans-serif;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    color: #ffffff;
+    line-height: 30px;
+    white-space: nowrap;
+}
+.deadlinetask-content .deadlinetask-content-title{
+    cursor: move;
+}
+.deadlinetask-bt  .wrapper{
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    display: block;
+}
+.deadlinetask-bt  .title,
+.deadlinetask-bt  .userName,
+.deadlinetask-content  .userName,
+.deadlinetask-content  .title
+{
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+
+}
+
+.deadlinetask-content{
+    border: 1px solid #000000;
+    width: 250px;
+    position: fixed;
+    z-index: 100000;
+    bottom: 0;
+    right: 30px;
+    height: 300px;
+    background-color: #ffffff;
+    margin: 0;
+    display: none;
+}
+

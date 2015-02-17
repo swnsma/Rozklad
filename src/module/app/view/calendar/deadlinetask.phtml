@@ -2,6 +2,18 @@
 
 <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/deadlinetask.css'/>
 
-<section class="deadlinetask-bt">
-    <h2>Завдання</h2>
+<section id="deadlineTaskBt" class="deadlinetask-bt">
+    <div class="wrapper">
+        <span class="title">Завдання:</span>
+        <span class="userName"> <?php echo $data['name']?></span>
+    </div>
 </section>
+
+
+<section id="deadlineTaskContent" class="deadlinetask-content">
+    <div id="deadlineTaskContentTitle" class="deadlinetask-content-title">
+        <span class="title">Завдання:</span>
+        <span class="userName"> <?php echo $data['name']?></span>
+    </div>
+</section>
+

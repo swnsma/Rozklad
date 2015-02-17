@@ -44,7 +44,9 @@ class Calendar extends Controller
         $this->view->renderHtml('common/head', $data);
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('calendar/index', $data);
-        $this->view->renderHtml('calendar/deadlinetask', $data);
+        if($data['status']==='student') {
+            $this->view->renderHtml('calendar/deadlinetask', $data);
+        }
 //        $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
 
