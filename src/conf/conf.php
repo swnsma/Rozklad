@@ -17,6 +17,16 @@ define('ACCESS_TYPE','offline');
 define('APP_ID_FB','1536442079974268');
 define('APP_SECRET_FB','1d75987fcb8f4d7abc1a34287f9601cf');
 
+
+//mail
+
+define('MAIL_HOST', 'aspmx.l.google.com');
+define('MAIL_PORT', 25);
+define('MAIL_USERNAME', 'myrozklad@gmail.com');
+define('MAIL_PASSWORD', 'dfygjvgrd54e67rtfgdufhg');
+define('MAIL_SET_FROM', 'myrozklad@gmail.com');
+define('MAIL_SET_FROM_NAME', 'My Rozklad');
+
 define('DEBUG', true);
 
 ?>
