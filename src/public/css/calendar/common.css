@@ -2,15 +2,19 @@ body,html{
     /*background: url(http://weblabfon.com/_ld/3/306_185.png)repeat ;*/
     margin: 0;
     padding: 0;
+    /*background-image: url(http://a.deviantart.net/avatars/e/x/ex-astris1701.gif?13);*/
+    background-size: auto;
 }
 .calendar{
-    width: 900px;
+    max-width: 900px;
     /*margin: 20px auto;*/
+    min-width: 400px;
     margin: auto;
     padding: 20px 0;
 }
-header{
-    width: 900px;
+header {
+    max-width: 900px;
+    min-width: 400px;
     margin: 0 auto;
     padding: 0;
 }

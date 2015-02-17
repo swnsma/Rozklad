@@ -1,0 +1,28 @@
+<link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
+
+<link rel='stylesheet' href='<?php print URL; ?>public/css/calendars/common.css' />
+<link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css' />
+<?php if ($data['status'] == 'teacher'): ?>
+    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendars/popup.css' />
+<?php endif; ?>
+
+<div class="calendar" id='calendar'></div>
+
+<section class="popup">
+
+</section>
+
+
+<script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
+
+<script src='<?php print URL; ?>public/js/app/calendars/common.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendars/calendar.js'></script>
+<script src='<?php print URL; ?>public/js/app/common.js'></script>
+<?php if ($data['status'] == 'teacher'): ?>
+
+    <script src='<?php print URL; ?>public/js/app/calendars/teacher.js'></script>
+<?php else: ?>
+    <script src='<?php print URL; ?>public/js/app/calendars/student.js'></script>
+<?php endif; ?>
