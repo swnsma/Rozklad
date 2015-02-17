@@ -37,6 +37,34 @@ function example1() {
     }
 }
 
-example1();
+// повідомлення для адміна
+function example2() {
+    $m = Mail::getInstance();
+    $template = $m->getTemplate('letterToAdmin2', array(
+        'userName' => 'User Name',
+        'phone' => '4324323',
+        'email' => 'sdfef34fsfef3@gmail.com',
+        'mail_background' => 'mail_background',
+        'url' => 'http://google.com'
+    ));
+    if (is_null($template)) {
+        echo 'template is not exists';
+    } else {
+        $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
+        if ($m->send(array(
+            'myrozklad@mail.ru'
+        ), 'subject', $template)) {
+            echo 'true';
+        } else {
+            echo 'false';
+            echo $m->getErrorInfo();
+        }
+    }
+}
+
+// виклик
+
+//example1();
+//example2();
 
 ?>
