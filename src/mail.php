@@ -8,12 +8,18 @@ require_once(__DIR__ . '/conf/conf.php');
 require_once(__DIR__ . '/core/Mail.php');
 
 $m = Mail::getInstance();
-$template = $m->getTemplate('example', 1232);
-if ($m->send(array('swnsma@gmail.com'), 'subject', $template)) {
-    echo 'true';
+$template = $m->getTemplate('example', array(
+    'link' => 'google.com'
+));
+if (is_null($template)) {
+    echo 'template is not exists';
 } else {
-    echo 'false';
-    echo $m->getErrorInfo();
-}
+    if ($m->send(array('swnsma@gmail.com'), 'subject', $template)) {
+        echo 'true';
+    } else {
+        echo 'false';
+        echo $m->getErrorInfo();
+    }
 
+}
 ?>
