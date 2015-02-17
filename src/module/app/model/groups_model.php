@@ -89,7 +89,7 @@ HERE;
         return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 
-    public function createGroup($teacher_id, $name, $descr, $image) {
+    public function createGroup($teacher_id, $name, $image) {
         try {
             $query = <<<HERE
             INSERT INTO `groups`
