@@ -12,7 +12,6 @@ function ViewModel()
     that.linkAdding=ko.observable(false);
     that.linkToAdd = ko.observable('');
 
-
     //editing functions
     that.startEdit=function(){
         that.edit(true)
@@ -36,7 +35,22 @@ function ViewModel()
           that.makeArray()
       }
     };
-    that.makeArray=function(){
+    that.loadFile=function(formElement){
+        $.ajax({
+            url: url+'app/lesson/upload/',
+            type: 'POST',
+            processData:false,
+            contentType:false,
+            data: new FormData(formElement),
+            success: function(response){
+                console.log(response);
+            },
+            error: function(xhr){
+                fail(xhr);
+            }
+        });
+    };
+     that.makeArray=function(){
         var data={
             description: that.homeWorkDescription(),
             links: that.links()
@@ -45,14 +59,11 @@ function ViewModel()
 
         function sendData(){
             $.ajax({
-
-                //треба замінити 1 на айді урока
                 url: url+'app/lesson/changeLessonInfo/'+that.id(),
                 type: 'POST',
                 data:{
                     data:datasend
                 },
-
                 success: function(response){
                     console.log(response);
                 },
@@ -70,13 +81,8 @@ function ViewModel()
         var lessonId = window.location.pathname;
         var pos=lessonId.search(/id[0-9]+/);
         lessonId= +lessonId.substr(pos+2, 2);
-        console.log(lessonId)
         that.id(lessonId);
-
-        //треба замінити 1 на айді урока
         universalAPI(url+'app/lesson/getLessonInfo/'+that.id(), 'GET', function(response){
-
-
         var incomingData= JSON.parse(response[0].lesson_info);
             console.log(incomingData);
 
@@ -97,10 +103,6 @@ ko.applyBindings(viewModel);
 
 
 
-
-
-
-//приклад запиту до метода опису
 
 
 
