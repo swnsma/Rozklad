@@ -25,6 +25,7 @@ function ModelRegist(){
         });
     });
 
+
     self.validName=function(){
         resetError($("#name"),$("#name_error"));
         var  number=self.name();
@@ -147,6 +148,7 @@ function ModelRegist(){
     self.init=function(){
         getName(self.getName);
         //getRoles(self.getRoles);
+        self.radioSelectedOptionValue(self.rolesName()[0].itemName);
     };
 
     self.getName=function(response){
@@ -166,10 +168,11 @@ function ModelRegist(){
 $(document).ready(function(){
     $("#success").hide();
     $("#btn-success")
-        .prop('disabled', true)
-    var model=new ModelRegist
+        .prop('disabled', true);
+    var model=new ModelRegist();
     ko.applyBindings(model);
     model.init();
+    $(".radio label:first-of-type").addClass("selected");
     resetError($("#name"),$("#name_error"));
     resetError($("#surname"),$("#surname_error"));
     resetError($("#phone"),$("#phone_error"));
@@ -220,3 +223,33 @@ function resetError(input,contMass){
     input.css("color","1px solid black");
     contMass.html('');
 }
+
+ko.bindingHandlers.preventEvent={
+    update:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+        $(element).on('click change',function(event){
+            event.preventDefault();
+            var val = valueAccessor();
+            val.checked(true);
+        })
+    }
+};
+
+ko.bindingHandlers.select={
+    update:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+        $(element).on('click',function(){
+            $(this).siblings('label').removeClass("selected");
+            $(this).addClass("selected");
+        })
+    }
+};
+
+ko.bindingHandlers.stopBubble = {
+    init: function(element) {
+        ko.utils.registerEventHandler(element, "click", function(event) {
+            event.cancelBubble = true;
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+        });
+    }
+};
