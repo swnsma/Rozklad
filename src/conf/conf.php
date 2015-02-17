@@ -5,8 +5,8 @@ define('DOC_ROOT', __DIR__ . '/../');
 define('IMAGES_FOLDER', DOC_ROOT . 'public/users_files/images/');
 
 //Google
-define('CLIENT_ID_GM','955464663389-683pu19v53o6tg53h2hdt4s5ha6sqtu0.apps.googleusercontent.com');
-define('CLIENT_SECRET_GM','dSc5Tm27rjaIfeslOZDMeZIW');
+define('CLIENT_ID_GM','1051661788648-aamr1ek05a6dq7dpt6fpm74s5gl9fqdl.apps.googleusercontent.com');
+define('CLIENT_SECRET_GM','DQE7U9jZKTIfD6G76vEEj6QP');
 define('REDIRECT_URI','http://localhost/src/app/login/token');//example:http://localhost/social/login.php?google,http://example/login.php?google
 define('APPROVAL_PROMPT','auto');
 define('ACCESS_TYPE','offline');
@@ -25,6 +25,6 @@ define('MAIL_SET_FROM', 'myrozklad@rambler.ru');
 define('MAIL_SET_FROM_NAME', 'My Rozklad');
 define('MAIL_IS_SMTP_AUTH', true);
 
-define('DEBUG', true);
+define('DEBUG', false);
 
 ?>
