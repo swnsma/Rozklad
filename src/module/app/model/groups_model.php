@@ -46,7 +46,6 @@ HERE;
         SELECT
             `groups`.`id` as group_id,
             `groups`.`name` as name,
-            `groups`.`description` as descr,
             `groups`.`teacher_id`,
 
             `user`.`name` as teacher_fn,
@@ -94,9 +93,9 @@ HERE;
         try {
             $query = <<<HERE
             INSERT INTO `groups`
-                (`name`, `teacher_id`, `description`, `invite_code`, `img_src`, `color`)
+                (`name`, `teacher_id`, `invite_code`, `img_src`, `color`)
             VALUES
-                (:name, :id, :descr, :invite, :img, :color)
+                (:name, :id, :invite, :img, :color)
 HERE;
             $invite = $this->createInviteCode();
             $request = $this->db->prepare($query);
@@ -104,7 +103,6 @@ HERE;
             $result = $request->execute(array(
                ':name' => $name,
                ':id' => $teacher_id,
-                'descr' => $descr,
                 ':invite' => $invite,
                 ':img' => $image,
                 ':color' => $color

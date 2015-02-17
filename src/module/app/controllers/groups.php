@@ -94,10 +94,10 @@ class Groups extends Controller {
 
     public function createNewGroup() {
 
-        if (isset($_POST['name']) && isset($_POST['descr'])) {
+        if (isset($_POST['name'])) {
             $name = $_POST['name'];
-            $descr = $_POST['descr'];
-            if (count($name)&&count($descr)) {
+
+            if (count($name)) {
 
                 if ($this->user_info['title'] == 'teacher') {
 
@@ -119,7 +119,7 @@ class Groups extends Controller {
                             }
                         }
 
-                        $data = $this->model->createGroup($this->user_info['id'], $name, $descr, $image);
+                        $data = $this->model->createGroup($this->user_info['id'], $name, $image);
                         //$data = $this->model->createGroup(1, $name, $descr, $image);
                         if ($data == null) {
                             $this->view->renderJson(array(
