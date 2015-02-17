@@ -47,14 +47,27 @@ class Regist extends Controller
             $reg=$this->model->addUser($name, $surname, $phone,$role, $fb_ID,$gm_ID,$email);
             //Відправляємо листа адміну
             $m = Mail::getInstance();
-            $template = $m->getTemplate('letterToAdmin', array(
+            $template = $m->getTemplate('letterToAdmin2', array(
                 'userName' => $name.' '.$surname,
-                'link' => URL.'app/admin',
-                'phone'=>$phone,
-                'date'=>date("d.m.Y H:i"),
-                'email'=>$email
+                'phone' => $phone,
+                'email' => $email,
+                'mail_background' => 'mail_background',
+                'url' => 'http://google.com',
+                'date'=> date("d.m.Y H:i")
             ));
-            $m->send(array( 'myrozklad@mail.ru'), 'Новый пользователь', $template);
+            if (is_null($template)) {
+                echo 'template is not exists';
+            } else {
+                $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
+                if ($m->send(array(
+                    'swnsma@gmail.com'///доробити!
+                ), 'subject', $template)) {
+                    echo 'true';
+                } else {
+                    echo 'false';
+                    echo $m->getErrorInfo();
+                }
+            }
             //
             if($reg){
                 if(Session::has('fb_ID')){

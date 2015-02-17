@@ -42,13 +42,26 @@ class Admin extends Controller {
         $name =$this->model->confirmUser($id);
         //Відправляємо листа вчитeлю
         if(is_null($name['key'])){
-        $m = Mail::getInstance();
-        $template = $m->getTemplate('letterToTeacher', array(
-            'userName' => $name['name'].' '.$name['surname'],
-            'link' => URL.'app/calendar',
-            'date'=> date("d.m.Y H:i")
-        ));
-        $m->send(array( 'myrozklad@mail.ru'), 'Новый пользователь', $template);
+            $m = Mail::getInstance();
+            $template = $m->getTemplate('letterToAdmin2', array(
+                'userName' => $name['name'].' '.$name['surname'],
+                'mail_background' => 'mail_background',
+                'url' => URL.'app/calendar',
+                'date'=> date("d.m.Y H:i")
+            ));
+            if (is_null($template)) {
+                echo 'template is not exists';
+            } else {
+                $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
+                if ($m->send(array(
+                    $name['email']
+                ), 'subject', $template)) {
+                    echo 'true';
+                } else {
+                    echo 'false';
+                    echo $m->getErrorInfo();
+                }
+            }
         }
         //
     }
