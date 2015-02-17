@@ -19,11 +19,12 @@ class Loging extends Controller {
         $this->client->setRedirectUri(URL . "app/loging/login");
         $this->client->setApprovalPrompt(APPROVAL_PROMPT);
         $this->client->setAccessType(ACCESS_TYPE);
-        $this->client->setScopes(['https://www.googleapis.com/auth/calendar'
-            ,'https://www.googleapis.com/auth/plus.login'
+        $this->client->setScopes([
+            'https://www.googleapis.com/auth/plus.login'
             ,'https://www.googleapis.com/auth/plus.me'
             ,'https://www.googleapis.com/auth/userinfo.email'
-            ,'https://www.googleapis.com/auth/userinfo.profile']);
+            ,'https://www.googleapis.com/auth/userinfo.profile'
+            ,'https://www.googleapis.com/auth/calendar']);
 
         $this->oauth2 = new Google_Oauth2Service($this->client);
     }
