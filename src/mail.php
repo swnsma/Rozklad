@@ -14,14 +14,12 @@ require_once(__DIR__ . '/core/Mail.php');
 // повідлення для вчителя
 function example1() {
     $m = Mail::getInstance();
-
     $template = $m->getTemplate('letterToTeacher2', array(
         'userName' => 'User Name',
         'mail_background' => 'mail_background',
         'mail_sep' => 'mail_sep',
         'url' => 'http://google.com'
     ));
-
     if (is_null($template)) {
         echo 'template is not exists';
     } else {
@@ -36,7 +34,6 @@ function example1() {
             echo 'false';
             echo $m->getErrorInfo();
         }
-
     }
 }
 
