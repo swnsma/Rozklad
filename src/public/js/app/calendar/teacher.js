@@ -329,6 +329,7 @@ function Calendar_teacher(){
         minutesStart=toFormat(minutesStart);
 
 
+        debugger;
         var hourEnd =calEvent.end._d.getHours();
         hourEnd=toFormat(hourEnd);
 
