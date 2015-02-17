@@ -98,18 +98,18 @@ form{
     height: 100%;
     left: 0;
     top: 0;
-    background-color: #141414;
-    opacity: 0.80;
+    background-color: #000000;
+    opacity: 0.8;
     z-index: 2;
 }
 .loading img{
-    width: 50px;
-    height: 50px;
+    width: 250px;
+    height: 250px;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -25px;
-    margin-left: -25px;
+    margin-top: -125px;
+    margin-left: -125px;
 }
 .trash, .settings {
     position: absolute;
