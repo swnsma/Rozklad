@@ -41,6 +41,10 @@ class Mail {
         $this->mail->AddAttachment($file, $file_name);
     }
 
+    public function addFileToHtml($file, $file_name) {
+        $this->mail->AddEmbeddedImage($file, $file_name);
+    }
+
     public function getErrorInfo() {
         return $this->mail->ErrorInfo;
     }
