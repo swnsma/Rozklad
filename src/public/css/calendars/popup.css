@@ -1,0 +1,14 @@
+.popup{
+    padding: 16px 0 0 0;
+    box-shadow: 2px 2px 0 rgba(0,0,0,.7);
+    border: 1px solid #666;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 380px;
+    padding: 10px;
+    min-height: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+

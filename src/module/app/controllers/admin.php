@@ -35,6 +35,11 @@ class Admin extends Controller {
         $this->view->renderJson($unconfirmedUsers);
     }
 
+    public function getTeachers(){
+        $teachers=$this->model->getTeachers();
+        $this->view->renderJson($teachers);
+    }
+
     public function confirmUser(){
         $req=Request::getInstance();
         $id = $req->getParam(0);
@@ -47,4 +52,3 @@ class Admin extends Controller {
         $this->model->unConfirmUser($id);
     }
 }
-?>

@@ -1,6 +1,7 @@
 
 body{
-    background: url(http://weblabfon.com/_ld/3/306_185.png) repeat;
+    /*background: url(http://weblabfon.com/_ld/3/306_185.png) repeat;*/
+    background-color: #efefef;
 }
 
 .input{
@@ -18,31 +19,21 @@ body{
 .error{
     color:red;
 }
-.radio{
-    display:inline-block;
-    width: 100px;
-    height:20px
+
+.button-end-group{
+    margin:50px;
 }
-.radio input{
-    display:inline-block;
-    width: 15px;
-    height:15px
-}
-.radio:first-of-type{margin-left: 20px;}
-.button{
-    margin-right: 20px;
-    display: inline-block;
-    border: 2px solid #888;
-    height: 40px;
-    width:150px;
-    text-align:center;
-    /*padding-left: 10px;*/
-    /*padding-right: 10px;*/
-    line-height:38px;
-    margin-bottom:10px;
-    cursor: pointer;
-    color:black;
-    font-size:20px;
-    border-radius:5px;
-    margin-left: 0;
-}
+/*.radio{*/
+/*display:inline-block;*/
+/*width: 100px;*/
+/*height:20px*/
+/*}*/
+/*.radio input{*/
+/*display:inline-block;*/
+/*width: 15px;*/
+/*height:15px;*/
+/*}*/
+/*.radio>span{*/
+/*margin-top: 2px;*/
+/*}*/
+/*.radio:first-of-type{margin-left: 50px;}*/

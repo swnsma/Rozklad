@@ -6,21 +6,23 @@ function ModelRegist(){
     self.gender = ko.observable('');
     self.isChecked=ko.observable(0);
     self.role=ko.observable(0);
-    self.rolesName=[
-        {itemName:"Студент"},
-        {itemName:"Вчитель"}
-    ];
 
-
-    self.role = ko.observable(false);
-    self.roleCkeck = ko.computed({
-        read: function() {
-            return self.role() + "";
+    self.rolesName=ko.observableArray([
+        {
+            itemName:"Студент",
+            checked:ko.observable(false)
         },
-        write: function (v) {
-            if (v == "true") self.role(true)
-            else self.role(false)
+        {
+            itemName:"Учитель",
+            checked:ko.observable(false)
         }
+    ]);
+
+    self.radioSelectedOptionValue=ko.observable(self.rolesName()[0].itemName);
+    self.role=ko.computed(function(){
+        return arrayFirstIndexOf(self.rolesName(), function(item) {
+            return item.itemName === self.radioSelectedOptionValue();
+        });
     });
 
 
@@ -33,6 +35,7 @@ function ModelRegist(){
         }
         return 1;
     };
+
     self.validSurname=function(){
         resetError($("#surname"),$("#surname_error"));
         var  number=self.surname();
@@ -42,6 +45,7 @@ function ModelRegist(){
         }
         return 1;
     };
+
     self.validPhone=function(){
         resetError($("#phone"),$("#phone_error"));
         var  number=self.phone()
@@ -60,7 +64,6 @@ function ModelRegist(){
         return 1;
     };
 
-
     self.checkValidPhone=ko.computed(function(){
         var  number=self.phone();
         if(number.match(/[^0-9]/g)){
@@ -74,21 +77,21 @@ function ModelRegist(){
         resetError($("#phone"),$("#phone_error"));
         return 1;
     });
-    //self.isAble=function(){
-    //    return self.validPhone()&&self.validSurname()&&self.validName();
-    //}
+
     self.ckeckValidName=ko.computed(function(){
         if(self.name()){
             resetError($("#name"),$("#name_error"));
             self.isChecked(0);
         }
     });
+
     self.ckeckValidSurname=ko.computed(function(){
         if(self.surname()){
             resetError($("#surname"),$("#surname_error"));
             self.isChecked(0);
         }
     });
+
     self.sendInfo = function(){
 
         var check=1;
@@ -109,7 +112,7 @@ function ModelRegist(){
             name:self.name(),
             surname:self.surname(),
             phone:self.phone(),
-            role:self.roleIndex()
+            role:self.role()
         };
         $.ajax({
                 url:url + 'app/regist/addUser/',
@@ -141,26 +144,35 @@ function ModelRegist(){
             }
         );
     };
+
+    self.init=function(){
+        getName(self.getName);
+        //getRoles(self.getRoles);
+        self.radioSelectedOptionValue(self.rolesName()[0].itemName);
+    };
+
     self.getName=function(response){
         self.name(response['firstname']);
         self.surname(response['lastname']);
+    };
+
+    self.getRoles=function(response){
+        self.rolesName(ko.utils.arrayMap(response,function(item){
+            return {
+                itemName:item.roleName,
+                checked:ko.observable(false)
+            };
+        }));
     }
-    self.roleIndex=ko.computed(function(){
-        if(!self.role()){
-            return 0;
-        }
-        else {
-            return 1;
-        }
-    })
 }
 $(document).ready(function(){
     $("#success").hide();
     $("#btn-success")
-        .prop('disabled', true)
-    var model=new ModelRegist
+        .prop('disabled', true);
+    var model=new ModelRegist();
     ko.applyBindings(model);
-    getName(model.getName);
+    model.init();
+    $(".radio label:first-of-type").addClass("selected");
     resetError($("#name"),$("#name_error"));
     resetError($("#surname"),$("#surname_error"));
     resetError($("#phone"),$("#phone_error"));
@@ -170,13 +182,19 @@ $(document).ready(function(){
     });
 });
 function getName(func){
+    ajax('app/regist/getName',func);
+}
+function getRoles(func){
+    ajax('app/regist/getRoles',func);
+}
+
+function ajax(url1,func){
     $.ajax({
-            url:url + 'app/regist/getName',
+            url:url + url1,
             type:"GET",
             contentType: 'application/json',
             dataType: 'json',
             success:function(response){
-                //console.log(response);
                 func(response);
             },
             error: function (error) {
@@ -186,27 +204,15 @@ function getName(func){
         }
     );
 }
-ko.bindingHandlers.check={
-    init:function(element, valueAccessor, allBindings, viewModel){
-        viewModel.name();
-    },
-    update:function(element, valueAccessor, allBindings, viewModel) {
-        //    var data=valueAccessor()();
-        //    var value=$(element).val();
-        //    resetError($(element),$(data.errorBlock));
-        //    var  number=self.phone()
-        //    if(number.length!==0){
-        //        return 1
-        //    }
-        //    else{
-        //        showError($(element),$(+data.errorBlock),data)
-        //        return 0;
-        //    }
-        //    return 1;
-        //
-        //}
+function arrayFirstIndexOf(array, predicate, predicateOwner) {
+    for (var i = 0, j = array.length; i < j; i++) {
+        if (predicate.call(predicateOwner, array[i])) {
+            return i;
+        }
     }
+    return -1;
 }
+
 function showError(input,contMass,error){
     input.css("border","1px solid red");
     input.css("color","1px solid red");
@@ -217,3 +223,33 @@ function resetError(input,contMass){
     input.css("color","1px solid black");
     contMass.html('');
 }
+
+ko.bindingHandlers.preventEvent={
+    update:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+        $(element).on('click change',function(event){
+            event.preventDefault();
+            var val = valueAccessor();
+            val.checked(true);
+        })
+    }
+};
+
+ko.bindingHandlers.select={
+    update:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+        $(element).on('click',function(){
+            $(this).siblings('label').removeClass("selected");
+            $(this).addClass("selected");
+        })
+    }
+};
+
+ko.bindingHandlers.stopBubble = {
+    init: function(element) {
+        ko.utils.registerEventHandler(element, "click", function(event) {
+            event.cancelBubble = true;
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+        });
+    }
+};

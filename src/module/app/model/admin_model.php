@@ -44,8 +44,9 @@ class AdminModel extends Model {
                 from user
                 inner join role
                 on user.role_id = role.id
-                inner join unconfirmed_user
-                on user.id = unconfirmed_user.id
+                where user.role_id='1'
+--                 inner join unconfirmed_user
+--                 on user.id = unconfirmed_user.id
 SQL;
 
             $var = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -55,7 +56,33 @@ SQL;
             return null;
         }
     }
+    public function getTeachers(){
+        try {
+            $sql = <<<SQL
+                select
+                    user.name,
+                    user.surname,
+                    user.email,
+                    user.phone,
+                    user.fb_id,
+                    user.gm_id,
+                    user.id,
+                    role.title,
+                    unc.id as unc_id
+                from user
+                inner join role
+                on user.role_id = role.id
+                left outer join unconfirmed_user as unc
+                on user.id = unc.id
+                where user.role_id='1'
+SQL;
+
+            $var = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+
 }
-
-
-?>

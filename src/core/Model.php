@@ -8,5 +8,3 @@ abstract class Model extends Magic_Object {
         $this->db = DataBase::getInstance()->DB();
     }
 }
-
-?>

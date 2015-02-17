@@ -6,12 +6,14 @@ function ViewModel()
     that.homeWorkDescription=ko.observable('Описание домашнего задания');
     that.links=ko.observableArray([ ]);
     that.id=ko.observable('');
+    that.files=ko.observableArray([]);
+
+
     //editing logic
     that.edit=ko.observable(false);
     that.descriptionEdit= ko.observable(false);
     that.linkAdding=ko.observable(false);
     that.linkToAdd = ko.observable('');
-
 
     //editing functions
     that.startEdit=function(){
@@ -36,23 +38,42 @@ function ViewModel()
           that.makeArray()
       }
     };
-    that.makeArray=function(){
+    that.loadFile=function(formElement){
+
+
+        $.ajax({
+            url: url+'app/lesson/upload/',
+            type: 'POST',
+            processData:false,
+            contentType:false,
+            data: new FormData(formElement),
+            success: function(response){
+
+                response.url= url+'public/users_files/tasks/'+response.newName ;
+                that.files.push(response);
+                that.makeArray();
+
+            },
+            error: function(xhr){
+                fail(xhr);
+            }
+        });
+    };
+     that.makeArray=function(){
         var data={
             description: that.homeWorkDescription(),
-            links: that.links()
+            links: that.links(),
+            files:that.files()
         };
         var datasend=JSON.stringify(data);
 
         function sendData(){
             $.ajax({
-
-                //треба замінити 1 на айді урока
                 url: url+'app/lesson/changeLessonInfo/'+that.id(),
                 type: 'POST',
                 data:{
                     data:datasend
                 },
-
                 success: function(response){
                     console.log(response);
                 },
@@ -70,18 +91,14 @@ function ViewModel()
         var lessonId = window.location.pathname;
         var pos=lessonId.search(/id[0-9]+/);
         lessonId= +lessonId.substr(pos+2, 2);
-        console.log(lessonId)
         that.id(lessonId);
-
-        //треба замінити 1 на айді урока
         universalAPI(url+'app/lesson/getLessonInfo/'+that.id(), 'GET', function(response){
-
-
         var incomingData= JSON.parse(response[0].lesson_info);
             console.log(incomingData);
 
             that.homeWorkDescription(incomingData.description);
-            that.links(incomingData.links)
+            that.links(incomingData.links);
+            that.files(incomingData.files);
         });
     };
 }
@@ -97,10 +114,6 @@ ko.applyBindings(viewModel);
 
 
 
-
-
-
-//приклад запиту до метода опису
 
 
 

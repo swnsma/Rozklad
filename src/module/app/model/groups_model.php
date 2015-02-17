@@ -11,15 +11,16 @@ class GroupsModel extends Model {
         SELECT
             `groups`.`id` as group_id,
             `groups`.`name` as name,
-            `groups`.`description` as descr,
             `groups`.`teacher_id`,
             `groups`.`archived`,
             `user`.`name` as teacher_fn,
             `user`.`surname` as teacher_ln,
-            `groups`.`img_src` as photo
-        FROM `groups`, `user`
+            `groups`.`img_src` as photo,
+        count(`student_group`.`student_id`) as descr
+        FROM `groups`LEFT JOIN `student_group` ON `groups`.`id`=`student_group`.`group_id`, `user`
         WHERE `user`.`id` = `groups`.`teacher_id`
         AND `groups`.`archived` = 0
+        GROUP BY `groups`.`name`ORDER BY `groups`.`id`;
 HERE;
         try {
             $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +46,6 @@ HERE;
         SELECT
             `groups`.`id` as group_id,
             `groups`.`name` as name,
-            `groups`.`description` as descr,
             `groups`.`teacher_id`,
 
             `user`.`name` as teacher_fn,
@@ -89,13 +89,13 @@ HERE;
         return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 
-    public function createGroup($teacher_id, $name, $descr, $image) {
+    public function createGroup($teacher_id, $name, $image) {
         try {
             $query = <<<HERE
             INSERT INTO `groups`
-                (`name`, `teacher_id`, `description`, `invite_code`, `img_src`, `color`)
+                (`name`, `teacher_id`, `invite_code`, `img_src`, `color`)
             VALUES
-                (:name, :id, :descr, :invite, :img, :color)
+                (:name, :id, :invite, :img, :color)
 HERE;
             $invite = $this->createInviteCode();
             $request = $this->db->prepare($query);
@@ -103,7 +103,6 @@ HERE;
             $result = $request->execute(array(
                ':name' => $name,
                ':id' => $teacher_id,
-                'descr' => $descr,
                 ':invite' => $invite,
                 ':img' => $image,
                 ':color' => $color

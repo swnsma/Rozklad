@@ -13,14 +13,16 @@ echo '</style>';
     <div data-bind="attr:{class:loadScr}" id="loadScreen"><img src="<?php echo URL?>public/img/load.gif"></div>
 <section class="container">
     <div class="go-away"><a href="<?php echo URL?>app/groups"><img width="30" height="30" src="<?php echo URL;?>public/img/arrow.png">Назад</a></div>
-    <div class="archiveTitle">Вы находитесь в архиве групп. Для восстановления группы кликните по иконке группы!</div>
+    <div class="archiveTitle">Вы находитесь в архиве групп. Для восстановления группы кликните по иконке!</div>
     <div data-bind="foreach: groups" class="group-list">
-        <div class="group-container" data-bind="click:function(){$parent.restore($data.groupId, $element)}">
+        <div class="group-container">
         <div class="group">
             <div class="icon-container">
                 <a><img class="group-icon" data-bind="attr: {src: imgSrc}"/></a>
             </div>
-
+            <div>
+                <img data-bind="click:function(){$parent.restore($data.groupId, $element)}" class="dearchive-icon" src="<?php echo URL;?>/public/img/dearchive.png">
+            </div>
             <div class="padding-10px">
                 <h3 class="group-name" data-bind="text: name()"></h3>
 

@@ -1,102 +1,61 @@
-
-
-
 <link rel="stylesheet" type="text/css" href="<?php echo URL?>public/css/lesson/lesson.css">
 <link rel="stylesheet" type="text/css" href="<?php echo URL?>public/css/common/bootstrap.css">
-
-
-
-
-
 <section class="main-content">
-
-
     <h2>Домашнее Задание</h2>
     <!-- ko ifnot: descriptionEdit-->
+    <?php if ($data['status'] == 'teacher'): ?>
     <div  class='description' data-bind="text:homeWorkDescription, click:function(){descriptionEditStart()}">нажмите сюда для редактирования</div>
+    <?php endif ?>
+    <?php if ($data['status'] == 'student'): ?>
+        <div  class='description' data-bind="text:homeWorkDescription">нажмите сюда для редактирования</div>
+    <?php endif ?>
     <!--/ko-->
     <!-- ko if: descriptionEdit-->
-    <textarea rows="3" type="text" class="col-md-12" data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
+    <textarea class="descInput form-control " type="text"  data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
     <!--/ko-->
-    <div class="links" data-bind="foreach:links">
-        <br><a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
+    <br><h4>Полезные ссылки:</h4>
+        <div class="links" data-bind="foreach:links">
+        <br><a class='wordBreak' data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
     </div>
-
+    <?php if ($data['status'] == 'teacher'): ?>
     <!-- ko ifnot: linkAdding-->
-    <button class="btn"
-            data-bind="click:function(){addLink()}">Добавить ссылку</button>
+    <button class='plusButton' data-bind="click:function(){addLink()}"><img heigth='15' width="15" src="<?php echo URL?>public/img/plus1.png"></button>
     <!--/ko-->
     <!-- ko if: linkAdding-->
     <input type="text" class="col-md-12" placeholder="Вставьте ссылку" data-bind="value:linkToAdd, event: {blur:saveLink()}">
     <!--/ko-->
+    <?php endif ?>
+    <!--
+    Счастье,- говорил он,-
+Есть ловкость ума и рук.
+Все неловкие души
+За несчастных всегда известны.
+Это ничего,
+Что много мук
+Приносят изломанные
+И лживые жесты.
 
-
+В грозы, в бури,
+В житейскую стынь,
+При тяжелых утратах
+И когда тебе грустно,
+Казаться улыбчивым и простым -
+Самое высшее в мире искусство".
+    -->
+    <?php if ($data['status'] == 'teacher'): ?>
+    <div id="content">
+        <form data-bind="submit: loadFile" enctype="multipart/form-data">
+            <input type="file" name="file" name="files[] id="file" />
+            <div align="right"><div id="status"></div>
+                <input type="submit" class="submitButton" name="go" id="go" value="Загрузить" /></div>
+        </form>
+    </div>
+    <?php endif ?>
+<br><h4>Файлы для скачивания:</h4>
+    <div data-bind="foreach: files">
+       <br><a download="" data-bind="text:newName, attr:{ href:url}">файл</a>
+    </div>
 </section>
-<?php
-define('DISQUS_SECRET_KEY', 'LmyNANslLx7Kox5mIfMOQiDo91uAmyYeSVgZ7owoAH9UaQhBJIBlmzdYsNaMEJLY');
-define('DISQUS_PUBLIC_KEY', 'gSu6P6ZaSFOPHMJ7HDaRprnE1qC86XuFe8xU6qpwxf58pmLS4O83kfv8Ti5OiXQl');
-
-$data = array(
-    "id" => $data['id'],
-    "username" => $data['name'],
-    "email" => $data['email']
-);
-
-function dsq_hmacsha1($data, $key) {
-    $blocksize=64;
-    $hashfunc='sha1';
-    if (strlen($key)>$blocksize)
-        $key=pack('H*', $hashfunc($key));
-    $key=str_pad($key,$blocksize,chr(0x00));
-    $ipad=str_repeat(chr(0x36),$blocksize);
-    $opad=str_repeat(chr(0x5c),$blocksize);
-    $hmac = pack(
-        'H*',$hashfunc(
-            ($key^$opad).pack(
-                'H*',$hashfunc(
-                    ($key^$ipad) . $data
-                )
-            )
-        )
-    );
-    return bin2hex($hmac);
-}
-
-$message = base64_encode(json_encode($data));
-$timestamp = time();
-$hmac = dsq_hmacsha1($message . ' ' . $timestamp, DISQUS_SECRET_KEY);
-?>
-
-<script type="text/javascript">
-    var disqus_config = function() {
-        this.page.remote_auth_s3 = "<?php echo "$message $hmac $timestamp"; ?>";
-        this.page.api_key = "<?php echo DISQUS_PUBLIC_KEY; ?>";
-    }
-</script>
-
-
-<div class="disqus" id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'rozklad'; // required: replace example with your forum shortname
-
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-
-
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-
-
-
-    })();
-</script>
-
-
-
 <script  type="text/javascript" src="<?php echo URL?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script  type="text/javascript" src="<?php echo URL?>public/js/app/lesson/lesson.js"></script>

@@ -28,13 +28,11 @@ function ViewModel(){
                 var group = new Group(response[i]);
                 group.host = ko.observable(that.currentId==response[i].teacher_id);
                 group.name = ko.observable(response[i].name);
-                group.description = ko.observable(response[i].descr);
+                group.description = ko.observable('Студентов в группе: '+response[i].descr);
                 group.archived = ko.observable(response[i].archived==1);
                 group.edit = ko.observable(false);
                 group.errorTitle= ko.observable("");
-                group.errorDesc = ko.observable("");
                 group.buffName = "";
-                group.buffDesc= "";
                 group.sending = ko.observable(false);
                 group.file = ko.observable("Ничего не выбрано (Max - 4mb)");
                 group.fileError=ko.observable("");
@@ -66,33 +64,25 @@ function ViewModel(){
                 group.imgSrc= ko.observable(response[i].photo ? url+'public/users_files/images/groups_photo/'+response[i].photo : url+'public/users_files/images/default/default_group_photo.jpg');
                 group.startEditing = function(){
                     this.buffName = this.name();
-                    this.buffDesc = this.description();
                     this.edit(true);
                 };
                 group.cancelEditing = function(){
-                    this.errorDesc("");
                     this.errorTitle("");
                     this.fileError("");
                     this.file("Ничего не выбрано (Max - 4mb)");
                     this.name(this.buffName);
-                    this.description(this.buffDesc);
                     this.edit(false);
                 };
                 group.sendChanges = function(){
                     var those = this;
                     those.errorTitle("");
-                    those.errorDesc("");
-                    var desc = those.description().trim();
                     var title = those.name().trim();
-                    if(!desc){those.errorDesc("Поле не может быть пустым");}
-
                     if(!title){those.errorTitle("Поле не может быть пустым!");}
 
-                    if(those.errorDesc()||those.errorTitle()||those.fileError()){return;}
+                    if(those.errorTitle()||those.fileError()){return;}
 
                     if(title==those.buffName){those.name("");}
 
-                    if(desc==those.buffDesc){those.description("");}
 
                     if($("#photo", "#"+those.groupId).val())
                     {
@@ -100,7 +90,6 @@ function ViewModel(){
                     universalAPI(url+'app/grouppage/changeImage/'+those.groupId,
                         "POST",
                         function(response){
-                            those.description(desc);
                             those.name(title);
                             if(response.errormess){
                                 those.errorTitle(response.errormess);
@@ -119,15 +108,13 @@ function ViewModel(){
                     );
                     }else{
                         those.sending(true);
-                        if(title==those.buffName&&desc==those.buffDesc){
-                            those.description(desc);
+                        if(title==those.buffName){
                             those.name(title);
                             those.sending(false);
                             those.edit(false);
                         }else{
                         universalAPI(url+'app/grouppage/renameGroup/'+those.groupId,"POST",
                             function(response){
-                                those.description(desc);
                                 those.name(title);
                                 those.sending(false);
                                 if(response.errormess){
@@ -135,16 +122,17 @@ function ViewModel(){
                                 }else{
                                 those.edit(false);
                                 }
-                            }, function(){}, {title:those.name(), data:those.description()});
+                            }, function(){}, {title:those.name()});
                         }
                     }
                 };
                 that.groups.push(group);
             }
+            that.groups.reverse();
             that.loadScr("out");
             setInterval(function(){
                 that.loadScr("no");
-            }, 600)
+            }, 300)
 
         })
     }

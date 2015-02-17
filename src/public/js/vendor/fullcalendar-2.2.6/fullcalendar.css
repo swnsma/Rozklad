@@ -494,6 +494,7 @@ be a descendant of the grid when it is being dragged.
 .fc-day-grid-event {
 	margin: 1px 2px 0; /* spacing between events and edges */
 	padding: 0 1px;
+	overflow: hidden;
 }
 
 /* events that are continuing to/from another week. kill rounded corners and butt up against edge */

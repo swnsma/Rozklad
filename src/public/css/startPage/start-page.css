@@ -1,7 +1,6 @@
 body{
     width: 500px;
     margin: auto;
-
 }
 
 h1 {
@@ -27,5 +26,129 @@ h2 {
 .form button
 {
     width: 120px;
+}
+/*.radio{*/
+/*display: inline;*/
+/*margin-right: 10px;*/
+/*cursor:pointer;*/
+/*}*/
+
+.arrow {
+    background-color: #596a72;
+    height: 30px;
+    position: relative;
+    color:#FFF;
+    margin-top: 5px;
+    line-height: 30px;
+}
+.arrow:after {
+    content: ' ';
+    height: 0;
+    position: absolute;
+    width: 0;
+    border: 15px solid transparent;
+    border-left-color: #596a72;
+    left: 100%;
+    top: 0;}
+
+.button{
+    margin-right: 20px;
+    display: inline-block;
+    height: 40px;
+    /*width:150px;*/
+    text-align:center;
+    line-height:28px;
+    margin-bottom:10px;
+    cursor: pointer;
+    font-size:20px;
+    margin-left: 0;
+    padding: 5px 0;
+    margin-top: 10px;
+    border:1px solid #aaa4a4;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #eee;
+    /*text-shadow: 0px 0px 2px rgba(255, 255, 255, 1);*/
+}
+.button:hover {
+    border:1px solid #bfc4c4;
+}
+.back{
+    margin-left: 30px;
+    background-color: #aaa;
+    /*background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));*/
+    /*background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);*/
+    /*background-image: -moz-linear-gradient(top, #d3d3d3, #707070);*/
+    /*background-image: -ms-linear-gradient(top, #d3d3d3, #707070);*/
+    /*background-image: -o-linear-gradient(top, #d3d3d3, #707070);*/
+    /*background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);*/
+}
+
+/*.back:hover{*/
+/*background-color: #bababa; background-image: -webkit-gradient(linear, left top, left bottom, from(#bababa), to(#575757));*/
+/*background-image: -webkit-linear-gradient(top, #bababa, #575757);*/
+/*background-image: -moz-linear-gradient(top, #bababa, #575757);*/
+/*background-image: -ms-linear-gradient(top, #bababa, #575757);*/
+/*background-image: -o-linear-gradient(top, #bababa, #575757);*/
+/*background-image: linear-gradient(to bottom, #bababa, #575757);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#bababa, endColorstr=#575757);*/
+/*}*/
+
+.submit{
+    background-color: #596a72;
+    /*background-image: -webkit-gradient(linear, left top, left bottom, from(#CEDCE7), to(#596a72));*/
+    /*background-image: -webkit-linear-gradient(top, #CEDCE7, #596a72);*/
+    /*background-image: -moz-linear-gradient(top, #CEDCE7, #596a72);*/
+    /*background-image: -ms-linear-gradient(top, #CEDCE7, #596a72);*/
+    /*background-image: -o-linear-gradient(top, #CEDCE7, #596a72);*/
+    /*background-image: linear-gradient(to bottom, #CEDCE7, #596a72);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#CEDCE7, endColorstr=#596a72);*/
+}
+
+/*.submit:hover{*/
+/*background-color: #acc4d6; background-image: -webkit-gradient(linear, left top, left bottom, from(#acc4d6), to(#434f55));*/
+/*background-image: -webkit-linear-gradient(top, #acc4d6, #434f55);*/
+/*background-image: -moz-linear-gradient(top, #acc4d6, #434f55);*/
+/*background-image: -ms-linear-gradient(top, #acc4d6, #434f55);*/
+/*background-image: -o-linear-gradient(top, #acc4d6, #434f55);*/
+/*background-image: linear-gradient(to bottom, #acc4d6, #434f55);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#acc4d6, endColorstr=#434f55);*/
+/*}*/
+
+input[type=radio] {
+    display: none;
+}
+.radio label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    font-size: 13px;
+}
+.radio label:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    background-color: #aaa;
+    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+}
+
+.radio label:before {
+    border-radius: 8px;
+}
+
+.radio label.selected:before {
+    content: "\2022";
+    color: #f3f3f3;
+    font-size: 30px;
+    text-align: center;
+    line-height: 18px;
+}
+
+.padding10px{
+    margin-left:15px;
 }
 

@@ -87,4 +87,10 @@ class Regist extends Controller
             ]);
     }
 
+    public function getRoles(){
+        $this->model=$this->loadModel("regist");
+        $arr=$this->model->getRoles();
+        $this->view->renderJson($arr);
+    }
+
 }
