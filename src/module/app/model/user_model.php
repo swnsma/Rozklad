@@ -99,15 +99,24 @@ TANIA;
 
 
     public function getOurTeacher(){
-        $sql ="Select u.name, u.id, u.surname
+        $sql ="Select u.name, u.id, u.surname,
+uu.id as uu
         from 'user' as u
         INNER JOIN role as r ON
         r.id = u.role_id
+        LEFT JOIN 'unconfirmed_user' as uu ON
+        uu.id=u.id
         WHERE r.title='teacher'";
         try {
             $date = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-//            print_r($date);
-            return $date;
+            $result=[];
+            for($var =0; $var<count($date);++$var){
+                if(!isset($date[$var]['uu'])){
+                    array_push($result,$date[$var]);
+                }
+            }
+//            print_r($result);
+            return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
