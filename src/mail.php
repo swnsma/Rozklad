@@ -6,7 +6,9 @@ require_once(__DIR__ . '/lib/mail/class.phpmailer.php');
 require_once(__DIR__ . '/lib/mail/class.smtp.php');
 require_once(__DIR__ . '/conf/conf.php');
 require_once(__DIR__ . '/core/Mail.php');
+date_default_timezone_set("Europe/Kiev");
 $date = date('n/d/Y h:i', time());
+
 $m = Mail::getInstance();
 $template = $m->getTemplate('letterToTeacher', array( "userName"=>"ИванБобров", "date"=>$date,
     'link' => 'vk.com'
