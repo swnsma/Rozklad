@@ -27,7 +27,7 @@ function example1() {
         $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background.png', 'mail_background');
         $m->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
         if ($m->send(array(
-            'myrozklad@mail.ru'
+            'swnsma@gmail.com'
         ), 'subject', $template)) {
             echo 'true';
         } else {
@@ -52,7 +52,7 @@ function example2() {
     } else {
         $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
         if ($m->send(array(
-            'myrozklad@mail.ru'
+            'swnsma@gmail.com'
         ), 'subject', $template)) {
             echo 'true';
         } else {
