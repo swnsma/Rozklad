@@ -193,7 +193,12 @@ function Calendar_teacher(){
     this.option.editable=true;
     this.option.dragOpacity=0.8;
 
+
+    this.option.eventDragStart=function(){
+        delPopup();
+    }
     this.option.eventDrop=function( event, delta, revertFunc, jsEvent, ui, view ){
+        //delPopup();
         var start  = new Date(event.start);
         //start.setDate(start.getDate()+delta._data.days);
         start= normDate(start.getFullYear(),toFormat(start.getMonth()+1),start.getDate(),start.getHours(),start.getMinutes());
