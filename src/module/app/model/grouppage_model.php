@@ -210,6 +210,7 @@ HERE;
         $var['description']=$newDescription;
         $this->setGroupInfo($var);
     }
+
     public function deletePhoto($id){
         $r=<<<CHECKING
            SELECT `img_src`
@@ -217,7 +218,7 @@ HERE;
            WHERE id=$id;
 CHECKING;
         $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
-        if(isset($var[0])){
+        if(isset($var[0])&&!empty($var[0]['img_src'])){
             unlink(DOC_ROOT.'public/users_files/images/groups_photo/'.$var[0]['img_src']);
             unlink(DOC_ROOT.'public/users_files/images/groups_photo/small_'.$var[0]['img_src']);
             return true;
