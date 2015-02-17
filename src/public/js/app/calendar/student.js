@@ -2,14 +2,14 @@
  * Created by Таня on 23.01.2015.
  */
 
-function Calendar_student(option){
+function Calendar_student(){
     Calendar.call(this);
-    option.calendar.fullCalendar(this.option);
+    this.jqueryObject.calendar.fullCalendar(this.option);
 }
 $(document).ready(function() {
-    var option={
-        calendar: $('#calendar')
-    }
-    var calendar = new Calendar_student(option);
+    var calendar = new Calendar_student();
+    calendar.getCurrentUser();
+    calendar.realTimeUpdate();
 
 });
+
