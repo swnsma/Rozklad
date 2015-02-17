@@ -17,6 +17,7 @@ class Groups extends Controller {
         $data['status'] = $this->user_info['title'];
         $data['status'] = $this->user_info['title'];
         $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
+        $data['currentPage']=$this->getClassName();
         $this->view->renderHtml('common/head');
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('groups/index', $data);
@@ -39,6 +40,7 @@ class Groups extends Controller {
             $data['status'] = $this->user_info['title'];
             $data['status'] = 'teacher';
             $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
+            $data['currentPage']=$this->getClassName();
             /*$this->view->renderAllHTML('groups/creategroup',
                 $data,
                 array('groups/create_group.css'));*/
@@ -61,6 +63,7 @@ class Groups extends Controller {
             $data['status'] = $this->user_info['title'];
             $data['status'] = 'teacher';
             $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
+            $data['currentPage']=$this->getClassName();
             /*$this->view->renderAllHTML('groups/creategroup',
                 $data,
                 array('groups/create_group.css'));*/

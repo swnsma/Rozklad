@@ -12,7 +12,6 @@ function ViewModel()
     //editing logic
     that.edit=ko.observable(false);
     that.descriptionEdit= ko.observable(false);
-    that.linkAdding=ko.observable(false);
     that.linkToAdd = ko.observable('');
 
     //editing functions
@@ -26,14 +25,10 @@ function ViewModel()
         that.descriptionEdit(false);
         that.makeArray()
     };
-    that.addLink=function(){
-        that.linkAdding(true)
-    };
 
     that.saveLink=function(){
       if( that.linkToAdd().length) {
           that.links.push({name: that.linkToAdd()});
-          that.linkAdding(false);
           that.linkToAdd ('');
           that.makeArray()
       }
@@ -66,7 +61,6 @@ function ViewModel()
             files:that.files()
         };
         var datasend=JSON.stringify(data);
-
         function sendData(){
             $.ajax({
                 url: url+'app/lesson/changeLessonInfo/'+that.id(),

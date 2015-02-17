@@ -3,6 +3,7 @@
 abstract class Controller {
     public function __construct() {
         $this->view = new View();
+
     }
 
     public function loadModel($name) {
@@ -26,6 +27,10 @@ abstract class Controller {
         session_write_close();
         header("location:".URL."app/signin");
         exit;
+    }
+
+    public function getClassName(){
+        return mb_strtolower(get_class($this));
     }
 }
 

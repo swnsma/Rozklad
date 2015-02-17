@@ -18,10 +18,21 @@ if (isset($data['files'])) {
 <header class="header">
     <div class="background"></div>
     <section class="menu">
-<!--        <img class="logo" src="--><?php //echo URL; ?><!--public/img/logo.png"/>-->
-        <a class="button" href="<?php echo URL; ?>app/calendar">Расписание</a>
-<!--        <img style="display: none" class="logo" src="--><?php //echo URL; ?><!--public/img/group.svg"/>-->
-        <a class="button" href="<?php echo URL; ?>app/groups">Группы</a>
+        <?php
+        $URIs = ['app/calendar','app/groups'];
+        $names = ['Расписание','Группы'];
+        $currentPage = isset($data['currentPage'])?$data['currentPage']:'';
+        for($i=0;$i<count($URIs);$i++){
+            $uri=explode("/",$URIs[$i]);
+            $page =$uri[count($uri)-1];
+            $link = "<a class='button' href=".URL.$URIs[$i].">".$names[$i]."</a>";
+            if($page==$currentPage){
+                $link = "<a class='button underline' href=".URL.$URIs[$i].">".$names[$i]."</a>";
+            }
+            echo $link;
+        }
+
+        ?>
     </section>
 
     <section class="login" id="login">
