@@ -17,6 +17,7 @@ class Mail {
         $this->mail->SMTPAuth = MAIL_IS_SMTP_AUTH;
         $this->mail->Username = MAIL_USERNAME;
         $this->mail->Password = MAIL_PASSWORD;
+        $this->mail->SMTPSecure = 'ssl';
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
