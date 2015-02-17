@@ -16,15 +16,14 @@
     <div  class='description' data-bind="text:homeWorkDescription, click:function(){descriptionEditStart()}">нажмите сюда для редактирования</div>
     <!--/ko-->
     <!-- ko if: descriptionEdit-->
-    <textarea rows="3" type="text" class="col-md-12" data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
+    <textarea class="descInput form-control " type="text"  data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
     <!--/ko-->
-    <div class="links" data-bind="foreach:links">
-        <br><a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
+        <div class="links" data-bind="foreach:links">
+        <br><a class='wordBreak' data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
     </div>
 
     <!-- ko ifnot: linkAdding-->
-    <button class="btn"
-            data-bind="click:function(){addLink()}">Добавить ссылку</button>
+    <button class='plusButton' data-bind="click:function(){addLink()}"><img heigth='15' width="15" src="<?php echo URL?>public/img/plus1.png"></button>
     <!--/ko-->
     <!-- ko if: linkAdding-->
     <input type="text" class="col-md-12" placeholder="Вставьте ссылку" data-bind="value:linkToAdd, event: {blur:saveLink()}">
@@ -48,11 +47,17 @@
     -->
     <div id="content">
         <form data-bind="submit: loadFile" enctype="multipart/form-data">
-            <input type="file" name="file" id="file" />
+            <input type="file" name="file" name="files[] id="file" />
             <div align="right"><div id="status"></div>
-                <input type="submit" name="go" id="go" value="Загрузить" /></div>
+                <input type="submit" class="submitButton" name="go" id="go" value="Загрузить" /></div>
         </form>
     </div>
+
+    <div data-bind="foreach: files">
+       <br><a download="" data-bind="text:newName, attr:{ href:url}">файл</a>
+
+    </div>
+
 </section>
 
 

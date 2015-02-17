@@ -69,8 +69,7 @@ class Lesson extends Controller {
       $name=uniqid(). '.' . $ext;
       $pathAndName = "public/users_files/tasks/".$name ;
       move_uploaded_file($fileTmpLoc, $pathAndName);
-      // $this->view->renderJson(Array($pathAndName));
-        echo($name);
+      $this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
     }
 
 
