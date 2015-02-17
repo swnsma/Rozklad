@@ -1,6 +1,6 @@
 <?php
 
-define('URL', 'http://' . $_SERVER['HTTP_HOST'] . '/src/');
+define('URL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
 define('DOC_ROOT', __DIR__ . '/../');
 define('IMAGES_FOLDER', DOC_ROOT . 'public/users_files/images/');
 
@@ -25,6 +25,6 @@ define('MAIL_SET_FROM', 'myrozklad@rambler.ru');
 define('MAIL_SET_FROM_NAME', 'My Rozklad');
 define('MAIL_IS_SMTP_AUTH', true);
 
-define('DEBUG', false);
+define('DEBUG', true);
 
 ?>
