@@ -172,7 +172,6 @@ $('#createButton').click(function() {
         return this;
     };
     // On page-load, auto-expand textareas to be tall enough to contain initial content
-
 }(jQuery));
 
 $(document).ready(function(){

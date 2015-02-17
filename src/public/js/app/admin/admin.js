@@ -2,10 +2,10 @@ function load(){
     function adminViewModel(){
         var self = this;
         self.users = ko.observableArray([]);
-        loadUsers(self);
-        var realTimeUpdate = window.setInterval(function(){
-            loadUsers(self);
-        },500);
+        getTeachers(self);
+        //var realTimeUpdate = window.setInterval(function(){
+        //    loadUsers(self);
+        //},500);
 
         self.confirm = function (user){
             $.ajax({
@@ -40,7 +40,7 @@ function load(){
 
         function loadUsers(self){
             $.ajax({
-                url: url+"app/admin/getUnconfirmedUsers",
+                url: url+"app/admin/getTeachers",
                 success: function(response){
                     for(var i in response){
                         var user = {};
@@ -85,6 +85,31 @@ function load(){
                                 }
                             }
                         }
+                    }
+                },
+                error: function(er) {
+                    console.dir(er);
+                }
+
+            });
+        }
+
+        function getTeachers(self){
+            $.ajax({
+                url: url+"app/admin/getTeachers",
+                success: function(response){
+                    for(var i in response){
+                        var user = {};
+                        user.name = response[i].name+' '+response[i].surname;
+                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?type=large";
+                        user.role = response[i].title;
+                        user.id = response[i].id;
+                        user.confirmed = ko.observable(true);
+                        debugger;
+                        if(response[i].unc_id){
+                            user.confirmed(false);
+                        }
+                        self.users.push(user);
                     }
                 },
                 error: function(er) {
