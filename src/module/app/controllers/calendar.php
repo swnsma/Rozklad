@@ -8,7 +8,6 @@ class Calendar extends Controller
 
     private $userInfo;
     private $role = 'teacher';
-
     public function __construct()
     {
         parent::__construct();
@@ -38,13 +37,16 @@ class Calendar extends Controller
         $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
         $data['status'] = $this->userInfo['title'];
         $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
+        $data['currentPage']=$this->getClassName();
         /*$this->view->renderAllHTML('groups/index',
             $data,
             array('groups/groups.css'));*/
         $this->view->renderHtml('common/head', $data);
         $this->view->renderHtml('common/header', $data);
         $this->view->renderHtml('calendar/index', $data);
-        $this->view->renderHtml('calendar/deadlinetask', $data);
+        if($data['status']==='student') {
+            $this->view->renderHtml('calendar/deadlinetask', $data);
+        }
 //        $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
 

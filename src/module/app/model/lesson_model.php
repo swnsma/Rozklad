@@ -185,7 +185,6 @@ TANIA;
   SELECT
 b.id,
 b.name,
-b.description,
 b.teacher_id,
 b.color
 FROM groups AS b

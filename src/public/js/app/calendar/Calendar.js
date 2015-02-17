@@ -224,9 +224,6 @@ function Calendar(){
             day: "День"
         },
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
-        eventAfterAllRender: function(){
-            statusRender=1;
-        },
         eventRender:function(event, element) {
             if(statusRender===1){
                 fullcalendarEvent=[];
@@ -283,27 +280,24 @@ function Calendar(){
 
             }
         },
-        eventSources: [
-            {
-                events: function(start, end, timezone, callback) {
-                    start=start._d;
-                    end=end._d;
-                    var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
-                    var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
-
-                    ajaxParam.getFullEventDefault(callback,start1,end1);
-
-                },
-                color: 'RGB(0,100,160)'  // an option!
-            }
-        ],
+        eventAfterAllRender: function(){
+            statusRender=1;
+        },
         eventClick: function(calEvent, jsEvent, view){
             window.location= url + 'app/lesson/id'+calEvent.id;
         }
     };
 
     self.getCurrentUser=function(){
-        ajaxParam.getCurrentUser(self.currentUser);
+        universalAPI(
+            url + 'app/calendar/getUserInfo',
+            'get',
+            function(response){
+                self.currentUser = response;
+            },
+            function(){
+                alert('Біда');
+            }, []);
     };
     var a =new RealTimeUpdate();
     this.realTimeUpdate=function(){
