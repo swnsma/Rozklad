@@ -62,6 +62,12 @@ class Mail {
         return null;
     }
 
+    public function clear() {
+        $this->mail->ClearAllRecipients();
+        $this->mail->ClearAttachments();
+        $this->mail->ClearCustomHeaders();
+    }
+
     static public function getInstance() {
         if(is_null(self::$instance)) {
             self::$instance = new self();

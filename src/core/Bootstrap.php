@@ -64,7 +64,7 @@ class Bootstrap extends Controller{
     }
     private function logout_link(){
         $this->logout();
-        header("Location:".URL."app/signin");
+        header("Location:".URL);
     }
     private  function checkUnconf(){
         if(Session::has('status')&&Session::get('status')!="not"&&(Session::has('id'))){
@@ -78,7 +78,7 @@ class Bootstrap extends Controller{
             }
         }
     }
-    private  function changeLocation($location){
+    private  function changeLocation($location = ''){
         header("Location:".URL.$location);
         exit;
     }
@@ -101,9 +101,9 @@ class Bootstrap extends Controller{
             $status = Session::get('status');
             switch($status){
                 case 'not':
-                    if($this->checkController($controller)&&($controller!='signin'))
+                    if($this->checkController($controller)&& $controller != 'index')
                     {
-                        $this->changeLocation("app/signin");
+                        $this->changeLocation();
                     }
                     break;
                 case 'regist':
@@ -112,20 +112,20 @@ class Bootstrap extends Controller{
                     }
                     break;
                 case 'unconfirmed':
-                    if($controller!="signin"&&$controller!="logout"){
-                        $this->changeLocation("app/signin");
+                    if($controller!="index"&&$controller!="logout"){
+                        $this->changeLocation();
                     }
                     break;
                 case 'ok':
-                    if($controller=='signin'||$controller=='regist'){
+                    if($controller=='index'||$controller=='regist'){
                         $this->changeLocation("app/calendar");
                     }
                     break;
             }
         }
         else{
-            if($controller!="signin"&&$this->checkController($controller)){
-                header("Location:".URL."app/signin");
+            if($controller!="index" && $this->checkController($controller)){
+                header("Location:" . URL);
                 exit;
             }
         }
