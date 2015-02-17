@@ -1,41 +1,17 @@
 <?php
 
-phpinfo();
-
 error_reporting(E_ALL);
 
 require_once(__DIR__ . '/lib/mail/class.phpmailer.php');
 require_once(__DIR__ . '/lib/mail/class.smtp.php');
 require_once(__DIR__ . '/conf/conf.php');
 
-define('MAIL_HOST', 'smtp.gmail.com');
-define('MAIL_PORT', 587);
-define('MAIL_USERNAME', 'myrozklad@gmail.com');
-define('MAIL_PASSWORD', 'dfygjvgrd54e67rtfgdufhg');
-define('MAIL_SET_FROM', 'myrozklad@gmail.com');
+define('MAIL_HOST', 'smtp.rambler.ru');
+define('MAIL_PORT', 465);
+define('MAIL_USERNAME', 'myrozklad@rambler.ru');
+define('MAIL_PASSWORD', 'myrozklad');
+define('MAIL_SET_FROM', 'myrozklad@rambler.ru');
 define('MAIL_SET_FROM_NAME', 'My Rozklad');
-
-/*
-$mail = new phpmailer();
-$mail->IsSendmail();
-$mail->Mailer = "smtp";
-$mail->IsSMTP();
-$mail->SMTPDebug = 0;
-$mail->Host = 'aspmx.l.google.com';
-$mail->Port =  25;
-$mail->SMTPAuth = false;
-//$mail->Username = 'myrozklad@gmail.com';
-//$mail->Password = 'dfygjvgrd54e67rtfgdufhg';
-$mail->SMTPSecure = 'tls';
-$address = "vova.konstanchuk@gmail.com";
-$mail->Body = 'sadds';
-$mail->setFrom('myrozklad@gmail.com', 'My Rozklad');
-$mail->AddAddress($address);
-if(!$mail->Send()) {
-    echo "Mailer Error: " . $mail->ErrorInfo;
-} else {
-    echo "Message sent!";
-}*/
 
 class Mail {
     private $mail;
@@ -51,7 +27,7 @@ class Mail {
         $this->mail->SMTPAuth = true;
         $this->mail->Username = MAIL_USERNAME;
         $this->mail->Password = MAIL_PASSWORD;
-        $this->mail->SMTPSecure = 'tls';
+        $this->mail->SMTPSecure = 'ssl';
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
@@ -77,7 +53,5 @@ if ($m->send(array('swnsma@gmail.com'), 'subject', 'body')) {
 } else {
     echo 'false';
 }
-
-
 
 ?>

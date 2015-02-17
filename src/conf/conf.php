@@ -26,6 +26,7 @@ define('MAIL_USERNAME', 'myrozklad@gmail.com');
 define('MAIL_PASSWORD', 'dfygjvgrd54e67rtfgdufhg');
 define('MAIL_SET_FROM', 'myrozklad@gmail.com');
 define('MAIL_SET_FROM_NAME', 'My Rozklad');
+define('MAIL_IS_SMTP_AUTH', true);
 
 define('DEBUG', true);
 

@@ -14,7 +14,7 @@ class Mail {
         $this->mail->SMTPDebug = 0;
         $this->mail->Host = MAIL_HOST;
         $this->mail->Port =  MAIL_PORT;
-        $this->mail->SMTPAuth = true;
+        $this->mail->SMTPAuth = MAIL_IS_SMTP_AUTH;
         $this->mail->Username = MAIL_USERNAME;
         $this->mail->Password = MAIL_PASSWORD;
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
@@ -31,5 +31,9 @@ class Mail {
         } else {
             return false;
         }
+    }
+
+    public function getErrorInfo() {
+        return $this->mail->ErrorInfo;
     }
 }
