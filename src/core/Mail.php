@@ -41,7 +41,6 @@ class Mail {
         $this->mail->AddAttachment($file, $file_name);
     }
 
-
     public function getErrorInfo() {
         return $this->mail->ErrorInfo;
     }
@@ -65,4 +64,6 @@ class Mail {
         }
         return self::$instance;
     }
+
+    private function __clone() {}
 }
