@@ -14,7 +14,7 @@ class AdminModel extends Model {
     public function confirmUser($id) {
         try {
             $this->db->query("DELETE FROM unconfirmed_user WHERE id=$id;");
-            $d=$this->db->query("SELECT `name`, surname, `key` FROM `user` WHERE id=$id;");
+            $d=$this->db->query("SELECT `name`, surname, `key`, email FROM `user` WHERE id=$id;");
             $this->db->query("UPDATE user SET key='1' WHERE id=$id;");
             $d->fetchAll(PDO::FETCH_ASSOC);
             return $d;
