@@ -39,7 +39,18 @@ class Admin extends Controller {
     public function confirmUser(){
         $req=Request::getInstance();
         $id = $req->getParam(0);
-        $this->model->confirmUser($id);
+        $name =$this->model->confirmUser($id);
+        //Відправляємо листа вчитeлю
+        if(is_null($name['key'])){
+        $m = Mail::getInstance();
+        $template = $m->getTemplate('letterToTeacher', array(
+            'userName' => $name['name'].' '.$name['surname'],
+            'link' => URL.'app/calendar',
+            'date'=> date("d.m.Y H:i")
+        ));
+        $m->send(array( 'myrozklad@mail.ru'), 'Новый пользователь', $template);
+        }
+        //
     }
 
     public function unConfirmUser(){

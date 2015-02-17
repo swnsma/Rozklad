@@ -27,8 +27,8 @@ function example1() {
         $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background.png', 'mail_background');
         $m->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
         if ($m->send(array(
-                'myrozklad@mail.ru'
-            ), 'subject', $template)) {
+            'myrozklad@mail.ru'
+        ), 'subject', $template)) {
             echo 'true';
         } else {
             echo 'false';
