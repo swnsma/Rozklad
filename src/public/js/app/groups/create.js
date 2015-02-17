@@ -15,7 +15,7 @@ function create_group(data, func) {
 function removeError(){
     $(this).removeClass('error-input');
     er1.css('display', 'none');
-    er2.css('display', 'none');
+    //er2.css('display', 'none');
 }
 function trim(el){
     var val=el.val();
@@ -64,27 +64,27 @@ $(document).on('change','#photo', function() {
 $('#createButton').click(function() {
     var flag_error=0;
     var el_name = $('#inputName');
-    var el_descr = $('#inputDesc');
+    //var el_descr = $('#inputDesc');
     var  el_photo= $('#photo');
     var er1 = $('#error1');
-    var er2 = $('#error2');
+    //var er2 = $('#error2');
     var er3 = $('#error3');
-    var er4 = $('#error4');
+    //var er4 = $('#error4');
     var er7 = $('#error7');
     var aferr = $('#after_error');
     var name = el_name.val();
     var descr = el_descr.val();
     el_name.removeClass('error-input');
-    el_descr.removeClass('error-input');
+    //el_descr.removeClass('error-input');
     er1.css('display', 'none');
-    er2.css('display', 'none');
+    //er2.css('display', 'none');
     er3.css('display', 'none');
-    er4.css('display', 'none');
+    //er4.css('display', 'none');
     er7.css('display', 'none');
     aferr.text();
 
     trim(el_name);
-    trim(el_descr);
+    //trim(el_descr);
     //validScriptInsertion(el_name);
     //validScriptInsertion(el_descr);
     if(validLen(el_name)){
@@ -92,11 +92,11 @@ $('#createButton').click(function() {
         er1.css('display', 'block');
         flag_error=1;
     }
-    if(validLen(el_descr)){
+    /*if(validLen(el_descr)){
         el_descr.addClass('error-input');
         er2.css('display', 'block');
         flag_error=1;
-    }
+    }*/
     if(flag_error){
         return false;
     }
@@ -176,12 +176,12 @@ $('#createButton').click(function() {
 
 $(document).ready(function(){
     var el_name = $('#inputName');
-    var el_descr = $('#inputDesc');
+    //var el_descr = $('#inputDesc');
     var  el_photo= $('#photo');
     var er1 = $('#error1');
-    var er2 = $('#error2');
+    //var er2 = $('#error2');
     var er3 = $('#error3');
-    var er4 = $('#error4');
+    //var er4 = $('#error4');
     var er7 = $('#error7');
     $("textarea")
         .autogrow()
@@ -192,17 +192,17 @@ $(document).ready(function(){
     $(el_descr).on("focus",function(){
         $(".form-control").removeClass('error-input');
         er1.css('display', 'none');
-        er2.css('display', 'none');
+        //er2.css('display', 'none');
         er3.css('display', 'none');
-        er4.css('display', 'none');
+        //er4.css('display', 'none');
         er7.css('display', 'none');
     });
     $(el_name).on("focus",function(){
         $('.form-control').removeClass('error-input');
         er1.css('display', 'none');
-        er2.css('display', 'none');
+        //er2.css('display', 'none');
         er3.css('display', 'none');
-        er4.css('display', 'none');
+        //er4.css('display', 'none');
         er7.css('display', 'none');
     });
     el_photo
