@@ -4,65 +4,25 @@ error_reporting(E_ALL);
 
 require_once(__DIR__ . '/lib/mail/class.phpmailer.php');
 require_once(__DIR__ . '/lib/mail/class.smtp.php');
-/*
-$mail = new phpmailer();
-$mail->IsSendmail();
-$mail->Mailer = "smtp";
-$mail->IsSMTP();
-$mail->SMTPDebug = 0;
-$mail->Host = 'aspmx.l.google.com';
-$mail->Port =  25;
-$mail->SMTPAuth = false;
-//$mail->Username = 'myrozklad@gmail.com';
-//$mail->Password = 'dfygjvgrd54e67rtfgdufhg';
-$mail->SMTPSecure = 'tls';
-$address = "vova.konstanchuk@gmail.com";
-$mail->Body = 'sadds';
-$mail->setFrom('myrozklad@gmail.com', 'My Rozklad');
-$mail->AddAddress($address);
-if(!$mail->Send()) {
-    echo "Mailer Error: " . $mail->ErrorInfo;
+require_once(__DIR__ . '/conf/conf.php');
+require_once(__DIR__ . '/core/Mail.php');
+date_default_timezone_set("Europe/Kiev");
+$date = date('n/d/Y h:i', time());
+
+$m = Mail::getInstance();
+$template = $m->getTemplate('letterToTeacher', array( "userName"=>"ИванБобров", "date"=>$date,
+    'link' => 'vk.com'
+));
+if (is_null($template)) {
+    echo 'template is not exists';
 } else {
-    echo "Message sent!";
-}*/
-
-
-class Mail {
-    private $mail;
-
-    public function __construct() {
-        $this->mail = new phpmailer();
-        $this->mail->IsSendmail();
-        $this->mail->Mailer = "smtp";
-        $this->mail->IsSMTP();
-        $this->mail->SMTPDebug = 0;
-        $this->mail->Host = 'aspmx.l.google.com';
-        $this->mail->Port =  25;
-        $this->mail->SMTPAuth = false;
-        $this->mail->setFrom('myrozklad@gmail.com', 'My Rozklad');
+    $m->addFile(DOC_ROOT . 'public/img/bg.jpg', 'images.jpg');
+    if ($m->send(array('swnsma@gmail.com'), 'subject', $template)) {
+        echo 'true';
+    } else {
+        echo 'false';
+        echo $m->getErrorInfo();
     }
 
-    public function send($address, $subject, $body) {
-        foreach($address as $mail) {
-            $this->mail->AddAddress($mail);
-        }
-        $this->mail->Body = $body;
-        $this->mail->Subject = $subject;
-        if($this->mail->Send()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
-
-$m = new Mail();
-if ($m->send(array('swnsma@gmail.com'), 'subject', 'body')) {
-    echo 'true';
-} else {
-    echo 'false';
-}
-
-
-
 ?>

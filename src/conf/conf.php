@@ -17,6 +17,17 @@ define('ACCESS_TYPE','offline');
 define('APP_ID_FB','1536442079974268');
 define('APP_SECRET_FB','1d75987fcb8f4d7abc1a34287f9601cf');
 
+
+//mail
+define('MAIL_HOST', 'smtp.rambler.ru');
+define('MAIL_SMTP_SECURE', 'ssl');
+define('MAIL_PORT', 465);
+define('MAIL_USERNAME', 'myrozklad@rambler.ru');
+define('MAIL_PASSWORD', 'myrozklad');
+define('MAIL_SET_FROM', 'myrozklad@rambler.ru');
+define('MAIL_SET_FROM_NAME', 'My Rozklad');
+define('MAIL_IS_SMTP_AUTH', true);
+
 define('DEBUG', true);
 
 ?>
