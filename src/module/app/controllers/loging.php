@@ -124,7 +124,7 @@ class Loging extends Controller {
 
     public function logout(){
         session_destroy();
-        header("Location:".URL."app/signin");
+        header("Location:".URL);
     }
     private function checkEmail($email){
         $this->model=$this->loadModel("check");

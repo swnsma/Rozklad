@@ -20,26 +20,12 @@ require_once(DOC_ROOT . 'lib/facebook/GraphUser.php');
 require_once(DOC_ROOT . 'lib/facebook/GraphSessionInfo.php' );
 require_once(DOC_ROOT . 'lib/facebook/FacebookJavaScriptLoginHelper.php' );
 
-require_once (DOC_ROOT.'module/app/controllers/signin.php');
+//require_once (DOC_ROOT.'module/app/controllers/signin.php');
 
-use Facebook\HttpClients\FacebookHttpable;
-use Facebook\HttpClients\FacebookCurl;
-use Facebook\HttpClients\FacebookCurlHttpClient;
-use Facebook\Entities\AccessToken;
-use Facebook\Entities\SignedRequest;
-use Facebook\FacebookSession;
-use Facebook\FacebookSignedRequestFromInputHelper;
-use Facebook\FacebookCanvasLoginHelper;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
-use Facebook\FacebookResponse;
-use Facebook\FacebookSDKException;
 use Facebook\FacebookRequestException;
-use Facebook\FacebookOtherException;
-use Facebook\FacebookAuthorizationException;
-use Facebook\GraphObject;
-use Facebook\GraphUser;
-use Facebook\GraphSessionInfo;
+use Facebook\FacebookSession;
 
 
 class Loginf extends Controller {
@@ -175,6 +161,6 @@ class Loginf extends Controller {
         Session::set('fb_email',NULL);
         Session::set('status','not');
         session_destroy();
-        header("Location:".URL."app/signin");
+        header("Location:".URL);
     }
 }
