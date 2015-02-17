@@ -1,7 +1,14 @@
-<link rel='stylesheet' href="<?php print URL; ?>public/css/common/common.css" />
-<link rel='stylesheet' href="<?php print URL; ?>public/css/user.css" />
-<link rel='stylesheet' href="<?php print URL; ?>public/css/admin/admin.css" />
+<?php
+    echo '<style>';
+        //require_once (DOC_ROOT."public/css/common/bootstrap.css");
+        require_once (DOC_ROOT."public/css/common/common.css");
+        require_once (DOC_ROOT."public/css/user.css");
+        require_once (DOC_ROOT."public/css/admin/admin.css");
+    echo '</style>';
+
+?>
 <ul class="user-list" data-bind="foreach: users">
+
     <li class="user">
         <div class="padding">
             <img class="avatar" data-bind="attr{src: photo}"/>
@@ -20,10 +27,13 @@
     </li>
 </ul>
 
-<script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
-<script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
-<script src="<?php print URL; ?>public/js/app/common.js"></script>
-<script src="<?php print URL; ?>public/js/app/admin/admin.js"></script>
+<?php
+    echo '<script>';
+        require_once (DOC_ROOT."public/js/vendor/jQuery/jquery-2.1.1.js");
+        require_once (DOC_ROOT."public/js/app/common.js");
+        require_once (DOC_ROOT."public/js/app/admin/admin.js");
+    echo '</script>';
+?>
 <script>
     load();
 </script>
