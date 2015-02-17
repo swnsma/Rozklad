@@ -19,17 +19,21 @@ body{
 .error{
     color:red;
 }
-.radio{
-    display:inline-block;
-    width: 100px;
-    height:20px
+
+.button-end-group{
+    margin:50px;
 }
-.radio input{
-    display:inline-block;
-    width: 15px;
-    height:15px;
-}
-.radio>span{
-    margin-top: 2px;
-}
-.radio:first-of-type{margin-left: 50px;}
+/*.radio{*/
+/*display:inline-block;*/
+/*width: 100px;*/
+/*height:20px*/
+/*}*/
+/*.radio input{*/
+/*display:inline-block;*/
+/*width: 15px;*/
+/*height:15px;*/
+/*}*/
+/*.radio>span{*/
+/*margin-top: 2px;*/
+/*}*/
+/*.radio:first-of-type{margin-left: 50px;}*/

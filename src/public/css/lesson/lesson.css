@@ -22,4 +22,18 @@ body{
 {
     font-size: 16px;
     white-space: pre;
+    word-wrap: break-word;
+}
+.plusButton
+{
+    border: none;
+    background: none;
+}
+.descInput
+{
+    resize: vertical;
+}
+.wordBreak
+{
+    word-wrap: break-word;
 }

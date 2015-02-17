@@ -6,6 +6,9 @@ function ViewModel()
     that.homeWorkDescription=ko.observable('Описание домашнего задания');
     that.links=ko.observableArray([ ]);
     that.id=ko.observable('');
+    that.files=ko.observableArray([]);
+
+
     //editing logic
     that.edit=ko.observable(false);
     that.descriptionEdit= ko.observable(false);
@@ -36,6 +39,8 @@ function ViewModel()
       }
     };
     that.loadFile=function(formElement){
+
+
         $.ajax({
             url: url+'app/lesson/upload/',
             type: 'POST',
@@ -43,7 +48,11 @@ function ViewModel()
             contentType:false,
             data: new FormData(formElement),
             success: function(response){
-                console.log(response);
+
+                response.url= url+'public/users_files/tasks/'+response.newName ;
+                that.files.push(response);
+                that.makeArray();
+
             },
             error: function(xhr){
                 fail(xhr);
@@ -53,7 +62,8 @@ function ViewModel()
      that.makeArray=function(){
         var data={
             description: that.homeWorkDescription(),
-            links: that.links()
+            links: that.links(),
+            files:that.files()
         };
         var datasend=JSON.stringify(data);
 
@@ -87,7 +97,8 @@ function ViewModel()
             console.log(incomingData);
 
             that.homeWorkDescription(incomingData.description);
-            that.links(incomingData.links)
+            that.links(incomingData.links);
+            that.files(incomingData.files);
         });
     };
 }
