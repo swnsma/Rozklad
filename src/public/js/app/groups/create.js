@@ -73,6 +73,7 @@ $('#createButton').click(function() {
     var er7 = $('#error7');
     var aferr = $('#after_error');
     var name = el_name.val();
+    var descr = el_descr.val();
     el_name.removeClass('error-input');
     //el_descr.removeClass('error-input');
     er1.css('display', 'none');
