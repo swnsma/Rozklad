@@ -71,6 +71,12 @@ class Lesson extends Controller {
       move_uploaded_file($fileTmpLoc, $pathAndName);
       $this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
     }
+    public function deleteFile(){
+        $fileName=$_POST['data'];
+        $pathAndName="public/users_files/tasks/".$fileName ;
+        unlink ($pathAndName);
+        $this->view->renderJson(Array('result'=>"success"));
+    }
 
 
 }

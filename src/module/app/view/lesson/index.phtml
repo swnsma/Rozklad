@@ -51,7 +51,7 @@
                 <a  download="" data-bind="text:newName, attr:{ href:url}">файл</a>
             </div>
             <?php if ($data['status'] == 'teacher'): ?>
-                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data)}">Удалить</button></div>
+                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">Удалить</button></div>
             <?php endif ?>
         </div>
     </section>

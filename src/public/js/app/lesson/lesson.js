@@ -35,12 +35,36 @@ function ViewModel()
     };
     that.deleteLink=function(link){
         for(var i =0;i<that.links().length;i++){
-
             if(that.links()[i].name==link){
                 that.links.remove(that.links()[i])
             }
         }
         that.makeArray();
+    };
+    that.deleteFile=function(newName){
+        console.log(newName);
+        function sendData() {
+            $.ajax({
+                url: url + 'app/lesson/deleteFile/',
+                type: 'POST',
+                data: {
+                    data: newName
+                },
+                success: function (response) {
+
+                       for(var i =0;i<that.files().length;i++){
+                           if(that.files()[i].newName==newName){
+                               that.files.remove(that.files()[i])
+                           }
+                       }
+                       that.makeArray()
+                },
+                error: function (xhr) {
+                    fail(xhr);
+                }
+            });
+        }
+        sendData(newName)
     };
        that.makeArray=function(){
         var data={
@@ -87,7 +111,7 @@ function ViewModel()
                         }
                     });
                 }
-else{alert('хуй вам')}
+else{alert('слишком большой файл')}
             })
         }
     };
