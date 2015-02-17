@@ -64,7 +64,8 @@ function example2() {
 
 // виклик
 
-//example1();
-//example2();
+example1();
+Mail::getInstance()->clear();
+example2();
 
 ?>
