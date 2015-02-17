@@ -40,6 +40,16 @@ class Mail {
         return $this->mail->ErrorInfo;
     }
 
+    public function getTemplate($name, $data) {
+        $file = DOC_ROOT . 'public/mail_templates/' . $name . '.html';
+        if (file_exists($file)) {
+            $content = file_get_contents($file);
+            // обработка
+            return $content;
+        }
+        return false;
+    }
+
     static public function getInstance() {
         if(is_null(self::$instance)) {
             self::$instance = new self();
