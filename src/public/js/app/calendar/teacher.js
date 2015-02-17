@@ -223,14 +223,14 @@ function Calendar_teacher(){
                         group:event.group,
                         title:event.title,
                         color: (function(){
-                            if(userInfo.id===event.teacher){
+                            if(self.currentUser.id===event.teacher){
                                 return masColor.myEvents.color;
                             }else{
                                 return masColor.otherEvents.color;
                             }
                         })(),
                         textColor: (function(){
-                            if(userInfo.id===event.teacher){
+                            if(self.currentUser.id===event.teacher){
                                 return masColor.myEvents.textColor;
                             }else{
                                 return masColor.otherEvents.textColor;

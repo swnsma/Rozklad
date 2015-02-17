@@ -7,7 +7,7 @@
     bottom: 0;
     border: 1px solid #000000;
     border-bottom: none;
-
+    cursor: pointer;
 }
 .deadlinetask-bt,.deadlinetask-content .deadlinetask-content-title{
     background-color: #222;
@@ -48,9 +48,23 @@
     z-index: 100000;
     bottom: 0;
     right: 30px;
-    height: 300px;
     background-color: #ffffff;
     margin: 0;
     display: none;
 }
-
+.deadlinetask-content .close{
+    background: url("../../../public/img/sh_btn.png");
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+    margin-top: 10px;
+}
+.deadlinetask-content .close:hover{
+    opacity: 1;
+}
+.deadlinetask-content .content{
+    height: 250px;
+    width: inherit;
+    overflow: auto;
+    overflow-x: hidden;
+}
