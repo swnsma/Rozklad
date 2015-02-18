@@ -41,9 +41,10 @@ class Admin extends Controller {
         $id = $req->getParam(0);
         $name =$this->model->confirmUser($id);
         //Відправляємо листа вчитeлю
-        if(is_null($name['key'])){
+
+        if(is_null($name['key'])||!$name['key']){
             $m = Mail::getInstance();
-            $template = $m->getTemplate('letterToAdmin2', array(
+            $template = $m->getTemplate('letterToTeacher2', array(
                 'userName' => $name['name'].' '.$name['surname'],
                 'mail_background' => 'mail_background',
                 'url' => URL.'app/calendar',
@@ -53,14 +54,7 @@ class Admin extends Controller {
                 echo 'template is not exists';
             } else {
                 $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
-                if ($m->send(array(
-                    $name['email']
-                ), 'subject', $template)) {
-                    echo 'true';
-                } else {
-                    echo 'false';
-                    echo $m->getErrorInfo();
-                }
+                if ($m->send(array( $name['email']), 'subject', $template));
             }
         }
         //

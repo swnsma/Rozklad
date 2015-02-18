@@ -273,4 +273,9 @@ class Calendar extends Controller
         }
         //...
     }
+
+    public function exportEvent(){
+        $this->model = $this->loadModel('lesson');
+        $this->model->exportEvent($_POST['lesson']['lessonId'],$_POST['lesson']['userId'],$_POST['calendarId']);
+    }
 }

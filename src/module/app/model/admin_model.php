@@ -14,10 +14,10 @@ class AdminModel extends Model {
     public function confirmUser($id) {
         try {
             $this->db->query("DELETE FROM unconfirmed_user WHERE id=$id;");
-            $d=$this->db->query("SELECT `name`, surname, `key`, email FROM `user` WHERE id=$id;");
-            $this->db->query("UPDATE user SET key='1' WHERE id=$id;");
-            $d->fetchAll(PDO::FETCH_ASSOC);
-            return $d;
+            $d=$this->db->query("SELECT `name`, surname, `key`, email FROM `user` WHERE id=$id;")->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($d[0])){
+            return $d[0];
+            }
         } catch(PDOException $e) {
             echo $e;
             return null;
@@ -27,6 +27,7 @@ class AdminModel extends Model {
     public function unConfirmUser($id) {
         try {
             $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ($id)");
+            $this->db->query("UPDATE user SET key='1' WHERE id=$id;");
         } catch(PDOException $e) {
             echo $e;
             return null;
