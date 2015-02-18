@@ -22,6 +22,7 @@
     <section class="content col-md-4">
         <div>
             <h4>Полезные ссылки:</h4>
+
             <div>
                 <?php if ($data['status'] == 'teacher'): ?>
                     <input type="text" class="col-md-8" placeholder="Вставьте ссылку"
@@ -31,34 +32,62 @@
             </div>
             <div class="col-md-12" data-bind="foreach:links">
                 <div class="col-lg-10 wordBreak elipsis">
-                    <a  data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
+                    <a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
                 </div>
                 <?php if ($data['status'] == 'teacher'): ?>
-                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">Удалить</button></div>
+                    <div class="col-lg-2 ">
+                        <button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">
+                            Удалить
+                        </button>
+                    </div>
                 <?php endif ?>
             </div>
         </div>
-
-        <?php if ($data['status'] == 'teacher'): ?>
-            <h4>Загрузить файл</h4>
-            <div class="fileValid">Размер не больше 20 мБ</div>
-            <form data-bind="loadFile"  enctype="multipart/form-data">
-                <input type="file" name="file" id=" file" />
-            </form>
-
-            <div class="fileError" data-bind="text:validationMess"></div>
-        <?php endif ?>
         <h4>Файлы для скачивания:</h4>
+        <?php if ($data['status'] == 'student'): ?>
         <div class='col-md-12 ' data-bind="foreach: files">
             <div class=" col-lg-10">
-                <a  download="" data-bind="text:newName, attr:{ href:url}">файл</a>
+                <a download="" data-bind="text:newName, attr:{ href:url}">файл</a>
             </div>
+            <?php endif ?>
+
+
+
             <?php if ($data['status'] == 'teacher'): ?>
-                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">Удалить</button></div>
+            <div class='col-md-12 ' data-bind="foreach: files">
+                <div class=" col-lg-10">
+                    <a download="" data-bind="text:oldName, attr:{ href:url}">файл</a>
+                </div>
+                <div class="col-lg-2 ">
+                    <button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">
+                        Удалить
+                    </button>
+                </div>
             <?php endif ?>
         </div>
+        <?php if ($data['status'] == 'teacher'): ?>
+
+            <form data-bind="loadFile" enctype="multipart/form-data">
+                <input type="file" name="file" id=" file"/>
+            </form>
+            <div class="fileValid">Размер не больше 20 мБ</div>
+            <div class="fileError" data-bind="text:validationMess"></div>
+        <?php endif ?>
     </section>
 </section>
+<section class="main-content ">
+<h2>Дедлайн домашнего задания</h2>
+
+
+
+
+
+
+
+
+</section>
+
+
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/lesson/lesson.js"></script>

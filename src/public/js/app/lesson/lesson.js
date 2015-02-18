@@ -95,7 +95,11 @@ function ViewModel()
     ko.bindingHandlers.loadFile={
         init:function(element, valueAccessor, allBindings,currentContext,  viewModel) {
             $(element).change(function(){
+
+                //сделать хайд пока не загрузится
+
                 if(element.firstChild.nextElementSibling.files[0].size<20971520) {
+                    $('.fileValid').show();
                     that.validationMess("");
                     $.ajax({
                         url: url + 'app/lesson/upload/',
@@ -116,7 +120,8 @@ function ViewModel()
                 }
             else{
                     element.reset();
-                    that.validationMess("Файл слишком велик");
+                    $('.fileValid').hide();
+                    that.validationMess("Файл слишком большой");
                 }
             })
         }
