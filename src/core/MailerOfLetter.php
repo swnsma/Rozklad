@@ -13,12 +13,13 @@ class MailerOfLetter {
 
     private function getUsersForInvitationToLesson() {
         $request = <<<HERE
-            SELECT * FROM group_lesson
+            SELECT group_id, lesson_id FROM group_lesson WHERE mail = 0
 HERE;
-
-        $result = $this->db->query($request);
-        if ($result) {
+        try {
+            $result = $this->db->query($request);
             return $result->fetchAll(PDO::FETCH_ASSOC);
+        } catch(PDOException $e) {
+            print $e->getMessage();
         }
         return null;
     }

@@ -17,6 +17,7 @@ body{
 .main-content{
     width: 900px;
     margin: auto;
+    clear: both;
 }
 .description
 {
@@ -54,4 +55,8 @@ body{
 {
     color: red;
     font-size: 16px;
+}
+.deadLine{
+    width: 900px;
+    margin: auto;
 }

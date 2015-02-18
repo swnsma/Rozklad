@@ -208,7 +208,7 @@ BORIA;
 BORIA;
 
 
-            $STH = $this->db->prepare(" insert into group_lesson(group_id,lesson_id)values(:group_id , :lesson_id)");
+            $STH = $this->db->prepare(" insert into group_lesson(group_id,lesson_id, mail)values(:group_id , :lesson_id, 0)");
             $STH->execute(array('lesson_id'=>$lessonId,'group_id'=>$groupId));
 
             $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
