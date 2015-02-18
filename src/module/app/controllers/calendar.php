@@ -77,30 +77,17 @@ class Calendar extends Controller
         $this->view->renderJson($date);
     }
 
-    public function addFullEventTeacherCurrent()
-    {
+    public function addFullEventTeacher(){
         if (isset($_POST['start']) && isset($_POST['end'])) ;
         {
             $this->model = $this->loadModel('lesson');
             $start = $_POST['start'];
             $end = $_POST['end'];
-            $id = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo, $start, $end);
+            $id['current'] = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo, $start, $end);
+            $id['no']=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo, $start, $end);
             $this->view->renderJson($id);
         }
     }
-
-    public function addFullEventTeacherNoCurrent()
-    {
-        if (isset($_POST['start']) && isset($_POST['end'])) ;
-        {
-            $this->model = $this->loadModel('lesson');
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $id = $this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo, $start, $end);
-            $this->view->renderJson($id);
-        }
-    }
-
     public function restore()
     {
         if (isset($_POST['id'])) {
