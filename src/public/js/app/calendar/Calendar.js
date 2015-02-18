@@ -1,8 +1,7 @@
 /**
  * Created by Таня on 23.01.2015.
  */
-
-
+fullEventFor = [];
 masColor={
     myEvents:{
         color:'RGB(0,100,160)',
@@ -131,6 +130,7 @@ function Calendar(){
     self.currentUser;
 
     this.masEvent=[];
+
     this.groups=[];
     this.jqueryObject={
         calendar:$('#calendar'),
@@ -228,10 +228,14 @@ function Calendar(){
             if(statusRender===1){
                 fullcalendarEvent=[];
                 statusRender=0;
+                fullEventFor=[];
             }
             if(event.deleted) {
                 fullcalendarEvent.push(event);
+            }else {
+                fullEventFor.push(event);
             }
+
             if(event.color!==masColor.delEvent.color) {
                 if (event.group) {
                     for (var i = 0; i < event.group.length; ++i) {
@@ -282,6 +286,7 @@ function Calendar(){
         },
         eventAfterAllRender: function(){
             statusRender=1;
+            debugger;
         },
         eventClick: function(calEvent, jsEvent, view){
             window.location= url + 'app/lesson/id'+calEvent.id;
