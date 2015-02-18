@@ -7,6 +7,7 @@ function ViewModel()
     that.links=ko.observableArray([ ]);
     that.id=ko.observable('');
     that.files=ko.observableArray([]);
+    that.validationMess=ko.observable('');
 
 
     //editing logic
@@ -95,6 +96,7 @@ function ViewModel()
         init:function(element, valueAccessor, allBindings,currentContext,  viewModel) {
             $(element).change(function(){
                 if(element.firstChild.nextElementSibling.files[0].size<20971520) {
+                    that.validationMess("");
                     $.ajax({
                         url: url + 'app/lesson/upload/',
                         type: 'POST',
@@ -102,6 +104,7 @@ function ViewModel()
                         contentType: false,
                         data: new FormData(element),
                         success: function (response) {
+                            element.reset();
                             response.url = url + 'public/users_files/tasks/' + response.newName;
                             that.files.push(response);
                             that.makeArray();
@@ -111,7 +114,10 @@ function ViewModel()
                         }
                     });
                 }
-else{alert('слишком большой файл')}
+            else{
+                    element.reset();
+                    that.validationMess("Файл слишком велик");
+                }
             })
         }
     };
@@ -124,7 +130,6 @@ else{alert('слишком большой файл')}
         universalAPI(url+'app/lesson/getLessonInfo/'+that.id(), 'GET', function(response){
         var incomingData= JSON.parse(response[0].lesson_info);
             console.log(incomingData);
-
             that.homeWorkDescription(incomingData.description);
             that.links(incomingData.links);
             that.files(incomingData.files);
@@ -134,7 +139,6 @@ else{alert('слишком большой файл')}
 
 var viewModel = new ViewModel();
 viewModel.activate();
-
 ko.applyBindings(viewModel);
 
 

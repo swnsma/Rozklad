@@ -63,9 +63,15 @@ function example2() {
 }
 
 // виклик
-
+/*
 example1();
 Mail::getInstance()->clear();
 example2();
+*/
+
+require_once __DIR__  . '/core/MailerOfLetter.php';
+
+$m = MailerOfLetter::getInstance();
+$m->sendInvitationToLesson();
 
 ?>

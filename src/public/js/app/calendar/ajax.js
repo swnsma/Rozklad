@@ -58,32 +58,6 @@ var ajax={
             }
         });
     },
-    addFullEventTeacherCurrent:function(data,success){
-        $.ajax({
-            url: url+'app/calendar/addFullEventTeacherCurrent',
-            type:'post',
-            data:data,
-            success: function(doc) {
-                success(doc);
-            },
-            error: function(){
-                alert('Не вдалось завантажити ваші події :(');
-            }
-        });
-    },
-    addFullEventTeacherNoCurrent:function(data,success){
-        $.ajax({
-            url: url+'app/calendar/addFullEventTeacherNoCurrent',
-            type:'post',
-            data:data,
-            success: function(doc) {
-                success(doc);
-            },
-            error: function(){
-                alert('Не вдалось завантажити ваші події :(');
-            }
-        });
-    },
     restoreEvent: function(data,success){
         $.ajax({
             url: url + 'app/calendar/restore',

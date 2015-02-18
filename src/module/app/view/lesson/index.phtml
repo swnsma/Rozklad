@@ -5,7 +5,7 @@
     <section class="col-md-8">
         <!-- ko ifnot: descriptionEdit-->
         <?php if ($data['status'] == 'teacher'): ?>
-            <div class='description' data-bind="text:homeWorkDescription, click:function(){descriptionEditStart()}">
+            <div class='description' data-bind="text:homeWorkDescription, click:descriptionEditStart">
                 нажмите сюда для редактирования
             </div>
         <?php endif ?>
@@ -14,7 +14,7 @@
         <?php endif ?>
         <!--/ko-->
         <!-- ko if: descriptionEdit-->
-        <textarea class="descInput form-control " type="text"
+        <textarea class="descInput form-control " rows="5"
                   data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
         <!--/ko-->
 
@@ -41,9 +41,12 @@
 
         <?php if ($data['status'] == 'teacher'): ?>
             <h4>Загрузить файл</h4>
+            <div class="fileValid">Размер не больше 20 мБ</div>
             <form data-bind="loadFile"  enctype="multipart/form-data">
                 <input type="file" name="file" id=" file" />
             </form>
+
+            <div class="fileError" data-bind="text:validationMess"></div>
         <?php endif ?>
         <h4>Файлы для скачивания:</h4>
         <div class='col-md-12 ' data-bind="foreach: files">
