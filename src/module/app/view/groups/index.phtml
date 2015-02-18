@@ -19,8 +19,8 @@ echo '</style>';
             <div class="group">
                 <!--ko ifnot: edit -->
                 <div class="group-container">
-                <div data-bind="click: goAway" class="icon-container">
-                    <img  class="group-icon" data-bind="attr: {src: imgSrc}"/>
+                <div class="icon-container" data-bind="click: goAway, attr: {style: 'background-image: url(' + imgSrc() + '); background-size: cover'}">
+                    <!--<img  class="group-icon" data-bind="attr: {src: imgSrc}"/>-->
                 </div>
                 <div data-bind="if: host()">
                     <div data-bind="click:startEditing" class="butto icons icons-trash">Редактировать</div>
