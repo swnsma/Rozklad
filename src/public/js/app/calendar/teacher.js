@@ -154,39 +154,37 @@ function Calendar_teacher(){
         })
     }
 
-
-    //завантаження відразу подій які вже є в базі
-    function loadDefaultEvent(start,end,callback,ajaxFunction){
-        start=start._d;
-        end=end._d;
-        var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
-        var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
-        var data={
-            start:start1,
-            end:end1
-        }
-        function success(doc){
-            self.masEvent=doc;
-            callback(doc);
-            return doc;
-        }
-        ajaxFunction(data,success);
-    }
-
-    //fullcalendar - load Event
     this.option.eventSources=[
         {
             events: function(start, end, timezone, callback) {
-                loadDefaultEvent(start,end,callback,ajax.addFullEventTeacherCurrent);
+                start=start._d;
+                end=end._d;
+                var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
+                var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
+                universalAPI(
+                    url+'app/calendar/addFullEventTeacher',
+                    'post',
+                    function(doc){
+                        self.masEvent=doc;
+                        callback(self.masEvent['current']);
+                        self.jqueryObject.calendar.fullCalendar('addEventSource',{
+                            events:function(start, end, timezone, callback){
+                                callback(self.masEvent['no']);
+                            },
+                            color: masColor.otherEvents.color,
+                            textColor:masColor.otherEvents.textColor
+                        });
+                    },
+                    function(err){
+                        alert('Помилка при завантаженні');
+                    },
+                    {
+                        start:start1,
+                        end:end1
+                    }
+                )
             },
             color: masColor.myEvents.color
-        },
-        {
-            events: function(start, end, timezone, callback) {
-                loadDefaultEvent(start,end,callback,ajax.addFullEventTeacherNoCurrent);
-            },
-            color: masColor.otherEvents.color,
-            textColor:masColor.otherEvents.textColor
         }
     ];
 

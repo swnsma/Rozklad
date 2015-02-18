@@ -88,6 +88,7 @@ function Calendar_student(){
                     function(data){
                         event= data;
                         callback(data);
+                        self.masEvent=data;
                         createListLeson(data,self.jqueryObject.deadlineTask.deadlineTaskContentContent);
 
                     },
@@ -117,6 +118,7 @@ function Calendar_student(){
     var clientX;
     var clientY;
     this.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown',function(e){
+        if(e.button===0)
         drag=self.jqueryObject.deadlineTask.deadlineTaskContent;
         clientX= e.clientX;
         clientY= e.clientY;
