@@ -1,0 +1,1 @@
+ALTER TABLE 'group_lesson' ADD COLUMN 'mail' INTEGER DEFAULT 0;
