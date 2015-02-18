@@ -67,9 +67,9 @@
         </div>
         <?php if ($data['status'] == 'teacher'): ?>
 
-            <form data-bind="loadFile" enctype="multipart/form-data">
-                <input type="file" name="file" id=" file"/>
-            </form>
+            <button data-bind="upload: { files: files, save: makeArray }">Upload</button>
+
+
             <div class="fileValid">Размер не больше 20 мБ</div>
             <div class="fileError" data-bind="text:validationMess"></div>
         <?php endif ?>
