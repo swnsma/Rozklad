@@ -48,12 +48,6 @@ REQUEST;
        }
     }
    public function getRole ($groupId, $userId){
-        /*$r=<<<QUERY
-            SELECT `role`.`title`
-FROM `role`, `user`, `groups`, `student_group`
-WHERE `user`.`role_id` = `role`.`id` AND `user`.`id`=$userId AND (( `groups`.`id`=$groupId AND `groups`.`teacher_id`=$userId)
-OR(`user`.`id`=`student_group`.`student_id` AND `student_group`.`group_id`=$groupId));
-QUERY;*/
        $r=<<<CHECKTEACH
        SELECT `role`.`title`
        FROM `role`, `user`, `groups`

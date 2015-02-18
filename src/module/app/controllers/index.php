@@ -6,7 +6,7 @@ class Index extends Controller {
     }
 
     function index() {
-        header('Location: ' . URL . 'app/signin');
+        $this->view->renderHtml('index/index');
     }
 }
 

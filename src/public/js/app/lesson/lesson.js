@@ -33,28 +33,40 @@ function ViewModel()
           that.makeArray()
       }
     };
-    that.loadFile=function(formElement){
-
-
-        $.ajax({
-            url: url+'app/lesson/upload/',
-            type: 'POST',
-            processData:false,
-            contentType:false,
-            data: new FormData(formElement),
-            success: function(response){
-
-                response.url= url+'public/users_files/tasks/'+response.newName ;
-                that.files.push(response);
-                that.makeArray();
-
-            },
-            error: function(xhr){
-                fail(xhr);
+    that.deleteLink=function(link){
+        for(var i =0;i<that.links().length;i++){
+            if(that.links()[i].name==link){
+                that.links.remove(that.links()[i])
             }
-        });
+        }
+        that.makeArray();
     };
-     that.makeArray=function(){
+    that.deleteFile=function(newName){
+        console.log(newName);
+        function sendData() {
+            $.ajax({
+                url: url + 'app/lesson/deleteFile/',
+                type: 'POST',
+                data: {
+                    data: newName
+                },
+                success: function (response) {
+
+                       for(var i =0;i<that.files().length;i++){
+                           if(that.files()[i].newName==newName){
+                               that.files.remove(that.files()[i])
+                           }
+                       }
+                       that.makeArray()
+                },
+                error: function (xhr) {
+                    fail(xhr);
+                }
+            });
+        }
+        sendData(newName)
+    };
+       that.makeArray=function(){
         var data={
             description: that.homeWorkDescription(),
             links: that.links(),
@@ -79,7 +91,30 @@ function ViewModel()
         }
         sendData()
     };
-
+    ko.bindingHandlers.loadFile={
+        init:function(element, valueAccessor, allBindings,currentContext,  viewModel) {
+            $(element).change(function(){
+                if(element.firstChild.nextElementSibling.files[0].size<20971520) {
+                    $.ajax({
+                        url: url + 'app/lesson/upload/',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        data: new FormData(element),
+                        success: function (response) {
+                            response.url = url + 'public/users_files/tasks/' + response.newName;
+                            that.files.push(response);
+                            that.makeArray();
+                        },
+                        error: function (xhr) {
+                           alert('pp')
+                        }
+                    });
+                }
+else{alert('слишком большой файл')}
+            })
+        }
+    };
     //method that starts magic
     that.activate = function () {
         var lessonId = window.location.pathname;
