@@ -3,6 +3,7 @@
 define('URL', 'http://' . $_SERVER['HTTP_HOST'] . '/src/');
 define('DOC_ROOT', __DIR__ . '/../');
 define('IMAGES_FOLDER', DOC_ROOT . 'public/users_files/images/');
+define('TASKS_FOLDER', DOC_ROOT . 'public/users_files/tasks/');
 
 //Google
 define('CLIENT_ID_GM','955464663389-683pu19v53o6tg53h2hdt4s5ha6sqtu0.apps.googleusercontent.com');
