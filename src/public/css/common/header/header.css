@@ -32,6 +32,7 @@
     vertical-align: middle;
     color:  inherit;
     text-decoration: inherit;
+    outline: none;
 }
 .header .menu .underline{
     /*text-decoration: underline;*/

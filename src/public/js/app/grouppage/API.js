@@ -106,7 +106,7 @@ var Student=function(obj){
 
     if(obj.fb_id) {
         this.fb_account = 'https://www.facebook.com/' + obj.fb_id;
-        this.fb_photo = 'http://graph.facebook.com/' + obj.fb_id + '/picture?type=large';
+        this.fb_photo = 'http://graph.facebook.com/' + obj.fb_id + '/picture?type(square)';
     }
     else{
         this.fb_account=null;
