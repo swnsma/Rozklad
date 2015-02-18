@@ -131,6 +131,7 @@ function Calendar(){
     self.currentUser;
 
     this.masEvent=[];
+    this.fullEventFor = [];
     this.groups=[];
     this.jqueryObject={
         calendar:$('#calendar'),
@@ -228,10 +229,12 @@ function Calendar(){
             if(statusRender===1){
                 fullcalendarEvent=[];
                 statusRender=0;
+                self.fullEventFor=[];
             }
             if(event.deleted) {
                 fullcalendarEvent.push(event);
             }
+            self.fullEventFor.push(event);
             if(event.color!==masColor.delEvent.color) {
                 if (event.group) {
                     for (var i = 0; i < event.group.length; ++i) {
