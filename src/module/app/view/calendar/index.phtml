@@ -12,6 +12,7 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
 <?php endif; ?>
 
+<button onclick="exportAll()">Export all</button>
 
 <div class="my-tooltip" id="tooltip">
     <h3  id="tooltipTitle">Title</h3>
@@ -165,8 +166,6 @@
 
 <div class="calendar" id='calendar'></div>
 
-
-
 <script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
@@ -187,6 +186,32 @@
 
     <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>
 <?php endif; ?>
+<script>
+    function exportLesson(lesson, calendarId){
+        $.ajax({
+            url: url + 'app/calendar/exportEvent',
+            type: 'POST',
+            data: lesson,
+            success: function(response){
+                console.log ('exported');
+            },
+            error: function(e){
+                //;
+            }
+        });
+    }
 
+    function exportAll() {
+        var calendarId = "myrozklad@gmail.com";
+        var lessons = fullEventFor;
+        for (var i =0; i< lessons.length;i++) {
+            //if (i>0) return;
+            var lessonId = lessons[i].id;
+            var userId = lessons[i].teacher;
+            var lesson = {lessonId: lessonId, userId: userId}
+            exportLesson({lesson: lesson,calendarId:calendarId});
+        }
+    }
+</script>
 <!--</body>-->
 <!--</html>-->
