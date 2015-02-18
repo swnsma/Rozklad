@@ -18,8 +18,9 @@ class Mail {
         $this->mail->SMTPAuth = MAIL_IS_SMTP_AUTH;
         $this->mail->Username = MAIL_USERNAME;
         $this->mail->Password = MAIL_PASSWORD;
-        $this->mail->SMTPSecure = 'ssl';
+        $this->mail->SMTPSecure = MAIL_SMTP_SECURE;
         $this->mail->CharSet = 'UTF-8';
+        $this->mail->IsHTML(true);
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
@@ -34,6 +35,14 @@ class Mail {
         } else {
             return false;
         }
+    }
+
+    public function addFile($file, $file_name) {
+        $this->mail->AddAttachment($file, $file_name);
+    }
+
+    public function addFileToHtml($file, $file_name) {
+        $this->mail->AddEmbeddedImage($file, $file_name);
     }
 
     public function getErrorInfo() {
@@ -53,10 +62,18 @@ class Mail {
         return null;
     }
 
+    public function clear() {
+        $this->mail->ClearAllRecipients();
+        $this->mail->ClearAttachments();
+        $this->mail->ClearCustomHeaders();
+    }
+
     static public function getInstance() {
         if(is_null(self::$instance)) {
             self::$instance = new self();
         }
         return self::$instance;
     }
+
+    private function __clone() {}
 }

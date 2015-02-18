@@ -7,12 +7,12 @@ function ViewModel()
     that.links=ko.observableArray([ ]);
     that.id=ko.observable('');
     that.files=ko.observableArray([]);
+    that.validationMess=ko.observable('');
 
 
     //editing logic
     that.edit=ko.observable(false);
     that.descriptionEdit= ko.observable(false);
-    that.linkAdding=ko.observable(false);
     that.linkToAdd = ko.observable('');
 
     //editing functions
@@ -26,47 +26,54 @@ function ViewModel()
         that.descriptionEdit(false);
         that.makeArray()
     };
-    that.addLink=function(){
-        that.linkAdding(true)
-    };
 
     that.saveLink=function(){
       if( that.linkToAdd().length) {
           that.links.push({name: that.linkToAdd()});
-          that.linkAdding(false);
           that.linkToAdd ('');
           that.makeArray()
       }
     };
-    that.loadFile=function(formElement){
-
-
-        $.ajax({
-            url: url+'app/lesson/upload/',
-            type: 'POST',
-            processData:false,
-            contentType:false,
-            data: new FormData(formElement),
-            success: function(response){
-
-                response.url= url+'public/users_files/tasks/'+response.newName ;
-                that.files.push(response);
-                that.makeArray();
-
-            },
-            error: function(xhr){
-                fail(xhr);
+    that.deleteLink=function(link){
+        for(var i =0;i<that.links().length;i++){
+            if(that.links()[i].name==link){
+                that.links.remove(that.links()[i])
             }
-        });
+        }
+        that.makeArray();
     };
-     that.makeArray=function(){
+    that.deleteFile=function(newName){
+        console.log(newName);
+        function sendData() {
+            $.ajax({
+                url: url + 'app/lesson/deleteFile/',
+                type: 'POST',
+                data: {
+                    data: newName
+                },
+                success: function (response) {
+
+                       for(var i =0;i<that.files().length;i++){
+                           if(that.files()[i].newName==newName){
+                               that.files.remove(that.files()[i])
+                           }
+                       }
+                       that.makeArray()
+                },
+                error: function (xhr) {
+                    fail(xhr);
+                }
+            });
+        }
+        sendData(newName)
+    };
+       that.makeArray=function(){
         var data={
             description: that.homeWorkDescription(),
             links: that.links(),
             files:that.files()
         };
         var datasend=JSON.stringify(data);
-
         function sendData(){
             $.ajax({
                 url: url+'app/lesson/changeLessonInfo/'+that.id(),
@@ -85,7 +92,35 @@ function ViewModel()
         }
         sendData()
     };
-
+    ko.bindingHandlers.loadFile={
+        init:function(element, valueAccessor, allBindings,currentContext,  viewModel) {
+            $(element).change(function(){
+                if(element.firstChild.nextElementSibling.files[0].size<20971520) {
+                    that.validationMess("");
+                    $.ajax({
+                        url: url + 'app/lesson/upload/',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        data: new FormData(element),
+                        success: function (response) {
+                            element.reset();
+                            response.url = url + 'public/users_files/tasks/' + response.newName;
+                            that.files.push(response);
+                            that.makeArray();
+                        },
+                        error: function (xhr) {
+                           alert('pp')
+                        }
+                    });
+                }
+            else{
+                    element.reset();
+                    that.validationMess("Файл слишком велик");
+                }
+            })
+        }
+    };
     //method that starts magic
     that.activate = function () {
         var lessonId = window.location.pathname;
@@ -95,7 +130,6 @@ function ViewModel()
         universalAPI(url+'app/lesson/getLessonInfo/'+that.id(), 'GET', function(response){
         var incomingData= JSON.parse(response[0].lesson_info);
             console.log(incomingData);
-
             that.homeWorkDescription(incomingData.description);
             that.links(incomingData.links);
             that.files(incomingData.files);
@@ -105,7 +139,6 @@ function ViewModel()
 
 var viewModel = new ViewModel();
 viewModel.activate();
-
 ko.applyBindings(viewModel);
 
 

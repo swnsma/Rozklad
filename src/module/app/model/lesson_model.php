@@ -185,7 +185,6 @@ TANIA;
   SELECT
 b.id,
 b.name,
-b.description,
 b.teacher_id,
 b.color
 FROM groups AS b
@@ -240,7 +239,7 @@ BORIA;
 //            print_r($userinfo);
             $id = $userinfo['id'];
                 $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            l.title,l.deadline, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
             INNER JOIN 'groups' as g ON
             g.id=st_g.group_id
@@ -373,7 +372,6 @@ BORIA;
 
     }
 
-
     public function eventDrop($id, $start, $end){
         try {
             $date = $this->realDate()->format($this->formatDate());
@@ -387,5 +385,76 @@ BORIA;
         }
     }
 
+    public function exportEvent($lessonId, $userId, $calendarId, $eventId=null){
+        $client = new Google_Client();
+        $client->setApplicationName("Rozklad");
+        $client->setClientId(CLIENT_ID_GM);
+        $client->setClientSecret(CLIENT_SECRET_GM);
+        $client->setRedirectUri(URL . "app/loging/login");
+        $client->setApprovalPrompt(APPROVAL_PROMPT);
+        $client->setAccessType(ACCESS_TYPE);
+        $client->setAccessToken(Session::get('token'));
+        $service = new Google_Service_Calendar($client);
 
+        $exported = false;
+        $request = <<<SQL
+select * from exported_events
+where lesson_id = "$lessonId"
+and user_id = "$userId"
+and calendar_id = "$calendarId";
+SQL;
+        $exp = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+        if ($exp){
+            $exported = true;
+        }
+
+        $request = <<<SQL
+select * from lesson
+where lesson.id = $lessonId;
+SQL;
+        $lesson = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+        $lesson = $lesson[0];
+        //echo json_encode($lesson);
+
+        $event = new Google_Service_Calendar_Event();
+        $event->setSummary($lesson['title']);
+
+        $start = new Google_Service_Calendar_EventDateTime();
+        $date =  $lesson['start'];
+        $date = str_replace(' ','T',$date);
+        $start->setDateTime($date);
+        $start->setTimeZone(TIME_ZONE);
+        $event->setStart($start);
+
+        $end = new Google_Service_Calendar_EventDateTime();
+        $date =  $lesson['end'];
+        $date = str_replace(' ','T',$date);
+        $end->setDateTime($date);
+        $end->setTimeZone(TIME_ZONE);
+        $event->setEnd($end);
+
+        $new_event = null;
+
+        if ($exported){
+            try {
+                $new_event = $service->events->update($calendarId, $exp['event_id'], $event);
+            } catch (Google_ServiceException $e) {
+                syslog(LOG_ERR, $e->getMessage());
+            }
+        } else {
+            try {
+                $new_event = $service->events->insert($calendarId, $event);
+            } catch (Google_ServiceException $e) {
+                syslog(LOG_ERR, $e->getMessage());
+            }
+            $e_id = $new_event->getId();
+            $request = <<<SQL
+INSERT INTO exported_events ("user_id", "lesson_id", "calendar_id", "event_id")
+VALUES ($userId, $lessonId, "$calendarId", "$e_id");
+SQL;
+            echo $request;
+            $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            //echo 'made insertion';
+        }
+    }
 }

@@ -1,61 +1,64 @@
-<link rel="stylesheet" type="text/css" href="<?php echo URL?>public/css/lesson/lesson.css">
-<link rel="stylesheet" type="text/css" href="<?php echo URL?>public/css/common/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/lesson/lesson.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/common/bootstrap.css">
 <section class="main-content">
     <h2>Домашнее Задание</h2>
-    <!-- ko ifnot: descriptionEdit-->
-    <?php if ($data['status'] == 'teacher'): ?>
-    <div  class='description' data-bind="text:homeWorkDescription, click:function(){descriptionEditStart()}">нажмите сюда для редактирования</div>
-    <?php endif ?>
-    <?php if ($data['status'] == 'student'): ?>
-        <div  class='description' data-bind="text:homeWorkDescription">нажмите сюда для редактирования</div>
-    <?php endif ?>
-    <!--/ko-->
-    <!-- ko if: descriptionEdit-->
-    <textarea class="descInput form-control " type="text"  data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
-    <!--/ko-->
-    <br><h4>Полезные ссылки:</h4>
-        <div class="links" data-bind="foreach:links">
-        <br><a class='wordBreak' data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
-    </div>
-    <?php if ($data['status'] == 'teacher'): ?>
-    <!-- ko ifnot: linkAdding-->
-    <button class='plusButton' data-bind="click:function(){addLink()}"><img heigth='15' width="15" src="<?php echo URL?>public/img/plus1.png"></button>
-    <!--/ko-->
-    <!-- ko if: linkAdding-->
-    <input type="text" class="col-md-12" placeholder="Вставьте ссылку" data-bind="value:linkToAdd, event: {blur:saveLink()}">
-    <!--/ko-->
-    <?php endif ?>
-    <!--
-    Счастье,- говорил он,-
-Есть ловкость ума и рук.
-Все неловкие души
-За несчастных всегда известны.
-Это ничего,
-Что много мук
-Приносят изломанные
-И лживые жесты.
+    <section class="col-md-8">
+        <!-- ko ifnot: descriptionEdit-->
+        <?php if ($data['status'] == 'teacher'): ?>
+            <div class='description' data-bind="text:homeWorkDescription, click:descriptionEditStart">
+                нажмите сюда для редактирования
+            </div>
+        <?php endif ?>
+        <?php if ($data['status'] == 'student'): ?>
+            <div class='description' data-bind="text:homeWorkDescription">нажмите сюда для редактирования</div>
+        <?php endif ?>
+        <!--/ko-->
+        <!-- ko if: descriptionEdit-->
+        <textarea class="descInput form-control " rows="5"
+                  data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
+        <!--/ko-->
 
-В грозы, в бури,
-В житейскую стынь,
-При тяжелых утратах
-И когда тебе грустно,
-Казаться улыбчивым и простым -
-Самое высшее в мире искусство".
-    -->
-    <?php if ($data['status'] == 'teacher'): ?>
-    <div id="content">
-        <form data-bind="submit: loadFile" enctype="multipart/form-data">
-            <input type="file" name="file" name="files[] id="file" />
-            <div align="right"><div id="status"></div>
-                <input type="submit" class="submitButton" name="go" id="go" value="Загрузить" /></div>
-        </form>
-    </div>
-    <?php endif ?>
-<br><h4>Файлы для скачивания:</h4>
-    <div data-bind="foreach: files">
-       <br><a download="" data-bind="text:newName, attr:{ href:url}">файл</a>
-    </div>
+    </section>
+    <section class="content col-md-4">
+        <div>
+            <h4>Полезные ссылки:</h4>
+            <div>
+                <?php if ($data['status'] == 'teacher'): ?>
+                    <input type="text" class="col-md-8" placeholder="Вставьте ссылку"
+                           data-bind="value:linkToAdd">
+                    <button data-bind="click:function(){saveLink()}">Добавить</button>
+                <?php endif ?>
+            </div>
+            <div class="col-md-12" data-bind="foreach:links">
+                <div class="col-lg-10 wordBreak elipsis">
+                    <a  data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
+                </div>
+                <?php if ($data['status'] == 'teacher'): ?>
+                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">Удалить</button></div>
+                <?php endif ?>
+            </div>
+        </div>
+
+        <?php if ($data['status'] == 'teacher'): ?>
+            <h4>Загрузить файл</h4>
+            <div class="fileValid">Размер не больше 20 мБ</div>
+            <form data-bind="loadFile"  enctype="multipart/form-data">
+                <input type="file" name="file" id=" file" />
+            </form>
+
+            <div class="fileError" data-bind="text:validationMess"></div>
+        <?php endif ?>
+        <h4>Файлы для скачивания:</h4>
+        <div class='col-md-12 ' data-bind="foreach: files">
+            <div class=" col-lg-10">
+                <a  download="" data-bind="text:newName, attr:{ href:url}">файл</a>
+            </div>
+            <?php if ($data['status'] == 'teacher'): ?>
+                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">Удалить</button></div>
+            <?php endif ?>
+        </div>
+    </section>
 </section>
-<script  type="text/javascript" src="<?php echo URL?>public/js/app/common.js"></script>
+<script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
-<script  type="text/javascript" src="<?php echo URL?>public/js/app/lesson/lesson.js"></script>
+<script type="text/javascript" src="<?php echo URL ?>public/js/app/lesson/lesson.js"></script>

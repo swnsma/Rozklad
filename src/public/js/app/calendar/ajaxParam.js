@@ -59,23 +59,7 @@ ajaxParam={
 
         universalAPI(urla, type, success, fail, data);
     },
-    getFullEventDefault:function(callback,start1,end1){
-        var urla=url+'app/calendar/addFullEventDefault';
-        var type ='POST';
-        var success = function(doc){
-            callback(doc);
-        };
-        var fail= function(){
-            alert('Щось трапилось з завантаженням подій')
-        };
-        var data={
-            start:start1,
-            end:end1
-        }
-        universalAPI(urla, type, success, fail, data);
-    },
     getCurrentUser: function(currentUser){
-        var urla = url + 'app/calendar/getUserInfo';
         var type = 'Get';
         function success(response){
             currentUser=response;

@@ -67,9 +67,15 @@ class Lesson extends Controller {
       $ext=pathinfo($fileName, PATHINFO_EXTENSION);
       $fileTmpLoc = $_FILES["file"]["tmp_name"];
       $name=uniqid(). '.' . $ext;
-      $pathAndName = "public/users_files/tasks/".$name ;
+      $pathAndName = TASKS_FOLDER.'/'.$name ;
       move_uploaded_file($fileTmpLoc, $pathAndName);
       $this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
+    }
+    public function deleteFile(){
+        $fileName=$_POST['data'];
+        $pathAndName=TASKS_FOLDER.'/'.$fileName ;
+        unlink ($pathAndName);
+        $this->view->renderJson(Array('result'=>"success"));
     }
 
 

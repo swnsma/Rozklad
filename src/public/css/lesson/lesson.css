@@ -16,7 +16,7 @@ body{
 }
 .main-content{
     width: 900px;
-    margin: 0 auto;
+    margin: auto;
 }
 .description
 {
@@ -24,10 +24,11 @@ body{
     white-space: pre;
     word-wrap: break-word;
 }
-.plusButton
+.addButton
 {
-    border: none;
-    background: none;
+    background-color: #F5F5F5;
+    color: #000000;
+    border: 1px solid #000000;
 }
 .descInput
 {
@@ -35,5 +36,22 @@ body{
 }
 .wordBreak
 {
-    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.elipsis
+{
+    text-overflow: ellipsis;
+}
+.deleteButton
+{
+    border: none;
+    background-color: inherit;
+    outline: none;
+}
+.fileError
+{
+    color: red;
+    font-size: 16px;
 }
