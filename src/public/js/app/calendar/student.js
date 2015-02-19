@@ -81,6 +81,7 @@ function CreateListLeson(data,parent){
             var hour =0;
             if(minutes>=60){
                 hour=minutes/60;
+                hour = parseInt(hour);
                 minutes=minutes%60;
                 minutes= parseInt(minutes);
             }
@@ -111,7 +112,7 @@ function CreateListLeson(data,parent){
             $timeTrack.addClass('timeTrack');
             $timeTrack.appendTo($div);
             if(day>=0) {
-                $timeTrack.text(' d:' + parseInt(day) + ' h:' + toFormat(parseInt(hour)) + ' m:' + toFormat(parseInt(minutes)));
+                $timeTrack.text(' ' + parseInt(day) + ':' + toFormat(parseInt(hour)) + ':' + toFormat(parseInt(minutes)));
             }else{
                 $timeTrack.text('');
                 $div.empty();
@@ -132,9 +133,11 @@ function CreateListLeson(data,parent){
                     if (deadline['minutes'] < 0) {
                         deadline['minutes'] = 59;
                         deadline['hour']--;
+                        deadline['hour'] = parseInt(deadline['hour']);
                         if (deadline['hour'] < 0) {
                             deadline['hour'] = 23;
                             deadline['day']--;
+                            deadline['day'] = parseInt(deadline['day']);
                             if (deadline['day'] < 0) {
                                 deadline['content'].css({
                                     'backgroundColor': color
@@ -144,7 +147,7 @@ function CreateListLeson(data,parent){
 
                     }
                     console.log(masId[i]);
-                    $('#timeTrack'+masId[i]).text(' d:'+deadline['day'] +' h:' + toFormat(deadline['hour']) + ' m:' + toFormat(deadline['minutes']));
+                    $('#timeTrack'+masId[i]).text(''+deadline['day'] +':' + toFormat(deadline['hour']) + ':' + toFormat(deadline['minutes']));
                 }else{
                     $('#timeTrack'+masId[i]).text('');
                     deadline['content'].empty();
@@ -275,7 +278,7 @@ function Calendar_student(){
                 resize = self.jqueryObject.deadlineTask.deadlineTaskContent;
                 clientX = e.clientX;
                 clientY = e.clientY;
-                debugger;
+
                 realWight = +resize.css('width').substr(0, resize.css('width').length - 2);
                 realHeight = +resize.css('height').substr(0, resize.css('height').length - 2);
 

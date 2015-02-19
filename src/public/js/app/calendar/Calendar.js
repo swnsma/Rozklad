@@ -128,7 +128,17 @@ function Calendar(){
 
     var self=this;
     self.currentUser;
-
+    self.getCurrentUser=function(){
+        universalAPI(
+            url + 'app/calendar/getUserInfo',
+            'get',
+            function(response){
+                self.currentUser = response;
+            },
+            function(){
+                alert('Біда');
+            }, []);
+    };
     this.masEvent=[];
 
     this.groups=[];
@@ -268,8 +278,8 @@ function Calendar(){
                         'display': 'inline-block'
                     });
                     $var.appendTo($(element));
-
                 }
+
             }
             if(event.color===masColor.delEvent.color){
                 var $textDeleted =  $(element).find('.fc-title');
@@ -283,27 +293,35 @@ function Calendar(){
                 $link.appendTo($(element));
 
             }
+
+
+            //if(self.currentUser){
+            //    if(self.currentUser.title==='student'){
+            //
+            //    }
+            //}
+            if(event.lesson_info){
+                debugger;
+                var a = JSON.parse(event.lesson_info);
+                if(a['description'].length!=0||a['links'].length!=0||a['files'].length!=0){
+                    debugger;
+                    var $screpka = $('<span>');
+                    $screpka.appendTo($(element));
+                    $screpka.addClass('screpka');
+                }
+            }
+
+
         },
         eventAfterAllRender: function(){
             statusRender=1;
-            debugger;
         },
         eventClick: function(calEvent, jsEvent, view){
             window.location= url + 'app/lesson/id'+calEvent.id;
         }
     };
 
-    self.getCurrentUser=function(){
-        universalAPI(
-            url + 'app/calendar/getUserInfo',
-            'get',
-            function(response){
-                self.currentUser = response;
-            },
-            function(){
-                alert('Біда');
-            }, []);
-    };
+
     var a =new RealTimeUpdate();
     this.realTimeUpdate=function(){
         a.start();
