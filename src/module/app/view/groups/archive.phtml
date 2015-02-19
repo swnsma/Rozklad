@@ -1,12 +1,10 @@
-<?php
-echo '<style>';
-require_once (DOC_ROOT."public/css/common/bootstrap.css");
-require_once (DOC_ROOT."public/css/common/common.css");
-require_once (DOC_ROOT."public/css/user.css");
-require_once (DOC_ROOT."public/css/admin/admin.css");
-require_once (DOC_ROOT."public/css/groups/groups.css");
-echo '</style>';
-?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/css/common/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/css/common/common.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/css/user.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/css/admin/admin.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL; ?>public/css/groups/groups.css">
+
 
 
 <?php if ($data['status'] == 'teacher'): ?>

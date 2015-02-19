@@ -36,4 +36,26 @@ class SenderMail extends Controller {
             ), 'Новый пользователь', $template);
         }
     }
+    public function sendLetterToTeacher(){
+        $req = Request::getInstance();
+        $id = $req->getParam(0);
+        $model = $this->loadModel('user');
+        $name = $model->getUserInfo($id);
+        print_r($name);
+        if(is_null($name['key'])||!$name['key']){
+            $m = Mail::getInstance();
+            $template = $m->getTemplate('letterToTeacher2', array(
+                'userName' => $name['name'].' '.$name['surname'],
+                'mail_background' => 'mail_background',
+                'url' => URL.'app/calendar',
+                'date'=> date("d.m.Y H:i")
+            ));
+            if (is_null($template)) {
+                echo 'template is not exists';
+            } else {
+                $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
+                if ($m->send(array( $name['email']), 'Регистрация завершена', $template));
+            }
+        }
+    }
 }
