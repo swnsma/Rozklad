@@ -46,6 +46,23 @@ HERE;
         return null;
     }
 
+    private function mailAlreadySend($group_id, $lesson_id) {
+        $request = <<<HERE
+        UPDATE group_lesson
+        SET `mail` = 1
+        WHERE group_id = :gid AND lesson_id = :lid
+HERE;
+        try {
+            $request = $this->db->prepare($request);
+            $request->bindParam(':gid', $group_id, PDO::PARAM_INT);
+            $request->bindParam(':lid', $lesson_id, PDO::PARAM_INT);
+            return $request->execute();
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
     private function getTemplateForInvitationToLesson($id) {
         print $id;
         $request = <<<HERE
@@ -90,7 +107,12 @@ HERE;
         foreach($groups as $group) {
             $emails = $this->getEmailUsersGroups($group['group_id']);
             $emails = $this->getUniqueValuesFromKey($emails, 'email');
-            if ($this->mail->send($emails, 'Приглашение', $templates[8])) {
+            if ($this->mail->send($emails, 'Приглашение', $templates[$group['lesson_id']])) {
+                if ($this->mailAlreadySend($group['group_id'], $groups['lesson_id'])) {
+                    echo 'update';
+                } else {
+                    echo 'update_error';
+                }
                 echo 'Письма отправленные';
             } else {
                 echo 'Письма не отправленые' . $this->mail->getErrorInfo();

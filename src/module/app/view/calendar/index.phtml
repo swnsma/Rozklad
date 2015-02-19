@@ -12,16 +12,7 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
 <?php endif; ?>
 
-<div class="export-popup">
-    <div>Выберите календарь для експорта уроков</div>
-    <div class="calendar-list">
-        <?php foreach($data['googleCalendars'] as $calendar):?>
-            <button class="selectCalendar" onclick="exportAll(<?php echo '\''.$calendar['id'].'\''?>)">
-                <?php echo $calendar['name'];?>
-            </button>
-        <?php endforeach;?>
-    </div>
-</div>
+
 
 <div class="my-tooltip" id="tooltip">
     <h3  id="tooltipTitle">Title</h3>
@@ -175,27 +166,26 @@
 
 <div class="calendar" id='calendar'></div>
 
-<script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
-<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
-<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
+<div id="exportPopup">
 
+</div>
 
-<script src='<?php print URL; ?>public/js/app/common.js'></script>
-<script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
-<script src='<?php print URL; ?>public/js/app/calendar/ajax.js'></script>
-<script src='<?php print URL; ?>public/js/app/calendar/ajaxParam.js'></script>
-
-<?php if ($data['status'] == 'teacher'): ?>
-    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
-    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
-    <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
-    <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
-    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
-<?php else: ?>
-
-    <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>
-<?php endif; ?>
 <script>
+    function loadExportPopup(){
+        $.ajax({
+            url: url+'app/calendar/exportPopup',
+            type: 'GET',
+            success: function (response){
+                document.getElementById("exportPopup").innerHTML = response;
+            }
+        });
+    }
+    loadExportPopup();
+
+    function loginGoogle(){
+        window.location.href = url+'app/loging/login';
+    }
+
     function exportLesson(lesson, calendarId){
         $.ajax({
             url: url + 'app/calendar/exportEvent',
@@ -220,6 +210,29 @@
             exportLesson({lesson: lesson,calendarId:calendarId});
         }
     }
+
 </script>
+
+<script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
+<script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.js'></script>
+
+
+<script src='<?php print URL; ?>public/js/app/common.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendar/Calendar.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendar/ajax.js'></script>
+<script src='<?php print URL; ?>public/js/app/calendar/ajaxParam.js'></script>
+
+<?php if ($data['status'] == 'teacher'): ?>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
+    <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
+<?php else: ?>
+
+    <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>
+<?php endif; ?>
+
 <!--</body>-->
 <!--</html>-->
