@@ -398,20 +398,14 @@ BORIA;
 
         function wasExported($lessonId, $userId, $calendarId, $db)
         {
-            global $lessonId;
             $request = <<<SQL
 select * from exported_events
 where lesson_id = "$lessonId"
 and user_id = "$userId"
 and calendar_id = "$calendarId";
 SQL;
-
             $exp = $db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            if (!empty($exp)) {
-                $exp = $exp[0];
-            } else {
-                $exp = false;
-            }
+            return $exp;
         }
         $exported = wasExported($lessonId, $userId, $calendarId, $this->db);
 
@@ -444,10 +438,10 @@ SQL;
         $event->setEnd($end);
 
         $new_event = null;
-
-        if ($exported){
+        echo json_encode($exported);
+        if (!empty($exported)){
             try {
-                $new_event = $service->events->update($calendarId, $exp['event_id'], $event);
+                $new_event = $service->events->update($calendarId, $exported[0]['event_id'], $event);
             } catch (Google_ServiceException $e) {
                 syslog(LOG_ERR, $e->getMessage());
             }
