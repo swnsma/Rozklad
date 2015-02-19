@@ -18,9 +18,7 @@ HERE;
         try {
             $result = $this->db->query($request);
             return $result->fetchAll(PDO::FETCH_ASSOC);
-        } catch(PDOException $e) {
-            print $e->getMessage();
-        }
+        } catch(PDOException $e) {}
         return null;
     }
 
@@ -40,9 +38,7 @@ HERE;
             $request = $this->db->prepare($request);
             $request->bindParam(':id', $id, PDO::PARAM_INT);
             if ($request->execute()) return $request->fetchAll(PDO::FETCH_ASSOC);
-        } catch(PDOException $e) {
-            print $e->getMessage();
-        }
+        } catch(PDOException $e) {}
         return null;
     }
 
@@ -58,13 +54,11 @@ HERE;
             $request->bindParam(':lid', $lesson_id, PDO::PARAM_INT);
             return $request->execute();
         } catch(PDOException $e) {
-            echo $e->getMessage();
             return false;
         }
     }
 
     private function getTemplateForInvitationToLesson($id) {
-        print $id;
         $request = <<<HERE
             SELECT
                 `lesson`.`title` as title
@@ -82,9 +76,7 @@ HERE;
                     'title' => $data['title']
                 ));
             }
-        } catch(PDOException $e) {
-            print $e->getMessage();
-        }
+        } catch(PDOException $e) {}
         return null;
     }
 
@@ -101,23 +93,19 @@ HERE;
         $uniqueLessonsId = $this->getUniqueValuesFromKey($groups, 'lesson_id');
         $templates = array();
         foreach($uniqueLessonsId as $lessonId) {
-            print $lessonId;
             $templates[$lessonId] = $this->getTemplateForInvitationToLesson($lessonId);
         }
         foreach($groups as $group) {
             $emails = $this->getEmailUsersGroups($group['group_id']);
             $emails = $this->getUniqueValuesFromKey($emails, 'email');
             if ($this->mail->send($emails, 'Приглашение', $templates[$group['lesson_id']])) {
-                if ($this->mailAlreadySend($group['group_id'], $groups['lesson_id'])) {
-                    echo 'update';
-                } else {
-                    echo 'update_error';
-                }
+                $this->mailAlreadySend($group['group_id'], $group['lesson_id']);
                 echo 'Письма отправленные';
+                print_r($emails);
             } else {
                 echo 'Письма не отправленые' . $this->mail->getErrorInfo();
+                break;
             }
-            print_r($emails);
             echo '<hr/>';
             $this->mail->clear();
         }
