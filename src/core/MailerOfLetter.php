@@ -82,7 +82,8 @@ HERE;
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
                     'userNameStudent' => $data['s_name'] . ' ' . $data['s_surname'],
                     'url' => URL . 'app/lesson/id' . $data['l_id'],
-                    'mail_background' => 'mail_background'
+                    'mail_background' => 'mail_background',
+                    'mail_sep' => 'mail_sep'
                 ));
             }
         } catch(PDOException $e) {}
