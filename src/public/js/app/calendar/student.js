@@ -2,8 +2,12 @@
  * Created by Таня on 23.01.2015.
  */
 
-function createListLeson(data,parent){
+function CreateListLeson(data,parent){
+
+    var color = '#a20';
+    var masTime = [];
     parent.empty();
+    var masId=[];
     for(var i =0;i<data.length;++i){
         if(data[i].deadline){
             var $div = $('<div>');
@@ -64,38 +68,92 @@ function createListLeson(data,parent){
             var currentData = new Date();
             deadline = new Date(deadline);
 
-            deadline.setFullYear(deadline.getFullYear()-currentData.getFullYear());
-            deadline.setMonth(deadline.getMonth()-currentData.getMonth());
-            deadline.setDate(deadline.getDate()-currentData.getDate());
-            deadline.setHours(deadline.getHours()-currentData.getHours());
-            deadline.setMinutes(deadline.getMinutes()-currentData.getMinutes());
 
-            debugger;
-            deadline = normDate(deadline.getFullYear(),toFormat(deadline.getMonth()+1),deadline.getDate(),deadline.getHours(),deadline.getMinutes());
+            var r = deadline-currentData;
+            var minutes = r/1000/60;
+            minutes =parseInt(minutes);
 
-            $timeTrack.text(deadline.substr(0,deadline.length-3));
+            var hour =0;
+            if(minutes>=60){
+                hour=minutes/60;
+                minutes=minutes%60;
+                minutes= parseInt(minutes);
+            }
+            var day = 0;
+            if(hour>=24){
+                day = hour/24;
+                day =parseInt(day);
+                hour = hour%24;
+                hour = parseInt(hour);
+            }
+
+            masTime[data[i].id]= {
+                day: day,
+                hour: hour,
+                minutes: minutes,
+                content: $div
+            };
+            if(day<0){
+                $div.empty();
+            }
             $timeTrack.attr({
-                'id':'timeTrack'+i
+                'id':'timeTrack'+data[i].id
             });
 
+            masId.push(data[i].id);
 
 
             $timeTrack.addClass('timeTrack');
             $timeTrack.appendTo($div);
+            if(day>0) {
+                $timeTrack.text(' d:' + day + ' h:' + toFormat(hour) + ' m:' + toFormat(minutes));
+            }else{
+                $timeTrack.text('');
+                $div.empty();
+            }
 
         }
     }
 
-    setInterval(function(){
-        for(var i =0;i<data.length;++i) {
-            deadline = $('#timeTrack'+i).text();
-            console.log(deadline);
-            deadline = new Date(deadline);
-            deadline.setMinutes(deadline.getMinutes() - 1);
-            deadline = normDate(deadline.getFullYear(), toFormat(deadline.getMonth() + 1), deadline.getDate(), deadline.getHours(), deadline.getMinutes());
-            $('#timeTrack'+i).text(deadline.substr(0, deadline.length - 3));
+
+    var time;
+    this.start=function(){
+        time=setInterval(function(){
+            for(var i =0;i<masId.length;++i) {
+                deadline = masTime[masId[i]];
+                console.log(deadline);
+                if(deadline['day']>=0) {
+                    deadline['minutes']--;
+                    if (deadline['minutes'] < 0) {
+                        deadline['minutes'] = 59;
+                        deadline['hour']--;
+                        if (deadline['hour'] < 0) {
+                            deadline['hour'] = 23;
+                            deadline['day']--;
+                            if (deadline['day'] < 0) {
+                                deadline['content'].css({
+                                    'backgroundColor': color
+                                })
+                            }
+                        }
+
+                    }
+                    console.log(masId[i]);
+                    $('#timeTrack'+masId[i]).text(' d:'+deadline['day'] +' h:' + toFormat(deadline['hour']) + ' m:' + toFormat(deadline['minutes']));
+                }else{
+                    $('#timeTrack'+masId[i]).text('');
+                    deadline['content'].empty();
+                }
+            }
+        },60000);
+    }
+    this.stop=function(){
+        if(time) {
+            clearInterval(time);
         }
-    },1000);
+    }
+
+
 }
 
 function Calendar_student(){
@@ -130,7 +188,10 @@ function Calendar_student(){
                         event= data;
                         callback(data);
                         self.masEvent=data;
-                        createListLeson(data,self.jqueryObject.deadlineTask.deadlineTaskContentContent);
+                        var a = new CreateListLeson(data,self.jqueryObject.deadlineTask.deadlineTaskContentContent);
+                        a.stop();
+                        a.start();
+
 
                     },
                     function(er){
