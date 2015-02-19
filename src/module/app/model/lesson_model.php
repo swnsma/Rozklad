@@ -443,13 +443,13 @@ SQL;
             try {
                 $new_event = $service->events->update($calendarId, $exported[0]['event_id'], $event);
             } catch (Google_ServiceException $e) {
-                syslog(LOG_ERR, $e->getMessage());
+                echo json_encode( ($e->getMessage()) );
             }
         } else {
             try {
                 $new_event = $service->events->insert($calendarId, $event);
             } catch (Google_ServiceException $e) {
-                syslog(LOG_ERR, $e->getMessage());
+                echo json_encode( ($e->getMessage()) );
             }
             $e_id = $new_event->getId();
             $request = <<<SQL

@@ -38,7 +38,6 @@ class Calendar extends Controller
         $data['status'] = $this->userInfo['title'];
         $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
         $data['currentPage']=$this->getClassName();
-        $data['googleCalendars']=$this->model->getGoogleCalendarList();
     /*$this->view->renderAllHTML('groups/index',
         $data,
         array('groups/groups.css'));*/
@@ -53,42 +52,42 @@ $this->view->renderHtml('common/foot');
 
 }
 
-public function addFullEventDefault()
-{
-    if (isset($_POST['start']) && $_POST['end']) {
-        $this->model = $this->loadModel('lesson');
-        $start = $_POST['start'];
-        $end = $_POST['end'];
-        $id = $this->model->getOurLessonForThisIdStudent($this->userInfo, $start, $end);
-        $this->view->renderJson($id);
-    }
-}
-
-public function getOurGroups()
-{
-    $this->model = $this->loadModel('groups');
-    $arr = $this->model->getOurGroups($this->userInfo['id']);
-    $this->view->renderJson($arr);
-}
-
-public function getOurTeacher()
-{
-    $this->model = $this->loadModel('user');
-    $date = $this->model->getOurTeacher();
-    $this->view->renderJson($date);
-}
-
-public function addFullEventTeacher(){
-    if (isset($_POST['start']) && isset($_POST['end'])) ;
+    public function addFullEventDefault()
     {
-        $this->model = $this->loadModel('lesson');
-        $start = $_POST['start'];
-        $end = $_POST['end'];
-        $id['current'] = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo, $start, $end);
-        $id['no']=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo, $start, $end);
-        $this->view->renderJson($id);
+        if (isset($_POST['start']) && $_POST['end']) {
+            $this->model = $this->loadModel('lesson');
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $id = $this->model->getOurLessonForThisIdStudent($this->userInfo, $start, $end);
+            $this->view->renderJson($id);
+        }
     }
-}
+
+    public function getOurGroups()
+    {
+        $this->model = $this->loadModel('groups');
+        $arr = $this->model->getOurGroups($this->userInfo['id']);
+        $this->view->renderJson($arr);
+    }
+
+    public function getOurTeacher()
+    {
+        $this->model = $this->loadModel('user');
+        $date = $this->model->getOurTeacher();
+        $this->view->renderJson($date);
+    }
+
+    public function addFullEventTeacher(){
+        if (isset($_POST['start']) && isset($_POST['end'])) ;
+        {
+            $this->model = $this->loadModel('lesson');
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $id['current'] = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo, $start, $end);
+            $id['no']=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo, $start, $end);
+            $this->view->renderJson($id);
+        }
+    }
 
     public function restore()
     {
@@ -282,5 +281,14 @@ public function addFullEventTeacher(){
 
     public function getGoogleCalendarList() {
         echo( json_encode($this->model->getGoogleCalendarList()) );
+    }
+
+    public function exportPopup(){
+        $this->model = $this->loadModel('lesson');
+        $data = [];
+        if (Session::has('gm_ID')){
+            $data['googleCalendars']=$this->model->getGoogleCalendarList();
+        }
+        $this->view->renderHtml('calendar/exportPopup',$data);
     }
 }
