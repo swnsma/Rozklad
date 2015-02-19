@@ -396,25 +396,35 @@ BORIA;
         $client->setAccessToken(Session::get('token'));
         $service = new Google_Service_Calendar($client);
 
-        $exported = false;
-        $request = <<<SQL
+        function wasExported($lessonId, $userId, $calendarId, $db)
+        {
+            global $lessonId;
+            $request = <<<SQL
 select * from exported_events
 where lesson_id = "$lessonId"
 and user_id = "$userId"
 and calendar_id = "$calendarId";
 SQL;
-        $exp = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-        if ($exp){
-            $exported = true;
-        }
 
-        $request = <<<SQL
+            $exp = $db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            if (!empty($exp)) {
+                $exp = $exp[0];
+            } else {
+                $exp = false;
+            }
+        }
+        $exported = wasExported($lessonId, $userId, $calendarId, $this->db);
+
+        function getLesson($lessonId, $db){
+            $request = <<<SQL
 select * from lesson
 where lesson.id = $lessonId;
 SQL;
-        $lesson = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-        $lesson = $lesson[0];
-        //echo json_encode($lesson);
+            $lesson = $db->query($request)->fetchAll(PDO::FETCH_ASSOC);
+            $lesson = $lesson[0];
+            return $lesson;
+        }
+        $lesson = getLesson($lessonId, $this->db);
 
         $event = new Google_Service_Calendar_Event();
         $event->setSummary($lesson['title']);
@@ -456,5 +466,37 @@ SQL;
             $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             //echo 'made insertion';
         }
+    }
+
+    public function getGoogleCalendarList(){
+        $client = new Google_Client();
+        $client->setApplicationName("Rozklad");
+        $client->setClientId(CLIENT_ID_GM);
+        $client->setClientSecret(CLIENT_SECRET_GM);
+        $client->setRedirectUri(URL . "app/loging/login");
+        $client->setApprovalPrompt(APPROVAL_PROMPT);
+        $client->setAccessType(ACCESS_TYPE);
+        $client->setAccessToken(Session::get('token'));
+        $service = new Google_Service_Calendar($client);
+
+        $calendarList = $service->calendarList->listCalendarList();
+
+        $list = [];
+        $i = 0;
+        while(true) {
+            foreach ($calendarList->getItems() as $calendarListEntry) {
+                $list[$i]['name'] = $calendarListEntry->getSummary();
+                $list[$i]['id'] = $calendarListEntry->getId();
+                $i++;
+            }
+            $pageToken = $calendarList->getNextPageToken();
+            if ($pageToken) {
+                $optParams = array('pageToken' => $pageToken);
+                $calendarList = $service->calendarList->listCalendarList($optParams);
+            } else {
+                break;
+            }
+        }
+        return $list;
     }
 }

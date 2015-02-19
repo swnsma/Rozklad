@@ -12,7 +12,16 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
 <?php endif; ?>
 
-<button onclick="exportAll()">Export all</button>
+<div class="export-popup">
+    <div>Выберите календарь для експорта уроков</div>
+    <div class="calendar-list">
+        <?php foreach($data['googleCalendars'] as $calendar):?>
+            <button class="selectCalendar" onclick="exportAll(<?php echo '\''.$calendar['id'].'\''?>)">
+                <?php echo $calendar['name'];?>
+            </button>
+        <?php endforeach;?>
+    </div>
+</div>
 
 <div class="my-tooltip" id="tooltip">
     <h3  id="tooltipTitle">Title</h3>
@@ -201,8 +210,7 @@
         });
     }
 
-    function exportAll() {
-        var calendarId = "myrozklad@gmail.com";
+    function exportAll(calendarId) {
         var lessons = fullEventFor;
         for (var i =0; i< lessons.length;i++) {
             //if (i>0) return;
