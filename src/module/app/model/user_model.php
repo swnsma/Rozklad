@@ -173,5 +173,22 @@ HERE;
 
 
     }
+    public function saveTask ($studentId,$name,$lessonId){
+        $r = <<<HERE
+        INSERT INTO `result` (owner, link,lesson_id) VALUES ($studentId,'$name',$lessonId);
+
+HERE;
+
+
+        try{
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            return $request;
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+
+    }
 
 }

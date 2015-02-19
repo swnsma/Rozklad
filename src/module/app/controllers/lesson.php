@@ -60,10 +60,8 @@ class Lesson extends Controller {
         $this->model->newInfo($lessonId,$value);
         $this->view->renderJson(Array('result'=>"success"));
     }
-    public function upload(){
-
+    public function uploadTask(){
        $fileName = $_FILES["file"]["name"];
-
       $ext=pathinfo($fileName, PATHINFO_EXTENSION);
       $fileTmpLoc = $_FILES["file"]["tmp_name"];
       $name=uniqid(). '.' . $ext;
@@ -77,6 +75,21 @@ class Lesson extends Controller {
         unlink ($pathAndName);
         $this->view->renderJson(Array('result'=>"success"));
     }
+    public function uploadHomework(){
+        $req = Request::getInstance();
+        $studentId= $req->getParam(0);
+        $lessonId=$req->getParam(1);
+        $fileName = $_FILES["file"]["name"];
+        $ext=pathinfo($fileName, PATHINFO_EXTENSION);
+        $fileTmpLoc = $_FILES["file"]["tmp_name"];
+        $name=uniqid(). '.' . $ext;
+        $pathAndName = HOMEWORK_FOLDER.'/'.$name ;
+        move_uploaded_file($fileTmpLoc, $pathAndName);
+        //$this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
+        $this->model->saveTask($studentId,$name,$lessonId);
+
+    }
+
 
 
 }
