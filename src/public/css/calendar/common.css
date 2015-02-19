@@ -18,3 +18,16 @@ header {
     margin: 0 auto;
     padding: 0;
 }
+.screpka{
+    position: absolute;
+    top: 0px;
+    right: -3px;
+    width: 15px;
+    height: 15px;
+    background: url("../../img/screpka.png");
+    background-size: cover;
+    display: block;
+    transform:   rotate(135deg);
+    opacity: 1;
+
+}
