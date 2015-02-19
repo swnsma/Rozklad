@@ -10,7 +10,17 @@ class UserModel extends Model {
         parent::__construct();
     }
 
-
+    public function getUserInfo($id){
+        try{
+        $d=$this->db->query("SELECT* FROM `user` WHERE id=$id;")->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($d[0])){
+            return $d[0];
+        }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
     public function getCurrentUserInfo(){
         $id = Session::get('id');
         $userInfo=Array();

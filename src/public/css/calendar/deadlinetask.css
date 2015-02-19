@@ -51,6 +51,8 @@
     background-color: #ffffff;
     margin: 0;
     display: none;
+    resize: both;
+    overflow: auto;
 }
 .deadlinetask-content .close{
     background: url("../../../public/img/sh_btn.png");
