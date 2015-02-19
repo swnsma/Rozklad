@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/lesson/lesson.css">
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/common/bootstrap.css">
-<section class="main-content">
+<section class="main-content clearfix">
     <h2>Домашнее Задание</h2>
     <section class="col-md-8">
         <!-- ko ifnot: descriptionEdit-->
@@ -22,7 +22,6 @@
     <section class="content col-md-4">
         <div>
             <h4>Полезные ссылки:</h4>
-
             <div>
                 <?php if ($data['status'] == 'teacher'): ?>
                     <input type="text" class="col-md-8" placeholder="Вставьте ссылку"
@@ -51,8 +50,6 @@
             </div>
             <?php endif ?>
 
-
-
             <?php if ($data['status'] == 'teacher'): ?>
             <div class='col-md-12 ' data-bind="foreach: files">
                 <div class=" col-lg-10">
@@ -66,26 +63,22 @@
             <?php endif ?>
         </div>
         <?php if ($data['status'] == 'teacher'): ?>
-
-            <button data-bind="upload: { files: files, save: makeArray }">Upload</button>
-
-
+            <button data-bind="uploadTask: { files: files, save: makeArray }">Загрузить файл</button>
             <div class="fileValid">Размер не больше 20 мБ</div>
-            <div class="fileError" data-bind="text:validationMess"></div>
         <?php endif ?>
     </section>
 </section>
-<section class="main-content ">
-<h2>Дедлайн домашнего задания</h2>
+<?php if ($data['status'] == 'student'): ?>
+    <section class="main-content clearfix ">
+      <h4>Загрузка домашнего задания</h4>
+        <button data-bind="uploadHomework{studentId:<?php echo $data['id'] ?>, homeWork:homeWork, id:id} ">Загрузить файл</button>
+        <div data-bind="text:homeWork"></div>
+    </section>
+<?php endif ?>
 
 
 
 
-
-
-
-
-</section>
 
 
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>

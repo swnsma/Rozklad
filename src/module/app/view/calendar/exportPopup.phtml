@@ -1,0 +1,29 @@
+<style>
+    .export-popup {
+        margin: auto;
+        display: table;
+    }
+</style>
+<?php if(Session::has('gm_ID')): ?>
+    <div class="export-popup">
+        <div>Выберите календарь для експорта уроков</div>
+        <div class="calendar-list">
+            <?php foreach($data['googleCalendars'] as $calendar):?>
+                <button class="selectCalendar" onclick="exportAll(<?php echo '\''.$calendar['id'].'\''?>)">
+                    <?php echo $calendar['name'];?>
+                </button>
+            <?php endforeach;?>
+        </div>
+    </div>
+<?php endif ?>
+
+<?php if(!Session::has('gm_ID')):?>
+    <div class="export-popup">
+        <div>Для експорта уроков нужно войти через Google+</div>
+        <button onclick="loginGoogle()">Вход через Google+</button>
+    </div>
+<?php endif?>
+
+<div id="1" id="export-popup">
+
+</div>
