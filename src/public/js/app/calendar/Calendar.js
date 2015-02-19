@@ -373,10 +373,11 @@ function Calendar(){
             }
             pressed = {};
             func();
+            setInterval(func, 2000);
             setCookie('clsd32das32', Math.random());
         };
     } else {
-        setTimeout(func, 2000);
+        setInterval(func, 2000);
     }
 
     document.onkeyup = function(e) {
