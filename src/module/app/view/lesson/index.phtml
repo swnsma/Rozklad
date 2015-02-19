@@ -71,7 +71,8 @@
 <?php if ($data['status'] == 'student'): ?>
     <section class="main-content clearfix ">
       <h4>Загрузка домашнего задания</h4>
-        <button data-bind="uploadHomework{studentId:<?php echo $data['id'] ?>} ">Загрузить файл</button>
+        <button data-bind="uploadHomework{studentId:<?php echo $data['id'] ?>, homeWork:homeWork, id:id} ">Загрузить файл</button>
+        <div data-bind="text:homeWork"></div>
     </section>
 <?php endif ?>
 

@@ -87,7 +87,7 @@ class Lesson extends Controller {
         move_uploaded_file($fileTmpLoc, $pathAndName);
         //$this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
         $this->model->saveTask($studentId,$name,$lessonId);
-
+        $this->view->renderJson(Array('newName'=>$name));
     }
 
 
