@@ -3,6 +3,9 @@ function load(){
         var self = this;
         self.users = ko.observableArray([]);
         getTeachers(self);
+        //var realTimeUpdate = window.setInterval(function(){
+        //    loadUsers(self);
+        //},500);
 
         self.confirm = function (user){
             $.ajax({

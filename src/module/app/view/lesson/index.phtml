@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/lesson/lesson.css">
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/common/bootstrap.css">
-<section class="main-content">
+<section class="main-content clearfix">
     <h2>Домашнее Задание</h2>
     <section class="col-md-8">
         <!-- ko ifnot: descriptionEdit-->
@@ -31,34 +31,56 @@
             </div>
             <div class="col-md-12" data-bind="foreach:links">
                 <div class="col-lg-10 wordBreak elipsis">
-                    <a  data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
+                    <a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
                 </div>
                 <?php if ($data['status'] == 'teacher'): ?>
-                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">Удалить</button></div>
+                    <div class="col-lg-2 ">
+                        <button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">
+                            Удалить
+                        </button>
+                    </div>
                 <?php endif ?>
             </div>
         </div>
-
-        <?php if ($data['status'] == 'teacher'): ?>
-            <h4>Загрузить файл</h4>
-            <div class="fileValid">Размер не больше 20 мБ</div>
-            <form data-bind="loadFile"  enctype="multipart/form-data">
-                <input type="file" name="file" id=" file" />
-            </form>
-
-            <div class="fileError" data-bind="text:validationMess"></div>
-        <?php endif ?>
         <h4>Файлы для скачивания:</h4>
+        <?php if ($data['status'] == 'student'): ?>
         <div class='col-md-12 ' data-bind="foreach: files">
             <div class=" col-lg-10">
-                <a  download="" data-bind="text:newName, attr:{ href:url}">файл</a>
+                <a download="" data-bind="text:newName, attr:{ href:url}">файл</a>
             </div>
+            <?php endif ?>
+
             <?php if ($data['status'] == 'teacher'): ?>
-                <div class="col-lg-2 "><button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">Удалить</button></div>
+            <div class='col-md-12 ' data-bind="foreach: files">
+                <div class=" col-lg-10">
+                    <a download="" data-bind="text:oldName, attr:{ href:url}">файл</a>
+                </div>
+                <div class="col-lg-2 ">
+                    <button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">
+                        Удалить
+                    </button>
+                </div>
             <?php endif ?>
         </div>
+        <?php if ($data['status'] == 'teacher'): ?>
+            <button data-bind="uploadTask: { files: files, save: makeArray }">Загрузить файл</button>
+            <div class="fileValid">Размер не больше 20 мБ</div>
+        <?php endif ?>
     </section>
 </section>
+<?php if ($data['status'] == 'student'): ?>
+    <section class="main-content clearfix ">
+      <h4>Загрузка домашнего задания</h4>
+        <button data-bind="uploadHomework{studentId:<?php echo $data['id'] ?>, homeWork:homeWork, id:id} ">Загрузить файл</button>
+        <div data-bind="text:homeWork"></div>
+    </section>
+<?php endif ?>
+
+
+
+
+
+
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/lesson/lesson.js"></script>

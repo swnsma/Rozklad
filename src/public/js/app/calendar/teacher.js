@@ -887,12 +887,12 @@ function Calendar_teacher(){
                 group: getAddGroups(selectGroups.getMasGroups())
             };
             function success(id){
-                self.masEvent.push({id: id.id,
-                    title: title,
-                    start: startFun(),
-                    end: endFun(),
-                    allDay: false,
-                    teacher:teacher});
+                //self.masEvent.push({id: id.id,
+                //    title: title,
+                //    start: startFun(),
+                //    end: endFun(),
+                //    allDay: false,
+                //    teacher:teacher});
                 self.jqueryObject.calendar.fullCalendar('renderEvent', {
                     id: id.id,
                     title: title,

@@ -5,9 +5,9 @@ require DOC_ROOT . '/lib/google2/src/Google/Service/Calendar.php';
 
 class Calendar extends Controller
 {
-
     private $userInfo;
     private $role = 'teacher';
+
     public function __construct()
     {
         parent::__construct();
@@ -38,19 +38,19 @@ class Calendar extends Controller
         $data['status'] = $this->userInfo['title'];
         $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
         $data['currentPage']=$this->getClassName();
-        /*$this->view->renderAllHTML('groups/index',
-            $data,
-            array('groups/groups.css'));*/
-        $this->view->renderHtml('common/head', $data);
-        $this->view->renderHtml('common/header', $data);
-        $this->view->renderHtml('calendar/index', $data);
-        if($data['status']==='student') {
-            $this->view->renderHtml('calendar/deadlinetask', $data);
-        }
+    /*$this->view->renderAllHTML('groups/index',
+        $data,
+        array('groups/groups.css'));*/
+$this->view->renderHtml('common/head', $data);
+$this->view->renderHtml('common/header', $data);
+$this->view->renderHtml('calendar/index', $data);
+if($data['status']==='student') {
+$this->view->renderHtml('calendar/deadlinetask', $data);
+}
 //        $this->view->renderHtml('common/footer');
-        $this->view->renderHtml('common/foot');
+$this->view->renderHtml('common/foot');
 
-    }
+}
 
     public function addFullEventDefault()
     {
@@ -88,6 +88,7 @@ class Calendar extends Controller
             $this->view->renderJson($id);
         }
     }
+
     public function restore()
     {
         if (isset($_POST['id'])) {
@@ -190,7 +191,6 @@ class Calendar extends Controller
         $this->view->renderJson($arr);
     }
 
-    //+
     public function getAllGroupsForThisLesson(){
         $request=Request::getInstance();
         $this->model = $this->loadModel('lesson');
@@ -277,5 +277,18 @@ class Calendar extends Controller
     public function exportEvent(){
         $this->model = $this->loadModel('lesson');
         $this->model->exportEvent($_POST['lesson']['lessonId'],$_POST['lesson']['userId'],$_POST['calendarId']);
+    }
+
+    public function getGoogleCalendarList() {
+        echo( json_encode($this->model->getGoogleCalendarList()) );
+    }
+
+    public function exportPopup(){
+        $this->model = $this->loadModel('lesson');
+        $data = [];
+        if (Session::has('gm_ID')){
+            $data['googleCalendars']=$this->model->getGoogleCalendarList();
+        }
+        $this->view->renderHtml('calendar/exportPopup',$data);
     }
 }

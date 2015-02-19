@@ -10,7 +10,17 @@ class UserModel extends Model {
         parent::__construct();
     }
 
-
+    public function getUserInfo($id){
+        try{
+        $d=$this->db->query("SELECT* FROM `user` WHERE id=$id;")->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($d[0])){
+            return $d[0];
+        }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
     public function getCurrentUserInfo(){
         $id = Session::get('id');
         $userInfo=Array();
@@ -156,6 +166,23 @@ HERE;
         try{
             $STH=$this->db->prepare("UPDATE lesson SET lesson_info = :value WHERE id=:id");
             $STH->execute(array('value'=>$value,'id'=>$lessonId));
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+
+    }
+    public function saveTask ($studentId,$name,$lessonId){
+        $r = <<<HERE
+        INSERT INTO `result` (owner, link,lesson_id) VALUES ($studentId,'$name',$lessonId);
+
+HERE;
+
+
+        try{
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            return $request;
         }
         catch(PDOException $e){
             echo $e->getMessage();

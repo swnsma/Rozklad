@@ -107,12 +107,12 @@ class Bootstrap extends Controller{
                     }
                     break;
                 case 'regist':
-                    if($controller!='regist'){
+                    if($controller!='regist'&&$controller!='sendermail'){
                         $this->changeLocation("app/regist");
                     }
                     break;
                 case 'unconfirmed':
-                    if($controller!="index"&&$controller!="logout"){
+                    if($controller!="index"&&$controller!="logout"&&$controller!='sendermail'){
                         $this->changeLocation();
                     }
                     break;

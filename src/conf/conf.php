@@ -4,6 +4,7 @@ define('URL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
 define('DOC_ROOT', __DIR__ . '/../');
 define('IMAGES_FOLDER', DOC_ROOT . 'public/users_files/images/');
 define('TASKS_FOLDER', DOC_ROOT . 'public/users_files/tasks/');
+define('HOMEWORK_FOLDER', DOC_ROOT . 'public/users_files/homework/');
 
 define('TIME_ZONE','Europe/Kiev');
 //Google

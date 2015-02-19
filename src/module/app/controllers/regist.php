@@ -11,6 +11,7 @@ class Regist extends Controller
         header('Content-type: text/html; charset=utf-8');
         $this->view->renderHtml("regist/index");
     }
+
     public function addUser(){
 
         $data=$_POST['data'];
@@ -45,30 +46,6 @@ class Regist extends Controller
 
         if((!$existUserFb)&&(!$existUserGm)) {
             $reg=$this->model->addUser($name, $surname, $phone,$role, $fb_ID,$gm_ID,$email);
-            //Відправляємо листа адміну
-            $m = Mail::getInstance();
-            $template = $m->getTemplate('letterToAdmin2', array(
-                'userName' => $name.' '.$surname,
-                'phone' => $phone,
-                'email' => $email,
-                'mail_background' => 'mail_background',
-                'url' => 'http://google.com',
-                'date'=> date("d.m.Y H:i")
-            ));
-            if (is_null($template)) {
-                echo 'template is not exists';
-            } else {
-                $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
-                if ($m->send(array(
-                    'swnsma@gmail.com'///доробити!
-                ), 'subject', $template)) {
-                    echo 'true';
-                } else {
-                    echo 'false';
-                    echo $m->getErrorInfo();
-                }
-            }
-            //
             if($reg){
                 if(Session::has('fb_ID')){
                     $this->model=$this->loadModel("user");

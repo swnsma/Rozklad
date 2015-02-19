@@ -91,7 +91,24 @@ function ModelRegist(){
             self.isChecked(0);
         }
     });
-
+    self.sendMail=function(data){
+        if(data.role==1){
+            $.ajax({
+                url:url + 'app/sendermail/sendLetter/',
+                type:"POST",
+                data:{
+                    data:data
+                },
+                success:function(response){
+                    console.log(response);
+                    console.log('success');
+                },
+                error:function(){
+                    console.log('error');
+                }
+            });
+        }
+    }
     self.sendInfo = function(){
 
         var check=1;
@@ -114,6 +131,7 @@ function ModelRegist(){
             phone:self.phone(),
             role:self.role()
         };
+
         $.ajax({
                 url:url + 'app/regist/addUser/',
                 type:"POST",
@@ -123,6 +141,7 @@ function ModelRegist(){
                 success:function(response){
                     if(response.result==="registed") {
                         console.log(response.link);
+                        console.log(postData);
                         $("#btn-success")
                             .prop('disabled', false)
                             .click(function(){
@@ -132,6 +151,7 @@ function ModelRegist(){
                             .toggle();
                         $("#regist")
                             .toggle();
+                        self.sendMail(postData);
                     }
                     else{
                         alert(response.result);
@@ -141,6 +161,8 @@ function ModelRegist(){
                     console.log(error);
                     alert('error: block get status');
                 }
+
+
             }
         );
     };
