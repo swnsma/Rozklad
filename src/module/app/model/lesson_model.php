@@ -250,7 +250,9 @@ BORIA;
             INNER JOIN 'user' as u ON
             u.id=l.teacher
             WHERE (st_g.student_id='$id')
-            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0";
+
+            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0
+              ORDER BY l.deadline ASC ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
