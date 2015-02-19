@@ -22,6 +22,7 @@
     <section class="content col-md-4">
         <div>
             <h4>Полезные ссылки:</h4>
+
             <div>
                 <?php if ($data['status'] == 'teacher'): ?>
                     <input type="text" class="col-md-8" placeholder="Вставьте ссылку"
@@ -60,22 +61,28 @@
                         Удалить
                     </button>
                 </div>
+                <?php endif ?>
+            </div>
+            <?php if ($data['status'] == 'teacher'): ?>
+                <button data-bind="uploadTask: { files: files, save: makeArray }">Загрузить файл</button>
+                <div class="fileValid">Размер не больше 20 мБ</div>
             <?php endif ?>
-        </div>
-        <?php if ($data['status'] == 'teacher'): ?>
-            <button data-bind="uploadTask: { files: files, save: makeArray }">Загрузить файл</button>
-            <div class="fileValid">Размер не больше 20 мБ</div>
-        <?php endif ?>
     </section>
 </section>
+<section class="main-content clearfix ">
 <?php if ($data['status'] == 'student'): ?>
-    <section class="main-content clearfix ">
-      <h4>Загрузка домашнего задания</h4>
-        <button data-bind="uploadHomework{studentId:<?php echo $data['id'] ?>, homeWork:homeWork, id:id} ">Загрузить файл</button>
-        <div data-bind="text:homeWork"></div>
-    </section>
-<?php endif ?>
+        <h4>Загрузка домашнего задания</h4>
+        <button data-bind="uploadHomework{studentId:<?php echo $data['id']?>,studentName:'<?php echo $data['name']?>', homeWork:homeWork, id:id} ">Загрузить
+            файл</button>
 
+<?php endif ?>
+    <?php if ($data['status'] == 'teacher'): ?>
+        <h4>Присланные решения</h4>
+        <div data-bind="foreach: homeWork">
+            <br><span data-bind="text:name"></span> <a download="" data-bind="attr:{ href:urls}">Скачать</a>
+        </div>
+    <?php endif ?>
+</section>
 
 
 

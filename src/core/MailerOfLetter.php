@@ -61,9 +61,12 @@ HERE;
     private function getTemplateForInvitationToLesson($id) {
         $request = <<<HERE
             SELECT
-                `lesson`.`title` as title
-            FROM `lesson`
-            WHERE `lesson`.`id` = :id
+                `lesson`.`id` as l_id,
+                `lesson`.`title` as title,
+                `user`.`name` as t_name,
+                `user`.`surname` as t_surname
+            FROM `lesson`, `user`
+            WHERE `lesson`.`id` = :id AND `lesson`.`teacher` = `user`.`id`
             LIMIT 1
 HERE;
         try {
@@ -72,8 +75,15 @@ HERE;
             if ($request->execute()) {
                 $data = $request->fetchAll(PDO::FETCH_ASSOC);
                 $data = $data[0];
+                $this->mail->addFileToHtml(DOC_ROOT . 'public/img/rty.jpg', 'mail_background');
+                $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
                 return $this->mail->getTemplate('invitationToLesson', array(
-                    'title' => $data['title']
+                    'lessonTitle' => $data['title'],
+                    'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
+                    'userNameStudent' => $data['s_name'] . ' ' . $data['s_surname'],
+                    'url' => URL . 'app/lesson/id' . $data['l_id'],
+                    'mail_background' => 'mail_background',
+                    'mail_sep' => 'mail_sep'
                 ));
             }
         } catch(PDOException $e) {}
@@ -120,6 +130,5 @@ HERE;
 
     private function __clone() {}
 }
-
 
 ?>

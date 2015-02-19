@@ -239,7 +239,7 @@ BORIA;
 //            print_r($userinfo);
             $id = $userinfo['id'];
                 $res = "select l.id,
-            l.title,l.deadline, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            l.title,l.deadline,l.lesson_info, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
             INNER JOIN 'groups' as g ON
             g.id=st_g.group_id
@@ -250,7 +250,9 @@ BORIA;
             INNER JOIN 'user' as u ON
             u.id=l.teacher
             WHERE (st_g.student_id='$id')
-            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0";
+
+            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0
+              ORDER BY l.deadline ASC ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
