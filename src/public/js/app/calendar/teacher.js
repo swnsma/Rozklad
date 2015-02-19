@@ -196,8 +196,8 @@ function Calendar_teacher(){
     this.option.eventDragStart=function(){
         delPopup();
     }
-    this.option.eventDrop=function( event, delta, revertFunc, jsEvent, ui, view ){
-        //delPopup();
+
+    var eventResize = function( event, delta, revertFunc, jsEvent, ui, view){
         var start  = new Date(event.start);
         //start.setDate(start.getDate()+delta._data.days);
         start= normDate(start.getFullYear(),toFormat(start.getMonth()+1),start.getDate(),start.getHours(),start.getMinutes());
@@ -250,7 +250,14 @@ function Calendar_teacher(){
             }
 
         )
+    }
+    this.option.eventDrop=function( event, delta, revertFunc, jsEvent, ui, view ){
+        //delPopup();
+        eventResize(event, delta, revertFunc, jsEvent, ui, view);
     };
+    this.option.eventResize = function(event, delta, revertFunc, jsEvent, ui, view){
+        eventResize(event, delta, revertFunc, jsEvent, ui, view);
+    }
     this.option.dayClick=function(date, allDay, jsEvent, view) {
         self.jqueryObject.popup.button.delEvent.css({'visibility':'hidden'});
         if(delPopup()){

@@ -988,6 +988,6 @@ be a descendant of the grid when it is being dragged.
 }
 
 td.fc-day.fc-widget-content {
-	background-image: url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif);
+	/*background-image: url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif);*/
 	background-size: cover;
 }
