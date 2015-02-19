@@ -81,6 +81,7 @@ function CreateListLeson(data,parent){
             var hour =0;
             if(minutes>=60){
                 hour=minutes/60;
+                hour = parseInt(hour);
                 minutes=minutes%60;
                 minutes= parseInt(minutes);
             }
@@ -132,9 +133,11 @@ function CreateListLeson(data,parent){
                     if (deadline['minutes'] < 0) {
                         deadline['minutes'] = 59;
                         deadline['hour']--;
+                        deadline['hour'] = parseInt(deadline['hour']);
                         if (deadline['hour'] < 0) {
                             deadline['hour'] = 23;
                             deadline['day']--;
+                            deadline['day'] = parseInt(deadline['day']);
                             if (deadline['day'] < 0) {
                                 deadline['content'].css({
                                     'backgroundColor': color
