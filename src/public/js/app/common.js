@@ -1,4 +1,4 @@
-var url =window.location.origin +'/';
+var url =window.location.origin +'/src/';
 
 function universalAPI(urla, type, success, fail, data, processData, contentType){
     $.ajax({
