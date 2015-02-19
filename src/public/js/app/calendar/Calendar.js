@@ -128,7 +128,17 @@ function Calendar(){
 
     var self=this;
     self.currentUser;
-
+    self.getCurrentUser=function(){
+        universalAPI(
+            url + 'app/calendar/getUserInfo',
+            'get',
+            function(response){
+                self.currentUser = response;
+            },
+            function(){
+                alert('Біда');
+            }, []);
+    };
     this.masEvent=[];
 
     this.groups=[];
@@ -203,13 +213,14 @@ function Calendar(){
 
     this.option={
         fixedWeekCount:false,
+        allDaySlot:false,
         aspectRatio:1.5,
         dragScroll:false,
         firstDay: 1,
         header: {
-            //left: 'prev,next today',
-            //center: 'title',
-            //right: 'month,agendaWeek,agendaDay'
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -224,6 +235,7 @@ function Calendar(){
             day: "День"
         },
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
+        axisFormat:'H:mm',
         eventRender:function(event, element) {
             if(statusRender===1){
                 fullcalendarEvent=[];
@@ -268,8 +280,8 @@ function Calendar(){
                         'display': 'inline-block'
                     });
                     $var.appendTo($(element));
-
                 }
+
             }
             if(event.color===masColor.delEvent.color){
                 var $textDeleted =  $(element).find('.fc-title');
@@ -283,27 +295,48 @@ function Calendar(){
                 $link.appendTo($(element));
 
             }
+
+            if(event.lesson_info){
+                debugger;
+                var a = JSON.parse(event.lesson_info);
+                if(a['description'].length!=0||a['links'].length!=0||a['files'].length!=0){
+                    debugger;
+                    var $screpka = $('<span>');
+                    $screpka.appendTo($(element));
+                    $screpka.addClass('screpka');
+                }
+            }
+
+            ///////////////////////////////////
+
+
+            //var $conteiner = $('<span>');
+            //$conteiner.addClass('book-conteiner');
+            //$conteiner.appendTo($(element));
+            //
+            //var $book = $('<span>');
+            //$book.appendTo($conteiner);
+            //$book.addClass('book');
+            //
+            //var $text  = $('<span>');
+            //$text.text('10');
+            //$text.addClass('book-text');
+            //$text.appendTo($conteiner);
+
+
+
+            ///////////////////////////////////
+
         },
         eventAfterAllRender: function(){
             statusRender=1;
-            debugger;
         },
         eventClick: function(calEvent, jsEvent, view){
             window.location= url + 'app/lesson/id'+calEvent.id;
         }
     };
 
-    self.getCurrentUser=function(){
-        universalAPI(
-            url + 'app/calendar/getUserInfo',
-            'get',
-            function(response){
-                self.currentUser = response;
-            },
-            function(){
-                alert('Біда');
-            }, []);
-    };
+
     var a =new RealTimeUpdate();
     this.realTimeUpdate=function(){
         a.start();

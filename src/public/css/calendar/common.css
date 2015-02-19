@@ -18,3 +18,51 @@ header {
     margin: 0 auto;
     padding: 0;
 }
+.screpka{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 15px;
+    height: 15px;
+    background: url("../../img/screpka.png");
+    background-size: cover;
+    display: block;
+    /*transform:   rotate(135deg);*/
+    opacity: 1;
+}
+
+.book{
+    position: absolute;
+/**/
+
+    bottom: 0;
+    right: 0;
+    background-image: url("../../img/flat-icon-application-book-theme-action-address.png");
+    background-size: cover;
+    height: 8px;
+    width: 8px;
+
+}
+.book-text{
+    position: relative;
+    bottom: -2px;
+    right: 10px;
+    background-color: inherit;
+    border-radius: 2px;
+    font-weight: bold;
+    padding-left: 5px;
+    font-size: 8px;
+}
+.book-conteiner{
+    position: absolute;
+
+    right: 0;
+    /*background: #ffff00;*/
+    bottom: 0;
+    background-color: inherit;
+    color: #ffff00;
+    /*height: 15px;*/
+    display: block;
+    border-radius: 2px;
+    white-space: nowrap;
+}
