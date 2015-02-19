@@ -89,7 +89,15 @@ class Lesson extends Controller {
         $this->model->saveTask($studentId,$name,$lessonId);
         $this->view->renderJson(Array('newName'=>$name));
     }
+    public function getTasks(){
+        $req = Request::getInstance();
+        $lessonId= $req->getParam(0);
+        $var=$this->model->loadTasks($lessonId);
+        if(isset($var)){
+            $this->view->renderJson($var);
+        }
 
+    }
 
 
 }

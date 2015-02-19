@@ -5,7 +5,7 @@ ko.bindingHandlers.uploadTask = {
             .on('click',function(){
                 input.click();
             })
-            .wrap('<div />')
+            .wrap('<div />');
 
         var form = $('<form/>')
             .attr('enctype', 'multipart/form-data')
@@ -53,8 +53,9 @@ ko.bindingHandlers.uploadTask = {
 ko.bindingHandlers.uploadHomework = {
     init: function(element, valueAccessor){
         var value = valueAccessor();
-        studentId=value.studentId;
-        console.log(studentId);
+        var  studentId=value.studentId;
+        var studentName=value.studentName;
+
         $(element)
             .on('click',function(){
                 input.click();
@@ -68,7 +69,6 @@ ko.bindingHandlers.uploadHomework = {
 
                 if(e.target.files[0].size<20971520) {
                     $('.fileValid').show();
-                    //that.validationMess("");
                     $.ajax({
                         url: url + 'app/lesson/uploadhomework/'+studentId+'/'+value.id(),
                         type: 'POST',
@@ -86,8 +86,7 @@ ko.bindingHandlers.uploadHomework = {
                     });
                 }
                 else{
-                    //element.reset();
-                    $('.fileValid').hide();
+                $('.fileValid').hide();
                     alert("Файл слишком большой");
                 }
 
@@ -110,7 +109,7 @@ function ViewModel()
     that.links=ko.observableArray([ ]);
     that.id=ko.observable('');
     that.files=ko.observableArray([]);
-    that.homeWork=ko.observable('');
+    that.homeWork=ko.observableArray([]);
     //editing logic
     that.edit=ko.observable(false);
     that.descriptionEdit= ko.observable(false);
@@ -203,18 +202,42 @@ function ViewModel()
         that.id(lessonId);
         universalAPI(url+'app/lesson/getLessonInfo/'+that.id(), 'GET', function(response){
         var incomingData= JSON.parse(response[0].lesson_info);
-            console.log(incomingData);
             that.homeWorkDescription(incomingData.description);
             that.links(incomingData.links);
             that.files(incomingData.files);
         });
+        $.ajax({
+            url: url+'app/lesson/getTasks/'+that.id(),
+            type: 'GET',
+            success: function(response){
+                for(var i =0;i<response.length;i++)
+                {
+                    var homework={};
+                    homework.urls =  url+'public/users_files/homework/'+response[i].link;
+                    homework.name=response[i].name+' '+response[i].surname;
+
+                    that.homeWork.push(homework);
+
+                }
+                console.log(that.homeWork())
+            },
+            error: function(xhr){
+                fail(xhr);
+            }
+        });
+
+
+
+
+
+
+
     };
 }
 
 var viewModel = new ViewModel();
 viewModel.activate();
 ko.applyBindings(viewModel);
-
 
 
 

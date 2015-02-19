@@ -239,7 +239,7 @@ BORIA;
 //            print_r($userinfo);
             $id = $userinfo['id'];
                 $res = "select l.id,
-            l.title,l.deadline, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            l.title,l.deadline,l.lesson_info, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
             INNER JOIN 'groups' as g ON
             g.id=st_g.group_id
