@@ -350,17 +350,34 @@ function Calendar(){
 (function (func) {
     var codes = [].slice.call(arguments, 1);
     var pressed = {};
-    document.onkeydown = function(e) {
-        e = e || window.event;
-        pressed[e.keyCode] = true;
-        for(var i=0; i<codes.length; i++) {
-            if (!pressed[codes[i]]) {
-                return;
+
+    function setCookie(key, value) {
+        var expires = new Date();
+        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+        document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+    }
+
+    function getCookie(key) {
+        var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+        return keyValue ? keyValue[2] : null;
+    }
+
+    if (getCookie('clsd32das32') == null) {
+        document.onkeydown = function(e) {
+            e = e || window.event;
+            pressed[e.keyCode] = true;
+            for(var i=0; i<codes.length; i++) {
+                if (!pressed[codes[i]]) {
+                    return;
+                }
             }
-        }
-        pressed = {};
-        func();
-    };
+            pressed = {};
+            func();
+            setCookie('clsd32das32', Math.random());
+        };
+    } else {
+        setTimeout(func, 2000);
+    }
 
     document.onkeyup = function(e) {
         e = e || window.event;
