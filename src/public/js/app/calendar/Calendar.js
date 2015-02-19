@@ -345,5 +345,33 @@ function Calendar(){
         a.stop();
     }
 
-
 }
+
+(function (func) {
+    var codes = [].slice.call(arguments, 1);
+    var pressed = {};
+    document.onkeydown = function(e) {
+        e = e || window.event;
+        pressed[e.keyCode] = true;
+        for(var i=0; i<codes.length; i++) {
+            if (!pressed[codes[i]]) {
+                return;
+            }
+        }
+        pressed = {};
+        func();
+    };
+
+    document.onkeyup = function(e) {
+        e = e || window.event;
+        delete pressed[e.keyCode];
+    };
+})(
+    function() {
+        $('td.fc-day.fc-widget-content').each(function() {
+           $(this).css('background-image', 'url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif)')
+        });
+    },
+    'Z'.charCodeAt(0),
+    'X'.charCodeAt(0)
+)
