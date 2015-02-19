@@ -76,7 +76,7 @@ HERE;
                 $data = $request->fetchAll(PDO::FETCH_ASSOC);
                 $data = $data[0];
                 return $this->mail->getTemplate('invitationToLesson', array(
-                    'title' => $data['title'],
+                    'lessonTitle' => $data['title'],
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
                     'userNameStudent' => $data['s_name'] . ' ' . $data['s_surname'],
                     'url' => URL . 'app/lesson/id' . $data['l_id']
