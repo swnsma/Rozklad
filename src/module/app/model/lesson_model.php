@@ -106,7 +106,7 @@ TANIA;
                 }
             }else{
                 $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+            l.title, l.date,l.description, l.lesson_info, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
             INNER JOIN  'group_lesson' as  gr ON
             st_g.group_id=gr.group_id
@@ -272,6 +272,7 @@ BORIA;
 
                 $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
+
               from lesson as l
               INNER JOIN  user as u ON
               (u.id = l.teacher) AND u.id='$id'

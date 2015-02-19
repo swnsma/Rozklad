@@ -22,6 +22,7 @@ ajaxParam={
                         jqueryObject.calendar.fullCalendar('removeEvents', date[i].id);
                     }
                 }
+
             }
             if(currentUser.title==='teacher'){
                 for (var i = 0; i < date.length; ++i){

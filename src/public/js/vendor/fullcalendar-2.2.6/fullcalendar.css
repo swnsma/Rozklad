@@ -635,7 +635,7 @@ a.fc-more:hover {
 
 .fc-toolbar .fc-state-active,
 .fc-toolbar .ui-state-active {
-	z-index: 4;
+	/*z-index: 4;*/
 }
 
 .fc-toolbar button:focus {
@@ -988,6 +988,6 @@ be a descendant of the grid when it is being dragged.
 }
 
 td.fc-day.fc-widget-content {
-	background-image: url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif);
+	/*background-image: url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif);*/
 	background-size: cover;
 }

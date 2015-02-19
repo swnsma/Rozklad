@@ -213,13 +213,14 @@ function Calendar(){
 
     this.option={
         fixedWeekCount:false,
+        allDaySlot:false,
         aspectRatio:1.5,
         dragScroll:false,
         firstDay: 1,
         header: {
-            //left: 'prev,next today',
-            //center: 'title',
-            //right: 'month,agendaWeek,agendaDay'
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
 
         },
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -234,6 +235,7 @@ function Calendar(){
             day: "День"
         },
         timeFormat: 'H:mm',// uppercase H for 24-hour clock
+        axisFormat:'H:mm',
         eventRender:function(event, element) {
             if(statusRender===1){
                 fullcalendarEvent=[];
@@ -294,12 +296,6 @@ function Calendar(){
 
             }
 
-
-            //if(self.currentUser){
-            //    if(self.currentUser.title==='student'){
-            //
-            //    }
-            //}
             if(event.lesson_info){
                 debugger;
                 var a = JSON.parse(event.lesson_info);
@@ -311,6 +307,25 @@ function Calendar(){
                 }
             }
 
+            ///////////////////////////////////
+
+
+            //var $conteiner = $('<span>');
+            //$conteiner.addClass('book-conteiner');
+            //$conteiner.appendTo($(element));
+            //
+            //var $book = $('<span>');
+            //$book.appendTo($conteiner);
+            //$book.addClass('book');
+            //
+            //var $text  = $('<span>');
+            //$text.text('10');
+            //$text.addClass('book-text');
+            //$text.appendTo($conteiner);
+
+
+
+            ///////////////////////////////////
 
         },
         eventAfterAllRender: function(){
@@ -329,6 +344,5 @@ function Calendar(){
     this.realTimeStop = function(){
         a.stop();
     }
-
 
 }

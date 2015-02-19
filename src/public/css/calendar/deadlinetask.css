@@ -60,6 +60,8 @@
     height: 16px;
     opacity: 0.5;
     margin-top: 10px;
+    position: absolute;
+    right: 10px;
 }
 .deadlinetask-content .close:hover{
     opacity: 1;

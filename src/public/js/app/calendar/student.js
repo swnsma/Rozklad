@@ -15,107 +15,113 @@ function CreateListLeson(data,parent){
     var masId=[];
     for(var i =0;i<data.length;++i){
         if(data[i].deadline){
-            var $div = $('<div>');
-            $div.appendTo(parent);
-            $div.attr({
-                'id':'lesson'+data[i].id
-            })
-            $div.on('click',function(){
-                window.location=url+'app/lesson/id'+$(this).attr('id').substr(6);
-            });
-            $div.addClass('lesson-wrapper');
 
-            var $eventTitle = $('<span>');
-            $eventTitle.appendTo($div);
-            $eventTitle.text(data[i].title);
-            $eventTitle.addClass('event-title');
-
-            for(var j =0;j<data[i].group.length;++j){
-                var $var=$('<span>');
-                $var.appendTo($div);
-                $var.text(data[i].group[j].name[0]);
-                $var.css({
-                    'display': 'inline-block',
-                    'width': '10px',
-                    'height': '10px',
-                    'fontSize': '8px',
-                    'textAlign': 'center',
-                    'marginLeft': '2px',
-                    'marginRight':'2px',
-                    'borderRadius': '2px',
-                    'verticalAlign': 'baseline',
-                    'lineHeight':'10px',
-                    'backgroundColor': data[i].group[j].color,
-                    'fontWeight': 'normal',
-                    'verticalAlign':'middle',
-                    'color':'white'
-                });
-            }
-            if (data[i].teacher) {
-                var $var = $('<span>');
-                $var.text(data[i].name[0] + '.' + data[i].surname);
-                $var.css({
-                    'fontSize': '10px',
-                    'display': 'inline-block',
-                    'lineHeight':'10px'
-                });
-                $var.appendTo($div);
-            }
-
-            var $var = $('<span>');
             var deadline = data[i].deadline;
-            $var.text(deadline.substr(0,deadline.length-3));
-            $var.addClass('deadline');
-            $var.appendTo($div);
-
-
-            var $timeTrack = $('<span>');
             var currentData = new Date();
             deadline = new Date(deadline);
 
 
             var r = deadline-currentData;
-            var minutes = r/1000/60;
-            minutes =parseInt(minutes);
+            if(r>0) {
+                var $div = $('<div>');
+                $div.appendTo(parent);
+                $div.attr({
+                    'id': 'lesson' + data[i].id
+                })
+                $div.on('click', function () {
+                    window.location = url + 'app/lesson/id' + $(this).attr('id').substr(6);
+                });
+                $div.addClass('lesson-wrapper');
 
-            var hour =0;
-            if(minutes>=60){
-                hour=minutes/60;
-                hour = parseInt(hour);
-                minutes=minutes%60;
-                minutes= parseInt(minutes);
-            }
-            var day = 0;
-            if(hour>=24){
-                day = hour/24;
-                day =parseInt(day);
-                hour = hour%24;
-                hour = parseInt(hour);
-            }
+                var $eventTitle = $('<span>');
+                $eventTitle.appendTo($div);
+                $eventTitle.text(data[i].title);
+                $eventTitle.addClass('event-title');
 
-            masTime[data[i].id]= {
-                day: day,
-                hour: hour,
-                minutes: minutes,
-                content: $div
-            };
-            if(day<0){
-                $div.empty();
-            }
-            $timeTrack.attr({
-                'id':'timeTrack'+data[i].id
-            });
+                for (var j = 0; j < data[i].group.length; ++j) {
+                    var $var = $('<span>');
+                    $var.appendTo($div);
+                    $var.text(data[i].group[j].name[0]);
+                    $var.css({
+                        'display': 'inline-block',
+                        'width': '10px',
+                        'height': '10px',
+                        'fontSize': '8px',
+                        'textAlign': 'center',
+                        'marginLeft': '2px',
+                        'marginRight': '2px',
+                        'borderRadius': '2px',
+                        'verticalAlign': 'baseline',
+                        'lineHeight': '10px',
+                        'backgroundColor': data[i].group[j].color,
+                        'fontWeight': 'normal',
+                        'verticalAlign': 'middle',
+                        'color': 'white'
+                    });
+                }
+                if (data[i].teacher) {
+                    var $var = $('<span>');
+                    $var.text(data[i].name[0] + '.' + data[i].surname);
+                    $var.css({
+                        'fontSize': '10px',
+                        'display': 'inline-block',
+                        'lineHeight': '10px'
+                    });
+                    $var.appendTo($div);
+                }
 
-            masId.push(data[i].id);
+                var $var = $('<span>');
+
+                $var.text(deadline.substr(0, deadline.length - 3));
+                $var.addClass('deadline');
+                $var.appendTo($div);
 
 
-            $timeTrack.addClass('timeTrack');
-            $timeTrack.appendTo($div);
-            if(day>=0) {
-                $timeTrack.text(' ' + parseInt(day) + ':' + toFormat(parseInt(hour)) + ':' + toFormat(parseInt(minutes)));
-            }else{
-                $timeTrack.text('');
-                $div.empty();
+                var $timeTrack = $('<span>');
+
+
+                var minutes = r / 1000 / 60;
+                minutes = parseInt(minutes);
+
+                var hour = 0;
+                if (minutes >= 60) {
+                    hour = minutes / 60;
+                    hour = parseInt(hour);
+                    minutes = minutes % 60;
+                    minutes = parseInt(minutes);
+                }
+                var day = 0;
+                if (hour >= 24) {
+                    day = hour / 24;
+                    day = parseInt(day);
+                    hour = hour % 24;
+                    hour = parseInt(hour);
+                }
+
+                masTime[data[i].id] = {
+                    day: day,
+                    hour: hour,
+                    minutes: minutes,
+                    content: $div
+                };
+                if (day < 0) {
+                    $div.empty();
+                }
+                $timeTrack.attr({
+                    'id': 'timeTrack' + data[i].id
+                });
+
+                masId.push(data[i].id);
+
+
+                $timeTrack.addClass('timeTrack');
+                $timeTrack.appendTo($div);
+                if (day >= 0) {
+                    $timeTrack.text(' ' + parseInt(day) + ':' + toFormat(parseInt(hour)) + ':' + toFormat(parseInt(minutes)));
+                } else {
+                    $timeTrack.text('');
+                    $div.empty();
+                }
             }
 
         }
@@ -127,7 +133,6 @@ function CreateListLeson(data,parent){
         time=setInterval(function(){
             for(var i =0;i<masId.length;++i) {
                 deadline = masTime[masId[i]];
-                console.log(deadline);
                 if(deadline['day']>=0) {
                     deadline['minutes']--;
                     if (deadline['minutes'] < 0) {
@@ -146,7 +151,6 @@ function CreateListLeson(data,parent){
                         }
 
                     }
-                    console.log(masId[i]);
                     $('#timeTrack'+masId[i]).text(''+deadline['day'] +':' + toFormat(deadline['hour']) + ':' + toFormat(deadline['minutes']));
                 }else{
                     $('#timeTrack'+masId[i]).text('');
