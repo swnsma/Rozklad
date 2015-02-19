@@ -2,8 +2,13 @@
  * Created by Таня on 23.01.2015.
  */
 
+function compare(left,right){
+    return   (new Date(left.deadline))-(new Date(right.deadline))  ;
+}
 function CreateListLeson(data,parent){
 
+
+    data.sort(compare);
     var color = '#a20';
     var masTime = [];
     parent.empty();
@@ -105,8 +110,8 @@ function CreateListLeson(data,parent){
 
             $timeTrack.addClass('timeTrack');
             $timeTrack.appendTo($div);
-            if(day>0) {
-                $timeTrack.text(' d:' + day + ' h:' + toFormat(hour) + ' m:' + toFormat(minutes));
+            if(day>=0) {
+                $timeTrack.text(' d:' + parseInt(day) + ' h:' + toFormat(parseInt(hour)) + ' m:' + toFormat(parseInt(minutes)));
             }else{
                 $timeTrack.text('');
                 $div.empty();
