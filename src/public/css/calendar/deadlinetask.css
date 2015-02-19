@@ -1,5 +1,5 @@
 .deadlinetask-bt {
-    width: 250px;
+    width: 230px;
     position: fixed;
     z-index: 100000;
     height: 30px;
@@ -43,16 +43,16 @@
 
 .deadlinetask-content{
     outline: 1px solid #000000;
-    width: 250px;
+
+    width: 230px;
+    /*min-width: 200px;*/
     position: fixed;
     z-index: 100000;
-    bottom: 0;
-    right: 30px;
+    top: 0;
+    left: 30px;
     background-color: #ffffff;
     margin: 0;
     display: none;
-    resize: both;
-    overflow: auto;
 }
 .deadlinetask-content .close{
     background: url("../../../public/img/sh_btn.png");
@@ -65,16 +65,21 @@
     opacity: 1;
 }
 .deadlinetask-content .content{
-    height: 300px;
+    height: 250px;
     width: inherit;
     overflow: auto;
     overflow-x: hidden;
+    margin-bottom: 10px;
 }
 
 .deadlinetask-content .content .lesson-wrapper{
     border-bottom:1px solid #aaa;
     padding:1px 10px;
-    cursor:pointer
+    cursor:pointer;
+    position: relative;
+}
+.deadlinetask-content .content .lesson-wrapper:last-child{
+    border-bottom:none;
 }
 .deadlinetask-content .content .lesson-wrapper:hover{
     background-color: #eeeeee;
@@ -91,6 +96,22 @@ padding:0;
 font-size: 10px;
 display: block;
 font-weight:bold;
-color:#aaa
+color:#aaa;
 line-height:10px
+}
+.deadlinetask-content .content .lesson-wrapper .timeTrack{
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    color: #0016b0;
+    font-weight: bold;
+}
+.deadlinetask-content .resize{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: url("../../img/resize.png");
+    z-index: 10000000;
+    width: 10px;
+    height: 10px;
 }
