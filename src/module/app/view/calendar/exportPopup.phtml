@@ -3,6 +3,14 @@
         margin: auto;
         display: table;
     }
+
+    .export-progress {
+        display: none;
+    }
+
+    .successfully-exported {
+        display: none;
+    }
 </style>
 <?php if(Session::has('gm_ID')): ?>
     <div class="export-popup">
@@ -13,6 +21,11 @@
                     <?php echo $calendar['name'];?>
                 </button>
             <?php endforeach;?>
+        </div>
+        <progress class='export-progress' id="exportProgress" value="29" max="100">
+        </progress>
+        <div class="successfully-exported" id="successfullyExported">
+            Занятия успешно експортированы!
         </div>
     </div>
 <?php endif ?>

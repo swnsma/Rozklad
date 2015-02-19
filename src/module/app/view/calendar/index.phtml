@@ -186,13 +186,14 @@
         window.location.href = url+'app/loging/login';
     }
 
-    function exportLesson(lesson, calendarId){
+    function exportLesson(lesson, callback){
         $.ajax({
             url: url + 'app/calendar/exportEvent',
             type: 'POST',
             data: lesson,
             success: function(response){
                 console.log ('exported');
+                callback();
             },
             error: function(e){
                 //;
@@ -202,12 +203,27 @@
 
     function exportAll(calendarId) {
         var lessons = fullEventFor;
+        var counter = 0;
+
+        var success =  document.getElementById('successfullyExported');
+        success.style.display = 'none';
+
+        var bar = document.getElementById('exportProgress');
+        bar.style.display='block';
+        bar.setAttribute('max',lessons.length);
+        bar.setAttribute('value','0');
         for (var i =0; i< lessons.length;i++) {
+            function callback(){
+                bar.setAttribute('value',bar.getAttribute('value')*1+1);
+                if (bar.getAttribute('value')*1 >= lessons.length){
+                    success.style.display = 'block';
+                }
+            }
             //if (i>0) return;
             var lessonId = lessons[i].id;
             var userId = lessons[i].teacher;
-            var lesson = {lessonId: lessonId, userId: userId}
-            exportLesson({lesson: lesson,calendarId:calendarId});
+            var lesson = {lessonId: lessonId, userId: userId};
+            exportLesson({lesson: lesson,calendarId:calendarId}, callback);
         }
     }
 
