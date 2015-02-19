@@ -32,7 +32,7 @@ SetEnvIfNoCase Request_URI "^/src/app/admin" SECURED
 
 AuthType Basic
 AuthName "Login"
-AuthUserFile /home/vova/sites/localhost/www/src/conf/.htpasswd
+AuthUserFile D:\openserver\OpenServer\domains\localhost\Rozklad\src\conf\.htpasswd
 Require valid-user
 Order allow,deny
 Allow from env=!SECURED

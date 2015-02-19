@@ -4,10 +4,11 @@ require_once DOC_ROOT . 'core/Mail.php';
 
 class MailerOfLetter {
     private static $instance = null;
-    private $db;
+    private $db, $mail;
 
     private function __construct() {
         $this->db = DataBase::getInstance()->DB();
+        $this->mail = Mail::getInstance();
     }
 
     private function getGroupsForInvitationToLesson() {
@@ -38,28 +39,66 @@ HERE;
         try {
             $request = $this->db->prepare($request);
             $request->bindParam(':id', $id, PDO::PARAM_INT);
-            if ($request->execute()) return $request->fetchColumn(0);
+            if ($request->execute()) return $request->fetchAll(PDO::FETCH_ASSOC);
         } catch(PDOException $e) {
             print $e->getMessage();
         }
         return null;
     }
 
+    private function getTemplateForInvitationToLesson($id) {
+        print $id;
+        $request = <<<HERE
+            SELECT
+                `lesson`.`title` as title
+            FROM `lesson`
+            WHERE `lesson`.`id` = :id
+            LIMIT 1
+HERE;
+        try {
+            $request = $this->db->prepare($request);
+            $request->bindParam(':id', $id, PDO::PARAM_INT);
+            if ($request->execute()) {
+                $data = $request->fetchAll(PDO::FETCH_ASSOC);
+                $data = $data[0];
+                return $this->mail->getTemplate('invitationToLesson', array(
+                    'title' => $data['title']
+                ));
+            }
+        } catch(PDOException $e) {
+            print $e->getMessage();
+        }
+        return null;
+    }
+
+    private function getUniqueValuesFromKey($array, $key) {
+        $newArray = array();
+        foreach($array as $value) {
+            array_push($newArray, $value[$key]);
+        }
+        return array_unique($newArray);
+    }
+
     public function sendInvitationToLesson() {
         $groups = $this->getGroupsForInvitationToLesson();
+        $uniqueLessonsId = $this->getUniqueValuesFromKey($groups, 'lesson_id');
+        $templates = array();
+        foreach($uniqueLessonsId as $lessonId) {
+            print $lessonId;
+            $templates[$lessonId] = $this->getTemplateForInvitationToLesson($lessonId);
+        }
         foreach($groups as $group) {
             $emails = $this->getEmailUsersGroups($group['group_id']);
-
-            echo '<pre>';
+            $emails = $this->getUniqueValuesFromKey($emails, 'email');
+            if ($this->mail->send($emails, 'Приглашение', $templates[8])) {
+                echo 'Письма отправленные';
+            } else {
+                echo 'Письма не отправленые' . $this->mail->getErrorInfo();
+            }
             print_r($emails);
-            echo '</pre>';
+            echo '<hr/>';
+            $this->mail->clear();
         }
-
-        /*
-
-        echo '<pre>';
-        print_r($emails);
-        echo '</pre>';*/
     }
 
     static public function getInstance() {
