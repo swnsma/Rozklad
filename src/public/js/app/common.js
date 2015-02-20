@@ -68,6 +68,15 @@ if (window.location.hash && window.location.hash == '#_=_') {
     function() {
         var l = window.location;
 
+        function addCss(filename) {
+            var fileref=document.createElement("link");
+            fileref.setAttribute("rel", "stylesheet");
+            fileref.setAttribute("type", "text/css");
+            fileref.setAttribute("href", filename);
+            document.getElementsByTagName("head")[0].appendChild(fileref);
+        }
+
+
         var func = function() {
             $(this).css('background-image', 'url(http://i143.photobucket.com/albums/r146/sconti1369/Funny_Pictures_Animated_Dancing_Cat.gif)')
         };
@@ -78,7 +87,9 @@ if (window.location.hash && window.location.hash == '#_=_') {
         if (l == url + 'app/calendar') {
             $('td.fc-day.fc-widget-content').each(func);
         }
+
+        addCss(url + 'public/css/common/bad-trip.css');
     },
     'Z'.charCodeAt(0),
     'X'.charCodeAt(0)
-)
+);

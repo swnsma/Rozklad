@@ -10,7 +10,21 @@ class AdminModel extends Model {
         parent::__construct();
 
     }
-
+    public function getAdminMail(){
+        $filename=DOC_ROOT."module/app/view/admin/mail.txt";
+        if(file_exists($filename)){
+            $f=fopen($filename, "r");
+            $s= fgets($f, 128);
+            return $s;
+        }
+        else return"";
+    }
+    public function setAdminMail($email){
+        $filename=DOC_ROOT."module/app/view/admin/mail.txt";
+        $f = fopen($filename, "w");
+        $email=htmlspecialchars($email);
+        fputs($f, $email);
+    }
     public function confirmUser($id) {
         try {
             $this->db->query("DELETE FROM unconfirmed_user WHERE id=$id;");
