@@ -197,6 +197,7 @@ function Calendar_student(){
                     url+'app/calendar/addFullEventDefault',
                     'post',
                     function(data){
+                        debugger;
                         event= data;
                         callback(data);
                         self.masEvent=data;

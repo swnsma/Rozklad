@@ -236,11 +236,27 @@ function ViewModel()
 
     };
 }
-
+function lastVisit(lesson_id){
+    var d = new Date();
+    var n = d.toISOString();
+    universalAPI(
+        url+"app/lesson/setLastVisit",
+        "POST",
+        function(response){
+            console.log(response);
+        },
+        function(response){
+            console.log("error");
+        }
+        ,{lesson_id:lesson_id,date:n}
+    );
+}
 var viewModel = new ViewModel();
 viewModel.activate();
 ko.applyBindings(viewModel);
-
+setInterval(function(){
+    lastVisit(viewModel.id())
+},1000);
 
 
 
