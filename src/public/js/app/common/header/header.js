@@ -22,10 +22,10 @@
          type:"GET",
          success:function(response){
              console.log(response);
-             $("#wrap").append($("<p>"+response.response.length+"</p>"));
+             $("#wrap").append($("<div class='item-wrap'>"+response.response.length+"</div>"));
          },
          error:function(response){
-             alert("error");
+             //alert("error");
              console.log(response);
          }
      });
