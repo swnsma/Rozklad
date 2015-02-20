@@ -157,7 +157,6 @@ function Calendar_teacher(){
     this.option.eventSources=[
         {
             events: function(start, end, timezone, callback) {
-
                 start=start._d;
                 end=end._d;
                 var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
@@ -192,10 +191,9 @@ function Calendar_teacher(){
     this.option.editable=true;
     this.option.dragOpacity=0.8;
 
-
     this.option.eventDragStart=function(){
         delPopup();
-    }
+    };
 
     var eventResize = function( event, delta, revertFunc, jsEvent, ui, view){
         if(!event.deleted) {

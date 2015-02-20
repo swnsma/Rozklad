@@ -103,6 +103,20 @@ class Lesson extends Controller {
         }
 
     }
-
+    function setLastVisit(){
+        $date = $_POST['date'];
+        $user_id = Session::get('id');
+        $lesson_id = $_POST['lesson_id'];
+        $this->model=$this->loadModel("lesson");
+        $result = $this->model->setLastVisit($user_id,$lesson_id,$date);
+        $this->view->renderJson($result);
+    }
+    public function unreadedMessages(){
+        $this->model=$this->loadModel("user");
+        $userInfo=$this->model->getCurrentUserInfo();
+        $this->model=$this->loadModel("lesson");
+        $result = $this->model->unreadedMessages($userInfo);
+        $this->view->renderJson($result);
+    }
 
 }

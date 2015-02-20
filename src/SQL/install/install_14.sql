@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS "last_time_visit" ( "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,"user_id" integer NOT NULL,"lesson_id" integer NOT NULL ,"last_visit" text NULL ,FOREIGN KEY ("user_id") REFERENCES "user" ("id"),FOREIGN KEY ("lesson_id") REFERENCES "lesson" ("id"));

@@ -130,12 +130,15 @@ function ViewModel()
         that.makeArray()
     };
 
-    that.saveLink=function(){
+    that.saveLink=function(viewModel, event){
+        if(event.charCode==13){
+
       if( that.linkToAdd().length) {
           that.links.push({name: that.linkToAdd()});
           that.linkToAdd ('');
           that.makeArray()
-      }
+      }};
+        return true;
     };
     that.deleteLink=function(link){
         for(var i =0;i<that.links().length;i++){
@@ -201,7 +204,9 @@ function ViewModel()
     that.activate = function () {
         var lessonId = window.location.pathname;
         var pos=lessonId.search(/id[0-9]+/);
-        lessonId= +lessonId.substr(pos+2, 2);
+        lessonId= +lessonId.substr(pos+2, lessonId.length-pos-2);
+
+
         that.id(lessonId);
         universalAPI(url+'app/lesson/getLessonInfo/'+that.id(), 'GET', function(response){
         var incomingData= JSON.parse(response[0].lesson_info);
@@ -231,11 +236,27 @@ function ViewModel()
 
     };
 }
-
+function lastVisit(lesson_id){
+    var d = new Date();
+    var n = d.toISOString();
+    universalAPI(
+        url+"app/lesson/setLastVisit",
+        "POST",
+        function(response){
+            //console.log(response);
+        },
+        function(response){
+            console.log("error");
+        }
+        ,{lesson_id:lesson_id,date:n}
+    );
+}
 var viewModel = new ViewModel();
 viewModel.activate();
 ko.applyBindings(viewModel);
-
+setInterval(function(){
+    lastVisit(viewModel.id())
+},1000);
 
 
 
