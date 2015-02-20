@@ -77,7 +77,6 @@ HERE;
                 $data = $data[0];
                 //$this->mail->addFileToHtml(DOC_ROOT . 'public/img/rty.jpg', 'mail_background');
                 //$this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
-                print 34343;
                 $b = $this->mail->getTemplate('invitationToLesson', array(
                     'lessonTitle' => $data['title'],
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
@@ -88,9 +87,7 @@ HERE;
                 print $b;
                 return $b;
             }
-        } catch(PDOException $e) {
-            print 232332 . $e->getMessage();
-        }
+        } catch(PDOException $e) {}
         return null;
     }
 

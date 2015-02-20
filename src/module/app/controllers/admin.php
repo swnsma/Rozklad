@@ -19,13 +19,21 @@ class Admin extends Controller {
     public function index() {
         $data = [];
         $data['database']=URL.'SQL/data/index.php?sqlite=&username=&db=rozklad.sqlite';
+        $data['email']=$this->model->getAdminMail();
         $this->view->renderHtml('common/head');
         $this->view->renderHtml('admin/admin_header', $data);
         $this->view->renderHtml('admin/admin_page', $data);
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
     }
-
+    public function setMail(){
+        $mail = $_POST['mail'];
+        $this->model->setAdminMail($mail);
+    }
+    public function getMail(){
+        $r=$this->model->getAdminMail();
+        $this->view->renderJson($r);
+    }
     public function getUnconfirmedUsers(){
         $unconfirmedUsers=$this->model->getUnconfirmedUsers();
         $this->view->renderJson($unconfirmedUsers);

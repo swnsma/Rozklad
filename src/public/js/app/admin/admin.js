@@ -105,7 +105,6 @@ function load(){
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(true);
-                        debugger;
                         if(response[i].unc_id){
                             user.confirmed(false);
                         }
