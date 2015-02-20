@@ -287,12 +287,13 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
             $id = $userinfo['id'];
 
                 $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-
+            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname,lvl.last_visit
               from lesson as l
               INNER JOIN  user as u ON
               (u.id = l.teacher) AND u.id='$id'
-            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
+              LEFT JOIN last_visit_lesson as lvl ON
+              ((l.id = lvl.lesson_id)AND(u.id = lvl.user_id))
+            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'" ;
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
@@ -512,5 +513,48 @@ SQL;
             }
         }
         return $list;
+    }
+    function setLastVisit($user_id,$lesson_id,$date){
+        try {
+            $db=$this->db->prepare("Select * from last_visit_lesson where user_id=:user_id and lesson_id=:lesson_id");
+            $db->execute(array('user_id'=>$user_id, 'lesson_id'=>$lesson_id));
+            $res=$db->fetchAll();
+            if($res){
+                $db1=$this->db->prepare("UPDATE last_visit_lesson SET last_visit=:date WHERE user_id=:user_id AND lesson_id=:lesson_id");
+                $db1->execute(array( 'date'=>$date, 'user_id'=>$user_id, 'lesson_id'=>$lesson_id));
+            }
+            else{
+                $db2=$this->db->prepare("INSERT INTO last_visit_lesson (user_id,lesson_id,last_visit) VALUES (:user_id,:lesson_id,:date)");
+                $db2->execute(array( 'date'=>$date, 'user_id'=>$user_id, 'lesson_id'=>$lesson_id));
+            }
+            return "success";
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+    public function  unreadedMessages($userinfo){
+        try {
+            $id = $userinfo['id'];
+
+            $res = "select lvl.last_visit
+              from lesson as l
+              INNER JOIN  user as u ON
+              (u.id = l.teacher) AND u.id='$id'
+              LEFT JOIN last_visit_lesson as lvl ON
+              ((l.id = lvl.lesson_id)AND(u.id = lvl.user_id))
+            WHERE l.status='1'" ;
+            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+//            for($i=0;$i<count($var);$i++){
+//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+//            }
+            $result = array_unique($var,SORT_REGULAR);
+            sort($result);
+//            print_r($result);
+            return $result;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
     }
 }
