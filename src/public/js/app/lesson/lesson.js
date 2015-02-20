@@ -243,7 +243,7 @@ function lastVisit(lesson_id){
         url+"app/lesson/setLastVisit",
         "POST",
         function(response){
-            console.log(response);
+            //console.log(response);
         },
         function(response){
             console.log("error");
