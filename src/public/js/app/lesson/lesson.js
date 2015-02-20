@@ -216,7 +216,7 @@ function ViewModel()
                 for(var i =0;i<response.length;i++)
                 {
                     var homework={};
-                    homework.link=response[i].link;
+                    homework.link=url+'public/users_files/homework/'+ response[i].link;
                     homework.name=response[i].name+' '+response[i].surname;
                     that.homeWork.push(homework);
 
