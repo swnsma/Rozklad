@@ -15,22 +15,22 @@
         <!--/ko-->
         <!-- ko if: descriptionEdit-->
         <textarea class="descInput form-control " rows="5"
-                  data-bind="value:homeWorkDescription, event: {blur: saveDesc}"></textarea>
+                  data-bind="value:homeWorkDescription, event: {blur: saveDesc}, hasFocus:true"></textarea>
         <!--/ko-->
 
     </section>
-    <section class="content col-md-4">
-        <div>
+    <section class="content col-md-4 ">
+        <div class="clearfix">
             <h4>Полезные ссылки:</h4>
 
             <div>
                 <?php if ($data['status'] == 'teacher'): ?>
-                    <input type="text" class="col-md-8" placeholder="Вставьте ссылку"
-                           data-bind="value:linkToAdd">
-                    <button data-bind="click:function(){saveLink()}">Добавить</button>
+                    <input type="text" class="col-md-12" placeholder="Вставьте ссылку"
+                           data-bind="value:linkToAdd,valueUpdate:'keypress', event: { keypress: saveLink }">
+
                 <?php endif ?>
             </div>
-            <div class="col-md-12" data-bind="foreach:links">
+            <div class="col-md-12 clearfix" data-bind="foreach:links">
                 <div class="col-lg-10 wordBreak elipsis">
                     <a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
                 </div>
@@ -82,10 +82,6 @@
         </div>
     <?php endif ?>
 </section>
-
-
-
-
 
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
