@@ -141,7 +141,7 @@
 .header .expand .controls {
     background-color: rgb(237, 237, 237);
     margin: 0;
-    padding: 10px 0 0 0;
+    padding: 0px 0 0 0;
     text-align: left;
     font-size: 14px;
     font-weight: 400;
@@ -155,8 +155,8 @@
 
 .header .expand .controls li .icon{
     text-align: center;
-    width:20px;
-    height:20px;
+    width:15px;
+    height:15px;
 }
 
 .header .expand .controls li a{
@@ -171,7 +171,7 @@
 
 .header .expand .controls li a .icon-wrapper{
     display: table-cell;
-    width: 50px;
+    width: 30px;
     text-align: center;
     vertical-align: middle;
 }
@@ -180,6 +180,7 @@
     display: table-cell;
     width: 50px;
     vertical-align: middle;
+    font-size: 13px;
 }
 
 .arrow-down {
