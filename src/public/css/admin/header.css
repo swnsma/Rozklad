@@ -10,15 +10,18 @@
 }
 #submit, #change{
     top:50%;
-    margin-top: -18px;
+    margin-top: -15px;
     right: 5px;
     width: 100px;
+    height: 30px;
+    padding: 0;
 }
 #mailInput{
     width: 300px;
+    height: 30px;
 }
 #mail{
-    line-height: 36px;
+    line-height: 30px;
     max-width: 400px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -27,6 +30,6 @@
 #mail, #mailInput{
     right: 115px;
     top: 50%;
-    margin-top: -18px;
+    margin-top: -15px;
 }
 
