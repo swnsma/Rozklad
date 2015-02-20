@@ -78,7 +78,6 @@ CHECKSTUD;
        try{
         $r=<<<HERE
         SELECT
-            `groups`.`description`,
             `groups`.`name`,
             `groups`.`img_src`
         FROM `groups`, `user`
@@ -192,19 +191,6 @@ HERE;
 
 
     }
-   public function editDescription($id,$newDescription){
-        try{
-            $STH=$this->db->prepare("UPDATE groups SET description = :description WHERE id=:id;");
-            $STH->execute(array('description'=>$newDescription, 'id'=>$id));
-        }
-        catch(PDOException $e){
-            echo $e->getMessage();
-        }
-        $var=$this->getGroupInfo($newDescription);
-        $var['description']=$newDescription;
-        $this->setGroupInfo($var);
-    }
-
     public function deletePhoto($id){
         $r=<<<CHECKING
            SELECT `img_src`
