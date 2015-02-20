@@ -61,13 +61,16 @@ class Lesson extends Controller {
         $this->view->renderJson(Array('result'=>"success"));
     }
     public function uploadTask(){
-       $fileName = $_FILES["file"]["name"];
-      $ext=pathinfo($fileName, PATHINFO_EXTENSION);
-      $fileTmpLoc = $_FILES["file"]["tmp_name"];
-      $name=uniqid(). '.' . $ext;
-      $pathAndName = TASKS_FOLDER.'/'.$name ;
-      move_uploaded_file($fileTmpLoc, $pathAndName);
-      $this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
+        $file=$_FILES["file"]["name"];
+        if(isset ($file)) {
+            $fileName = $_FILES["file"]["name"];
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $fileTmpLoc = $_FILES["file"]["tmp_name"];
+            $name = uniqid() . '.' . $ext;
+            $pathAndName = TASKS_FOLDER . $name;
+            move_uploaded_file($fileTmpLoc, $pathAndName);
+            $this->view->renderJson(Array('newName' => $name, 'oldName' => $fileName));
+        }
     }
     public function deleteFile(){
         $fileName=$_POST['data'];
@@ -79,15 +82,17 @@ class Lesson extends Controller {
         $req = Request::getInstance();
         $studentId= $req->getParam(0);
         $lessonId=$req->getParam(1);
+        $file=$_FILES["file"]["name"];
+        if(isset ($file)){
         $fileName = $_FILES["file"]["name"];
         $ext=pathinfo($fileName, PATHINFO_EXTENSION);
         $fileTmpLoc = $_FILES["file"]["tmp_name"];
         $name=uniqid(). '.' . $ext;
         $pathAndName = HOMEWORK_FOLDER.'/'.$name ;
         move_uploaded_file($fileTmpLoc, $pathAndName);
-        //$this->view->renderJson(Array('newName'=>$name,'oldName'=>$fileName));
-        $this->model->saveTask($studentId,$name,$lessonId);
+            $this->model->saveTask($studentId,$name,$lessonId);
         $this->view->renderJson(Array('newName'=>$name));
+        }
     }
     public function getTasks(){
         $req = Request::getInstance();

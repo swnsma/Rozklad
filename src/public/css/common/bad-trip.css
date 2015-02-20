@@ -1,0 +1,44 @@
+@-webkit-keyframes color {
+    0%   {color: red;}
+    25%  {color: yellow;}
+    50%  {color: blue;}
+    100% {color: green;}
+}
+
+@-webkit-keyframes bg-color {
+    0%   {background-color: #ff04f6;}
+    25%  {background-color: #18ff00;}
+    50%  {background-color: #fffa3b;}
+    100% {background-color: #ff2700;}
+}
+
+@-webkit-keyframes spin {
+    50% { -webkit-transform: rotate(-1deg); }
+    100% { -webkit-transform: rotate(1deg); }
+}
+
+
+
+.spin{
+    -webkit-animation: spin 0.5s linear infinite;
+}
+
+.color-change{
+    -webkit-animation: color 0.5s linear infinite;
+}
+
+.bg-color-change{
+    -webkit-animation: bg-color 0.5s linear infinite;
+}
+
+body {
+    -webkit-animation: bg-color 0.5s linear infinite;
+}
+
+body * {
+    -webkit-animation: spin 0.5s linear infinite;
+}
+
+*{
+    -webkit-animation: color 0.5s linear infinite;
+}
