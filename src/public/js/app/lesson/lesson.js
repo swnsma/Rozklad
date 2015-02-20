@@ -11,7 +11,7 @@ ko.bindingHandlers.uploadTask = {
             .attr('enctype', 'multipart/form-data')
             .hide()
             .on('change', function(e){
-
+                $(element).hide();
                 if(e.target.files[0].size<20971520) {
                     $('.fileValid').show();
                     //that.validationMess("");
@@ -26,9 +26,11 @@ ko.bindingHandlers.uploadTask = {
                             response.url = url + 'public/users_files/tasks/' + response.newName;
                             value.files.push(response);
                             value.save();
+                            $(element).show()
                         },
                         error: function (xhr) {
-                            alert('pp')
+                            alert('Чтото пошло не так. Повторите, пожалуйста агруку файла!');
+                            $(element).show()
                         }
                     });
                 }
@@ -66,8 +68,8 @@ ko.bindingHandlers.uploadHomework = {
             .attr('enctype', 'multipart/form-data')
             .hide()
             .on('change', function(e){
-
-                if(e.target.files[0].size<20971520) {
+                $(element).hide();
+                       if(e.target.files[0].size<20971520) {
                     $('.fileValid').show();
                     $.ajax({
                         url: url + 'app/lesson/uploadhomework/'+studentId+'/'+value.id(),
@@ -78,10 +80,11 @@ ko.bindingHandlers.uploadHomework = {
                         success: function (response) {
                             console.log(response);
                             value.homeWork(response.newName);
-
+                            $(element).show()
                         },
                         error: function (xhr) {
-                            alert('pp')
+                            alert('Чтото пошло не так. Повторите, пожалуйста агруку файла!')
+                            $(element).show()
                         }
                     });
                 }
@@ -213,9 +216,8 @@ function ViewModel()
                 for(var i =0;i<response.length;i++)
                 {
                     var homework={};
-                    homework.urls =  url+'public/users_files/homework/'+response[i].link;
+                    homework.link=url+'public/users_files/homework/'+ response[i].link;
                     homework.name=response[i].name+' '+response[i].surname;
-
                     that.homeWork.push(homework);
 
                 }
@@ -225,11 +227,6 @@ function ViewModel()
                 fail(xhr);
             }
         });
-
-
-
-
-
 
 
     };

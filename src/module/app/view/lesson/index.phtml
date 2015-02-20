@@ -79,7 +79,7 @@
     <?php if ($data['status'] == 'teacher'): ?>
         <h4>Присланные решения</h4>
         <div data-bind="foreach: homeWork">
-            <br><span data-bind="text:name"></span> <a download="" data-bind="attr:{ href:urls}">Скачать</a>
+            <br><span data-bind="text:name"></span> <a download="" data-bind="attr:{ href:link}">Скачать</a>
         </div>
     <?php endif ?>
 </section>
