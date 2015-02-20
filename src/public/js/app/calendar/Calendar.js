@@ -309,19 +309,22 @@ function Calendar(){
 
             ///////////////////////////////////
 
+            if(event.newdz) {
+                if(event.newdz[0].len>0) {
+                    var $conteiner = $('<span>');
+                    $conteiner.addClass('book-conteiner');
+                    $conteiner.appendTo($(element));
 
-            //var $conteiner = $('<span>');
-            //$conteiner.addClass('book-conteiner');
-            //$conteiner.appendTo($(element));
-            //
-            //var $book = $('<span>');
-            //$book.appendTo($conteiner);
-            //$book.addClass('book');
-            //
-            //var $text  = $('<span>');
-            //$text.text('10');
-            //$text.addClass('book-text');
-            //$text.appendTo($conteiner);
+                    var $book = $('<span>');
+                    $book.appendTo($conteiner);
+                    $book.addClass('book');
+
+                    var $text = $('<span>');
+                    $text.text(event.newdz[0].len);
+                    $text.addClass('book-text');
+                    $text.appendTo($conteiner);
+                }
+            }
 
 
 

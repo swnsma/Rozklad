@@ -74,14 +74,6 @@ class GroupPage extends Controller {
         $this->model->createInviteCode($id);
         $this->view->renderJson(Array('code'=>$this->model->getInviteCode()));
     }
-    public function editDescription(){
-        $req= Request::getInstance();
-        $id=$req->getParam(0);
-        $newDescription = $_POST['data'];
-
-        $this->model->editDescription($id, $newDescription);
-        $this->view->renderJson(Array('result'=>"success"));
-    }
     public function sendUsers(){
         $req=Request::getInstance();
         $id=$req->getParam(0);

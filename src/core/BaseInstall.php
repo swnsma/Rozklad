@@ -36,17 +36,13 @@ class Base_Install{
         $buff2=$version;
         if($buff<$buff2){
             try{
-                //переделать
                 $DBH=DataBase::getInstance()->DB();
                 do{
                     $buff++;
-                    $file=fopen($path.'/install_'.$buff.'.sql', 'r'); print_r($buff);
+                    $file=fopen($path.'/install_'.$buff.'.sql', 'r');
                     while($buff_query=fgets($file, 10000)){
-                        //echo $buff_query;
-                        //echo"<br/>";
                         $DBH->query($buff_query);
                     }
-                    print_r($query);
                     fclose($file);
                 }while($buff!=$buff2);
                 $file=fopen($path."/version.txt", "w");
@@ -61,14 +57,6 @@ class Base_Install{
     public static function LoadDummy(){
         $f= fopen("SQL/install/dummy_data.sql", "r");
         $DBH=DataBase::getInstance()->DB();
-        //видалення данних
-        /* $result = $DBH->query("SELECT * FROM groups");
-         var_dump($result->fetchAll());
-         $DBH->query("DELETE FROM user WHERE id>0");
-         $DBH->query("DELETE FROM groups WHERE id>0");
-         $DBH->query("DELETE FROM group_lesson WHERE lesson_id>0");
-         $DBH->query("DELETE FROM student_group WHERE group_id>0");
-         $DBH->query("DELETE FROM lesson WHERE id>0");*/
         do{
             $query=fgets($f, 10000);
             $DBH->query($query);

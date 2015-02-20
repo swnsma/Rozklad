@@ -266,6 +266,22 @@ BORIA;
             return null;
         }
     }
+
+    private function getNewDZ($idLesson){
+        try {
+
+
+            $res = "select COUNT (*) as len FROM result
+WHERE result.lesson_id=$idLesson AND  result.grade=''";
+            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+
+//            print_r($result);
+            return $var;
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
     public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end){
         try {
             $id = $userinfo['id'];
@@ -280,6 +296,7 @@ BORIA;
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
             }
 
             $result = array_unique($var,SORT_REGULAR);

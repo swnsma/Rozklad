@@ -11,7 +11,10 @@ class SenderMail extends Controller {
 
     }
     public function sendLetter(){
-        print_r("hello");
+        $model = $this->loadModel('admin');
+        $adminMail=$model->getAdminMail();
+        print_r($adminMail);
+        if($adminMail){
         $data=$_POST['data'];
         $name =$data['name'];
         $surname =$data['surname'];
@@ -32,8 +35,9 @@ class SenderMail extends Controller {
         } else {
             $m->addFileToHtml(DOC_ROOT . 'public/img/mail_background2.jpg', 'mail_background');
             $m->send(array(
-                'swnsma@gmail.com'///доробити!
+                $adminMail
             ), 'Новый пользователь', $template);
+        }
         }
     }
     public function sendLetterToTeacher(){
