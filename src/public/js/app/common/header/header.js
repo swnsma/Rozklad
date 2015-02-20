@@ -1,5 +1,18 @@
  function ModelHeader(){
-
+        var self=this;
+        self.unreadedLessons = ko.observableArray([]);
+        self.init=function(){
+            universalAPI(
+                url+"app/lesson/unreadedMessages",
+                "GET",
+                function(response){
+                    proccessLessons(response);
+                },
+                function(error){
+                    alert("error");
+                }
+            )
+        }
  }
 
  function proccessLessons(lessons){
@@ -14,8 +27,6 @@
          data: { api_key:disqusPublicKey,forum:disqusShortname,thread:"link:"+urlThread,since:lesson.last_visit,order:"asc"},
          type:"GET",
          success:function(response){
-             debugger;
-             alert("success"+" "+response.response.length);
              console.log(response);
          },
          error:function(response){
@@ -24,3 +35,7 @@
          }
      });
  }
+
+ var model=new ModelHeader();
+ model.init();
+ ko.applyBindings(model);
