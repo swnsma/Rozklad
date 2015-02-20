@@ -6,7 +6,6 @@ ko.bindingHandlers.uploadTask = {
                 input.click();
             })
             .wrap('<div />');
-
         var form = $('<form/>')
             .attr('enctype', 'multipart/form-data')
             .hide()
@@ -22,14 +21,14 @@ ko.bindingHandlers.uploadTask = {
                         contentType: false,
                         data: new FormData(form.get(0)),
                         success: function (response) {
-                           // form.reset();
+
                             response.url = url + 'public/users_files/tasks/' + response.newName;
                             value.files.push(response);
                             value.save();
                             $(element).show()
                         },
                         error: function (xhr) {
-                            alert('Чтото пошло не так. Повторите, пожалуйста агруку файла!');
+                            alert('Чтото пошло не так. Повторите, пожалуйста загрузку файла!');
                             $(element).show()
                         }
                     });
@@ -38,8 +37,8 @@ ko.bindingHandlers.uploadTask = {
                     //element.reset();
                     $('.fileValid').hide();
                     alert("Файл слишком большой");
+                    $(element).show()
                 }
-
             })
             .insertAfter(element);
 
@@ -83,7 +82,7 @@ ko.bindingHandlers.uploadHomework = {
                             $(element).show()
                         },
                         error: function (xhr) {
-                            alert('Чтото пошло не так. Повторите, пожалуйста агруку файла!')
+                            alert('Чтото пошло не так. Повторите, пожалуйста загрузку файла!');
                             $(element).show()
                         }
                     });
@@ -91,6 +90,7 @@ ko.bindingHandlers.uploadHomework = {
                 else{
                 $('.fileValid').hide();
                     alert("Файл слишком большой");
+                    $(element).show()
                 }
 
             })
@@ -164,7 +164,7 @@ function ViewModel()
                        that.makeArray()
                 },
                 error: function (xhr) {
-                    fail(xhr);
+                   alert(1)
                 }
             });
         }
@@ -189,7 +189,7 @@ function ViewModel()
                     console.log(response);
                 },
                 error: function(xhr){
-                    fail(xhr);
+                    alert('1');
                 }
             });
 
