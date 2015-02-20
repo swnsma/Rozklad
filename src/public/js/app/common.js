@@ -69,7 +69,7 @@ if (window.location.hash && window.location.hash == '#_=_') {
         var l = window.location;
 
         var func = function() {
-            $(this).css('background-image', 'url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif)')
+            $(this).css('background-image', 'url(http://i143.photobucket.com/albums/r146/sconti1369/Funny_Pictures_Animated_Dancing_Cat.gif)')
         };
 
         if (l == url + 'app/groups') {
