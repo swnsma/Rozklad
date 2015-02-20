@@ -1,0 +1,32 @@
+#change, #mail{
+    position: absolute;
+}
+#submit, #mailInput{
+    display: none;
+    position: absolute;
+}
+.header{
+    position: relative;
+}
+#submit, #change{
+    top:50%;
+    margin-top: -18px;
+    right: 5px;
+    width: 100px;
+}
+#mailInput{
+    width: 300px;
+}
+#mail{
+    line-height: 36px;
+    max-width: 400px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#mail, #mailInput{
+    right: 115px;
+    top: 50%;
+    margin-top: -18px;
+}
+
