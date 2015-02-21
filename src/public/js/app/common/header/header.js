@@ -102,6 +102,3 @@ function scroll(){
      }
  }
 $(document).ready(main);
-(function($){
-
-})(jQuery);
