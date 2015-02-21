@@ -1,33 +1,33 @@
-(function(){
+(function () {
 
-    var months=['января', 'февраля', 'марта', 'апреля',
+    var months = ['января', 'февраля', 'марта', 'апреля',
         'мая', 'июня', 'июля', 'августа',
         'сентября', 'октября', 'ноября', 'декабря'];
 
-    function loadMessages($){
+    function loadMessages($) {
         universalAPI(
-            url+"app/lesson/unreadedMessages",
+            url + "app/lesson/unreadedMessages",
             "GET",
-            function(response){
+            function (response) {
                 $(".content-wrap").slimScroll({
                     alwaysVisible: true,
                     height: 350
                 });
-                proccessLessons(response,$);
+                proccessLessons(response, $);
             },
-            function(error){
+            function (error) {
                 alert("error");
             }
         );
     }
 
-    function proccessLessons(lessons,$){
-        for(var i=0;i<lessons.length;i++){
+    function proccessLessons(lessons, $) {
+        for (var i=0;i<lessons.length;i++){
             getAllCommentsForThread(lessons[i],$);
         }
     }
 
-    function getAllCommentsForThread(lesson,$){
+    function getAllCommentsForThread(lesson,$) {
         var urlThread=url+"app/lesson/id"+lesson.id;
         $.ajax({
             url:"https://disqus.com/api/3.0/threads/listPosts.json",
@@ -39,12 +39,11 @@
                 order:"asc"
             },
             type:"GET",
-            success:function(response){
+            success:function (response) {
                 console.log(response);
                 var res = response.response;
 
                 if(res.length){
-                    debugger;
                     var len = response.response.length;
                     var item =  $(
                         "<div class='item-wrap'>"
@@ -58,32 +57,31 @@
                     $(".content-wrap").slimScroll();
                 }
             },
-            error:function(response){
+            error:function (response) {
                 //alert("error");
                 console.log(response);
             }
         });
     }
 
-    function displayWrap(){
+    function displayWrap() {
         $("#wrap").toggleClass("display-none");
     }
 
-    function setWrapPos(obj,$){
+    function setWrapPos(obj,$) {
         var wrap = jQuery("#wrap"),
             wrapWidth = wrap.width(),
             wrapHeight = wrap.height();
-        debugger;
         var offset = obj.offset(),
             top = offset.top,
             left = offset.left;
         wrap.offset({
-            top:top+obj.height(),
+            top:top+obj.height()+10,
             left:left-wrapWidth*0.75
         });
     }
 
-    function goLink(obj){
+    function goLink(obj) {
         if(obj.attr("link")){
             obj.on("click",function(){
                 var link = $(this).attr("link");
@@ -92,7 +90,7 @@
         }
     }
 
-    function getRightForm(len){
+    function getRightForm(len) {
         var lenStr = len.toString();
         var ln= lenStr.length;
         var firstDigit = parseInt(lenStr[ln-1]);
@@ -117,8 +115,7 @@
         }
     }
 
-    function getFormDate(dat){
-        debugger;
+    function getFormDate(dat) {
         var date = getDateOf(dat);
         var days = date.slice(8,10),
             month = parseInt(date.slice(5,7)),
@@ -126,14 +123,28 @@
         return days+" "+months[month-1]+" "+years;
     }
 
-    function getDateOf(date){
+    function getDateOf(date) {
         var needed = date.slice(0,10);
         return needed;
     }
 
-    var iconClick=function($,that){
+    function setArrowPos(obj) {
+        var wrap = jQuery("#wrap"),
+            wrapWidth = wrap.width(),
+            wrapHeight = wrap.height();
+        var after = jQuery(".wrap:after");
+        var offset = obj.offset(),
+            top = offset.top,
+            left = offset.left;
+        after.css(
+            "left",wrapWidth*0.75+(obj.width()/2)
+        );
+    }
+
+    var iconClick=function($,that) {
         displayWrap();
         setWrapPos(jQuery(that),$);
+        setArrowPos(jQuery(that));
     };
 
     var main = function($){
