@@ -7,14 +7,12 @@
     <div class="col-lg-7"></div>
     <div class="clearfix col-lg-5">
         <?php if ($data['status'] == 'teacher'): ?>
-            <form>
             <input placeholder="- -" id="day" type="tel"/>-
             <input placeholder="- -" id="month" type="tel"/>-
             <input placeholder="- - - -" id="year" type="tel"/>
             <input data-bind="value:deadLine" class="tcal"/>
-            <input id="hour" placeholder="14" min="0" max="23" type="number"/>:<input  id="min" placeholder=" 00" min="0" max="60" type="number"/>
-            <button type="submit" data-bind="setDeadLine{ deadLine:deadLine}">Установить дедлайн</button>
-            </form>
+            <input id="hour" placeholder="14" min="0" max="23" type="number"/>:<input  id="min" placeholder=" 00" min="0" max="59" type="number"/>
+            <button data-bind="setDeadLine{ deadLine:deadLine}">Установить дедлайн</button>
          <?php endif ?>
 
     </div>

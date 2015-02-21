@@ -105,22 +105,26 @@ ko.bindingHandlers.setDeadLine = {
     init: function (element, valueAccessor, ava, viewModel ) {
         var value = valueAccessor();
         $(element).click(function () {
-            var d=$("#day").val();
-
-            var mo=$("#month").val();
-            var ye=$("#year").val();
+            var d=toFormat(parseInt($("#day").val()));
+            console.log(d);
+            var mo=toFormat(parseInt($("#month").val()));
+            console.log(mo);
+            var ye=parseInt($("#year").val());
+            console.log(ye);
             var t=d+'-'+mo+'-'+ye+' ';
-            var h=$('#hour').val();
+            var h=parseInt($('#hour').val());
+            console.log(h);
             if(!h){
                 h=14;
-            }
-            var m =$('#min').val();
+            }else{h=toFormat(h);}
+            var m =parseInt($('#min').val());
+            console.log(m);
             if(!m){
                 m='00';
-            }
-            if(isNaN(parseInt(d))||isNaN(parseInt(mo))||isNaN(parseInt(ye))||isNaN(parseInt(h))||isNaN(parseInt(m))){
-                return;
-            }
+            }else{m=toFormat(m);}
+            if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
+
+            }else{
             t+=' '+h;
             t+=':'+m;
             if(t.length<10){
@@ -132,6 +136,7 @@ ko.bindingHandlers.setDeadLine = {
             }, function(){
                 console.log("Something going wrong!");
             }, {deadline: t});
+            }
         })}
 };
 function ViewModel() {

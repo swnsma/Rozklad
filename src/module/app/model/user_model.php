@@ -227,8 +227,8 @@ HERE;
     function setDeadLine($id, $deadline){
         $r=<<<SETDAD
             UPDATE `lesson`
-            SET `deadline`="$deadline";
-            WHERE id=$id;
+            SET `deadline`="$deadline"
+            WHERE `lesson`.`id`=$id;
 SETDAD;
         $this->db->query($r);
 
