@@ -18,6 +18,8 @@
     </div>
 <div>
     <section class="col-md-7">
+        <span data-bind="getName:{role:'<?php echo $data['status']?>', name:'<?php echo $data['name']?>', userId:'<?php echo $data['id']?>', userInfo:userInfo}"></span>
+
         <!-- ko ifnot: descriptionEdit-->
         <?php if ($data['status'] == 'teacher'): ?>
             <div class='description' data-bind="text:homeWorkDescription, click:descriptionEditStart">
@@ -86,9 +88,16 @@
 </section>
 <section class="main-content clearfix ">
 <?php if ($data['status'] == 'student'): ?>
+    <!-- ko ifnot: selfHomeWork-->
         <h4>Загрузка домашнего задания</h4>
-        <button data-bind="uploadHomework{studentId:<?php echo $data['id']?>,studentName:'<?php echo $data['name']?>', homeWork:homeWork, id:id} ">Загрузить
+          <button data-bind="uploadHomework{userInfo:userInfo, homeWork:homeWork, id:id} ">Загрузить
             файл</button>
+    <!--/ko-->
+    <!-- ko if: selfHomeWork-->
+    <div data-bind="foreach: homeWork">
+        <br><span>Вы уже загрузили домашнее задание</span> <a download="" data-bind="attr:{ href:link}">Скачать</a>
+    </div>
+    <!--/ko-->
 <?php endif ?>
     <?php if ($data['status'] == 'teacher'): ?>
         <h4>Присланные решения</h4>
@@ -99,11 +108,7 @@
 </section>
 
 
-
-
-
-
-
+<!--
 <section class="main-content">
     <?php
 

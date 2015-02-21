@@ -41,7 +41,6 @@ ko.bindingHandlers.uploadTask = {
                 }
             })
             .insertAfter(element);
-
         var input = $('<input />')
             .attr('type', 'file')
             .attr('name', 'file')
@@ -52,38 +51,35 @@ ko.bindingHandlers.uploadTask = {
 ko.bindingHandlers.uploadHomework = {
     init: function (element, valueAccessor) {
         var value = valueAccessor();
-        var studentId = value.studentId;
-        var studentName = value.studentName;
-
         $(element)
             .on('click', function () {
                 input.click();
             })
             .wrap('<div />')
-
         var form = $('<form/>')
             .attr('enctype', 'multipart/form-data')
             .hide()
             .on('change', function (e) {
                 $(element).hide();
                 if (e.target.files[0].size < 20971520) {
+                    console.log(value.userInfo());
                     $('.fileValid').show();
-                    $.ajax({
-                        url: url + 'app/lesson/uploadhomework/' + studentId + '/' + value.id(),
-                        type: 'POST',
-                        processData: false,
-                        contentType: false,
-                        data: new FormData(form.get(0)),
-                        success: function (response) {
-                            console.log(response);
-                            value.homeWork(response.newName);
-                            $(element).show()
-                        },
-                        error: function (xhr) {
-                            alert('Чтото пошло не так. Повторите, пожалуйста загрузку файла!');
-                            $(element).show()
-                        }
-                    });
+                   $.ajax({
+                       url: url + 'app/lesson/uploadhomework/' + value.userInfo()[2] + '/' + value.id(),
+                       type: 'POST',
+                       processData: false,
+                       contentType: false,
+                       data: new FormData(form.get(0)),
+                       success: function (response) {
+                           console.log(response);
+                           value.homeWork(response.newName);
+                         alert('Домашка загружена успешно')
+                       },
+                       error: function (xhr) {
+                           alert('Чтото пошло не так. Повторите, пожалуйста загрузку файла!');
+                           $(element).show()
+                       }
+                   });
                 }
                 else {
                     $('.fileValid').hide();
@@ -139,6 +135,14 @@ ko.bindingHandlers.setDeadLine = {
             }
         })}
 };
+ko.bindingHandlers.getName={
+    init: function (element,valueAccessor){
+        var value=valueAccessor();
+        value.userInfo.push(value.name);
+        value.userInfo.push(value.role);
+        value.userInfo.push(value.userId);
+    }
+};
 function ViewModel() {
     var that = this;
     //data
@@ -148,13 +152,13 @@ function ViewModel() {
     that.id = ko.observable('');
     that.files = ko.observableArray([]);
     that.homeWork = ko.observableArray([]);
+    that.userInfo=ko.observableArray([]);
+    that.selfHomeWork=ko.observable(false);
     //editing logic
     that.edit = ko.observable(false);
     that.descriptionEdit = ko.observable(false);
     that.linkToAdd = ko.observable('');
-
-
-    that.deadLine = ko.observable('')
+    that.deadLine = ko.observable(false);
     //editing functions
     that.startEdit = function () {
         that.edit(true)
@@ -169,7 +173,6 @@ function ViewModel() {
 
     that.saveLink = function (viewModel, event) {
         if (event.charCode == 13) {
-
             if (that.linkToAdd().length) {
                 that.links.push({name: that.linkToAdd()});
                 that.linkToAdd('');
@@ -196,7 +199,6 @@ function ViewModel() {
                     data: newName
                 },
                 success: function (response) {
-
                     for (var i = 0; i < that.files().length; i++) {
                         if (that.files()[i].newName == newName) {
                             that.files.remove(that.files()[i])
@@ -209,7 +211,6 @@ function ViewModel() {
                 }
             });
         }
-
         sendData(newName)
     };
     that.makeArray = function () {
@@ -218,9 +219,7 @@ function ViewModel() {
             links: that.links(),
             files: that.files()
         };
-
         var datasend = JSON.stringify(data);
-
         function sendData() {
             $.ajax({
                 url: url + 'app/lesson/changeLessonInfo/' + that.id(),
@@ -237,20 +236,15 @@ function ViewModel() {
             });
 
         }
-
         sendData()
     };
-
     //method that starts magic
     that.activate = function () {
         var lessonId = window.location.pathname;
         var pos = lessonId.search(/id[0-9]+/);
         lessonId = +lessonId.substr(pos + 2, lessonId.length - pos - 2);
-
-
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
-            console.log(response);
             that.deadLine(response.result);
         },function(){
             console.log("Something going wrong");
@@ -265,21 +259,31 @@ function ViewModel() {
             url: url + 'app/lesson/getTasks/' + that.id(),
             type: 'GET',
             success: function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    var homework = {};
-                    homework.link = url + 'public/users_files/homework/' + response[i].link;
-                    homework.name = response[i].name + ' ' + response[i].surname;
-                    that.homeWork.push(homework);
-
+                console.log(response);
+                if(that.userInfo()[1]=='student'){
+                    for (var i = 0; i < response.length; i++){
+                        if(response[i].name+' '+response[i].surname==that.userInfo()[0]){
+                            that.selfHomeWork(true);
+                            var homework = {};
+                            homework.link = url + 'public/users_files/homework/' + response[i].link;
+                            homework.name = response[i].name + ' ' + response[i].surname;
+                            that.homeWork(homework);
+                        }
+                    }
                 }
-                //console.log(that.homeWork())
+                if(that.userInfo()[1]=='teacher') {
+                    for (var i = 0; i < response.length; i++) {
+                         homework = {};
+                         homework.link = url + 'public/users_files/homework/' + response[i].link;
+                         homework.name = response[i].name + ' ' + response[i].surname;
+                         that.homeWork.push(homework);
+                    }
+                }
             },
             error: function (xhr) {
                 fail(xhr);
             }
         });
-
-
     };
 }
 function lastVisit(lesson_id) {
@@ -302,7 +306,3 @@ ko.applyBindings(viewModel);
 setInterval(function () {
     lastVisit(viewModel.id())
 }, 1000);
-
-
-
-
