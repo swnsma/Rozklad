@@ -102,10 +102,36 @@ ko.bindingHandlers.uploadHomework = {
     }
 };
 ko.bindingHandlers.setDeadLine = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, ava, viewModel ) {
         var value = valueAccessor();
         $(element).click(function () {
-           value.deadLine($('.tcal')[0].value);
+            var d=$("#day").val();
+
+            var mo=$("#month").val();
+            var ye=$("#year").val();
+            var t=d+'-'+mo+'-'+ye+' ';
+            var h=$('#hour').val();
+            if(!h){
+                h=14;
+            }
+            var m =$('#min').val();
+            if(!m){
+                m='00';
+            }
+            if(isNaN(parseInt(d))||isNaN(parseInt(mo))||isNaN(parseInt(ye))||isNaN(parseInt(h))||isNaN(parseInt(m))){
+                return;
+            }
+            t+=' '+h;
+            t+=':'+m;
+            if(t.length<10){
+                t="Нет";
+            }
+            value.deadLine(t);
+            universalAPI(url+'app/lesson/setDeadLine/'+viewModel.id(), "POST", function(response){
+                console.log(response);
+            }, function(){
+                console.log("Something going wrong!");
+            }, {deadline: t});
         })}
 };
 function ViewModel() {
@@ -123,7 +149,7 @@ function ViewModel() {
     that.linkToAdd = ko.observable('');
 
 
-    that.deadLine = ko.observable('Дедлайн не установлен')
+    that.deadLine = ko.observable('')
     //editing functions
     that.startEdit = function () {
         that.edit(true)
@@ -145,7 +171,6 @@ function ViewModel() {
                 that.makeArray()
             }
         }
-        ;
         return true;
     };
     that.deleteLink = function (link) {
@@ -219,6 +244,12 @@ function ViewModel() {
 
 
         that.id(lessonId);
+        universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
+            console.log(response);
+            that.deadLine(response.result);
+        },function(){
+            console.log("Something going wrong");
+        });
         universalAPI(url + 'app/lesson/getLessonInfo/' + that.id(), 'GET', function (response) {
             var incomingData = JSON.parse(response[0].lesson_info);
             that.homeWorkDescription(incomingData.description);

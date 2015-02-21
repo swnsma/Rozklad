@@ -162,9 +162,9 @@ function f_tcalUpdate (n_date, b_keepOpen) {
 		e_cal.innerHTML = f_tcalGetHTML(d_date, e_input);
 	}
 	else {
-        $day.text(toFormat(d_date.getDate()));
-        $month.text(toFormat(d_date.getMonth()+1));
-        $year.text(d_date.getFullYear());
+        $day.val(toFormat(d_date.getDate()));
+        $month.val(toFormat(d_date.getMonth()+1));
+        $year.val(d_date.getFullYear());
 		e_input.value = f_tcalGenerateDate(d_date, A_TCALCONF.format);
 		f_tcalCancel();
 	}
