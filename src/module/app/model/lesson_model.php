@@ -536,7 +536,7 @@ SQL;
 //            print_r($userinfo);
             $id = $userinfo['id'];
             if($userinfo['title']==='teacher') {
-                $res = "select l.id, l.title,
+                $res = "select l.id, l.title, l.start,
               lvl.last_visit
               from lesson as l
                INNER JOIN user as u ON
@@ -546,7 +546,7 @@ SQL;
             WHERE  u.id=$id";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             }else{
-                $res = "select l.id, l.title,
+                $res = "select l.id, l.title,l.start,
             lvl.last_visit
             from 'student_group'as st_g
             INNER JOIN  'group_lesson' as  gr ON
