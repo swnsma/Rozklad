@@ -1,7 +1,12 @@
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/lesson/lesson.css">
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/common/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/js/vendor/tcal/tcal.css">
 <section class="main-content clearfix">
     <h2>Домашнее Задание</h2>
+    <div class="clearfix">
+    <input data-bind="value:deadLine" class="tcal col-lg-4"/><button data-bind="setDeadLine{ deadLine:deadLine}">Установить дедлайн</button> <span data-bind="text:deadLine"></span>
+    </div>
+<div>
     <section class="col-md-8">
         <!-- ko ifnot: descriptionEdit-->
         <?php if ($data['status'] == 'teacher'): ?>
@@ -150,5 +155,6 @@ $hmac = dsq_hmacsha1($message . ' ' . $timestamp, DISQUS_SECRET_KEY);
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/lesson/lesson.js"></script>
+<script src="<?php echo URL; ?>public/js/vendor/tcal/tcal.js"></script>
 <script>
 </script>
