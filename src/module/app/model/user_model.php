@@ -224,5 +224,26 @@ HERE;
             return null;
         }
     }
+    function setDeadLine($id, $deadline){
+        $r=<<<SETDAD
+            UPDATE `lesson`
+            SET `deadline`="$deadline"
+            WHERE `lesson`.`id`=$id;
+SETDAD;
+        $this->db->query($r);
 
+    }
+    function getDeadLine($id){
+        $r=<<<GETDEAD
+            SELECT `deadline`
+            FROM `lesson`
+            WHERE `lesson`.`id`='$id';
+GETDEAD;
+        $var =$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+        if(!is_null($var[0]['deadline']))
+        {
+            return $var[0]['deadline'];
+        }else return "Нет";
+
+    }
 }

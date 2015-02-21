@@ -4,6 +4,26 @@ header{
     padding: 0;
     margin-bottom: 20px;
 }
+[type='tel']{
+    width: 20px;
+    border: none;
+    background: #fcfcfc;
+    outline: none;
+}
+#year{
+    width: 30px;
+}
+.tcal{
+    width: 0;
+    border: none;
+}
+[type='number']{
+    margin-left: 5px;
+    outline: none;
+    background: #fcfcfc;;
+    width: 33px;
+    border: none;
+}
 body{
     padding: 0;
     margin: 0;

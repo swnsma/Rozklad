@@ -1,8 +1,23 @@
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/lesson/lesson.css">
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/common/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/js/vendor/tcal/tcal.css">
 <section class="main-content clearfix">
-    <h2>Домашнее Задание</h2>
-    <section class="col-md-8">
+    <h2 class="col-lg-7">Домашнее Задание</h2>
+    <h3 class="col-lg-5">Дедлайн: <span data-bind="text:deadLine"></span></h3>
+    <div class="col-lg-7"></div>
+    <div class="clearfix col-lg-5">
+        <?php if ($data['status'] == 'teacher'): ?>
+            <input placeholder="- -" id="day" type="tel"/>-
+            <input placeholder="- -" id="month" type="tel"/>-
+            <input placeholder="- - - -" id="year" type="tel"/>
+            <input data-bind="value:deadLine" class="tcal"/>
+            <input id="hour" placeholder="14" min="0" max="23" type="number"/>:<input  id="min" placeholder=" 00" min="0" max="59" type="number"/>
+            <button data-bind="setDeadLine{ deadLine:deadLine}">Установить дедлайн</button>
+         <?php endif ?>
+
+    </div>
+<div>
+    <section class="col-md-7">
         <!-- ko ifnot: descriptionEdit-->
         <?php if ($data['status'] == 'teacher'): ?>
             <div class='description' data-bind="text:homeWorkDescription, click:descriptionEditStart">
@@ -19,7 +34,7 @@
         <!--/ko-->
 
     </section>
-    <section class="content col-md-4 ">
+    <section class="content col-md-5 ">
         <div class="clearfix">
             <h4>Полезные ссылки:</h4>
 
@@ -150,5 +165,6 @@ $hmac = dsq_hmacsha1($message . ' ' . $timestamp, DISQUS_SECRET_KEY);
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/lesson/lesson.js"></script>
+<script src="<?php echo URL; ?>public/js/vendor/tcal/tcal.js"></script>
 <script>
 </script>

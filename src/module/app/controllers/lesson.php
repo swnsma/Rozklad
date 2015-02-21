@@ -10,7 +10,7 @@ class Lesson extends Controller {
 
     public function __construct() {
         parent::__construct();
-        $id = $_SESSION['id'];
+        $id = Session::get('id');
         if($id===null){
             $this->logout();
         }
@@ -77,6 +77,19 @@ class Lesson extends Controller {
         $pathAndName=TASKS_FOLDER.'/'.$fileName ;
         unlink ($pathAndName);
         $this->view->renderJson(Array('result'=>"success"));
+    }
+    public function getDeadLine(){
+        $req= Request::getInstance();
+        $id=$req->getParam(0);
+        $var =$this->model->getDeadLine($id);
+        $this->view->renderJson(Array('result'=>$var));
+    }
+    public function setDeadLine(){
+        $req=Request::getInstance();
+        $id=$req->getParam(0);
+        $line = $_POST['deadline'];
+        $this->model->setDeadLine($id, $line);
+        $this->view->renderJson(Array('result'=>$line, 'id'=>$id));
     }
     public function uploadHomework(){
         $req = Request::getInstance();
