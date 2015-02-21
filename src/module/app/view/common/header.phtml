@@ -1,3 +1,5 @@
+
+<!--<link rel='stylesheet' href="--><?php //print URL; ?><!--public/js/vendor/jquery-custom-scrollbar-0.5.5/jquery.custom-scrollbar.css"" />-->
 <link rel='stylesheet' href="<?php print URL; ?>public/css/common/common.css" />
 <link rel='stylesheet' href="<?php print URL; ?>public/css/user.css" />
 <link rel='stylesheet' href="<?php print URL; ?>public/css/common/header/header.css" />
@@ -12,6 +14,8 @@ if (isset($data['files'])) {
 
 <script src="<?php print URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+<script src="<?php print URL; ?>public/js/vendor/jquery.slimscroll.js"></script>
+<!--<script src="--><?php //print URL; ?><!--public/js/vendor/jquery-custom-scrollbar-0.5.5/jquery.custom-scrollbar.js"></script>-->
 <script src="<?php print URL; ?>public/js/app/common.js"></script>
 <script src="<?php print URL; ?>public/js/app/common/header/header.js"></script>
 
@@ -88,11 +92,14 @@ if (isset($data['files'])) {
                 </ul>
             </section>
         </article>
-
     </section>
     <section class="message">
-        <div class="message-icon">
+        <div class="message-icon" id="message-icon">
         </div>
     </section>
+    <div  class="wrap display-none" id="wrap">
+        <div class="content-wrap" id="content-wrap"></div>
+    </div>
+
     <div class="clear-both"></div>
 </header>
