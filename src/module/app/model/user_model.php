@@ -209,6 +209,9 @@ HERE;
         $r = <<<HERE
 SELECT
             `result`.`link` as link,
+            `result`.`grade` as grade,
+            `result`.`link` as link,
+            `result`.`appraiser` as teacher,
              `user`.`name` as name,
              `user`.`surname` as surname
 from `user`, `result`
