@@ -127,7 +127,7 @@ ko.bindingHandlers.setDeadLine = {
                 m='00';
             }else{m=toFormatL(m);}
             if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
-                viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.")
+                viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.");
                 viewModel.deadLineError(true);
                 setInterval(function(){
                     viewModel.deadLineError(false);
@@ -190,6 +190,11 @@ function ViewModel() {
     that.selfHomeWork=ko.observable(false);
     that.deadLineErrorMessage= ko.observable("");
     that.deadLineError = ko.observable(false);
+    that.day = ko.observable("");
+    that.month = ko.observable("");
+    that.year = ko.observable("");
+    that.hour = ko.observable("");
+    that.minute = ko.observable("");
 
     //editing logic
     that.edit = ko.observable(false);
@@ -283,6 +288,17 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
+            var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
+            response.result=response.result.slice(12, 17);
+            var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
+            date = date.split("/");
+            time = time.split("/");
+            that.day(date[0]);
+            that.month(date[1]);
+            that.year(date[2]);
+            that.hour(time[0]);
+            that.minute(time[1]);
+
         },function(){
             console.log("Something going wrong");
         });

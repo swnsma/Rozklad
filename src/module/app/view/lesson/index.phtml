@@ -10,11 +10,11 @@
             <div class="error-deadline" data-bind="if:deadLineError">
                 <div data-bind="text:deadLineErrorMessage"></div>
             </div>
-            <input placeholder="- -" id="day" type="tel"/>-
-            <input placeholder="- -" id="month" type="tel"/>-
-            <input placeholder="- - - -" id="year" type="tel"/>
+            <input data-bind="value:day" placeholder="- -" id="day" type="tel"/>-
+            <input data-bind="value:month" placeholder="- -" id="month" type="tel"/>-
+            <input data-bind="value: year" placeholder="- - - -" id="year" type="tel"/>
             <input data-bind="value:deadLine" id="calen" class="tcal"/>
-            <input id="hour" placeholder="14" min="0" max="23" type="number"/>:<input  id="min" placeholder=" 00" min="0" max="59" type="number"/>
+            <input data-bind="value: hour" id="hour" placeholder="14" min="0" max="23" type="number"/>:<input data-bind="value:minute" id="min" placeholder=" 00" min="0" max="59" type="number"/>
             <button data-bind="setDeadLine{ deadLine:deadLine}">Установить дедлайн</button>
          <?php endif ?>
 
