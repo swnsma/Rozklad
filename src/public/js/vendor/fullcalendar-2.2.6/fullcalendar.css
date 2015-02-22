@@ -991,3 +991,6 @@ td.fc-day.fc-widget-content {
 	/*background-image: url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif);*/
 	background-size: cover;
 }
+div.fc-row.fc-week.fc-widget-content{
+	min-height: 110px;
+}

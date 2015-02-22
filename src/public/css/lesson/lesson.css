@@ -17,6 +17,19 @@ header{
     width: 0;
     border: none;
 }
+#deadLineSettings{
+    display: none;
+}
+.error-deadline *{
+    color: red;
+    background: rgb(237, 237, 237);
+    border: 1px solid #666666;
+    position: absolute;
+    z-index: 2;
+    top: -40px;
+    left: 0;
+    padding: 5px;
+}
 [type='number']{
     margin-left: 5px;
     outline: none;

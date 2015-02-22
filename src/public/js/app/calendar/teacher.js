@@ -467,6 +467,15 @@ function Calendar_teacher(){
 
     };
 
+    function crosFocus(jquery){
+
+        jquery.focus(function(){
+            setTimeout(function(){
+                jquery.select();
+            },1);
+        });
+    }
+
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
 
@@ -489,7 +498,7 @@ function Calendar_teacher(){
                         if(this.value==='00'){
                             this.value='01';
                         }
-                        date.month.focus();
+                        crosFocus(date.month);
                     }
 
                 }
@@ -503,7 +512,7 @@ function Calendar_teacher(){
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
                         this.value=parseInt(this.value);
-                        date.year.focus();
+                        crosFocus(date.year);
                     }
                 }
                 sync();
@@ -513,8 +522,8 @@ function Calendar_teacher(){
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
                         this.value=parseInt(this.value);
-                        self.jqueryObject.popup.start.hour.focus();
-                        self.jqueryObject.popupEdit.start.hour.focus();
+                        crosFocus(self.jqueryObject.popup.start.hour);
+                        crosFocus(self.jqueryObject.popupEdit.start.hour);
                     }
                 }
                 sync();
@@ -559,7 +568,7 @@ function Calendar_teacher(){
                     if(this.value.length==2){
                         if(parseInt(this.value) || this.value==='00') {
                             this.value=parseInt(this.value);
-                            focus.focus();
+                            crosFocus(focus);
                         }
                     }
                 })
@@ -574,7 +583,7 @@ function Calendar_teacher(){
                             if (parseInt(this.value) || this.value==='00') {
                                 this.value=parseInt(this.value);
                                 if(mask!=$minutesEnd) {
-                                    focus.focus();
+                                    crosFocus(focus);
                                 }
 
                             }
@@ -983,19 +992,19 @@ function Calendar_teacher(){
                         console.log(startElement.val().length);
                         if (getCaretPos(startElement[0]) === startElement.val().length)
                         {
-                            element.focus();
+                            crosFocus(element);
                         }
                         break;
                     case 37:
                         if (getCaretPos(startElement[0]) === 0)
                         {
-                            element.focus();
+                            crosFocus(element);
                         }
                         break;
                     case 8:
                         if (startElement.val().length === 0)
                         {
-                            element.focus();
+                            crosFocus(element);
                         }
                 }
             }
