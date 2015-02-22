@@ -8,7 +8,6 @@
 <?php if ($data['status'] == 'teacher'): ?>
     <link rel='stylesheet' href='<?php print URL; ?>public/js/app/calendar/customselect/customselect.css'/>
     <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
-    <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popupEdit.css'/>
 <?php endif; ?>
 
@@ -35,68 +34,7 @@
 </div>
 
 <?php if ($data['status'] == 'teacher'): ?>
-    <div class='popup' id='popup'>
-        <!--        <span id="resetLesson" class="popup-close"> </span>-->
-        <div class='content'>
-            <!--<h2 id="typeAction" class='padding28'> Создать Занятие </h2>-->
-        </div>
-        <form method='post' class='create-lesson'>
-            <div class='padding28 inner-wrapper'>
-            <span class='tr-create-lesson'>
-                <span class="bold">Тема: </span>
-                <input class='input-create-lesson'  type='text' id='eventType' name='event_type'>
-            </span>
-            </div>
 
-            <div class='padding28 inner-wrapper'>
-
-                <div class='tr-create-lesson'>
-                    <span class="date-span bold">Время проведения:</span>
-                    <div class='data-ivent'>
-                        <input type='text' id='tcalInput' name='date' class='tcal' value='' /><!--
-                        --><input placeholder="&ndash;&ndash;" type='tel' pattern="\d [0-9]" class='input-span width15px' name='day' id='day' />/<!--
-                    --><input placeholder="&ndash;&ndash;" type='tel' pattern="\d [0-9]" class='input-span width15px' name ='month' id='month' />/<!--
-                    --><input placeholder="&ndash;&ndash;&ndash;&ndash;" type='tel' pattern="\d [0-9]" class='input-span' name='year' id='year' /><!--
-                    --><!--
-                    --></div><!--
-                    --><div class='time-ivent'><!--
-                       --><input class='input-span width15px' type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;'  name='hour-begin' id='hourBegin'/>:<!--
-                    --><input class='input-span width15px' type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;' name='minutes-begin' id='minutesBegin'/>-<!--
-                        --><input class='input-span width15px' type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;' name='hour-end' id='hourEnd'/>:<!--
-                    --><input class='input-span width15px' type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;' name='minutes-end' id='minutesEnd'/>
-                    </div>
-                </div>
-            </div>
-
-            <div class="padding28 inner-wrapper">
-                <div class='tr-create-lesson'>
-                    <span class="bold">Преподаватель: </span>
-                    <select class="select-teacher" id="selectTeacher">
-                        <option value="0">Преподаватель 1</option>
-                        <option value="1">Преподаватель 2</option>
-                        <option value="2">Преподаватель 3</option>
-                        <option value="3">Преподаватель 4</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="padding28 inner-wrapper">
-                <div class='tr-create-lesson'>
-                    <span class="bold">Пригласить: </span>
-                    <div id="listGroups" class="list-groups">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class=' padding28 inner-wrapper'>
-                <div class='tr-create-lesson'>
-                    <button id='resetLesson' type='reset' class='reset '>Отмена</button>
-                    <button id='createNewLesson' type='submit' class='submit'>Создать</button>
-                </div>
-            </div>
-        </form>
-    </div>
 
 
     <div class="popupEdit" id="popupEdit">
