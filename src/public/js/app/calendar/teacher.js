@@ -468,11 +468,12 @@ function Calendar_teacher(){
     };
 
     function crosFocus(jquery){
-
-        jquery.focus(function(){
-            setTimeout(function(){
-                jquery.select();
-            },1);
+        jquery.on('change',function(){
+            jquery.focus(function(){
+                setTimeout(function(){
+                    jquery.select();
+                },1);
+            });
         });
     }
 
@@ -1054,5 +1055,4 @@ $(document).ready(function() {
     calendar.keyDown();
     calendar.resetPopup();
     calendar.focusDate();
-
 });

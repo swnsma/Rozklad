@@ -66,3 +66,15 @@ header {
     border-radius: 2px;
     white-space: nowrap;
 }
+.deletedEvent{
+    display: /*inline-*/block;
+    color: #000000;
+    /*margin-bottom: 1px;*/
+    text-align: right;
+    font-weight: bold;
+    font-size: 9px;
+    color: #aaa;
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+}
