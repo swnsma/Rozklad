@@ -303,6 +303,6 @@ function lastVisit(lesson_id) {
 var viewModel = new ViewModel();
 viewModel.activate();
 ko.applyBindings(viewModel);
-setInterval(function () {
-    lastVisit(viewModel.id())
-}, 1000);
+//setInterval(function () {
+//    lastVisit(viewModel.id())
+//}, 1000);
