@@ -1,6 +1,8 @@
 ko.bindingHandlers.uploadTask = {
     init: function (element, valueAccessor) {
         var value = valueAccessor();
+
+
         $(element)
             .on('click', function () {
                 input.click();
@@ -99,34 +101,66 @@ ko.bindingHandlers.uploadHomework = {
 };
 ko.bindingHandlers.setDeadLine = {
     init: function (element, valueAccessor, ava, viewModel ) {
+        $("#deadLine").on("click", function(){
+            var d = $("#deadLineSettings");
+            if(d.css("display")=="none"){
+                d.css("display", "block");
+            }
+            else{
+                d.css("display", "none");
+            }
+        });
         var value = valueAccessor();
         $(element).click(function () {
-            var d=toFormat(parseInt($("#day").val()));
-            console.log(d);
-            var mo=toFormat(parseInt($("#month").val()));
-            console.log(mo);
+            var d=toFormatL(parseInt($("#day").val()));
+            var mo=toFormatL(parseInt($("#month").val()));
             var ye=parseInt($("#year").val());
-            console.log(ye);
-            var t=d+'-'+mo+'-'+ye+' ';
+            if(ye.length>4){
+                ye=NaN;
+            }
             var h=parseInt($('#hour').val());
-            console.log(h);
             if(!h){
                 h=14;
-            }else{h=toFormat(h);}
+            }else{h=toFormatL(h);}
             var m =parseInt($('#min').val());
-            console.log(m);
             if(!m){
                 m='00';
-            }else{m=toFormat(m);}
+            }else{m=toFormatL(m);}
             if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
-
+                viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.")
+                viewModel.deadLineError(true);
+                setInterval(function(){
+                    viewModel.deadLineError(false);
+                }, 5000);
             }else{
+            var date = new Date(ye, mo-1, d, h, m);
+            var today = new Date();
+            if(Date.parse(date.toString())<Date.parse(today.toString()))
+            {
+                viewModel.deadLineErrorMessage("Невозможно установить дедлайн, так как введенная дата уже прошла");
+                viewModel.deadLineError(true);
+                setInterval(function(){
+                    viewModel.deadLineError(false);
+                }, 5000);
+                return;
+            }
+            if(date.getDate()!=d||date.getHours()!=h||date.getFullYear()!=ye||(date.getMonth()!=(mo-1))||date.getMinutes()!=m)
+            {
+                viewModel.deadLineErrorMessage("Введена несуществующая дата");
+                viewModel.deadLineError(true);
+                setInterval(function(){
+                    viewModel.deadLineError(false);
+                }, 5000);
+                return;
+            }
+            var t=d+'-'+mo+'-'+ye+' ';
             t+=' '+h;
             t+=':'+m;
             if(t.length<10){
                 t="Нет";
             }
             value.deadLine(t);
+                $("#deadLineSettings").css("display", "none");
             universalAPI(url+'app/lesson/setDeadLine/'+viewModel.id(), "POST", function(response){
                 console.log(response);
             }, function(){
@@ -154,6 +188,9 @@ function ViewModel() {
     that.homeWork = ko.observableArray([]);
     that.userInfo=ko.observableArray([]);
     that.selfHomeWork=ko.observable(false);
+    that.deadLineErrorMessage= ko.observable("");
+    that.deadLineError = ko.observable(false);
+
     //editing logic
     that.edit = ko.observable(false);
     that.descriptionEdit = ko.observable(false);
@@ -299,6 +336,15 @@ function lastVisit(lesson_id) {
             console.log("error");
         }, {lesson_id: lesson_id, date: n}
     );
+}
+function toFormatL(number){
+    if((number+'').length<2){
+        number='0'+number;
+    }
+    if(number.length>2){
+        return +number.substr(0, 2);
+    }
+    return number;
 }
 var viewModel = new ViewModel();
 viewModel.activate();
