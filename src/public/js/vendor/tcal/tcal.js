@@ -3,6 +3,16 @@
 // License: Public Domain... You're welcome.
 
 // default settins - this structure can be moved in separate file in multilangual applications
+var $day  = $('#day');
+var $month = $('#month');
+var $year  = $('#year');
+function toFormat(number){
+    if((number+'').length!=2){
+        number='0'+number;
+
+    }
+    return number;
+}
 var A_TCALCONF = {
 	'cssprefix'  : 'tcal',
 	'months'     : ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
@@ -14,7 +24,7 @@ var A_TCALCONF = {
 	'nextyear'   : 'Следующий год',
 	'prevmonth'  : 'Предыдущий месяц',
 	'nextmonth'  : 'Следующий месяц',
-	'format'     : 'm.d.Y' // 'd-m-Y', Y-m-d', 'l, F jS Y'
+	'format'     : 'd.m.Y' // 'd-m-Y', Y-m-d', 'l, F jS Y'
 };
 
 var A_TCALTOKENS = [
@@ -152,6 +162,9 @@ function f_tcalUpdate (n_date, b_keepOpen) {
 		e_cal.innerHTML = f_tcalGetHTML(d_date, e_input);
 	}
 	else {
+        $day.val(toFormat(d_date.getDate()));
+        $month.val(toFormat(d_date.getMonth()+1));
+        $year.val(d_date.getFullYear());
 		e_input.value = f_tcalGenerateDate(d_date, A_TCALCONF.format);
 		f_tcalCancel();
 	}

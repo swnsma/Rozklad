@@ -7,7 +7,7 @@ var api= {
                     successFunction(response);
                 },
                 error: function(xhr) {
-                    error(xhr);
+                    console.log(xhr);
                 }
             });
         },

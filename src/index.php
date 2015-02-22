@@ -28,6 +28,4 @@ LessonModel::realDeletedLesson();
 
 $app = new Bootstrap();
 
-//PeddingOperation::run();
-
 ?>

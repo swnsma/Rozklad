@@ -10,7 +10,7 @@ class Lesson extends Controller {
 
     public function __construct() {
         parent::__construct();
-        $id = $_SESSION['id'];
+        $id = Session::get('id');
         if($id===null){
             $this->logout();
         }
@@ -78,6 +78,19 @@ class Lesson extends Controller {
         unlink ($pathAndName);
         $this->view->renderJson(Array('result'=>"success"));
     }
+    public function getDeadLine(){
+        $req= Request::getInstance();
+        $id=$req->getParam(0);
+        $var =$this->model->getDeadLine($id);
+        $this->view->renderJson(Array('result'=>$var));
+    }
+    public function setDeadLine(){
+        $req=Request::getInstance();
+        $id=$req->getParam(0);
+        $line = $_POST['deadline'];
+        $this->model->setDeadLine($id, $line);
+        $this->view->renderJson(Array('result'=>$line, 'id'=>$id));
+    }
     public function uploadHomework(){
         $req = Request::getInstance();
         $studentId= $req->getParam(0);
@@ -103,6 +116,20 @@ class Lesson extends Controller {
         }
 
     }
-
+    function setLastVisit(){
+        $date = $_POST['date'];
+        $user_id = Session::get('id');
+        $lesson_id = $_POST['lesson_id'];
+        $this->model=$this->loadModel("lesson");
+        $result = $this->model->setLastVisit($user_id,$lesson_id,$date);
+        $this->view->renderJson($result);
+    }
+    public function unreadedMessages(){
+        $this->model=$this->loadModel("user");
+        $userInfo=$this->model->getCurrentUserInfo();
+        $this->model=$this->loadModel("lesson");
+        $result = $this->model->unreadedMessages($userInfo);
+        $this->view->renderJson($result);
+    }
 
 }
