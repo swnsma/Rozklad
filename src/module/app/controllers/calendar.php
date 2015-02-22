@@ -43,10 +43,13 @@ class Calendar extends Controller
         array('groups/groups.css'));*/
 $this->view->renderHtml('common/head', $data);
 $this->view->renderHtml('common/header', $data);
+        if($data['status']==='student') {
+            $this->view->renderHtml('calendar/deadlinetask', $data);
+        }else{
+            $this->view->renderHtml('calendar/popup', $data);
+        }
 $this->view->renderHtml('calendar/index', $data);
-if($data['status']==='student') {
-$this->view->renderHtml('calendar/deadlinetask', $data);
-}
+
 //        $this->view->renderHtml('common/footer');
 $this->view->renderHtml('common/foot');
 

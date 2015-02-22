@@ -19,8 +19,7 @@ function CreateListLeson(data,parent){
             var deadline = data[i].deadline;
             var currentData = new Date();
             deadline = new Date(deadline);
-
-
+            debugger;
             var r = deadline-currentData;
             if(r>0) {
                 var $div = $('<div>');
@@ -71,8 +70,7 @@ function CreateListLeson(data,parent){
                 }
 
                 var $var = $('<span>');
-
-                $var.text(deadline.substr(0, deadline.length - 3));
+                $var.text(data[i].deadline.substr(0, data[i].deadline.length - 3));
                 $var.addClass('deadline');
                 $var.appendTo($div);
 

@@ -144,6 +144,7 @@ function Calendar(){
     this.groups=[];
     this.jqueryObject={
         calendar:$('#calendar'),
+
         popup: {
             typeAction:$('#typeAction'),//тип попапу
             popup: $('#popup'),
@@ -212,10 +213,11 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
+        height:'auto',
+        //contentHeight:'auto',
         fixedWeekCount:false,
         allDaySlot:false,
-        aspectRatio:1.5,
-        dragScroll:false,
+        //aspectRatio:7,
         firstDay: 1,
         header: {
             left: 'prev,next today',
