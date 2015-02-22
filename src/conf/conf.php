@@ -1,6 +1,6 @@
 <?php
 
-define('ROOT', 'src/');
+define('ROOT', '');
 define('URL', 'http://' . $_SERVER['HTTP_HOST'] . '/' . ROOT);
 define('DOC_ROOT', __DIR__ . '/../');
 define('IMAGES_FOLDER', DOC_ROOT . 'public/users_files/images/');
