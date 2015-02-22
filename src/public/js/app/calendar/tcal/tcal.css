@@ -15,10 +15,8 @@
 	padding-right: 20px;
 	cursor: pointer;
 	display: inline-block;
-	width: 0px;
+	width: 20px;
 	border: none;
-
-
 }
 .tcalInput:focus{
 	box-shadow: none;
