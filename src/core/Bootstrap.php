@@ -4,6 +4,7 @@ class Bootstrap extends Controller{
     private $model;
     function __construct() {
         parent::__construct();
+        PeddingOperation::run();
         $this->initSes(3600*24, 'MYSES');
         $this->model=$this->loadModel('user');
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
