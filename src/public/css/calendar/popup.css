@@ -1,43 +1,4 @@
-body{
-
-}
-
-.deletedEvent{
-    display: /*inline-*/block;
-    color: #000000;
-    /*margin-bottom: 1px;*/
-    text-align: right;
-    font-weight: bold;
-    font-size: 9px;
-    color: #aaa;
-    cursor: pointer;
-    position: relative;
-    z-index: 1000;
-}
-
-.popup .text,
-.popupEdit .text{
-    white-space: nowrap;
-    overflow: hidden;
-
-}
-.deletedEvent:hover{
-    /*border-bottom: 1px solid red;*/
-    text-decoration: underline;
-}
-.group-close{
-    /*background: url("../../img/closeButton.png") round;*/
-    /*background-position: 50%;*/
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    color: #000000;
-    padding-left: 5px;
-    /*background-repeat: ;*/
-
-}
-.popup, .popupEdit{
-    padding: 16px 0 0 0;
+.popup{
     box-shadow: 2px 2px 0 rgba(0,0,0,.7);
     border: 1px solid #666;
     position: absolute;
@@ -46,109 +7,64 @@ body{
     width: 380px;
     display: none;
     padding: 10px;
-
     white-space: nowrap;
-    /*overflow: hidden;*/
     text-overflow: ellipsis;
 }
-    /*.popup{*/
-        /*width: 90%;*/
-        /*height: 90%;*/
-        /*position: absolute;*/
-        /*left: 10px;*/
-        /*right: 10px;*/
-        /*top: 10px;*/
-        /*bottom: 10px;*/
-    /*}*/
-
+.popup .create-lesson{
+    display: table;
+    width: 360px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.popup .create-lesson .tr-create-lesson{
+    display: table-row;
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+    line-height: 25px;
+}
+.popup .create-lesson .tr-create-lesson{
+    display: table-row;
+    width: 100%;
+    line-height: 25px;
+}
+.popup .create-lesson .tr-create-lesson .cell-create-lesson{
+    display: table-cell;
+}
+.popup .create-lesson .tr-create-lesson .cell-first-create-lesson{
+    width: 30%;
+    text-align: right;
+}
+.popup .create-lesson .tr-create-lesson .cell-two-create-lesson{
+    /*width: 70%;*/
+    padding-left: 5px;
+}
+.popup .input-create-lesson{
+    width: 100%;
+}
+.popup .input-none{
+    outline: none;
+    border: none;
+}
 .popup .bold{
     font-weight: bold;
 }
-#delEvent{
-    visibility: hidden;
-
-}
-.popup .popup-close{
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    background: url("../../img/x.jpg");
-    display: block;
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-}
-.popup .content{
-
-}
-.padding28{
-    padding-left: 15px;
-    padding-right: 15px;
-}
-.popup .content h2{
-    font-size: 2em;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-    /*border-bottom: 1px solid #eeeeee;*/
-    text-align: center;
-}
-.input-span{
-    border: none;
-    outline: none;
-    display: inline;
-    width: 35px;
-}
-.popup .inner-wrapper .tr-create-lesson  .input-create-lesson,
-.popupEdit .inner-wrapper .tr-create-lesson  .input-create-lesson
-{
-    width: 100%;
-    border: none;
-    outline: none;
-}
-.width15px{
+.popup .numder2{
     width: 17px;
-    text-align: center;
 }
-
-.create-lesson .inner-wrapper{
-    display: table;
-    margin-top: 10px;
+.popup .numder4{
+    width: 34px;
+}
+.popup .data{
+    display: inline;
+}
+.popup .select-teacher{
     width: 100%;
-    position: relative;
-    border-collapse: collapse;
-
 }
-.create-lesson .inner-wrapper .tr-create-lesson{
-    display: table-row;
+.list-groups>div{
     border-bottom: 1px solid #eeeeee;
 }
-.tr-create-lesson{
-    position: relative;
-}
-.popup .tr-create-lesson>*,.popupEdit .tr-create-lesson>*{
-    display: table-cell;
-}
-.popup .tr-create-lesson>*:first-child,.popupEdit .tr-create-lesson>*:first-child{
-    width: 41%;
-    padding-right: 2%;
-    text-align: right;
-}
-.popup .tr-create-lesson>*:last-child,.popupEdit .tr-create-lesson>*:last-child{
-    width: 57%;
 
-    text-align: left;
-    /*width: 100%;*/
-}
-.create-lesson .inner-wrapper .tr-create-lesson .time-ivent{
-    text-align: left;
-    display: inline;
-    /*width: 20px;*/
-}
-.tr-create-lesson .list-groups{
-    width: 52%;
-
-}
 .popup .tr-create-lesson .submit{
 
     /*width: 69%;*/
@@ -159,11 +75,13 @@ body{
 .popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset{
     padding: 5px 0;
     /*width: 33%;*/
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
     border:1px solid #bfc4c4;
     color: #000000;
     text-align: center;
+    width: 100%;
+    line-height: 20px;
 }
 .popup .tr-create-lesson .submit:hover,.popup .tr-create-lesson .reset:hover {
     border:1px solid #bfc4c4;
@@ -177,28 +95,43 @@ body{
 .popup .tr-create-lesson .reset{
     background-color: #eeeeee;
 }
-
-
-.list-groups >div{
-    border-bottom: 1px solid #eeeeee;
+.deletedEvent:hover{
+    text-decoration: underline;
 }
-.lessonGroup{
-    heigth:10px;
-    display: inline-block;
-    background-color: #4da309;
-    margin-left: 3px;
-    color:white;
-    padding-left: 3px;
-    padding-right: 3px;
+.text-align-center{
+    text-align: center;
+}
+.popup .gotoLesson,
+.popup .resetEdit,
+.popup .submitEdit{
+    /*text-align: right;*/
+    cursor: pointer;
+    font-weight: bold;
+    /*font-size: 10px;*/
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+.popup .gotoLesson:hover,
+.popup .resetEdit:hover,
+.popup .submitEdit:hover{
+    text-decoration: underline;
+    color: #000;
+}
+.popup .gotoLesson{
+    font-size: 12px;
+    color: #111;
+    /*font-style: italic;*/
+    /*text-decoration: underline;*/
+}
+.popup .resetEdit,
+.popup .submitEdit{
+    font-size: 15px;
+}
+.popup .button{
+    text-align: center;
 }
 
-
-.group-add{
-    position: relative;
-}
-.popup .inner-wrapper .select-teacher,.popupEdit .inner-wrapper .select-teacher{
-    border: none;
-    /*border-bottom: 1px dashed #016d92;*/
-    width: 100%;
-    outline: none;
+.text-align-right{
+    text-align: right;
 }

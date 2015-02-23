@@ -39,10 +39,13 @@ function Calendar_teacher(){
 
     var ourteacher=[];//всі вчителі
 
+    var lastteacer='';
+
     function AddTeacherToList(jquery_element,selected_obj,event){
 
+        jquery_element.empty();
         function createOption(){
-            jquery_element.empty();
+
             for(var i = 0;i<ourteacher.length;++i){
                 var opt = document.createElement('option');
                 opt.value = ourteacher[i].id;
@@ -55,9 +58,9 @@ function Calendar_teacher(){
             }
             jquery_element.on('change',function(){
                 event.teacher=jquery_element.val();
+                //lastteacer=jquery_element.val();
             });
         }
-
         createOption();
         this.getSelectedOption =function(){
             return jquery_element.val();
@@ -233,7 +236,9 @@ function Calendar_teacher(){
                                 } else {
                                     return masColor.otherEvents.textColor;
                                 }
-                            })()
+                            })(),
+                            newdz:event.newdz
+
                         }
                         self.jqueryObject.calendar.fullCalendar('removeEvents', event.id);
                         self.jqueryObject.calendar.fullCalendar('renderEvent', myevent);
@@ -334,7 +339,6 @@ function Calendar_teacher(){
         minutesStart=toFormat(minutesStart);
 
 
-        debugger;
         var hourEnd =calEvent.end._d.getHours();
         hourEnd=toFormat(hourEnd);
 
@@ -467,6 +471,10 @@ function Calendar_teacher(){
 
     };
 
+    function crosFocus(jquery){
+        jquery.focus();
+    }
+
     //синхронизація маленького календарика і поля для ввода дати
     this.syncTcalInput=function(){
 
@@ -489,7 +497,7 @@ function Calendar_teacher(){
                         if(this.value==='00'){
                             this.value='01';
                         }
-                        date.month.focus();
+                        //crosFocus(date.month);
                     }
 
                 }
@@ -503,7 +511,7 @@ function Calendar_teacher(){
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
                         this.value=parseInt(this.value);
-                        date.year.focus();
+                        //crosFocus(date.year);
                     }
                 }
                 sync();
@@ -513,8 +521,8 @@ function Calendar_teacher(){
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
                         this.value=parseInt(this.value);
-                        self.jqueryObject.popup.start.hour.focus();
-                        self.jqueryObject.popupEdit.start.hour.focus();
+                        //crosFocus(self.jqueryObject.popup.start.hour);
+                        //crosFocus(self.jqueryObject.popupEdit.start.hour);
                     }
                 }
                 sync();
@@ -559,7 +567,7 @@ function Calendar_teacher(){
                     if(this.value.length==2){
                         if(parseInt(this.value) || this.value==='00') {
                             this.value=parseInt(this.value);
-                            focus.focus();
+                            //crosFocus(focus);
                         }
                     }
                 })
@@ -574,7 +582,7 @@ function Calendar_teacher(){
                             if (parseInt(this.value) || this.value==='00') {
                                 this.value=parseInt(this.value);
                                 if(mask!=$minutesEnd) {
-                                    focus.focus();
+                                    //crosFocus(focus);
                                 }
 
                             }
@@ -773,21 +781,22 @@ function Calendar_teacher(){
                 textColor = masColor.otherEvents.textColor
             }
             var originalEventGroup = originalEvent.group;
+            var group =editGroups(originalEventGroup,toNormFormGroup());
             var data = {
                 title:title,
                 start:startFun(),
                 end:endFun(),
                 id:+idUpdate,
-                teacher:teacher,
-                group:editGroups(originalEventGroup,toNormFormGroup())
+                teacher:originalEvent.teacher,
+                group:group
             }
+            debugger;
             function success(id){
-
                 originalEvent.id=idUpdate;
                 originalEvent.title=title;
                 originalEvent.start=startFun();
                 originalEvent.end=endFun();
-                originalEvent.teacher=teacher;
+                originalEvent.teacher=originalEvent.teacher;
                 originalEvent.surname=surnameTeacher;
                 originalEvent.name=nameteacher;
                 originalEvent.color=color;
@@ -983,19 +992,19 @@ function Calendar_teacher(){
                         console.log(startElement.val().length);
                         if (getCaretPos(startElement[0]) === startElement.val().length)
                         {
-                            element.focus();
+                            crosFocus(element);
                         }
                         break;
                     case 37:
                         if (getCaretPos(startElement[0]) === 0)
                         {
-                            element.focus();
+                            crosFocus(element);
                         }
                         break;
                     case 8:
                         if (startElement.val().length === 0)
                         {
-                            element.focus();
+                            crosFocus(element);
                         }
                 }
             }
@@ -1045,5 +1054,4 @@ $(document).ready(function() {
     calendar.keyDown();
     calendar.resetPopup();
     calendar.focusDate();
-
 });

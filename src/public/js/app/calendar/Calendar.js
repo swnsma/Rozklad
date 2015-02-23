@@ -4,7 +4,7 @@
 fullEventFor = [];
 masColor={
     myEvents:{
-        color:'RGB(0,100,160)',
+        color:'RGB(50,100,200)',
         textColor:'#fff'
     },
     otherEvents:{
@@ -144,6 +144,7 @@ function Calendar(){
     this.groups=[];
     this.jqueryObject={
         calendar:$('#calendar'),
+
         popup: {
             typeAction:$('#typeAction'),//тип попапу
             popup: $('#popup'),
@@ -212,10 +213,11 @@ function Calendar(){
     var year= date.getFullYear();
 
     this.option={
+        height:'auto',
+        //contentHeight:'auto',
         fixedWeekCount:false,
         allDaySlot:false,
-        aspectRatio:1.5,
-        dragScroll:false,
+        //aspectRatio:7,
         firstDay: 1,
         header: {
             left: 'prev,next today',
@@ -282,6 +284,7 @@ function Calendar(){
                     $var.appendTo($(element));
                 }
 
+
             }
             if(event.color===masColor.delEvent.color){
                 var $textDeleted =  $(element).find('.fc-title');
@@ -295,18 +298,62 @@ function Calendar(){
                 $link.appendTo($(element));
 
             }
-
+            var k =false;
             if(event.lesson_info){
-                debugger;
                 var a = JSON.parse(event.lesson_info);
                 if(a['description'].length!=0||a['links'].length!=0||a['files'].length!=0){
-                    debugger;
+                    k=true;
                     var $screpka = $('<span>');
                     $screpka.appendTo($(element));
                     $screpka.addClass('screpka');
                 }
             }
+            if(event.estimate) {
+                if (event.estimate.length !== 0) {
+                    k = true;
 
+                    //var $var = $('<span>');
+                    //$var.addClass('good-dz');
+                    //$var.appendTo($(element));
+                }
+            }
+            else if(event.deadline){
+                k=true;
+                var deadline = event.deadline;
+                var currentData = new Date();
+                var day =deadline.substr(0,2);
+                var month = deadline.substr(3,2);
+
+                var year= function(){
+                    var ret='';
+                    for(var i =6; i<deadline.length;++i){
+                        if(deadline[i]===' '){
+                            break;
+                        }else{
+                            ret=ret+deadline[i];
+                        }
+                    }
+                    return ret;
+                };
+                var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
+                deadline = new Date(deadlinePrint);
+                var r = deadline-currentData;
+                if(r>0) {
+                    var $var = $('<span>');
+                    $var.addClass('deadline-events-conteiner');
+                    $var.appendTo($(element));
+                }
+                else{
+                    var $var = $('<span>');
+                    $var.addClass('deadline-events-skull');
+                    $var.appendTo($(element));
+                }
+            }
+            //if(!k){
+            //    var $var = $('<span>');
+            //    $var.addClass('lafa');
+            //    $var.appendTo($(element));
+            //}
             ///////////////////////////////////
 
             if(event.newdz) {

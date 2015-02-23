@@ -54,6 +54,7 @@
     margin: 0;
     display: none;
 }
+.deadlinetask-bt .close,
 .deadlinetask-content .close{
     background: url("../../../public/img/sh_btn.png");
     width: 16px;
