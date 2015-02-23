@@ -164,6 +164,11 @@ function CreateListLeson(data,parent){
                     createTextTimer('day',parseInt(day),$timeTrack );
                     createTextTimer('hour',parseInt(hour),$timeTrack );
                     createTextTimer('minutes',parseInt(minutes),$timeTrack );
+                    if(data[i].estimate.length!=0){
+                        var $var = $('<span>');
+                        $var.addClass('good-dz');
+                        $var.appendTo($div);
+                    }
                     //$timeTrack.text(' ' + parseInt(day) + 'дней ' + toFormat(parseInt(hour)) + 'часов ' + toFormat(parseInt(minutes))+'минут');
                 } else {
                     $timeTrack.text('');
@@ -268,7 +273,7 @@ function Calendar_student(){
                 )
 
             },
-            color: 'RGB(0,100,160)'  // an option!
+            color: masColor.myEvents.color  // an option!
         }
     ]
 
