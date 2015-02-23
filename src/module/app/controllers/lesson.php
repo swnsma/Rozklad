@@ -131,5 +131,15 @@ class Lesson extends Controller {
         $result = $this->model->unreadedMessages($userInfo);
         $this->view->renderJson($result);
     }
+    function setRate(){
+        $value=$_POST;
+        $grade=$value['data']['grade'];
+        $lessonId=$value['data']['lessonId'];
+        $teacherName=$value['data']['teacherName'];
+        $this->model->grade($teacherName,$lessonId,$grade);
+        $this->view->renderJson(Array('result'=>'success'));
+    }
+
+
 
 }

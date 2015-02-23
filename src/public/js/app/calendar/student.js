@@ -5,6 +5,22 @@
 function compare(left,right){
     return   (new Date(left.deadline))-(new Date(right.deadline))  ;
 }
+function createTextTimer(text, timer,parent){
+    var $timer = $('<span>');
+    $timer.text(timer);
+
+    parent.append($timer);
+
+    var $text = $('<span>');
+    $text.text(text+' ');
+    $text.css({
+        'fontSize':'8px',
+        'color':'#555'
+    });
+
+    parent.append($text);
+}
+var time;
 function CreateListLeson(data,parent){
 
 
@@ -18,7 +34,22 @@ function CreateListLeson(data,parent){
 
             var deadline = data[i].deadline;
             var currentData = new Date();
-            deadline = new Date(deadline);
+            var day =deadline.substr(0,2);
+            var month = deadline.substr(3,2);
+
+            var year= function(){
+                var ret='';
+                for(var i =6; i<deadline.length;++i){
+                    if(deadline[i]===' '){
+                        break;
+                    }else{
+                        ret=ret+deadline[i];
+                    }
+                }
+                return ret;
+            };
+            var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
+            deadline = new Date(deadlinePrint);
             debugger;
             var r = deadline-currentData;
             if(r>0) {
@@ -70,7 +101,7 @@ function CreateListLeson(data,parent){
                 }
 
                 var $var = $('<span>');
-                $var.text(data[i].deadline.substr(0, data[i].deadline.length - 3));
+                $var.text(deadlinePrint);
                 $var.addClass('deadline');
                 $var.appendTo($div);
 
@@ -114,8 +145,31 @@ function CreateListLeson(data,parent){
 
                 $timeTrack.addClass('timeTrack');
                 $timeTrack.appendTo($div);
+
+
                 if (day >= 0) {
-                    $timeTrack.text(' ' + parseInt(day) + ':' + toFormat(parseInt(hour)) + ':' + toFormat(parseInt(minutes)));
+                    $timeTrack.empty();
+                    var textDay ='дней';
+                    var textHour ='часов';
+                    var textMinutes = 'минут';
+                    if(day===1){
+                        textDay='день';
+                        textHour='час';
+                        textMinutes='минута';
+                    }else if(day>=2&&day<=4){
+                        textDay='дня'
+                        textHour='часа';
+                        textMinutes='минуты';
+                    }
+                    createTextTimer('day',parseInt(day),$timeTrack );
+                    createTextTimer('hour',parseInt(hour),$timeTrack );
+                    createTextTimer('minutes',parseInt(minutes),$timeTrack );
+                    if(data[i].estimate.length!=0){
+                        var $var = $('<span>');
+                        $var.addClass('good-dz');
+                        $var.appendTo($div);
+                    }
+                    //$timeTrack.text(' ' + parseInt(day) + 'дней ' + toFormat(parseInt(hour)) + 'часов ' + toFormat(parseInt(minutes))+'минут');
                 } else {
                     $timeTrack.text('');
                     $div.empty();
@@ -126,7 +180,7 @@ function CreateListLeson(data,parent){
     }
 
 
-    var time;
+
     this.start=function(){
         time=setInterval(function(){
             for(var i =0;i<masId.length;++i) {
@@ -149,7 +203,11 @@ function CreateListLeson(data,parent){
                         }
 
                     }
-                    $('#timeTrack'+masId[i]).text(''+deadline['day'] +':' + toFormat(deadline['hour']) + ':' + toFormat(deadline['minutes']));
+                    $('#timeTrack'+masId[i]).empty();
+                    createTextTimer('day',deadline['day'],$('#timeTrack'+masId[i]));
+                    createTextTimer('hour',toFormat(deadline['hour']),$('#timeTrack'+masId[i]));
+                    createTextTimer('minutes',toFormat(deadline['minutes']),$('#timeTrack'+masId[i]));
+                    //$('#timeTrack'+masId[i]).text(''+deadline['day'] +'' + toFormat(deadline['hour']) + ':' + toFormat(deadline['minutes']));
                 }else{
                     $('#timeTrack'+masId[i]).text('');
                     deadline['content'].empty();
@@ -215,7 +273,7 @@ function Calendar_student(){
                 )
 
             },
-            color: 'RGB(0,100,160)'  // an option!
+            color: masColor.myEvents.color  // an option!
         }
     ]
 
@@ -235,36 +293,57 @@ function Calendar_student(){
     });
 
     this.jqueryObject.deadlineTask.deadlineTaskClose.on('click',function(){
+        debugger;
         self.jqueryObject.deadlineTask.deadlineTaskBt.show();
         self.jqueryObject.deadlineTask.deadlineTaskContent.hide();
     });
 
     this.dragEvent = function() {
+
         var drag;
         var clientX;
         var clientY;
-        var bool=false;
-        this.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown', function (e) {
-            if (e.button === 0)
-                drag = self.jqueryObject.deadlineTask.deadlineTaskContent;
-            clientX = e.clientX;
-            clientY = e.clientY;
+        var bool = false;
+        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown touchstart', function (e) {
+            if (e.type == "touchstart") {
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                clientX = touch.clientX;
+                clientY = touch.clientY;
+            }else {
+                if (e.button === 0)
+                    drag = self.jqueryObject.deadlineTask.deadlineTaskContent;
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
         });
 
 
-        this.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mouseup', function () {
+        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mouseup touchend', function () {
             drag = null;
         });
-        $(document).on('mousemove', function (e) {
-            if (drag) {
-                drag.css({
-                    'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (e.clientX - clientX),
-                    'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (e.clientY - clientY)
-                });
+        $(document).on('mousemove touchmove', function (e) {
+            if (e.type == "touchstart") {
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                if (drag) {
+                    drag.css({
+                        'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (touch.clientX - clientX),
+                        'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (touch.clientY - clientY)
+                    });
+                }
+                clientX = touch.clientX;
+                clientY = touch.clientY;
+            }else {
+                if (drag) {
+                    drag.css({
+                        'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (e.clientX - clientX),
+                        'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (e.clientY - clientY)
+                    });
+                }
+                clientX = e.clientX;
+                clientY = e.clientY;
             }
-            clientX = e.clientX;
-            clientY = e.clientY;
         });
+
 
     }
 
@@ -327,6 +406,9 @@ function Calendar_student(){
     this.jqueryObject.calendar.fullCalendar(this.option);
 
 
+    $(document).on('zoom',function(){
+        debugger;
+    });
 }
 $(document).ready(function() {
     var calendar = new Calendar_student();

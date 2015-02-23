@@ -1,6 +1,8 @@
     <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/popup.css'/>
+    <link rel='stylesheet' href='<?php print URL; ?>public/js/app/calendar/customselect/customselect.css'/>
+    <link rel='stylesheet' type='text/css' href='<?php print URL; ?>public/js/app/calendar/tcal/tcal.css' />
 
-<div class='popup' id='popup'>
+    <div class='popup' id='popup'>
 
     <form method='post' class='create-lesson'>
         <div class='tr-create-lesson'>
@@ -15,39 +17,110 @@
             <div class="cell-create-lesson cell-two-create-lesson">
                 <div class='data'>
                     <input type='text' id='tcalInput' name='date' class='tcal' value='' />
-                    <input class="input-none numder2" placeholder="&ndash;&ndash;" type='text'  name='day' id='day' />/
-                    <input class="input-none numder2" placeholder="&ndash;&ndash;" type='text'  name ='month' id='month' />/
-                    <input class="input-none numder4" placeholder="&ndash;&ndash;&ndash;&ndash;" type='text'  name='year' id='year' />
+                    <input class="input-none numder2" placeholder="&ndash;&ndash;" type='tel'  name='day' id='day' />/<!--
+                    --><input class="input-none numder2" placeholder="&ndash;&ndash;" type='tel'  name ='month' id='month' />/<!--
+                    --><input class="input-none numder4" placeholder="&ndash;&ndash;&ndash;&ndash;" type='tel'  name='year' id='year' />
                 </div >
                 <div class='data'>
-                    <input class="input-none numder2" type='text'  placeholder='&ndash;&ndash;'  name='hour-begin' id='hourBegin'/>:
-                    <input class="input-none numder2" type='text'  placeholder='&ndash;&ndash;' name='minutes-begin' id='minutesBegin'/>-
-                    <input class="input-none numder2" type='text' placeholder='&ndash;&ndash;' name='hour-end' id='hourEnd'/>:
-                    <input class="input-none numder2" type='text' placeholder='&ndash;&ndash;' name='minutes-end' id='minutesEnd'/>
+                    <input class="input-none numder2" type='tel'  placeholder='&ndash;&ndash;'  name='hour-begin' id='hourBegin'/>:<!--
+                    --><input class="input-none numder2" type='tel'  placeholder='&ndash;&ndash;' name='minutes-begin' id='minutesBegin'/>-<!--
+                    --><input class="input-none numder2" type='tel' placeholder='&ndash;&ndash;' name='hour-end' id='hourEnd'/>:<!--
+                    --><input class="input-none numder2" type='tel' placeholder='&ndash;&ndash;' name='minutes-end' id='minutesEnd'/>
                 </div>
             </div>
         </div>
-<!---->
-<!--        <div class="tr-create-lesson">-->
-<!--                <span class="bold">Преподаватель: </span>-->
-<!--                <select class="select-teacher" id="selectTeacher">-->
-<!--                    <option value="0">Преподаватель 1</option>-->
-<!--                    <option value="1">Преподаватель 2</option>-->
-<!--                    <option value="2">Преподаватель 3</option>-->
-<!--                    <option value="3">Преподаватель 4</option>-->
-<!--                </select>-->
-<!--        </div>-->
-<!---->
-<!--        <div class="tr-create-lesson">-->
-<!--                <span class="bold">Пригласить: </span>-->
-<!--                <div id="listGroups" class="list-groups">-->
-<!---->
-<!--                </div>-->
-<!--        </div>-->
-<!---->
-<!--        <div class='tr-create-lesson'>-->
-<!--                <button id='resetLesson' type='reset' class='reset '>Отмена</button>-->
-<!--                <button id='createNewLesson' type='submit' class='submit'>Создать</button>-->
-<!--        </div>-->
+
+        <div class="tr-create-lesson">
+            <span class="cell-create-lesson cell-first-create-lesson bold">Преподаватель: </span>
+            <div class="cell-create-lesson cell-two-create-lesson">
+                <select class="select-teacher input-none" id="selectTeacher">
+                    <option value="0">Преподаватель 1</option>
+                    <option value="1">Преподаватель 2</option>
+                    <option value="2">Преподаватель 3</option>
+                    <option value="3">Преподаватель 4</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tr-create-lesson">
+            <span class="cell-create-lesson cell-first-create-lesson bold">Пригласить: </span>
+            <div class="cell-create-lesson cell-two-create-lesson">
+                <div id="listGroups" class="list-groups">
+
+                </div>
+            </div>
+        </div>
+
+        <div class='tr-create-lesson'>
+            <div class= "cell-create-lesson cell-first-create-lesson">
+                <button id='resetLesson' type='reset' class='reset '>Отмена</button>
+            </div>
+            <div class="cell-create-lesson cell-two-create-lesson">
+                <button id='createNewLesson' type='submit' class='submit'>Создать</button>
+            </div>
+        </div>
     </form>
 </div>
+
+    <div class="popup" id="popupEdit">
+        <form method='post' class='create-lesson'>
+            <span class='tr-create-lesson'>
+                <input  class='text-align-center cell-create-lesson input-create-lesson input-none' type='text' id='titleEventEdit' name='event_type' value=''>
+            </span>
+        </form>
+        <div class='create-lesson'>
+            <div class='tr-create-lesson'>
+                <span class= "cell-create-lesson bold cell-first-create-lesson">Время проведения:</span>
+                <div class="cell-create-lesson cell-two-create-lesson">
+                    <div class='data'>
+                        <input  placeholder="&ndash;&ndash;" type='text' id='tcalInputEdit' name='date' class='tcal' value='' /><!--
+                        --><input class="input-none numder2" placeholder="&ndash;&ndash;" type='tel' pattern="\d [0-9]"   name='day' id='dayEdit' />/<!--
+                    --><input class="input-none numder2" placeholder="&ndash;&ndash;"  type='tel' pattern="\d [0-9]"  name ='month' id='monthEdit' />/<!--
+                    --><input class="input-none numder4" placeholder="&ndash;&ndash;&ndash;&ndash;" type='tel' pattern="\d [0-9]"   name='year' id='yearEdit' />
+                    </div>
+                    <div class='data'>
+                        <input class="input-none numder2"  type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;' name='hour-begin' id='hourBeginEdit'/>:<!--
+                    --><input class="input-none numder2"  type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;' name='minutes-begin' id='minutesBeginEdit'/>-<!--
+                        --><input class="input-none numder2" type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;'  name='hour-end' id='hourEndEdit'/>:<!--
+                    --><input class="input-none numder2"  type='tel' pattern="\d [0-9]" placeholder='&ndash;&ndash;'  name='minutes-end' id='minutesEndEdit'/>
+                    </div>
+                </div>
+            </div>
+
+            <div class='tr-create-lesson'>
+                <span class= "cell-create-lesson bold cell-first-create-lesson">Преподаватель: </span>
+                <div class="cell-create-lesson cell-two-create-lesson">
+                    <select class="select-teacher input-none" id="selectTeacherEdit">
+                        <option value="0">Преподаватель 1</option>
+                        <option value="1">Преподаватель 2</option>
+                        <option value="2">Преподаватель 3</option>
+                        <option value="3">Преподаватель 4</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class='tr-create-lesson'>
+                <span class= "cell-create-lesson bold cell-first-create-lesson">Групы: </span>
+                <div class="cell-create-lesson cell-two-create-lesson">
+                    <div id="listGroupsEdit" class="list-groups">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class='create-lesson'>
+            <div class='tr-create-lesson-none-border text-align-right'>
+                <span class="gotoLesson" id="popupEditGoToLesson">Перейти к событию</span>
+            </div>
+        </div>
+        <div class="button">
+            <div class='tr-create-lesson'>
+                            <span id='resetLessonEdit'  class='resetEdit'>Удалить событие</span>
+                            |
+                            <span id='createNewLessonEdit'  class='submitEdit'>Сохранить изменения</span>
+            </div>
+            </div>
+    </div>
+
