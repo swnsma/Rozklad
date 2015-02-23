@@ -308,16 +308,26 @@ function Calendar(){
                     $screpka.addClass('screpka');
                 }
             }
+            var bool = false;
             if(event.estimate) {
                 if (event.estimate.length !== 0) {
                     k = true;
-
-                    //var $var = $('<span>');
-                    //$var.addClass('good-dz');
-                    //$var.appendTo($(element));
+                    bool = true;
+                    console.log(event.estimate[0]);
+                    if(event.estimate[0].grade){
+                        var $var = $('<span>');
+                        $var.addClass('good-dz');
+                        $var.appendTo($(element));
+                    }else{
+                        var $var = $('<span>');
+                        $var.addClass('dz-redy-for-test');
+                        $var.appendTo($(element));
+                    }
                 }
+
             }
-            else if(event.deadline){
+            if(!bool&& event.deadline){
+
                 k=true;
                 var deadline = event.deadline;
                 var currentData = new Date();

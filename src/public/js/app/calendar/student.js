@@ -195,9 +195,7 @@ function CreateListLeson(data,parent){
                             deadline['day']--;
                             deadline['day'] = parseInt(deadline['day']);
                             if (deadline['day'] < 0) {
-                                deadline['content'].css({
-                                    'backgroundColor': color
-                                })
+                                deadline['content'].empty();
                             }
                         }
 
