@@ -1,8 +1,6 @@
 ko.bindingHandlers.uploadTask = {
     init: function (element, valueAccessor) {
         var value = valueAccessor();
-
-
         $(element)
             .on('click', function () {
                 input.click();
@@ -127,7 +125,7 @@ ko.bindingHandlers.setDeadLine = {
                 m='00';
             }else{m=toFormatL(m);}
             if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
-                viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.")
+                viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.");
                 viewModel.deadLineError(true);
                 setInterval(function(){
                     viewModel.deadLineError(false);
@@ -190,6 +188,20 @@ function ViewModel() {
     that.selfHomeWork=ko.observable(false);
     that.deadLineErrorMessage= ko.observable("");
     that.deadLineError = ko.observable(false);
+    that.day = ko.observable("");
+    that.month = ko.observable("");
+    that.year = ko.observable("");
+    that.hour = ko.observable("");
+    that.minute = ko.observable("");
+
+
+
+
+
+
+
+    that.deadLinePass=ko.observable(true);
+
 
     //editing logic
     that.edit = ko.observable(false);
@@ -204,16 +216,31 @@ function ViewModel() {
         that.descriptionEdit(true);
     };
     that.saveDesc = function () {
-        that.descriptionEdit(false);
-        that.makeArray()
+        if(that.homeWorkDescription().length!=0) {
+            that.descriptionEdit(false);
+            that.makeArray();
+        }
+        else {
+            that.homeWorkDescription('Описание домашнего задания');
+            that.descriptionEdit(false);
+            that.makeArray();
+        }
     };
 
     that.saveLink = function (viewModel, event) {
         if (event.charCode == 13) {
             if (that.linkToAdd().length) {
-                that.links.push({name: that.linkToAdd()});
-                that.linkToAdd('');
-                that.makeArray()
+                if(that.linkToAdd().substring(0,7)=='http://'||that.linkToAdd().substring(0,7)=='https:/') {
+                    that.links.push({name: that.linkToAdd()});
+                    that.linkToAdd('');
+                    that.makeArray()
+                }
+                else
+                {
+                    that.links.push({name: 'http://'+that.linkToAdd()});
+                    that.linkToAdd('');
+                    that.makeArray()
+                }
             }
         }
         return true;
@@ -275,6 +302,32 @@ function ViewModel() {
         }
         sendData()
     };
+    that.setRate=function(viewModel, event){
+        if (event.charCode == 13) {
+            //console.log(this.grade)
+            var datasend={};
+            datasend.grade=this.grade;
+            datasend.lessonId=this.id;
+            datasend.teacherName=that.userInfo()[0];
+            $.ajax({
+                url: url + 'app/lesson/setRate/',
+                type: 'POST',
+                data: {
+                    data: datasend
+                },
+                success: function (response) {
+                    if(response.result=='success'){
+                       alert('Оценка успешно выставлена')
+                    }
+                },
+                error: function (xhr) {
+                    alert('1');
+                }
+            });
+
+        }
+        return true;
+    };
     //method that starts magic
     that.activate = function () {
         var lessonId = window.location.pathname;
@@ -283,6 +336,20 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
+            var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
+            response.result=response.result.slice(12, 17);
+            var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
+            date = date.split("/");
+            time = time.split("/");
+            that.day(date[0]);
+            that.month(date[1]);
+            that.year(date[2]);
+            that.hour(time[0]);
+            that.minute(time[1]);
+            var deadLineTime=Date.parse(that.deadLine().substring(3,5)+'/'+that.deadLine().substring(0,2)+'/'+that.deadLine().substring(6,10)+'/'+that.deadLine().substring(12,14)+':'+that.deadLine().substring(15,17));
+            var today=new Date().toString();
+            that.deadLinePass(deadLineTime<Date.parse(today));
+
         },function(){
             console.log("Something going wrong");
         });
@@ -310,10 +377,13 @@ function ViewModel() {
                 }
                 if(that.userInfo()[1]=='teacher') {
                     for (var i = 0; i < response.length; i++) {
-                         homework = {};
-                         homework.link = url + 'public/users_files/homework/' + response[i].link;
-                         homework.name = response[i].name + ' ' + response[i].surname;
-                         that.homeWork.push(homework);
+                        homework = {};
+                        homework.link = url + 'public/users_files/homework/' + response[i].link;
+                        homework.name = response[i].name + ' ' + response[i].surname;
+                        homework.grade = response[i].grade;
+                        homework.teacher=response[i].teacher;
+                        homework.id=response[i].id;
+                        that.homeWork.push(homework);
                     }
                 }
             },
