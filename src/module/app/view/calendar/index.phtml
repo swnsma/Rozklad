@@ -28,11 +28,71 @@
 
 </div>
 
-<div class="calendar" id='calendar'></div>
 
-<div id="exportPopup">
 
+<style>
+    .export-wrapper{
+        max-width: 900px;
+        position: relative;
+        margin: auto;
+
+    }
+
+    .export-button{
+        background-color: #d9dddd;
+        cursor: pointer;
+        display: inline-block;
+        top: 10px;
+        right: 172px;
+        box-sizing: border-box;
+        margin: 0;
+        height: 2.1em;
+        padding: 0 .6em;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 24px;
+        border: 1px solid;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        color: #333;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .export-button:hover {
+        background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);
+    }
+
+    .export-button:active {
+        background-color: #cccccc;
+        background-image: none;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .export-popup{
+        margin: 10px;
+        display: inline-block;
+
+        position: absolute;
+        top: 10px;
+        right: 55px;
+
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: white;
+        border-radius: 4px;
+    }
+</style>
+<div class="export-wrapper" >
+    <div class="export-button position-absolute" onclick="loadExportPopup()">
+        Экспорт
+        <img class="arrow-down" src="<?php echo URL; ?>public/img/arrow-down.png"/>
+    </div>
+    <div  id="exportPopup"></div>
 </div>
+<div class="clear-both"></div>
+
+<div class="calendar" id='calendar'></div>
 
 <script>
     function loadExportPopup(){
@@ -40,11 +100,13 @@
             url: url+'app/calendar/exportPopup',
             type: 'GET',
             success: function (response){
-                document.getElementById("exportPopup").innerHTML = response;
+                var $popup = $("#exportPopup");
+                $popup.hide();
+                $popup.html(response);
+                $popup.show();
             }
         });
     }
-    loadExportPopup();
 
     function loginGoogle(){
         window.location.href = url+'app/loging/login';
@@ -65,7 +127,11 @@
         });
     }
 
-    function exportAll(calendarId) {
+    function exportAll() {
+        var el = document.getElementById('selectCalendar');
+        debugger;
+        var calendarId = el.options[el.selectedIndex].value;
+
         var lessons = fullEventFor;
         var counter = 0;
 
@@ -76,14 +142,23 @@
         bar.style.display='block';
         bar.setAttribute('max',lessons.length);
         bar.setAttribute('value','0');
+
         for (var i =0; i< lessons.length;i++) {
             function callback(){
-                bar.setAttribute('value',bar.getAttribute('value')*1+1);
-                if (bar.getAttribute('value')*1 >= lessons.length){
+                counter ++;
+                bar.setAttribute('value',counter);
+                if (counter >= lessons.length){
                     success.style.display = 'block';
+                    window.setTimeout(exported, 1000);
+                    function exported(){
+                        document.body.addEventListener('click', hidePopup);
+                        function hidePopup(){
+                            $('#exportPopup').hide();
+                            document.body.removeEventListener('click', hidePopup);
+                        }
+                    }
                 }
             }
-            //if (i>0) return;
             var lessonId = lessons[i].id;
             var userId = lessons[i].teacher;
             var lesson = {lessonId: lessonId, userId: userId};

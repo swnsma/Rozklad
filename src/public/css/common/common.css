@@ -13,6 +13,10 @@ body{
     clear: both;
 }
 
+.position-absolute{
+    position: absolute;
+}
+
 .display-block {
     display: block;
 }
