@@ -298,24 +298,20 @@ function Calendar(){
                 $link.appendTo($(element));
 
             }
-            debugger;
-
             var k =false;
             if(event.lesson_info){
-
-                debugger;
                 var a = JSON.parse(event.lesson_info);
                 if(a['description'].length!=0||a['links'].length!=0||a['files'].length!=0){
-                    debugger;
                     k=true;
                     var $screpka = $('<span>');
                     $screpka.appendTo($(element));
                     $screpka.addClass('screpka');
                 }
             }
-            if(event.estimete) {
-                if (event.estimate.length != 0) {
+            if(event.estimate) {
+                if (event.estimate.length !== 0) {
                     k = true;
+
                     //var $var = $('<span>');
                     //$var.addClass('good-dz');
                     //$var.appendTo($(element));
@@ -341,7 +337,6 @@ function Calendar(){
                 };
                 var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
                 deadline = new Date(deadlinePrint);
-                debugger;
                 var r = deadline-currentData;
                 if(r>0) {
                     var $var = $('<span>');
