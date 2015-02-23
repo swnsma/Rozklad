@@ -212,6 +212,7 @@ SELECT
             `result`.`grade` as grade,
             `result`.`link` as link,
             `result`.`appraiser` as teacher,
+            `result`.`id` as id,
              `user`.`name` as name,
              `user`.`surname` as surname
 from `user`, `result`
@@ -227,8 +228,10 @@ HERE;
             return null;
         }
     }
-    function setDeadLine($id, $deadline){
-        $r=<<<SETDAD
+
+    function setDeadLine($id, $deadline)
+    {
+        $r = <<<SETDAD
             UPDATE `lesson`
             SET `deadline`="$deadline"
             WHERE `lesson`.`id`=$id;
@@ -236,17 +239,39 @@ SETDAD;
         $this->db->query($r);
 
     }
-    function getDeadLine($id){
-        $r=<<<GETDEAD
+
+    function getDeadLine($id)
+    {
+        $r = <<<GETDEAD
             SELECT `deadline`
             FROM `lesson`
             WHERE `lesson`.`id`='$id';
 GETDEAD;
-        $var =$this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
-        if(!is_null($var[0]['deadline']))
-        {
+        $var = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+        if (!is_null($var[0]['deadline'])) {
             return $var[0]['deadline'];
-        }else return "Нет";
+        } else return "Нет";
 
     }
+
+    function grade($teacherId, $lessonId, $grade)
+    {
+        $r = <<<SETGRADE
+         UPDATE `result`
+            SET `appraiser`='$teacherId',
+            `grade`='$grade'
+            WHERE `result`.`id`=$lessonId;
+SETGRADE;
+        try {
+            $this->db->query($r);
+        }
+        catch  (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+    }
+
+
+
+
 }

@@ -302,6 +302,32 @@ function ViewModel() {
         }
         sendData()
     };
+    that.setRate=function(viewModel, event){
+        if (event.charCode == 13) {
+            //console.log(this.grade)
+            var datasend={};
+            datasend.grade=this.grade;
+            datasend.lessonId=this.id;
+            datasend.teacherName=that.userInfo()[0];
+            $.ajax({
+                url: url + 'app/lesson/setRate/',
+                type: 'POST',
+                data: {
+                    data: datasend
+                },
+                success: function (response) {
+                    if(response.result=='success'){
+                       alert('Оценка успешно выставлена')
+                    }
+                },
+                error: function (xhr) {
+                    alert('1');
+                }
+            });
+
+        }
+        return true;
+    };
     //method that starts magic
     that.activate = function () {
         var lessonId = window.location.pathname;
@@ -356,6 +382,7 @@ function ViewModel() {
                         homework.name = response[i].name + ' ' + response[i].surname;
                         homework.grade = response[i].grade;
                         homework.teacher=response[i].teacher;
+                        homework.id=response[i].id;
                         that.homeWork.push(homework);
                     }
                 }

@@ -128,7 +128,7 @@
             <tr>
                 <td data-bind="text:name"></td>
                 <td><a download="" data-bind="attr:{ href:link}">Скачать</a></td>
-                <td><input type="text" class="col-lg-12" data-bind="value:grade,valueUpdate:'keypress'"></td>
+                <td><input type="text" class="col-lg-12" data-bind="value:grade, valueUpdate:'keypress', event: { keypress: $parent.setRate }"></td>
                 <td data-bind="text:teacher"> </td>
             </tr>
             <!--/ko-->
@@ -136,7 +136,7 @@
             <tr  class="danger">
                 <td data-bind="text:name"></td>
                 <td><a download="" data-bind="attr:{ href:link}">Скачать</a></td>
-                <td><input type="text" class="col-lg-12" data-bind="value:grade,valueUpdate:'keypress'"></td>
+                <td><input type="text" class="col-lg-12" data-bind="value:grade, valueUpdate:'keypress', event: { keypress: $parent.setRate }"></td>
                 <td data-bind="text:teacher"> </td>
             </tr>
             <!--/ko-->
