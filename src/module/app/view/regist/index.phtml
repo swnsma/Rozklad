@@ -3,60 +3,49 @@
 <head>
     <meta charset="utf-8">
     <title>Регистрация</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/bootstrap.css"/>
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/start-page.css" />
     <link rel="stylesheet" href="<?php print URL; ?>public/css/startPage/mycss.css" />
     <link rel="stylesheet" href="<?php print URL; ?>public/css/common/common.css"/>
-
 </head>
 <body>
 <section class="form" id="regist">
     <h3>Регистрация</h3>
-    <form class="form-
-
-
-
-
-
-
-
-
-
-
-    horizontal panel panel-default block-regist">
+    <form class="form-horizontal panel panel-default block-regist">
         <fieldset>
             <div class="form-group">
-                <label  class="col-md-2 arrow">Имя</label>
-                <div class="padding10px col-md-9">
+                <label  class="col-md-2 col-lg-2 col-sm-2 arrow">Имя</label>
+                <div class="padding10px col-md-9 col-lg-9 col-sm-9">
                     <input type="text" id="name" class="input" value="<?php echo Session::get('firstname')?>" data-bind="value:name,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="name_error"></p>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-2 arrow" >Фамилия</div>
-                <div class="padding10px col-md-9">
+                <div class="col-md-2 col-lg-2 col-sm-2 arrow" >Фамилия</div>
+                <div class="padding10px col-md-9 col-lg-9 col-sm-9">
                     <input type="text" id="surname" class="input"  value="<?php echo Session::get('lastname')?>"data-bind="value:surname,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="surname_error"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label  class="col-md-2 arrow">E-mail</label>
-                <div class="padding10px col-md-9">
+                <label  class="col-md-2 col-lg-2 col-sm-2 arrow">E-mail</label>
+                <div class="padding10px col-md-9 col-lg-9 col-sm-9">
                     <input type="text" id="surname" class="input"  value="<?php echo Session::get('email');?>" placeholder="" disabled>
                     <p class="error" id="surname_error"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label  class="col-lg-2 col-md-2 arrow">Телефон</label>
-                <label  class="padding10px col-lg-1 col-md-1 control-label">+380 </label>
-                <div class="col-lg-8 col-md-8">
+                <label  class="col-md-2 col-lg-2 col-sm-2 arrow">Телефон</label>
+                <label  class="padding10px col-lg-1 col-md-1 col-sm-1 control-label">+380 </label>
+                <div class="col-md-8 col-lg-8 col-sm-8">
                     <input type="text" id="phone" class="input"  data-bind="value:phone,valueUpdate:'afterkeydown'" placeholder="">
                     <p class="error" id="phone_error"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="select" class="col-md-2 arrow">Роль</label>
-                <div class="padding10px col-md-9 radio">
+                <label for="select" class="col-md-2 col-lg-2 col-sm-2 arrow">Роль</label>
+                <div class="padding10px col-md-9 col-lg-9 col-sm-9 radio">
                     <label data-bind="select">
                         <input type="radio"  name="cont" value="Студент" data-bind="checked: $root.radioSelectedOptionValue()" />
                         <span data-bind="text:'Студент'"></span>
@@ -68,12 +57,8 @@
                 </div>
             </div>
             <div class="form-group button-end-group">
-                <div id="reset" class=" col-lg-3 col-md-3 button back" hreff="<?php echo URL;?>app/regist/logout">Отмена</div>
-                <div data-bind="click:sendInfo" class="col-lg-7 col-md-7 button submit" >Создать</div>
-                <div class="col-lg-10 col-lg-offset-2">
-
-
-                </div>
+                <div id="reset" class=" col-lg-3 col-md-3 col-sm-3 button back" hreff="<?php echo URL;?>app/regist/logout">Отмена</div>
+                <div data-bind="click:sendInfo" class="col-lg-7 col-md-7 col-sm-7 button submit" >Создать</div>
             </div>
         </fieldset>
     </form>
