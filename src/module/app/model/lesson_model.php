@@ -103,6 +103,7 @@ TANIA;
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
                 for($i=0;$i<count($var);++$i){
                     $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                    $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
                 }
             }else{
                 $res = "select l.id,

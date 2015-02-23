@@ -211,6 +211,7 @@ function Calendar_teacher(){
                     if (data.status !== 'ok') {
                         alert('щось трапилось дивне');
                     } else {
+                        debugger;
                         var myevent = {
                             start: start,
                             end: end,
@@ -233,7 +234,9 @@ function Calendar_teacher(){
                                 } else {
                                     return masColor.otherEvents.textColor;
                                 }
-                            })()
+                            })(),
+                            newdz:event.newdz
+
                         }
                         self.jqueryObject.calendar.fullCalendar('removeEvents', event.id);
                         self.jqueryObject.calendar.fullCalendar('renderEvent', myevent);

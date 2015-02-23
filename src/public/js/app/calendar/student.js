@@ -293,31 +293,51 @@ function Calendar_student(){
     });
 
     this.dragEvent = function() {
+
         var drag;
         var clientX;
         var clientY;
-        var bool=false;
-        this.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown', function (e) {
-            if (e.button === 0)
-                drag = self.jqueryObject.deadlineTask.deadlineTaskContent;
-            clientX = e.clientX;
-            clientY = e.clientY;
+        var bool = false;
+        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown touchstart', function (e) {
+            if (e.type == "touchstart") {
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                clientX = touch.clientX;
+                clientY = touch.clientY;
+            }else {
+                if (e.button === 0)
+                    drag = self.jqueryObject.deadlineTask.deadlineTaskContent;
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
         });
 
 
-        this.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mouseup', function () {
+        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mouseup touchend', function () {
             drag = null;
         });
-        $(document).on('mousemove', function (e) {
-            if (drag) {
-                drag.css({
-                    'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (e.clientX - clientX),
-                    'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (e.clientY - clientY)
-                });
+        $(document).on('mousemove touchmove', function (e) {
+            if (e.type == "touchstart") {
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                if (drag) {
+                    drag.css({
+                        'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (touch.clientX - clientX),
+                        'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (touch.clientY - clientY)
+                    });
+                }
+                clientX = touch.clientX;
+                clientY = touch.clientY;
+            }else {
+                if (drag) {
+                    drag.css({
+                        'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (e.clientX - clientX),
+                        'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (e.clientY - clientY)
+                    });
+                }
+                clientX = e.clientX;
+                clientY = e.clientY;
             }
-            clientX = e.clientX;
-            clientY = e.clientY;
         });
+
 
     }
 
@@ -380,6 +400,9 @@ function Calendar_student(){
     this.jqueryObject.calendar.fullCalendar(this.option);
 
 
+    $(document).on('zoom',function(){
+        debugger;
+    });
 }
 $(document).ready(function() {
     var calendar = new Calendar_student();
