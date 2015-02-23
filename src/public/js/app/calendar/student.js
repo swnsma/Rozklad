@@ -293,6 +293,7 @@ function Calendar_student(){
     });
 
     this.jqueryObject.deadlineTask.deadlineTaskClose.on('click',function(){
+        debugger;
         self.jqueryObject.deadlineTask.deadlineTaskBt.show();
         self.jqueryObject.deadlineTask.deadlineTaskContent.hide();
     });
