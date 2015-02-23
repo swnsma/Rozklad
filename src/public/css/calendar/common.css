@@ -12,6 +12,18 @@ body,html{
     margin: auto;
     padding: 10px 0;
 }
+.deadline-events-conteiner{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 15px;
+    height: 15px;
+    background: url("../../img/alert.png");
+    background-size: cover;
+    display: block;
+    /*transform:   rotate(135deg);*/
+    opacity: 1;
+}
 header {
     max-width: 900px;
     min-width: 400px;
@@ -21,13 +33,13 @@ header {
 .screpka{
     position: absolute;
     bottom: 0px;
-    right: 0px;
+    right: 12px;
     width: 15px;
     height: 15px;
     background: url("../../img/screpka.png");
     background-size: cover;
     display: block;
-    /*transform:   rotate(135deg);*/
+    transform:   rotate(135deg);
     opacity: 1;
 }
 

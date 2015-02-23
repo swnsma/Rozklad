@@ -283,6 +283,11 @@ function Calendar(){
                     });
                     $var.appendTo($(element));
                 }
+                if(event.deadline){
+                    var $var = $('<span>');
+                    $var.addClass('deadline-events-conteiner');
+                    $var.appendTo($(element));
+                }
 
             }
             if(event.color===masColor.delEvent.color){
