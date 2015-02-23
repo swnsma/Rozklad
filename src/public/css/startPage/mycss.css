@@ -5,6 +5,7 @@ body{
 }
 
 .input{
+    padding-left: 10px;
     height:40px;
     outline:0;
     width:100%;

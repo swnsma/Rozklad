@@ -50,7 +50,6 @@ function CreateListLeson(data,parent){
             };
             var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
             deadline = new Date(deadlinePrint);
-            debugger;
             var r = deadline-currentData;
             if(r>0) {
                 var $div = $('<div>');
@@ -253,7 +252,6 @@ function Calendar_student(){
                     url+'app/calendar/addFullEventDefault',
                     'post',
                     function(data){
-                        debugger;
                         event= data;
                         callback(data);
                         self.masEvent=data;
@@ -293,7 +291,6 @@ function Calendar_student(){
     });
 
     this.jqueryObject.deadlineTask.deadlineTaskClose.on('click',function(){
-        debugger;
         self.jqueryObject.deadlineTask.deadlineTaskBt.show();
         self.jqueryObject.deadlineTask.deadlineTaskContent.hide();
     });
@@ -406,9 +403,6 @@ function Calendar_student(){
     this.jqueryObject.calendar.fullCalendar(this.option);
 
 
-    $(document).on('zoom',function(){
-        debugger;
-    });
 }
 $(document).ready(function() {
     var calendar = new Calendar_student();

@@ -57,8 +57,8 @@ function Calendar_teacher(){
                 opt.appendTo(jquery_element);
             }
             jquery_element.on('change',function(){
-                //event.teacher=jquery_element.val();
-                lastteacer=jquery_element.val();
+                event.teacher=jquery_element.val();
+                //lastteacer=jquery_element.val();
             });
         }
         createOption();
@@ -214,7 +214,6 @@ function Calendar_teacher(){
                     if (data.status !== 'ok') {
                         alert('щось трапилось дивне');
                     } else {
-                        debugger;
                         var myevent = {
                             start: start,
                             end: end,
@@ -340,7 +339,6 @@ function Calendar_teacher(){
         minutesStart=toFormat(minutesStart);
 
 
-        debugger;
         var hourEnd =calEvent.end._d.getHours();
         hourEnd=toFormat(hourEnd);
 
@@ -783,21 +781,22 @@ function Calendar_teacher(){
                 textColor = masColor.otherEvents.textColor
             }
             var originalEventGroup = originalEvent.group;
+            var group =editGroups(originalEventGroup,toNormFormGroup());
             var data = {
                 title:title,
                 start:startFun(),
                 end:endFun(),
                 id:+idUpdate,
-                teacher:lastteacer,
-                group:editGroups(originalEventGroup,toNormFormGroup())
+                teacher:originalEvent.teacher,
+                group:group
             }
+            debugger;
             function success(id){
-
                 originalEvent.id=idUpdate;
                 originalEvent.title=title;
                 originalEvent.start=startFun();
                 originalEvent.end=endFun();
-                originalEvent.teacher=lastteacer;
+                originalEvent.teacher=originalEvent.teacher;
                 originalEvent.surname=surnameTeacher;
                 originalEvent.name=nameteacher;
                 originalEvent.color=color;
