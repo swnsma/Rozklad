@@ -23,6 +23,11 @@
     border-bottom: 1px solid #eeeeee;
     line-height: 25px;
 }
+.popup .create-lesson .tr-create-lesson{
+    display: table-row;
+    width: 100%;
+    line-height: 25px;
+}
 .popup .create-lesson .tr-create-lesson .cell-create-lesson{
     display: table-cell;
 }
@@ -35,7 +40,7 @@
     padding-left: 5px;
 }
 .popup .input-create-lesson{
-    width: 70%;
+    width: 100%;
 }
 .popup .input-none{
     outline: none;
@@ -92,4 +97,41 @@
 }
 .deletedEvent:hover{
     text-decoration: underline;
+}
+.text-align-center{
+    text-align: center;
+}
+.popup .gotoLesson,
+.popup .resetEdit,
+.popup .submitEdit{
+    /*text-align: right;*/
+    cursor: pointer;
+    font-weight: bold;
+    /*font-size: 10px;*/
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+.popup .gotoLesson:hover,
+.popup .resetEdit:hover,
+.popup .submitEdit:hover{
+    text-decoration: underline;
+    color: #000;
+}
+.popup .gotoLesson{
+    font-size: 12px;
+    color: #111;
+    /*font-style: italic;*/
+    /*text-decoration: underline;*/
+}
+.popup .resetEdit,
+.popup .submitEdit{
+    font-size: 15px;
+}
+.popup .button{
+    text-align: center;
+}
+
+.text-align-right{
+    text-align: right;
 }
