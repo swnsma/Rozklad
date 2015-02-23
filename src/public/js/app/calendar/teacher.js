@@ -39,10 +39,13 @@ function Calendar_teacher(){
 
     var ourteacher=[];//всі вчителі
 
+    var lastteacer='';
+
     function AddTeacherToList(jquery_element,selected_obj,event){
 
+        jquery_element.empty();
         function createOption(){
-            jquery_element.empty();
+
             for(var i = 0;i<ourteacher.length;++i){
                 var opt = document.createElement('option');
                 opt.value = ourteacher[i].id;
@@ -54,10 +57,10 @@ function Calendar_teacher(){
                 opt.appendTo(jquery_element);
             }
             jquery_element.on('change',function(){
-                event.teacher=jquery_element.val();
+                //event.teacher=jquery_element.val();
+                lastteacer=jquery_element.val();
             });
         }
-
         createOption();
         this.getSelectedOption =function(){
             return jquery_element.val();
@@ -791,7 +794,7 @@ function Calendar_teacher(){
                 start:startFun(),
                 end:endFun(),
                 id:+idUpdate,
-                teacher:teacher,
+                teacher:lastteacer,
                 group:editGroups(originalEventGroup,toNormFormGroup())
             }
             function success(id){
@@ -800,7 +803,7 @@ function Calendar_teacher(){
                 originalEvent.title=title;
                 originalEvent.start=startFun();
                 originalEvent.end=endFun();
-                originalEvent.teacher=teacher;
+                originalEvent.teacher=lastteacer;
                 originalEvent.surname=surnameTeacher;
                 originalEvent.name=nameteacher;
                 originalEvent.color=color;
