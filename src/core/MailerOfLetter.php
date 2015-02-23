@@ -75,8 +75,8 @@ HERE;
             if ($request->execute()) {
                 $data = $request->fetchAll(PDO::FETCH_ASSOC);
                 $data = $data[0];
-                //$this->mail->addFileToHtml(DOC_ROOT . 'public/img/rty.jpg', 'mail_background');
-                //$this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
+                $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_background.png', 'mail_background');
+                $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
                 $b = $this->mail->getTemplate('invitationToLesson', array(
                     'lessonTitle' => $data['title'],
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
