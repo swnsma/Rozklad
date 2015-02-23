@@ -63,11 +63,17 @@ function example2() {
     }
 }
 
-// виклик
-/*
-example1();
-Mail::getInstance()->clear();
-example2();
-*/
+require_once 'core/PeddingOperation/PeddingOperation.php';
+//require_once 'module/app/model/lesson_model.php';
+
+if (DEBUG) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+}
+PeddingOperation::run();
+
 
 ?>
