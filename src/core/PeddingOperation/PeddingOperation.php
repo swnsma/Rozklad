@@ -11,6 +11,9 @@ class PeddingOperation {
             $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
             $out .= "Connection: Close\r\n\r\n";
             fwrite($fp, $out);
+            /*while (!feof($fp)) {
+                echo fgets($fp, 128);
+            }*/
             fclose($fp);
         }
     }
