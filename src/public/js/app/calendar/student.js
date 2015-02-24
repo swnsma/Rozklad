@@ -165,8 +165,8 @@ function CreateListLeson(data,parent){
                     createTextTimer('minutes',parseInt(minutes),$timeTrack );
                     if(data[i].estimate.length!=0){
                         var $var = $('<span>');
-                        $var.addClass('good-dz');
-                        $var.appendTo($div);
+                        $var.addClass('img-yellow-checkmark');
+                        $var.appendTo($eventTitle);
                     }
                     //$timeTrack.text(' ' + parseInt(day) + 'дней ' + toFormat(parseInt(hour)) + 'часов ' + toFormat(parseInt(minutes))+'минут');
                 } else {

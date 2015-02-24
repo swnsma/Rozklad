@@ -316,7 +316,7 @@ function Calendar(){
                     console.log(event.estimate[0]);
                     if(event.estimate[0].grade){
                         var $var = $('<span>');
-                        $var.addClass('good-dz');
+                        $var.addClass('good-dz-event');
                         $var.appendTo($(element));
                     }else{
                         var $var = $('<span>');

@@ -38,6 +38,26 @@ body,html{
     /*transform:   rotate(135deg);*/
     opacity: 1;
 }
+.img-yellow-checkmark{
+    background: url("../../img/android-checkmark-yellow.png");
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+}
+.good-dz-event{
+    position: absolute;
+    bottom: 0px;
+    right: 15px;
+    width: 15px;
+    height: 15px;
+    /*background: url("../../img/gooddz.gif");*/
+    background: url("../../img/android-checkmark.png");
+    background-size: cover;
+    display: block;
+    /*transform:   rotate(135deg);*/
+    opacity: 1;
+}
 .deadline-events-conteiner{
     position: absolute;
     bottom: 0px;
