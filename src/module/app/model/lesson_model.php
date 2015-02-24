@@ -258,7 +258,7 @@ BORIA;
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
                 $lesson_id=$var[$i]['id'];
-                $res = "select r.id from 'result' as r where r.owner='$id' AND r.lesson_id='$lesson_id'";
+                $res = "select * from 'result' as r where r.owner='$id' AND r.lesson_id='$lesson_id'";
                 $var[$i]['estimate'] = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
 
             }

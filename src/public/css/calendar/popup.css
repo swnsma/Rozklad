@@ -51,9 +51,11 @@
 }
 .popup .numder2{
     width: 17px;
+    text-align: center;
 }
 .popup .numder4{
     width: 34px;
+    text-align: center;
 }
 .popup .data{
     display: inline;
