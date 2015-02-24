@@ -2,7 +2,7 @@
 
 class PeddingOperation {
     public static function run() {
-        $fp = fsockopen("localhost", 83, $errno, $errstr, 30);
+        $fp = fsockopen($_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $errno, $errstr, 30);
         if (!$fp) {
             echo "$errstr ($errno)<br />\n";
         } else {
