@@ -1,12 +1,8 @@
-
 <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/fullcalendar.css' />
 <link rel='stylesheet' href='<?php print URL; ?>public/js/vendor/jQuery/jquery-ui.min.css'/>
 <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/common.css'/>
 <link rel='stylesheet' href='<?php print URL; ?>public/css/common/bootstrap.css'/>
 <link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/tooltip.css'/>
-
-
-
 
 <div class="my-tooltip" id="tooltip">
     <h3  id="tooltipTitle">Title</h3>
@@ -17,156 +13,55 @@
             <span class="tooltip-time-start-end" id ='tooltipTimeStartEnd'></span>
         </div>
     </div>
-<!--    <div class="time">-->
-<!--        <span id="tooltipStart">start</span>-<span id="tooltipEnd">end</span>-->
-<!--    </div>-->
-
     <div class="groooooooooooooooooops">Групы:
         <div id="myTooltipGroupList"></div>
     </div>
-
-
 </div>
 
-
-
-<style>
-    .export-wrapper{
-        max-width: 900px;
-        position: relative;
-        margin: auto;
-
-    }
-
-    .export-button{
-        background-color: #d9dddd;
-        cursor: pointer;
-        display: inline-block;
-        top: 10px;
-        right: 172px;
-        box-sizing: border-box;
-        margin: 0;
-        height: 2.1em;
-        padding: 0 .6em;
-        border-radius: 4px;
-        text-align: center;
-        line-height: 24px;
-        border: 1px solid;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        color: #333;
-        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-
-    .export-button:hover {
-        background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);
-    }
-
-    .export-button:active {
-        background-color: #cccccc;
-        background-image: none;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-
-    .export-popup{
-        margin: 10px;
-        display: inline-block;
-
-        position: absolute;
-        top: 10px;
-        right: 55px;
-
-        text-align: center;
-        padding: 10px;
-        border: 1px solid #ddd;
-        background-color: white;
-        border-radius: 4px;
-    }
-</style>
+<link rel='stylesheet' href='<?php print URL; ?>public/css/calendar/export.css'/>
 <div class="export-wrapper" >
-    <div class="export-button position-absolute" onclick="loadExportPopup()">
+    <div class="export-button position-absolute" onclick="showExportPopup()">
         Экспорт
         <img class="arrow-down" src="<?php echo URL; ?>public/img/arrow-down.png"/>
     </div>
-    <div  id="exportPopup"></div>
+    <div id="exportPopup">
+        <script>
+            $('#exportPopup').hide();
+        </script>
+        <?php if(Session::has('gm_ID')): ?>
+            <div class="export-popup">
+                <div>Выберите календарь для експорта уроков</div>
+                <div class="calendar-list">
+                    <select id="selectCalendar">
+                        <?php foreach($data['googleCalendars'] as $calendar):?>
+                            <option value="<?php echo $calendar['id']?>">
+                                <?php echo $calendar['name'];?>
+                            </option>
+                        <?php endforeach;?>
+                    </select>
+                    <button onclick="exportAll()">
+                        Экспортировать
+                    </button>
+                </div>
+                <progress class='export-progress' id="exportProgress" value="29" max="100">
+                </progress>
+                <div class="successfully-exported" id="successfullyExported">
+                    Занятия успешно експортированы!
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if(!Session::has('gm_ID')):?>
+            <div class="export-popup">
+            <div class="export-title">Для експорта уроков нужно</div>
+            <div class="export-button" onclick="loginGoogle()">войти через Google+</div>
+            </div>
+        <?php endif?>
+    </div>
 </div>
 <div class="clear-both"></div>
+<script src='<?php print URL; ?>public/js/app/calendar/export.js'></script>
 
 <div class="calendar" id='calendar'></div>
-
-<script>
-    function loadExportPopup(){
-        $.ajax({
-            url: url+'app/calendar/exportPopup',
-            type: 'GET',
-            success: function (response){
-                var $popup = $("#exportPopup");
-                $popup.hide();
-                $popup.html(response);
-                $popup.show();
-            }
-        });
-    }
-
-    function loginGoogle(){
-        window.location.href = url+'app/loging/login';
-    }
-
-    function exportLesson(lesson, callback){
-        $.ajax({
-            url: url + 'app/calendar/exportEvent',
-            type: 'POST',
-            data: lesson,
-            success: function(response){
-                console.log ('exported');
-                callback();
-            },
-            error: function(e){
-                //;
-            }
-        });
-    }
-
-    function exportAll() {
-        var el = document.getElementById('selectCalendar');
-        debugger;
-        var calendarId = el.options[el.selectedIndex].value;
-
-        var lessons = fullEventFor;
-        var counter = 0;
-
-        var success =  document.getElementById('successfullyExported');
-        success.style.display = 'none';
-
-        var bar = document.getElementById('exportProgress');
-        bar.style.display='block';
-        bar.setAttribute('max',lessons.length);
-        bar.setAttribute('value','0');
-
-        for (var i =0; i< lessons.length;i++) {
-            function callback(){
-                counter ++;
-                bar.setAttribute('value',counter);
-                if (counter >= lessons.length){
-                    success.style.display = 'block';
-                    window.setTimeout(exported, 1000);
-                    function exported(){
-                        document.body.addEventListener('click', hidePopup);
-                        function hidePopup(){
-                            $('#exportPopup').hide();
-                            document.body.removeEventListener('click', hidePopup);
-                        }
-                    }
-                }
-            }
-            var lessonId = lessons[i].id;
-            var userId = lessons[i].teacher;
-            var lesson = {lessonId: lessonId, userId: userId};
-            exportLesson({lesson: lesson,calendarId:calendarId}, callback);
-        }
-    }
-
-</script>
 
 <script src='<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js'></script>
 <script src='<?php print URL; ?>public/js/vendor/fullcalendar-2.2.6/moment.min.js'></script>
@@ -185,9 +80,5 @@
     <script src='<?php print URL; ?>public/js/app/calendar/teacher.js'></script>
     <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
 <?php else: ?>
-
     <script src='<?php print URL; ?>public/js/app/calendar/student.js'></script>
 <?php endif; ?>
-
-<!--</body>-->
-<!--</html>-->
