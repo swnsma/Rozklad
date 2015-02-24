@@ -10,10 +10,10 @@
             <div class="error-deadline" data-bind="if:deadLineError">
                 <div data-bind="text:deadLineErrorMessage"></div>
             </div>
-            <input data-bind="value:day" placeholder="- -" id="day" type="tel"/>-
-            <input data-bind="value:month" placeholder="- -" id="month" type="tel"/>-
+            <input data-bind="value: day" placeholder="- -" id="day" type="tel"/>-
+            <input data-bind="value: month" placeholder="- -" id="month" type="tel"/>-
             <input data-bind="value: year" placeholder="- - - -" id="year" type="tel"/>
-            <input data-bind="value:deadLine" id="calen" class="tcal"/>
+            <input data-bind="value: deadLine" id="calen" class="tcal"/>
             <input data-bind="value: hour" id="hour" placeholder="14" min="0" max="23" type="number"/>:<input data-bind="value:minute" id="min" placeholder=" 00" min="0" max="59" type="number"/>
             <button data-bind="setDeadLine{ deadLine:deadLine}">Установить дедлайн</button>
          <?php endif ?>
@@ -51,16 +51,14 @@
                 <?php endif ?>
             </div>
             <div class="col-md-12 clearfix" data-bind="foreach:links">
-                <div class="col-lg-10 wordBreak elipsis">
-                    <a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
-                </div>
+                <div class="col-lg-12 wordBreak elipsis">
+                    <a data-bind="text: nameLink, attr: {href:name}" target="_blank">ссылка</a>
                 <?php if ($data['status'] == 'teacher'): ?>
-                    <div class="col-lg-2 ">
-                        <button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">
+                        <button class="deleteButton fixes" data-bind="click: function(){$parent.deleteLink($data.name)}">
                             Удалить
                         </button>
-                    </div>
                 <?php endif ?>
+                </div>
             </div>
         </div>
         <h4>Файлы для скачивания:</h4>
@@ -73,11 +71,9 @@
 
             <?php if ($data['status'] == 'teacher'): ?>
             <div class='col-md-12 ' data-bind="foreach: files">
-                <div class=" col-lg-10">
-                    <a download="" data-bind="text:oldName, attr:{ href:url}">файл</a>
-                </div>
-                <div class="col-lg-2 ">
-                    <button class="deleteButton" data-bind="click: function(){$parent.deleteFile($data.newName)}">
+                <div class=" col-lg-12">
+                    <a class="file-link" download="" data-bind="text:oldName, attr:{ href:url}">файл</a>
+                    <button class="deleteButton fixes" data-bind="click: function(){$parent.deleteFile($data.newName)}">
                         Удалить
                     </button>
                 </div>
@@ -145,8 +141,8 @@
     <?php endif ?>
 </section>
 
-ViewModel:
-<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+<!--ViewModel:
+<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>-->
 
 
 <!--<section class="main-content">

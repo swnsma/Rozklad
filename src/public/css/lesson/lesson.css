@@ -20,6 +20,12 @@ header{
 #deadLineSettings{
     display: none;
 }
+.fixes{
+  float:right;
+
+  padding: 0;
+}
+
 .error-deadline *{
     color: red;
     background: rgb(237, 237, 237);
