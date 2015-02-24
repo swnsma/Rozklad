@@ -588,9 +588,8 @@ SQL;
         }
     }
 
-    public function getAllCommentsForLesson($lesson_id,$user_id,$since){
+    public function getAllCommentsForLesson($lesson_id,$since){
         try{
-
             $db=$this->db->prepare("SELECT date FROM comment WHERE date >= :since AND lesson_id = :lesson_id");
             $db->execute(array('since'=>$since, 'lesson_id'=>$lesson_id));
             return $db->fetchAll();

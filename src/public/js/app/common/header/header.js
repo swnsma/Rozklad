@@ -13,12 +13,19 @@
                     alwaysVisible: true,
                     height: 350
                 });
-                debugger;
-                proccessLessons(response, $);
+                if(response&&response.length) {
+                    proccessLessons(response, $);
+                }
+                else{
+                    var item = $("<p class='none-comments'>Нет новых комментариев</p>");
+                    $("#content-wrap").append(
+                        item
+                    );
+                }
 
             },
             function (error) {
-                alert("error");
+                alert("error: "+error);
             }
         );
     }
@@ -30,7 +37,6 @@
     }
 
     function getAllCommentsForLesson(lesson,$) {
-        var lesson_id=url+"app/lesson/id"+lesson.id;
         $.ajax({
             url:url+'app/lesson/getAllCommentsForLesson',
             data: {
@@ -56,7 +62,6 @@
                 }
             },
             error:function (response) {
-                //alert("error");
                 console.log(response);
             }
         });

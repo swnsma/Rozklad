@@ -438,7 +438,9 @@ function toFormatL(number){
 }
 var viewModel = new ViewModel();
 viewModel.activate();
+ function update () {
+    lastVisit(viewModel.id());
+    setTimeout(update, 60000);
+};
 ko.applyBindings(viewModel);
-setInterval(function () {
-    lastVisit(viewModel.id())
-}, 5000);
+setTimeout(update, 60000);
