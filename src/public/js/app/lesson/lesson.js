@@ -342,7 +342,7 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
-            if(response.result!='Нет'){
+            if(response.result!='Нет'&&response.result){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
             response.result=response.result.slice(12, 17);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
