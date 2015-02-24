@@ -45,6 +45,13 @@ body,html{
     height: 15px;
     display: inline-block;
 }
+.img-checkmark{
+    background: url("../../img/android-checkmark.png");
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+}
 .good-dz-event{
     position: absolute;
     bottom: 0px;
