@@ -134,7 +134,7 @@ ko.bindingHandlers.setDeadLine = {
             if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
                 viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
             }else{
@@ -144,7 +144,7 @@ ko.bindingHandlers.setDeadLine = {
             {
                 viewModel.deadLineErrorMessage("Невозможно установить дедлайн, так как введенная дата уже прошла");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
                 return;
@@ -153,7 +153,7 @@ ko.bindingHandlers.setDeadLine = {
             {
                 viewModel.deadLineErrorMessage("Введена несуществующая дата");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
                 return;

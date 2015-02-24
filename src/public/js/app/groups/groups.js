@@ -130,7 +130,7 @@ function ViewModel(){
             }
             that.groups.reverse();
             that.loadScr("out");
-            setInterval(function(){
+            setTimeout(function(){
                 that.loadScr("no");
             }, 300)
 
