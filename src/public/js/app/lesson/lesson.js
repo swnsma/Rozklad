@@ -23,6 +23,9 @@ ko.bindingHandlers.uploadTask = {
                         success: function (response) {
 
                             response.url = url + 'public/users_files/tasks/' + response.newName;
+                            if(response.oldName.length>30){
+                                response.oldName=response.oldName.substr(0, 29)+'…';
+                            }
                             value.files.push(response);
                             value.save();
                             $(element).show()
@@ -55,7 +58,7 @@ ko.bindingHandlers.uploadHomework = {
             .on('click', function () {
                 input.click();
             })
-            .wrap('<div />')
+            .wrap('<div />');
         var form = $('<form/>')
             .attr('enctype', 'multipart/form-data')
             .hide()
@@ -111,8 +114,12 @@ ko.bindingHandlers.setDeadLine = {
         var value = valueAccessor();
         $(element).click(function () {
             var d=toFormatL(parseInt($("#day").val()));
+            var t="";
             var mo=toFormatL(parseInt($("#month").val()));
             var ye=parseInt($("#year").val());
+            if(!d||!mo||!ye){
+                t="Нет";
+            }else{
             if(ye.length>4){
                 ye=NaN;
             }
@@ -151,20 +158,16 @@ ko.bindingHandlers.setDeadLine = {
                 }, 5000);
                 return;
             }
-            var t=d+'-'+mo+'-'+ye+' ';
-            t+=' '+h;
-            t+=':'+m;
-            if(t.length<10){
-                t="Нет";
+            t=d+'-'+mo+'-'+ye+' '+h+':'+m;
+            }
             }
             value.deadLine(t);
-                $("#deadLineSettings").css("display", "none");
+            $("#deadLineSettings").css("display", "none");
             universalAPI(url+'app/lesson/setDeadLine/'+viewModel.id(), "POST", function(response){
                 console.log(response);
             }, function(){
                 console.log("Something going wrong!");
             }, {deadline: t});
-            }
         })}
 };
 ko.bindingHandlers.getName={
@@ -193,11 +196,6 @@ function ViewModel() {
     that.year = ko.observable("");
     that.hour = ko.observable("");
     that.minute = ko.observable("");
-
-
-
-
-
 
 
     that.deadLinePass=ko.observable(true);
@@ -336,6 +334,7 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
+            if(response.result!='Нет'){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
             response.result=response.result.slice(12, 17);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
@@ -349,6 +348,7 @@ function ViewModel() {
             var deadLineTime=Date.parse(that.deadLine().substring(3,5)+'/'+that.deadLine().substring(0,2)+'/'+that.deadLine().substring(6,10)+'/'+that.deadLine().substring(12,14)+':'+that.deadLine().substring(15,17));
             var today=new Date().toString();
             that.deadLinePass(deadLineTime<Date.parse(today));
+            }
 
         },function(){
             console.log("Something going wrong");
@@ -357,6 +357,11 @@ function ViewModel() {
             var incomingData = JSON.parse(response[0].lesson_info);
             that.homeWorkDescription(incomingData.description);
             that.links(incomingData.links);
+            for(var i=0; i<incomingData.files.length; i++){
+                if(incomingData.files[i].oldName.length>30){
+                    incomingData.files[i].oldName = incomingData.files[i].oldName.substr(0, 29)+'…';
+                }
+            }
             that.files(incomingData.files);
         });
         $.ajax({
