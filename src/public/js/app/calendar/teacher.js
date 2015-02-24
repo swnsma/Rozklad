@@ -42,8 +42,8 @@ function Calendar_teacher(){
     var lastteacer='';
 
     function AddTeacherToList(jquery_element,selected_obj,event){
-
         jquery_element.empty();
+        lastteacer='';
         function createOption(){
 
             for(var i = 0;i<ourteacher.length;++i){
@@ -65,8 +65,6 @@ function Calendar_teacher(){
         this.getSelectedOption =function(){
             return jquery_element.val();
         }
-
-
     }
 
 
@@ -214,7 +212,6 @@ function Calendar_teacher(){
                     if (data.status !== 'ok') {
                         alert('щось трапилось дивне');
                     } else {
-                        debugger;
                         var myevent = {
                             start: start,
                             end: end,
@@ -340,7 +337,6 @@ function Calendar_teacher(){
         minutesStart=toFormat(minutesStart);
 
 
-        debugger;
         var hourEnd =calEvent.end._d.getHours();
         hourEnd=toFormat(hourEnd);
 
@@ -382,8 +378,6 @@ function Calendar_teacher(){
 
 
     };
-
-
 
     //моя функція
     function getAddGroups(masGroups){
@@ -783,16 +777,19 @@ function Calendar_teacher(){
                 textColor = masColor.otherEvents.textColor
             }
             var originalEventGroup = originalEvent.group;
+            if(lastteacer===''){
+                lastteacer=originalEvent.teacher;
+            }
+            var group =editGroups(originalEventGroup,toNormFormGroup());
             var data = {
                 title:title,
                 start:startFun(),
                 end:endFun(),
                 id:+idUpdate,
                 teacher:lastteacer,
-                group:editGroups(originalEventGroup,toNormFormGroup())
+                group:group
             }
             function success(id){
-
                 originalEvent.id=idUpdate;
                 originalEvent.title=title;
                 originalEvent.start=startFun();
@@ -803,7 +800,6 @@ function Calendar_teacher(){
                 originalEvent.color=color;
                 originalEvent.group=toNormFormGroup();
                 originalEvent.textColor = textColor;
-
                 self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
 
             }

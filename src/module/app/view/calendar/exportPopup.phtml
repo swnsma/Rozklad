@@ -2,25 +2,40 @@
     .export-popup {
         margin: auto;
         display: table;
+        top: 42px;
+        right: 55px;
+        z-index: 4;
     }
 
     .export-progress {
         display: none;
+        margin: 5px 0 0px 0;
+        width: 100%;
     }
 
     .successfully-exported {
         display: none;
+        margin-top: 5px;
+    }
+
+    .export-title{
+        margin-bottom: 5px;
     }
 </style>
 <?php if(Session::has('gm_ID')): ?>
     <div class="export-popup">
         <div>Выберите календарь для експорта уроков</div>
         <div class="calendar-list">
-            <?php foreach($data['googleCalendars'] as $calendar):?>
-                <button class="selectCalendar" onclick="exportAll(<?php echo '\''.$calendar['id'].'\''?>)">
-                    <?php echo $calendar['name'];?>
-                </button>
-            <?php endforeach;?>
+            <select id="selectCalendar">
+                <?php foreach($data['googleCalendars'] as $calendar):?>
+                    <option value="<?php echo $calendar['id']?>">
+                        <?php echo $calendar['name'];?>
+                    </option>
+                <?php endforeach;?>
+            </select>
+            <button onclick="exportAll()">
+                Экспортировать
+            </button>
         </div>
         <progress class='export-progress' id="exportProgress" value="29" max="100">
         </progress>
@@ -32,8 +47,8 @@
 
 <?php if(!Session::has('gm_ID')):?>
     <div class="export-popup">
-        <div>Для експорта уроков нужно войти через Google+</div>
-        <button onclick="loginGoogle()">Вход через Google+</button>
+        <div class="export-title">Для експорта уроков нужно</div>
+        <div class="export-button" onclick="loginGoogle()">войти через Google+</button>
     </div>
 <?php endif?>
 

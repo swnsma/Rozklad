@@ -50,7 +50,6 @@ function CreateListLeson(data,parent){
             };
             var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
             deadline = new Date(deadlinePrint);
-            debugger;
             var r = deadline-currentData;
             if(r>0) {
                 var $div = $('<div>');
@@ -166,8 +165,8 @@ function CreateListLeson(data,parent){
                     createTextTimer('minutes',parseInt(minutes),$timeTrack );
                     if(data[i].estimate.length!=0){
                         var $var = $('<span>');
-                        $var.addClass('good-dz');
-                        $var.appendTo($div);
+                        $var.addClass('img-yellow-checkmark');
+                        $var.appendTo($eventTitle);
                     }
                     //$timeTrack.text(' ' + parseInt(day) + 'дней ' + toFormat(parseInt(hour)) + 'часов ' + toFormat(parseInt(minutes))+'минут');
                 } else {
@@ -196,9 +195,7 @@ function CreateListLeson(data,parent){
                             deadline['day']--;
                             deadline['day'] = parseInt(deadline['day']);
                             if (deadline['day'] < 0) {
-                                deadline['content'].css({
-                                    'backgroundColor': color
-                                })
+                                deadline['content'].empty();
                             }
                         }
 
@@ -253,7 +250,6 @@ function Calendar_student(){
                     url+'app/calendar/addFullEventDefault',
                     'post',
                     function(data){
-                        debugger;
                         event= data;
                         callback(data);
                         self.masEvent=data;
@@ -293,7 +289,6 @@ function Calendar_student(){
     });
 
     this.jqueryObject.deadlineTask.deadlineTaskClose.on('click',function(){
-        debugger;
         self.jqueryObject.deadlineTask.deadlineTaskBt.show();
         self.jqueryObject.deadlineTask.deadlineTaskContent.hide();
     });
@@ -406,9 +401,6 @@ function Calendar_student(){
     this.jqueryObject.calendar.fullCalendar(this.option);
 
 
-    $(document).on('zoom',function(){
-        debugger;
-    });
 }
 $(document).ready(function() {
     var calendar = new Calendar_student();

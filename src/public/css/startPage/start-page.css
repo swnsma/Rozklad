@@ -1,6 +1,7 @@
 body{
     width: 500px;
     margin: auto;
+    font-family: 'Open Sans';
 }
 
 h1 {
@@ -52,65 +53,40 @@ h2 {
     top: 0;}
 
 .button{
-    margin-right: 20px;
-    display: inline-block;
-    height: 40px;
-    /*width:150px;*/
-    text-align:center;
-    line-height:28px;
-    margin-bottom:10px;
+    display: table-cell;
+    border-radius: 3px;
+    position: relative;
+    vert-align: middle;
     cursor: pointer;
+    height:40px;
+    line-height: 25px;
+    padding: 0;
+    padding-top: 5px;
     font-size:20px;
-    margin-left: 0;
-    padding: 5px 0;
-    margin-top: 10px;
-    border:1px solid #aaa4a4;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #eee;
-    /*text-shadow: 0px 0px 2px rgba(255, 255, 255, 1);*/
+    margin-bottom: 10px;
+    border: 1px solid #bfc4c4;
+    color: #000000;
+    text-align: center;
+    background-color: #d9dddd;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
+    background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
+    /*background: transparent url(http://i.stack.imgur.com/BT5AB.png) left top no-repeat;*/
+    margin-left: 20px;
 }
-.button:hover {
-    border:1px solid #bfc4c4;
-}
-.back{
+
+.back {
     margin-left: 30px;
     background-color: #aaa;
-    /*background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#707070));*/
-    /*background-image: -webkit-linear-gradient(top, #d3d3d3, #707070);*/
-    /*background-image: -moz-linear-gradient(top, #d3d3d3, #707070);*/
-    /*background-image: -ms-linear-gradient(top, #d3d3d3, #707070);*/
-    /*background-image: -o-linear-gradient(top, #d3d3d3, #707070);*/
-    /*background-image: linear-gradient(to bottom, #d3d3d3, #707070);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d3d3d3, endColorstr=#707070);*/
 }
 
-/*.back:hover{*/
-/*background-color: #bababa; background-image: -webkit-gradient(linear, left top, left bottom, from(#bababa), to(#575757));*/
-/*background-image: -webkit-linear-gradient(top, #bababa, #575757);*/
-/*background-image: -moz-linear-gradient(top, #bababa, #575757);*/
-/*background-image: -ms-linear-gradient(top, #bababa, #575757);*/
-/*background-image: -o-linear-gradient(top, #bababa, #575757);*/
-/*background-image: linear-gradient(to bottom, #bababa, #575757);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#bababa, endColorstr=#575757);*/
-/*}*/
-
-.submit{
+.submit {
     background-color: #596a72;
-    /*background-image: -webkit-gradient(linear, left top, left bottom, from(#CEDCE7), to(#596a72));*/
-    /*background-image: -webkit-linear-gradient(top, #CEDCE7, #596a72);*/
-    /*background-image: -moz-linear-gradient(top, #CEDCE7, #596a72);*/
-    /*background-image: -ms-linear-gradient(top, #CEDCE7, #596a72);*/
-    /*background-image: -o-linear-gradient(top, #CEDCE7, #596a72);*/
-    /*background-image: linear-gradient(to bottom, #CEDCE7, #596a72);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#CEDCE7, endColorstr=#596a72);*/
 }
-
-/*.submit:hover{*/
-/*background-color: #acc4d6; background-image: -webkit-gradient(linear, left top, left bottom, from(#acc4d6), to(#434f55));*/
-/*background-image: -webkit-linear-gradient(top, #acc4d6, #434f55);*/
-/*background-image: -moz-linear-gradient(top, #acc4d6, #434f55);*/
-/*background-image: -ms-linear-gradient(top, #acc4d6, #434f55);*/
-/*background-image: -o-linear-gradient(top, #acc4d6, #434f55);*/
-/*background-image: linear-gradient(to bottom, #acc4d6, #434f55);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#acc4d6, endColorstr=#434f55);*/
-/*}*/
 
 input[type=radio] {
     display: none;

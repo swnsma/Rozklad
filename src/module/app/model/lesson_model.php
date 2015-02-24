@@ -239,7 +239,7 @@ BORIA;
 
 //            print_r($userinfo);
             $id = $userinfo['id'];
-                $res = "select l.id,
+            $res = "select l.id,
             l.title,l.deadline,l.lesson_info, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
             INNER JOIN 'groups' as g ON
@@ -254,11 +254,11 @@ BORIA;
 
             AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0
               ORDER BY l.deadline ASC ";
-                $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
                 $lesson_id=$var[$i]['id'];
-                $res = "select r.id from 'result' as r where r.owner='$id' AND r.lesson_id='$lesson_id'";
+                $res = "select * from 'result' as r where r.owner='$id' AND r.lesson_id='$lesson_id'";
                 $var[$i]['estimate'] = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
 
             }
@@ -291,13 +291,13 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
         try {
             $id = $userinfo['id'];
 
-                $res = "select l.id,
+            $res = "select l.id,
             l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
               from lesson as l
               INNER JOIN  user as u ON
               (u.id = l.teacher) AND u.id='$id'
             WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'" ;
-                $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
                 $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
@@ -428,6 +428,7 @@ where lesson_id = "$lessonId"
 and user_id = "$userId"
 and calendar_id = "$calendarId";
 SQL;
+            echo $request;
             $exp = $db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $exp;
         }
