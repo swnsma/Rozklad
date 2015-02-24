@@ -30,28 +30,27 @@ class Calendar extends Controller
     public function index()
     {
         $this->model = $this->loadModel('lesson');
-//        $data =$this->userInfo;
-
         $data['title'] = "Calendar|Rozklad";
         $data['groups'] = $this->model->getList();
         $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
         $data['status'] = $this->userInfo['title'];
         $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
         $data['currentPage']=$this->getClassName();
-    /*$this->view->renderAllHTML('groups/index',
-        $data,
-        array('groups/groups.css'));*/
-$this->view->renderHtml('common/head', $data);
-$this->view->renderHtml('common/header', $data);
+
+        $this->model = $this->loadModel('lesson');
+        if (Session::has('gm_ID')){
+            $data['googleCalendars']=$this->model->getGoogleCalendarList();
+        }
+
+        $this->view->renderHtml('common/head', $data);
+        $this->view->renderHtml('common/header', $data);
         if($data['status']==='student') {
             $this->view->renderHtml('calendar/deadlinetask', $data);
         }else{
             $this->view->renderHtml('calendar/popup', $data);
         }
-$this->view->renderHtml('calendar/index', $data);
-
-//        $this->view->renderHtml('common/footer');
-$this->view->renderHtml('common/foot');
+        $this->view->renderHtml('calendar/index', $data);
+        $this->view->renderHtml('common/foot');
 
 }
 

@@ -493,7 +493,7 @@ function Calendar_teacher(){
                         if(this.value==='00'){
                             this.value='01';
                         }
-                        //crosFocus(date.month);
+                        crosFocus(date.month);
                     }
 
                 }
@@ -507,7 +507,7 @@ function Calendar_teacher(){
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
                         this.value=parseInt(this.value);
-                        //crosFocus(date.year);
+                        crosFocus(date.year);
                     }
                 }
                 sync();
@@ -517,8 +517,8 @@ function Calendar_teacher(){
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
                         this.value=parseInt(this.value);
-                        //crosFocus(self.jqueryObject.popup.start.hour);
-                        //crosFocus(self.jqueryObject.popupEdit.start.hour);
+                        crosFocus(self.jqueryObject.popup.start.hour);
+                        crosFocus(self.jqueryObject.popupEdit.start.hour);
                     }
                 }
                 sync();
@@ -563,7 +563,7 @@ function Calendar_teacher(){
                     if(this.value.length==2){
                         if(parseInt(this.value) || this.value==='00') {
                             this.value=parseInt(this.value);
-                            //crosFocus(focus);
+                            crosFocus(focus);
                         }
                     }
                 })
@@ -578,7 +578,7 @@ function Calendar_teacher(){
                             if (parseInt(this.value) || this.value==='00') {
                                 this.value=parseInt(this.value);
                                 if(mask!=$minutesEnd) {
-                                    //crosFocus(focus);
+                                    crosFocus(focus);
                                 }
 
                             }

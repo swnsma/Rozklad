@@ -9,5 +9,4 @@ require_once __DIR__ . '/core/PeddingOperation/PeddingOperation.php';
 
 PeddingOperation::run();
 
-
 ?>
