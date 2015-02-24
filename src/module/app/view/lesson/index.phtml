@@ -51,16 +51,14 @@
                 <?php endif ?>
             </div>
             <div class="col-md-12 clearfix" data-bind="foreach:links">
-                <div class="col-lg-10 wordBreak elipsis">
-                    <a data-bind="text: name, attr: {href:name}" target="_blank">ссылка</a>
-                </div>
+                <div class="col-lg-12 wordBreak elipsis">
+                    <a data-bind="text: nameLink, attr: {href:name}" target="_blank">ссылка</a>
                 <?php if ($data['status'] == 'teacher'): ?>
-                    <div class="col-lg-2 ">
-                        <button class="deleteButton" data-bind="click: function(){$parent.deleteLink($data.name)}">
+                        <button class="deleteButton fixes" data-bind="click: function(){$parent.deleteLink($data.name)}">
                             Удалить
                         </button>
-                    </div>
                 <?php endif ?>
+                </div>
             </div>
         </div>
         <h4>Файлы для скачивания:</h4>

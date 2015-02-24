@@ -229,13 +229,21 @@ function ViewModel() {
         if (event.charCode == 13) {
             if (that.linkToAdd().length) {
                 if(that.linkToAdd().substring(0,7)=='http://'||that.linkToAdd().substring(0,7)=='https:/') {
-                    that.links.push({name: that.linkToAdd()});
+                    var linkName=that.linkToAdd();
+                    if(linkName.length>30){
+                        linkName=linkName.substr(0, 29)+'…';
+                    }
+                    that.links.push({name: that.linkToAdd(), nameLink: linkName});
                     that.linkToAdd('');
                     that.makeArray()
                 }
                 else
                 {
-                    that.links.push({name: 'http://'+that.linkToAdd()});
+                    var linkName='http://'+that.linkToAdd();
+                    if(linkName.length>30){
+                        linkName=linkName.substr(0, 29)+'…';
+                    }
+                    that.links.push({name: 'http://'+that.linkToAdd(), nameLink: linkName});
                     that.linkToAdd('');
                     that.makeArray()
                 }
@@ -356,6 +364,13 @@ function ViewModel() {
         universalAPI(url + 'app/lesson/getLessonInfo/' + that.id(), 'GET', function (response) {
             var incomingData = JSON.parse(response[0].lesson_info);
             that.homeWorkDescription(incomingData.description);
+            for(var i=0; i<incomingData.links.length; i++){
+                if(incomingData.links[i].name.length>30){
+                    incomingData.links[i].nameLink=incomingData.links[i].name.substr(0, 29)+'…';
+                }else{
+                    incomingData.links[i].nameLink=incomingData.links[i].name;
+                }
+            }
             that.links(incomingData.links);
             for(var i=0; i<incomingData.files.length; i++){
                 if(incomingData.files[i].oldName.length>30){
