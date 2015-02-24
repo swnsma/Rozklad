@@ -164,9 +164,15 @@ function CreateListLeson(data,parent){
                     createTextTimer('hour',parseInt(hour),$timeTrack );
                     createTextTimer('minutes',parseInt(minutes),$timeTrack );
                     if(data[i].estimate.length!=0){
-                        var $var = $('<span>');
-                        $var.addClass('img-yellow-checkmark');
-                        $var.appendTo($eventTitle);
+                        if(data[i].estimate[0].grade) {
+                            var $var = $('<span>');
+                            $var.addClass('img-checkmark');
+                            $var.appendTo($eventTitle);
+                        }else{
+                            var $var = $('<span>');
+                            $var.addClass('img-yellow-checkmark');
+                            $var.appendTo($eventTitle);
+                        }
                     }
                     //$timeTrack.text(' ' + parseInt(day) + 'дней ' + toFormat(parseInt(hour)) + 'часов ' + toFormat(parseInt(minutes))+'минут');
                 } else {
@@ -177,8 +183,6 @@ function CreateListLeson(data,parent){
 
         }
     }
-
-
 
     this.start=function(){
         time=setInterval(function(){
