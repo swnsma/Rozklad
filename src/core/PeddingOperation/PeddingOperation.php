@@ -9,9 +9,9 @@ class PeddingOperation {
             $out = "GET http://rozklad.z-tech.com.ua/mail.php HTTP/1.0\r\n";
             $out .= "Connection: Close\r\n\r\n";
             fwrite($fp, $out);
-            while (!feof($fp)) {
+            /*while (!feof($fp)) {
                 echo fgets($fp, 128);
-            }
+            }*/
             fclose($fp);
         }
     }
