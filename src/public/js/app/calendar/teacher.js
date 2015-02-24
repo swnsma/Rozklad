@@ -42,8 +42,8 @@ function Calendar_teacher(){
     var lastteacer='';
 
     function AddTeacherToList(jquery_element,selected_obj,event){
-
         jquery_element.empty();
+        lastteacer='';
         function createOption(){
 
             for(var i = 0;i<ourteacher.length;++i){
@@ -57,16 +57,14 @@ function Calendar_teacher(){
                 opt.appendTo(jquery_element);
             }
             jquery_element.on('change',function(){
-                event.teacher=jquery_element.val();
-                //lastteacer=jquery_element.val();
+                //event.teacher=jquery_element.val();
+                lastteacer=jquery_element.val();
             });
         }
         createOption();
         this.getSelectedOption =function(){
             return jquery_element.val();
         }
-
-
     }
 
 
@@ -381,8 +379,6 @@ function Calendar_teacher(){
 
     };
 
-
-
     //моя функція
     function getAddGroups(masGroups){
         var myAddGroups=masGroups;
@@ -497,7 +493,7 @@ function Calendar_teacher(){
                         if(this.value==='00'){
                             this.value='01';
                         }
-                        //crosFocus(date.month);
+                        crosFocus(date.month);
                     }
 
                 }
@@ -511,7 +507,7 @@ function Calendar_teacher(){
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
                         this.value=parseInt(this.value);
-                        //crosFocus(date.year);
+                        crosFocus(date.year);
                     }
                 }
                 sync();
@@ -521,8 +517,8 @@ function Calendar_teacher(){
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
                         this.value=parseInt(this.value);
-                        //crosFocus(self.jqueryObject.popup.start.hour);
-                        //crosFocus(self.jqueryObject.popupEdit.start.hour);
+                        crosFocus(self.jqueryObject.popup.start.hour);
+                        crosFocus(self.jqueryObject.popupEdit.start.hour);
                     }
                 }
                 sync();
@@ -567,7 +563,7 @@ function Calendar_teacher(){
                     if(this.value.length==2){
                         if(parseInt(this.value) || this.value==='00') {
                             this.value=parseInt(this.value);
-                            //crosFocus(focus);
+                            crosFocus(focus);
                         }
                     }
                 })
@@ -582,7 +578,7 @@ function Calendar_teacher(){
                             if (parseInt(this.value) || this.value==='00') {
                                 this.value=parseInt(this.value);
                                 if(mask!=$minutesEnd) {
-                                    //crosFocus(focus);
+                                    crosFocus(focus);
                                 }
 
                             }
@@ -781,28 +777,29 @@ function Calendar_teacher(){
                 textColor = masColor.otherEvents.textColor
             }
             var originalEventGroup = originalEvent.group;
+            if(lastteacer===''){
+                lastteacer=originalEvent.teacher;
+            }
             var group =editGroups(originalEventGroup,toNormFormGroup());
             var data = {
                 title:title,
                 start:startFun(),
                 end:endFun(),
                 id:+idUpdate,
-                teacher:originalEvent.teacher,
+                teacher:lastteacer,
                 group:group
             }
-            debugger;
             function success(id){
                 originalEvent.id=idUpdate;
                 originalEvent.title=title;
                 originalEvent.start=startFun();
                 originalEvent.end=endFun();
-                originalEvent.teacher=originalEvent.teacher;
+                originalEvent.teacher=lastteacer;
                 originalEvent.surname=surnameTeacher;
                 originalEvent.name=nameteacher;
                 originalEvent.color=color;
                 originalEvent.group=toNormFormGroup();
                 originalEvent.textColor = textColor;
-
                 self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
 
             }
