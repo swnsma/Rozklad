@@ -145,7 +145,7 @@
 <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>-->
 
 
-<!--<section class="main-content">
+<section class="main-content">
     <?php
 
 $data = array(
@@ -196,11 +196,27 @@ $hmac = dsq_hmacsha1($message . ' ' . $timestamp, DISQUS_SECRET_KEY);
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
+    var disqus_config = function() {
+
+        this.callbacks.onNewComment = [function(comment) {
+            console.log(comment);
+            var d = new Date();
+            var n = d.toISOString();
+            $.post(url+"app/lesson/saveMess", {
+                id: comment.id,
+                text: comment.text,
+                date:n,
+                lesson_id:viewModel.id()
+            }, function(result){
+                console.log(result);
+            });
+        }];
+    };
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-</section>-->
+</section>
 
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>

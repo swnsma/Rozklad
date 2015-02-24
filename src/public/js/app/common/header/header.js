@@ -13,7 +13,9 @@
                     alwaysVisible: true,
                     height: 350
                 });
+                debugger;
                 proccessLessons(response, $);
+
             },
             function (error) {
                 alert("error");
@@ -23,28 +25,24 @@
 
     function proccessLessons(lessons, $) {
         for (var i=0;i<lessons.length;i++){
-            getAllCommentsForThread(lessons[i],$);
+            getAllCommentsForLesson(lessons[i],$);
         }
     }
 
-    function getAllCommentsForThread(lesson,$) {
-        var urlThread=url+"app/lesson/id"+lesson.id;
+    function getAllCommentsForLesson(lesson,$) {
+        var lesson_id=url+"app/lesson/id"+lesson.id;
         $.ajax({
-            url:"https://disqus.com/api/3.0/threads/listPosts.json",
+            url:url+'app/lesson/getAllCommentsForLesson',
             data: {
-                api_key:disqusPublicKey,
-                forum:disqusShortname,
-                thread:"link:"+urlThread,
-                since:lesson.last_visit,
-                order:"asc"
+                lesson_id:lesson.id,
+                since:lesson.last_visit
             },
             type:"GET",
             success:function (response) {
                 console.log(response);
-                var res = response.response;
-
+                var res = response;
                 if(res.length){
-                    var len = response.response.length;
+                    var len = response.length;
                     var item =  $(
                         "<div class='item-wrap'>"
                         +"<p class='mess-count'>"+"<b>"+len+"</b>"+getRightForm(len)+"<b>"+'"'+lesson.title+'"'+"</b>"+"</p>"
@@ -168,4 +166,4 @@
 
     $(document).ready(main);
 
-});
+})();
