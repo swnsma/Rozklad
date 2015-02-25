@@ -45,12 +45,6 @@ class AdminModel extends Model {
         }
     }
 
-    public function deleteUser($id){
-        $query = "select * from user where user.id=$id;";
-        $res = $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($res);
-    }
-
     public function getUnconfirmedUsers(){
         try {
             $sql = <<<SQL
@@ -127,4 +121,39 @@ SQL;
         }
     }
 
+    public function deleteUser($id){
+        $query = <<<SQL
+INSERT INTO deleted_user (id, name, surname, email, phone, role_id, gm_id, fb_id)
+SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
+FROM user
+WHERE user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+
+        $query = <<<SQL
+DELETE FROM user
+WHERE user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+    }
+
+    public function recoverUser($id){
+        $query = <<<SQL
+INSERT INTO user (id, name, surname, email, phone, role_id, gm_id, fb_id)
+SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
+FROM deleted_user
+WHERE deleted_user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+
+        $query = <<<SQL
+DELETE FROM  deleted_user
+WHERE  deleted_user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+    }
 }

@@ -89,7 +89,7 @@ if (window.location.hash && window.location.hash == '#_=_') {
         if (l == url + 'app/calendar') {
             $('td.fc-day.fc-widget-content').each(func);
         }
-            $('.list-group-item img').each(function(){
+            $('img').each(function(){
                 debugger;
                 var rand = getRandomInt(1,6);
                 $(this).attr('src',url+'public/img/ge/'+rand+'.png');
