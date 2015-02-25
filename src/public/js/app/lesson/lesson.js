@@ -240,6 +240,7 @@ function ViewModel() {
     that.descriptionEdit = ko.observable(false);
     that.linkToAdd = ko.observable('');
     that.deadLine = ko.observable(false);
+    that.rateStudent=ko.observable(false);
     //editing functions
     that.startEdit = function () {
         that.edit(true)
@@ -258,7 +259,9 @@ function ViewModel() {
             that.makeArray();
         }
     };
-
+    that.showInput=function(){
+        that.rateStudent(true)
+    };
     that.saveLink = function (viewModel, event) {
         if (event.charCode == 13) {
             if (that.linkToAdd().length) {
@@ -342,6 +345,7 @@ function ViewModel() {
         }
         sendData()
     };
+
     that.setRate=function(viewModel, event){
         if (event.charCode == 13) {
             //console.log(this.grade)
@@ -359,6 +363,7 @@ function ViewModel() {
                     if(response.result=='success'){
                        alert('Оценка успешно выставлена')
                     }
+                    that.rateStudent(false)
                 },
                 error: function (xhr) {
                     alert('1');
@@ -444,7 +449,8 @@ function ViewModel() {
                         homework = {};
                         homework.link = url + 'public/users_files/homework/' + response[i].link;
                         homework.name = response[i].name + ' ' + response[i].surname;
-                        homework.grade = response[i].grade;
+                        debugger;
+                        homework.grade = ko.observable(response[i].grade);
                         homework.teacher=response[i].teacher;
                         homework.id=response[i].id;
                         that.homeWork.push(homework);
@@ -488,4 +494,3 @@ function update () {
 }
 ko.applyBindings(viewModel);
 update();
-setTimeout(update, 60000);

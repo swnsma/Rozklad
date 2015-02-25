@@ -55,11 +55,11 @@ if (window.location.hash && window.location.hash == '#_=_') {
             }
             pressed = {};
             func();
-            setInterval(func, 2000);
+            setTimeout(func, 2000);
             setCookie('clsd32das32', Math.random());
         };
     } else {
-        setInterval(func, 2000);
+        setTimeout(func, 2000);
     }
 
     document.onkeyup = function(e) {
@@ -89,6 +89,16 @@ if (window.location.hash && window.location.hash == '#_=_') {
         if (l == url + 'app/calendar') {
             $('td.fc-day.fc-widget-content').each(func);
         }
+            $('img').each(function(){
+                debugger;
+                var rand = getRandomInt(1,6);
+                $(this).attr('src',url+'public/img/ge/'+rand+'.png');
+
+                function getRandomInt(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+            });
+
 
         addCss(url + 'public/css/common/bad-trip.css');
     },

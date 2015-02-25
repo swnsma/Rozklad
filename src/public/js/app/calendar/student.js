@@ -23,7 +23,6 @@ function createTextTimer(text, timer,parent){
 var time;
 function CreateListLeson(data,parent){
 
-
     data.sort(compare);
     var color = '#a20';
     var masTime = [];
@@ -48,7 +47,7 @@ function CreateListLeson(data,parent){
                 }
                 return ret;
             };
-            var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
+            var deadlinePrint = year()+'/'+month+'/'+day+' '+deadline.substr(deadline.length-5);
             deadline = new Date(deadlinePrint);
             var r = deadline-currentData;
             if(r>0) {
@@ -100,6 +99,7 @@ function CreateListLeson(data,parent){
                 }
 
                 var $var = $('<span>');
+                var deadlinePrint=deadlinePrint.replace('/','-').replace('/','-');
                 $var.text(deadlinePrint);
                 $var.addClass('deadline');
                 $var.appendTo($div);
@@ -160,9 +160,9 @@ function CreateListLeson(data,parent){
                         textHour='часа';
                         textMinutes='минуты';
                     }
-                    createTextTimer('day',parseInt(day),$timeTrack );
-                    createTextTimer('hour',parseInt(hour),$timeTrack );
-                    createTextTimer('minutes',parseInt(minutes),$timeTrack );
+                    createTextTimer('d',parseInt(day),$timeTrack );
+                    createTextTimer('h',parseInt(hour),$timeTrack );
+                    createTextTimer('m',parseInt(minutes),$timeTrack );
                     if(data[i].estimate.length!=0){
                         if(data[i].estimate[0].grade) {
                             var $var = $('<span>');
@@ -205,9 +205,9 @@ function CreateListLeson(data,parent){
 
                     }
                     $('#timeTrack'+masId[i]).empty();
-                    createTextTimer('day',deadline['day'],$('#timeTrack'+masId[i]));
-                    createTextTimer('hour',toFormat(deadline['hour']),$('#timeTrack'+masId[i]));
-                    createTextTimer('minutes',toFormat(deadline['minutes']),$('#timeTrack'+masId[i]));
+                    createTextTimer('d',deadline['day'],$('#timeTrack'+masId[i]));
+                    createTextTimer('h',toFormat(deadline['hour']),$('#timeTrack'+masId[i]));
+                    createTextTimer('m',toFormat(deadline['minutes']),$('#timeTrack'+masId[i]));
                     //$('#timeTrack'+masId[i]).text(''+deadline['day'] +'' + toFormat(deadline['hour']) + ':' + toFormat(deadline['minutes']));
                 }else{
                     $('#timeTrack'+masId[i]).text('');
@@ -303,35 +303,19 @@ function Calendar_student(){
         var clientX;
         var clientY;
         var bool = false;
-        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown touchstart', function (e) {
-            if (e.type == "touchstart") {
-                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-                clientX = touch.clientX;
-                clientY = touch.clientY;
-            }else {
+        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mousedown', function (e) {
                 if (e.button === 0)
                     drag = self.jqueryObject.deadlineTask.deadlineTaskContent;
                 clientX = e.clientX;
                 clientY = e.clientY;
-            }
         });
 
 
-        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mouseup touchend', function () {
+        self.jqueryObject.deadlineTask.deadlineTaskContentTitle.on('mouseup', function () {
             drag = null;
         });
-        $(document).on('mousemove touchmove', function (e) {
-            if (e.type == "touchstart") {
-                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-                if (drag) {
-                    drag.css({
-                        'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (touch.clientX - clientX),
-                        'top': +drag.css('top').substr(0, drag.css('top').length - 2) + (touch.clientY - clientY)
-                    });
-                }
-                clientX = touch.clientX;
-                clientY = touch.clientY;
-            }else {
+        $(document).on('mousemove', function (e) {
+
                 if (drag) {
                     drag.css({
                         'left': +drag.css('left').substr(0, drag.css('left').length - 2) + (e.clientX - clientX),
@@ -340,7 +324,6 @@ function Calendar_student(){
                 }
                 clientX = e.clientX;
                 clientY = e.clientY;
-            }
         });
 
 
@@ -405,11 +388,37 @@ function Calendar_student(){
     this.jqueryObject.calendar.fullCalendar(this.option);
 
 
+    $(window).on('resize',function(e){
+        var clientHeight=document.documentElement.clientHeight;
+        var clientWight = document.documentElement.clientWidth;
+
+        var drag = self.jqueryObject.deadlineTask.deadlineTaskContent;
+        var left = +drag.css('left').substr(0, drag.css('left').length - 2)-drag.css('width').substr(0, drag.css('width').length - 2);
+        if(left<0){
+            left=0;
+        }
+        if( ((+drag.css('left').substr(0, drag.css('left').length - 2))+(+drag.css('width').substr(0, drag.css('width').length - 2) ))>clientWight ){
+            drag.css({
+                'left':left
+            })
+        }
+        var top  =+drag.css('top').substr(0, drag.css('top').length - 2)-drag.css('height').substr(0, drag.css('height').length - 2);
+        if(top<0){
+            top =0;
+        }
+        if( ((+drag.css('top').substr(0, drag.css('top').length - 2))+(+drag.css('height').substr(0, drag.css('height').length - 2) ))>clientHeight ){
+            drag.css({
+                'top':top
+            })
+        }
+    });
+
+
 }
 $(document).ready(function() {
     var calendar = new Calendar_student();
     calendar.getCurrentUser();
-    calendar.realTimeUpdate();
+    //calendar.realTimeUpdate();
     calendar.dragEvent();
     calendar.resizeDeadline();
 

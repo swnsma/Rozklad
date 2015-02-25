@@ -45,12 +45,6 @@ class AdminModel extends Model {
         }
     }
 
-    public function deleteUser($id){
-        $query = "select * from user where user.id=$id;";
-        $res = $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($res);
-    }
-
     public function getUnconfirmedUsers(){
         try {
             $sql = <<<SQL
@@ -78,6 +72,15 @@ SQL;
             return null;
         }
     }
+
+    public function getGooglePhotoByGId($g_id){
+        $apiKey = "AIzaSyBZxhxAn-PyWms-8yYb33kiRgO4cFi8o1Y";
+        $url = "https://www.googleapis.com/plus/v1/people/$g_id?fields=image%2Furl&key=$apiKey";
+        $res =file_get_contents($url);
+        $link = json_decode($res)->image->url;
+        return $link;
+    }
+
     public function getTeachers(){
         try {
             $sql = <<<SQL
@@ -98,8 +101,19 @@ SQL;
                 on user.id = unc.id
                 where user.role_id='1'
 SQL;
-
             $var = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            for ($i=0; $i<count($var); $i++){
+                if ($var[$i]['fb_id']) {
+                    $var[$i]['photoFB'] = "http://graph.facebook.com/".$var[$i]['fb_id']."/picture?width=150&height=150";
+                    $var[$i]['photo'] = $var[$i]['photoFB'];
+                }
+
+                if ($var[$i]['gm_id']) {
+                    $var[$i]['photoGM'] = $this->getGooglePhotoByGId($var[$i]['gm_id']);
+                    $var[$i]['photo'] = $var[$i]['photoGM'];
+                }
+                $var[$i]['photo'] = URL . 'public/img/ge/' . rand(1, 6) . '.png';
+            }
             return $var;
         } catch(PDOException $e) {
             echo $e;
@@ -107,4 +121,39 @@ SQL;
         }
     }
 
+    public function deleteUser($id){
+        $query = <<<SQL
+INSERT INTO deleted_user (id, name, surname, email, phone, role_id, gm_id, fb_id)
+SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
+FROM user
+WHERE user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+
+        $query = <<<SQL
+DELETE FROM user
+WHERE user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+    }
+
+    public function recoverUser($id){
+        $query = <<<SQL
+INSERT INTO user (id, name, surname, email, phone, role_id, gm_id, fb_id)
+SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
+FROM deleted_user
+WHERE deleted_user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+
+        $query = <<<SQL
+DELETE FROM  deleted_user
+WHERE  deleted_user.id = $id;
+SQL;
+        echo $query;
+        $this->db->query($query);
+    }
 }
