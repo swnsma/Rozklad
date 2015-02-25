@@ -1,2 +1,1 @@
-CREATE TABLE IF NOT EXISTS "comment" ( "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,"user_id" integer NOT NULL,"lesson_id" integer NOT NULL ,"date" integer NOT NULL , "text" text NULL ,FOREIGN KEY ("user_id") REFERENCES "user" ("id"),FOREIGN KEY ("lesson_id") REFERENCES "lesson" ("id"));
 CREATE TABLE IF NOT EXISTS "deleted_user" ("id" integer NULL,"name" text NULL,"surname" text NULL,"email" text NULL,"phone" integer NULL,"role_id" integer NULL,"gm_id" text NULL,"fb_id" text NULL,"key" text NULL);
