@@ -178,6 +178,30 @@ ko.bindingHandlers.getName={
         value.userInfo.push(value.userId);
     }
 };
+ko.bindingHandlers.changeTab={
+    init: function (element,valueAccessor){
+        var value=valueAccessor();
+        var tab=value.tab;
+        $(element).click(function(){
+           switch (tab){
+               case 'descr':
+                   value.descriptionTab(true);
+                   console.log(value.homeWork())
+                   break;
+               case 'tasks':
+                   value.descriptionTab(false);
+console.log(value.homeWork())
+                   break;
+
+               default :
+                   alert('wrong tab')
+           }
+        })
+
+    }
+};
+
+
 function ViewModel() {
     var that = this;
     //data
@@ -196,6 +220,10 @@ function ViewModel() {
     that.year = ko.observable("");
     that.hour = ko.observable("");
     that.minute = ko.observable("");
+
+
+    that.descriptionTab=ko.observable(true);
+
 
 
     that.deadLinePass=ko.observable(true);
