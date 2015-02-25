@@ -124,7 +124,7 @@ class Lesson extends Controller {
         $result = $this->model->setLastVisit($user_id,$lesson_id,$date);
         $this->view->renderJson($result);
     }
-    public function unreadedMessages(){
+    public function allLessons(){
         $this->model=$this->loadModel("user");
         $userInfo=$this->model->getCurrentUserInfo();
         $this->model=$this->loadModel("lesson");
@@ -158,5 +158,13 @@ class Lesson extends Controller {
         $this->model=$this->loadModel("lesson");
         $res=$this->model->getAllCommentsForLesson($lesson_id, $since);
         $this->view->renderJson($res);
+    }
+
+    public function unreaded(){
+        $this->model=$this->loadModel("user");
+        $userInfo=$this->model->getCurrentUserInfo();
+        $this->model=$this->loadModel("lesson");
+        $result = $this->model->allUnreaded($userInfo);
+        $this->view->renderJson($result);
     }
 }

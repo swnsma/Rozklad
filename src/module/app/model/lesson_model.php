@@ -539,7 +539,15 @@ SQL;
         }
     }
 
-    public function  unreadedMessages($userinfo){
+    public function allUnreaded($userinfo){
+        $allLessons = $this->allLessons($userinfo);
+//        return $allLessons;
+        for($i=0;$i<count($allLessons);$i++){
+            $allLessons[$i]['mess'] =$this->getAllCommentsForLesson($allLessons[$i]['id'],$allLessons[$i]['last_visit']);
+        }
+        return $allLessons;
+    }
+    public function  allLessons($userinfo){
         try {
             $id = $userinfo['id'];
             if($userinfo['title']==='teacher') {

@@ -475,4 +475,3 @@ function update () {
 }
 ko.applyBindings(viewModel);
 update();
-setTimeout(update, 60000);
