@@ -541,7 +541,6 @@ SQL;
 
     public function  unreadedMessages($userinfo){
         try {
-//            print_r($userinfo);
             $id = $userinfo['id'];
             if($userinfo['title']==='teacher') {
                 $res = "select l.id, l.title, l.start,

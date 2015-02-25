@@ -5,8 +5,8 @@
 
 <?php if ($data['status'] == 'teacher'): ?>
     <nav>
-        <button data-bind="changeTab:{tab:'descr',descriptionTab:descriptionTab, homeWork:homeWork}">Описание</button>
-        <button data-bind="changeTab:{tab:'tasks',descriptionTab:descriptionTab, homeWork:homeWork}">Решения</button>
+        <div class="tabButton taskButton activeTab" data-bind="changeTab:{tab:'descr',descriptionTab:descriptionTab, homeWork:homeWork}">Описание</div><!--
+        --><div class="tabButton homeworkButton" data-bind="changeTab:{tab:'tasks',descriptionTab:descriptionTab, homeWork:homeWork}">Решения</div>
     </nav>
 <?php endif ?>
 
@@ -101,6 +101,8 @@
     </section>
 </section>
 <!--/ko-->
+
+
 <section class='main-content'>
     <div>
         <?php if ($data['status'] == 'student'): ?>
@@ -173,7 +175,6 @@
 </section>
 
 <!--/ko-->
-
 
 
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
