@@ -78,6 +78,15 @@ SQL;
             return null;
         }
     }
+
+    public function getGooglePhotoByGId($g_id){
+        $apiKey = "AIzaSyBZxhxAn-PyWms-8yYb33kiRgO4cFi8o1Y";
+        $url = "https://www.googleapis.com/plus/v1/people/$g_id?fields=image%2Furl&key=$apiKey";
+        $res =file_get_contents($url);
+        $link = json_decode($res)->image->url;
+        return $link;
+    }
+
     public function getTeachers(){
         try {
             $sql = <<<SQL
@@ -98,8 +107,19 @@ SQL;
                 on user.id = unc.id
                 where user.role_id='1'
 SQL;
-
             $var = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            for ($i=0; $i<count($var); $i++){
+                if ($var[$i]['fb_id']) {
+                    $var[$i]['photoFB'] = "http://graph.facebook.com/".$var[$i]['fb_id']."/picture?width=150&height=150";
+                    $var[$i]['photo'] = $var[$i]['photoFB'];
+                }
+
+                if ($var[$i]['gm_id']) {
+                    $var[$i]['photoGM'] = $this->getGooglePhotoByGId($var[$i]['gm_id']);
+                    $var[$i]['photo'] = $var[$i]['photoGM'];
+                }
+                $var[$i]['photo'] = URL . 'public/img/ge/' . rand(1, 6) . '.png';
+            }
             return $var;
         } catch(PDOException $e) {
             echo $e;
