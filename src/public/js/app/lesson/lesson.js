@@ -134,7 +134,7 @@ ko.bindingHandlers.setDeadLine = {
             if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
                 viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
             }else{
@@ -144,7 +144,7 @@ ko.bindingHandlers.setDeadLine = {
             {
                 viewModel.deadLineErrorMessage("Невозможно установить дедлайн, так как введенная дата уже прошла");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
                 return;
@@ -153,7 +153,7 @@ ko.bindingHandlers.setDeadLine = {
             {
                 viewModel.deadLineErrorMessage("Введена несуществующая дата");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
                 return;
@@ -178,6 +178,33 @@ ko.bindingHandlers.getName={
         value.userInfo.push(value.userId);
     }
 };
+ko.bindingHandlers.changeTab={
+    init: function (element,valueAccessor){
+        var value=valueAccessor();
+        var tab=value.tab;
+        $(element).click(function(){
+           switch (tab){
+               case 'descr':
+                   value.descriptionTab(true);
+                   $('.activeTab').removeClass('activeTab');
+                   $('.taskButton').addClass('activeTab');
+
+                   break;
+               case 'tasks':
+                   value.descriptionTab(false);
+                   $('.activeTab').removeClass('activeTab');
+                   $('.homeworkButton').addClass('activeTab');
+                   break;
+
+               default :
+                   alert('wrong tab')
+           }
+        })
+
+    }
+};
+
+
 function ViewModel() {
     var that = this;
     //data
@@ -196,6 +223,10 @@ function ViewModel() {
     that.year = ko.observable("");
     that.hour = ko.observable("");
     that.minute = ko.observable("");
+
+
+    that.descriptionTab=ko.observable(true);
+
 
 
     that.deadLinePass=ko.observable(true);
@@ -229,13 +260,21 @@ function ViewModel() {
         if (event.charCode == 13) {
             if (that.linkToAdd().length) {
                 if(that.linkToAdd().substring(0,7)=='http://'||that.linkToAdd().substring(0,7)=='https:/') {
-                    that.links.push({name: that.linkToAdd()});
+                    var linkName=that.linkToAdd();
+                    if(linkName.length>30){
+                        linkName=linkName.substr(0, 29)+'…';
+                    }
+                    that.links.push({name: that.linkToAdd(), nameLink: linkName});
                     that.linkToAdd('');
                     that.makeArray()
                 }
                 else
                 {
-                    that.links.push({name: 'http://'+that.linkToAdd()});
+                    var linkName='http://'+that.linkToAdd();
+                    if(linkName.length>30){
+                        linkName=linkName.substr(0, 29)+'…';
+                    }
+                    that.links.push({name: 'http://'+that.linkToAdd(), nameLink: linkName});
                     that.linkToAdd('');
                     that.makeArray()
                 }
@@ -334,7 +373,7 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
-            if(response.result!='Нет'){
+            if(response.result!='Нет'&&response.result){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
             response.result=response.result.slice(12, 17);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
@@ -356,6 +395,13 @@ function ViewModel() {
         universalAPI(url + 'app/lesson/getLessonInfo/' + that.id(), 'GET', function (response) {
             var incomingData = JSON.parse(response[0].lesson_info);
             that.homeWorkDescription(incomingData.description);
+            for(var i=0; i<incomingData.links.length; i++){
+                if(incomingData.links[i].name.length>30){
+                    incomingData.links[i].nameLink=incomingData.links[i].name.substr(0, 29)+'…';
+                }else{
+                    incomingData.links[i].nameLink=incomingData.links[i].name;
+                }
+            }
             that.links(incomingData.links);
             for(var i=0; i<incomingData.files.length; i++){
                 if(incomingData.files[i].oldName.length>30){
@@ -423,7 +469,10 @@ function toFormatL(number){
 }
 var viewModel = new ViewModel();
 viewModel.activate();
+function update () {
+    lastVisit(viewModel.id());
+    setTimeout(update, 60000);
+}
 ko.applyBindings(viewModel);
-//setInterval(function () {
-//    lastVisit(viewModel.id())
-//}, 1000);
+update();
+setTimeout(update, 60000);

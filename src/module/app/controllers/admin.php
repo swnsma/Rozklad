@@ -59,4 +59,11 @@ class Admin extends Controller {
         $id = $req->getParam(0);
         $this->model->unConfirmUser($id);
     }
+
+    public function deleteUser(){
+        $req = Request::getInstance();
+        $id = $req->getParam(0);
+        $this->model->deleteUser($id);
+    }
+
 }
