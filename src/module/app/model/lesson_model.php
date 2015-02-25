@@ -518,6 +518,7 @@ SQL;
         }
         return $list;
     }
+
     function setLastVisit($user_id,$lesson_id,$date){
         try {
             $db=$this->db->prepare("Select * from last_time_visit where user_id=:user_id and lesson_id=:lesson_id");
@@ -537,6 +538,7 @@ SQL;
             return null;
         }
     }
+
     public function  unreadedMessages($userinfo){
         try {
 //            print_r($userinfo);
@@ -593,7 +595,7 @@ SQL;
             $db=$this->db->prepare("SELECT date FROM comment WHERE date >= :since AND lesson_id = :lesson_id");
             $db->execute(array('since'=>$since, 'lesson_id'=>$lesson_id));
             return $db->fetchAll();
-        } catch(PDOException $e) {
+        }catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }

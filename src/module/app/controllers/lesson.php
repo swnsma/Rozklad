@@ -155,12 +155,8 @@ class Lesson extends Controller {
         $get = $_GET;
         $lesson_id = $get['lesson_id'];
         $since = $get['since'];
-        $user_id  = Session::get('id');
         $this->model=$this->loadModel("lesson");
-        $res=$this->model->getAllCommentsForLesson($lesson_id, $user_id, $since);
+        $res=$this->model->getAllCommentsForLesson($lesson_id, $since);
         $this->view->renderJson($res);
-//        $this->view->renderJson(strtotime('2015-02-24T10:05:33.371Z'));
     }
-
-
 }
