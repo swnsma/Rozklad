@@ -76,7 +76,12 @@ ko.bindingHandlers.uploadHomework = {
                            var obj = {};
                            obj.link  = ko.observable(url + 'public/users_files/homework/' +response.newName);
                            obj.grade = "решение еще не проверено.";
+                           console.log(value.homeWork().length);
+                           if(value.homeWork().length==0)
                            value.homeWork.push(obj);
+                           else{
+                               value.homeWork(obj);
+                           }
                            viewModel.selfHomeWork(true);
                            viewModel.haveGrade(false);
                        },
