@@ -346,12 +346,17 @@ function Calendar(){
                     return ret;
                 };
                 var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
-                deadline = new Date(deadlinePrint);
+                //alert(deadlinePrint);
+                //alert(currentData);
+                deadline =  Date.parse(deadlinePrint);
+                //alert(deadline);
                 var r = deadline-currentData;
+                alert(r);
                 if(r>0) {
                     var $var = $('<span>');
                     $var.addClass('deadline-events-conteiner');
                     $var.appendTo($(element));
+
                 }
                 else{
                     var $var = $('<span>');
