@@ -43,12 +43,22 @@ function load(){
                 },
                 error: function(er) {
                     console.dir(er);
-                    if (er.status==200) {
-                        user.confirmed(true);
-                    }
                 }
             });
         }
+
+        self.recoverUser = function (user){
+            $.ajax({
+                url: url+"app/admin/recoverUser/"+user.id,
+                success: function(response){
+                    user.deleted(false);
+                },
+                error: function(er) {
+                    console.dir(er);
+                }
+            });
+        }
+
 
         function loadUsers(self){
             $.ajax({
@@ -57,7 +67,7 @@ function load(){
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?width=150&height=150";
+                        user.photo = response[i].photo;
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
@@ -113,7 +123,7 @@ function load(){
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?width=150&height=150";
+                        user.photo = response[i].photo;
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(true);
@@ -127,7 +137,6 @@ function load(){
                 error: function(er) {
                     console.dir(er);
                 }
-
             });
         }
     }

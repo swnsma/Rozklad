@@ -66,4 +66,16 @@ class Admin extends Controller {
         $this->model->deleteUser($id);
     }
 
+    public function recoverUser(){
+        $req = Request::getInstance();
+        $id = $req->getParam(0);
+        $this->model->recoverUser($id);
+    }
+
+    public function getUserInformation(){
+        $req=Request::getInstance();
+        $id = $req->getParam(0);
+        $this->userModel->getUserInformation($id);
+    }
+
 }

@@ -4,9 +4,11 @@
         'мая', 'июня', 'июля', 'августа',
         'сентября', 'октября', 'ноября', 'декабря'];
     var objects = {};
+
+    var countMess =0;
     function loadMessages($) {
         universalAPI(
-            url + "app/lesson/unreadedMessages",
+            url + "app/lesson/unreaded",
             "GET",
             function (response) {
                 $(".content-wrap").slimScroll({
@@ -30,22 +32,16 @@
     }
 
     function getAllCommentsForLesson(lesson,$) {
-        $.ajax({
-            url:url+'app/lesson/getAllCommentsForLesson',
-            data: {
-                lesson_id:lesson.id,
-                since:parseInt(lesson.last_visit)
-            },
-            type:"GET",
-            success:function (response) {
-                console.log(response);
-                var res = response;
+                var res = lesson.mess;
                 if(res&&res.length){
-                    debugger;
-                    if(objects.wraper.has("#none-comments")){
+                    var noneCom = objects.wraper.children("#none-comments");
+                    if(noneCom&&noneCom.length){
                         objects.wraper.empty();
                     }
-                    var len = response.length;
+
+                    var len = res.length;
+                    countMess+=len;
+                    objects.count.html(countMess);
                     var item =  $(
                         "<div class='item-wrap'>"
                         +"<p class='mess-count'>"+"<b>"+len+"</b>"+getRightForm(len)+"<b>"+'"'+lesson.title+'"'+"</b>"+"</p>"
@@ -55,13 +51,8 @@
                         item
                     );
                     goLink(item);
-                    objects.wraper.slimScroll();
+                    $("#content-wrap").slimScroll();
                 }
-            },
-            error:function (response) {
-                console.log(response);
-            }
-        });
     }
 
     function displayWrap() {
@@ -149,7 +140,9 @@
 
     function init(){
         return {
-            wraper:$("#content-wrap")
+            wraper:$("#content-wrap"),
+            icon:$(".message-icon"),
+            count:$(".message-count")
         }
     }
     var main = function($){
@@ -160,7 +153,7 @@
 
         loadMessages($);
 
-        $(".message-icon").click(function(){
+        objects.icon.click(function(){
             iconClick($,this);
         });
         $(window).resize(function(){

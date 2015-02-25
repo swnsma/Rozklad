@@ -155,10 +155,12 @@ function Calendar_teacher(){
         })
     }
 
+    var sizeeeee = 0;
     this.option.eventSources=[
         {
             events: function(start, end, timezone, callback) {
                 start=start._d;
+                sizeeeee++;
                 end=end._d;
                 var start1 = normDate(start.getFullYear(),start.getMonth()+1,start.getDay(),start.getHours(),start.getMinutes());
                 var end1 = normDate(end.getFullYear(),end.getMonth()+1,end.getDay(),end.getHours(),end.getMinutes());
@@ -168,13 +170,15 @@ function Calendar_teacher(){
                     function(doc){
                         self.masEvent=doc;
                         callback(self.masEvent['current']);
-                        self.jqueryObject.calendar.fullCalendar('addEventSource',{
-                            events:function(start, end, timezone, callback){
-                                callback(self.masEvent['no']);
-                            },
-                            color: masColor.otherEvents.color,
-                            textColor:masColor.otherEvents.textColor
-                        });
+                        if(sizeeeee===1) {
+                            self.jqueryObject.calendar.fullCalendar('addEventSource', {
+                                events: function (start, end, timezone, callback) {
+                                    callback(self.masEvent['no']);
+                                },
+                                color: masColor.otherEvents.color,
+                                textColor: masColor.otherEvents.textColor
+                            });
+                        }
                     },
                     function(err){
                         alert('Помилка при завантаженні');
@@ -493,6 +497,7 @@ function Calendar_teacher(){
                         if(this.value==='00'){
                             this.value='01';
                         }
+                        this.value=toFormat(this.value);
                         crosFocus(date.month);
                     }
 
@@ -507,6 +512,7 @@ function Calendar_teacher(){
                 if (this.value.length == 2) {
                     if (parseInt(this.value) || this.value==='00') {
                         this.value=parseInt(this.value);
+                        this.value=toFormat(this.value);
                         crosFocus(date.year);
                     }
                 }
@@ -517,6 +523,7 @@ function Calendar_teacher(){
                 if (this.value.length == 4 ) {
                     if (parseInt(this.value)|| this.value==='0000') {
                         this.value=parseInt(this.value);
+                        //toFormat(this.value);
                         crosFocus(self.jqueryObject.popup.start.hour);
                         crosFocus(self.jqueryObject.popupEdit.start.hour);
                     }
@@ -563,6 +570,7 @@ function Calendar_teacher(){
                     if(this.value.length==2){
                         if(parseInt(this.value) || this.value==='00') {
                             this.value=parseInt(this.value);
+                            this.value=toFormat(this.value);
                             crosFocus(focus);
                         }
                     }
@@ -578,6 +586,7 @@ function Calendar_teacher(){
                             if (parseInt(this.value) || this.value==='00') {
                                 this.value=parseInt(this.value);
                                 if(mask!=$minutesEnd) {
+                                    this.value=toFormat(this.value);
                                     crosFocus(focus);
                                 }
 
@@ -1047,7 +1056,7 @@ $(document).ready(function() {
     calendar.timeIvent();
     calendar.addLesson();
     calendar.delLesson();
-    calendar.realTimeUpdate();
+    //calendar.realTimeUpdate();
     calendar.keyDown();
     calendar.resetPopup();
     calendar.focusDate();
