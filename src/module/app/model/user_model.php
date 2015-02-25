@@ -25,8 +25,47 @@ class UserModel extends Model
         }
     }
 
-    public function getCurrentUserInfo()
-    {
+    public function getUserInformation($id){
+        $sql = <<<SQL
+                select
+                    user.name,
+                    user.surname,
+                    user.email,
+                    user.phone,
+                    user.fb_id,
+                    user.gm_id,
+                    user.id,
+                    role.title
+                from user
+                inner join role
+                on user.role_id = role.id
+                where user.id='$id'
+SQL;
+        $info = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $info = $info[0];
+
+        if ($info['fb_id']) {
+            $info['photoFB'] = "http://graph.facebook.com/".$info['fb_id']."/picture?width=150&height=150";
+            $info['photo'] = $info['photoFB'];
+        }
+
+        if ($info['gm_id']) {
+            $info['photoGM'] = $this->getGooglePhotoByGId($info['gm_id']);
+            $info['photo'] = $info['photoGM'];
+        }
+        echo json_encode($info);
+        return $info;
+    }
+
+    public function getGooglePhotoByGId($g_id){
+        $apiKey = "AIzaSyBZxhxAn-PyWms-8yYb33kiRgO4cFi8o1Y";
+        $url = "https://www.googleapis.com/plus/v1/people/$g_id?fields=image%2Furl&key=$apiKey";
+        $res =file_get_contents($url);
+        $link = json_decode($res)->image->url;
+        return $link;
+    }
+
+    public function getCurrentUserInfo(){
         $id = Session::get('id');
         $userInfo = Array();
         $sql = <<<SQL

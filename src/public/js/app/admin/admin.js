@@ -57,7 +57,7 @@ function load(){
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?width=150&height=150";
+                        user.photo = response[i].photo;
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
@@ -113,7 +113,7 @@ function load(){
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?width=150&height=150";
+                        user.photo = response[i].photo;
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(true);
@@ -127,7 +127,6 @@ function load(){
                 error: function(er) {
                     console.dir(er);
                 }
-
             });
         }
     }
