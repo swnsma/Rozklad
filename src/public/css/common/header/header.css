@@ -253,3 +253,9 @@
     -moz-transform:rotate(-135deg);
     -webkit-transform:rotate(-135deg);
 }
+
+.none-comments{
+    text-align: center;
+    font-size: 20px;
+    margin-top: 50px;
+}

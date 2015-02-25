@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS "comment" ( "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,"user_id" integer NOT NULL,"lesson_id" integer NOT NULL ,"date" integer NOT NULL , "text" text NULL ,FOREIGN KEY ("user_id") REFERENCES "user" ("id"),FOREIGN KEY ("lesson_id") REFERENCES "lesson" ("id"));
