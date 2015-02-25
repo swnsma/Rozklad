@@ -6,14 +6,14 @@
 }
 
 @-webkit-keyframes bg-color {
-    0%   {background-color: #ff04f6;}
-    25%  {background-color: #18ff00;}
-    50%  {background-color: #fffa3b;}
-    100% {background-color: #ff2700;}
+    0%  {background-color: #fffa3b;}
+    50% {background-color: #ff2700;}
 }
 
 @-webkit-keyframes spin {
-    50% { -webkit-transform: rotate(-1deg); }
+    25% { -webkit-transform: rotate(-1deg); }
+    50% { -webkit-transform: rotate(1deg); }
+    75% { -webkit-transform: rotate(-1deg); }
     100% { -webkit-transform: rotate(1deg); }
 }
 

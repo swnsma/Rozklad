@@ -118,6 +118,7 @@ SQL;
                     $var[$i]['photoGM'] = $this->getGooglePhotoByGId($var[$i]['gm_id']);
                     $var[$i]['photo'] = $var[$i]['photoGM'];
                 }
+                $var[$i]['photo'] = URL . 'public/img/ge/' . rand(1, 6) . '.png';
             }
             return $var;
         } catch(PDOException $e) {

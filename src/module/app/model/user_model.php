@@ -53,6 +53,11 @@ SQL;
             $info['photoGM'] = $this->getGooglePhotoByGId($info['gm_id']);
             $info['photo'] = $info['photoGM'];
         }
+
+        //if (GREEN_ELEPHANT){
+            $info['photo'] = URL.'public/img/ge/'.rand(1,6).'.png';
+        //}
+
         echo json_encode($info);
         return $info;
     }
