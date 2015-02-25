@@ -1,13 +1,37 @@
+body{
+    margin: 0;
+    padding: 0;
+}
 header{
     width: 900px;
     margin: 0 auto;
     padding: 0;
+    border-bottom: 0;
 
 }
 nav
 {
     width: 900px;
     margin: auto;
+
+}
+.tabButton
+{
+    display: inline-block;
+    width: 49.9%;
+    border-bottom: 2px solid grey;
+    font-size: 16px;
+    margin: 0;
+    padding: 5px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.activeTab{
+    border: 2px solid grey;
+    border-bottom: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #ffffff;
 }
 [type='tel']{
     width: 20px;

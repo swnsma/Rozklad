@@ -186,11 +186,14 @@ ko.bindingHandlers.changeTab={
            switch (tab){
                case 'descr':
                    value.descriptionTab(true);
-                   console.log(value.homeWork())
+                   $('.activeTab').removeClass('activeTab');
+                   $('.taskButton').addClass('activeTab');
+
                    break;
                case 'tasks':
                    value.descriptionTab(false);
-console.log(value.homeWork())
+                   $('.activeTab').removeClass('activeTab');
+                   $('.homeworkButton').addClass('activeTab');
                    break;
 
                default :
