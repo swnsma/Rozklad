@@ -3,65 +3,56 @@
     var months = ['января', 'февраля', 'марта', 'апреля',
         'мая', 'июня', 'июля', 'августа',
         'сентября', 'октября', 'ноября', 'декабря'];
+    var objects = {};
 
+    var countMess =0;
     function loadMessages($) {
         universalAPI(
-            url + "app/lesson/unreadedMessages",
+            url + "app/lesson/unreaded",
             "GET",
             function (response) {
                 $(".content-wrap").slimScroll({
                     alwaysVisible: true,
                     height: 350
                 });
-                proccessLessons(response, $);
+                if(response&&response.length) {
+                    proccessLessons(response, $);
+                }
             },
             function (error) {
-                alert("error");
+                alert("error: "+error);
             }
         );
     }
 
     function proccessLessons(lessons, $) {
         for (var i=0;i<lessons.length;i++){
-            getAllCommentsForThread(lessons[i],$);
+            getAllCommentsForLesson(lessons[i],$);
         }
     }
 
-    function getAllCommentsForThread(lesson,$) {
-        var urlThread=url+"app/lesson/id"+lesson.id;
-        $.ajax({
-            url:"https://disqus.com/api/3.0/threads/listPosts.json",
-            data: {
-                api_key:disqusPublicKey,
-                forum:disqusShortname,
-                thread:"link:"+urlThread,
-                since:lesson.last_visit,
-                order:"asc"
-            },
-            type:"GET",
-            success:function (response) {
-                console.log(response);
-                var res = response.response;
+    function getAllCommentsForLesson(lesson,$) {
+                var res = lesson.mess;
+                if(res&&res.length){
+                    var noneCom = objects.wraper.children("#none-comments");
+                    if(noneCom&&noneCom.length){
+                        objects.wraper.empty();
+                    }
 
-                if(res.length){
-                    var len = response.response.length;
+                    var len = res.length;
+                    countMess+=len;
+                    objects.count.html(countMess);
                     var item =  $(
                         "<div class='item-wrap'>"
                         +"<p class='mess-count'>"+"<b>"+len+"</b>"+getRightForm(len)+"<b>"+'"'+lesson.title+'"'+"</b>"+"</p>"
                         +"<p class='mess-date'>"+"Дата проведения: "+"<b>"+getFormDate(lesson.start)+"</b>"+"</p>"
                         +"</div>").attr("link",url+"app/lesson/id"+lesson.id);
-                    $("#content-wrap").append(
+                    objects.wraper.append(
                         item
                     );
                     goLink(item);
-                    $(".content-wrap").slimScroll();
+                    $("#content-wrap").slimScroll();
                 }
-            },
-            error:function (response) {
-                //alert("error");
-                console.log(response);
-            }
-        });
     }
 
     function displayWrap() {
@@ -147,9 +138,22 @@
         setArrowPos(jQuery(that));
     };
 
+    function init(){
+        return {
+            wraper:$("#content-wrap"),
+            icon:$(".message-icon"),
+            count:$(".message-count")
+        }
+    }
     var main = function($){
+        objects=init();
+        objects.wraper.append(
+            $("<p class='none-comments' id='none-comments'>Нет новых комментариев</p>")
+        );
+
         loadMessages($);
-        $(".message-icon").click(function(){
+
+        objects.icon.click(function(){
             iconClick($,this);
         });
         $(window).resize(function(){
@@ -168,4 +172,4 @@
 
     $(document).ready(main);
 
-});
+})();

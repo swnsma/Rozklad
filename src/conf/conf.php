@@ -40,3 +40,4 @@ define('DEBUG', true);
 define('DISQUS_SECRET_KEY', 'OWXEOra8Y8VKldsvJuGqW1XaueQy5LKXG3G6bRO79XO29lQnDdstwUhSnYn3tHdR');
 define('DISQUS_PUBLIC_KEY', 'KDCo6JfYbQFJv9Dzk8c79JkR1KyhTfStAkhOSZMCfBEXu2n2h2zKOjQ10n4G3Hqc');
 
+define ('GREEN_ELEPHANT', true);

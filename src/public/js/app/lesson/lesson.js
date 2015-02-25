@@ -134,7 +134,7 @@ ko.bindingHandlers.setDeadLine = {
             if(isNaN(d)||isNaN(mo)||isNaN(ye)||isNaN(h)||isNaN(m)){
                 viewModel.deadLineErrorMessage("Дата или время введены в неправильном формате.");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
             }else{
@@ -144,7 +144,7 @@ ko.bindingHandlers.setDeadLine = {
             {
                 viewModel.deadLineErrorMessage("Невозможно установить дедлайн, так как введенная дата уже прошла");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
                 return;
@@ -153,7 +153,7 @@ ko.bindingHandlers.setDeadLine = {
             {
                 viewModel.deadLineErrorMessage("Введена несуществующая дата");
                 viewModel.deadLineError(true);
-                setInterval(function(){
+                setTimeout(function(){
                     viewModel.deadLineError(false);
                 }, 5000);
                 return;
@@ -178,6 +178,33 @@ ko.bindingHandlers.getName={
         value.userInfo.push(value.userId);
     }
 };
+ko.bindingHandlers.changeTab={
+    init: function (element,valueAccessor){
+        var value=valueAccessor();
+        var tab=value.tab;
+        $(element).click(function(){
+           switch (tab){
+               case 'descr':
+                   value.descriptionTab(true);
+                   $('.activeTab').removeClass('activeTab');
+                   $('.taskButton').addClass('activeTab');
+
+                   break;
+               case 'tasks':
+                   value.descriptionTab(false);
+                   $('.activeTab').removeClass('activeTab');
+                   $('.homeworkButton').addClass('activeTab');
+                   break;
+
+               default :
+                   alert('wrong tab')
+           }
+        })
+
+    }
+};
+
+
 function ViewModel() {
     var that = this;
     //data
@@ -198,6 +225,10 @@ function ViewModel() {
     that.minute = ko.observable("");
 
 
+    that.descriptionTab=ko.observable(true);
+
+
+
     that.deadLinePass=ko.observable(true);
 
 
@@ -206,6 +237,7 @@ function ViewModel() {
     that.descriptionEdit = ko.observable(false);
     that.linkToAdd = ko.observable('');
     that.deadLine = ko.observable(false);
+    that.rateStudent=ko.observable(false);
     //editing functions
     that.startEdit = function () {
         that.edit(true)
@@ -224,7 +256,9 @@ function ViewModel() {
             that.makeArray();
         }
     };
-
+    that.showInput=function(){
+        that.rateStudent(true)
+    };
     that.saveLink = function (viewModel, event) {
         if (event.charCode == 13) {
             if (that.linkToAdd().length) {
@@ -308,6 +342,7 @@ function ViewModel() {
         }
         sendData()
     };
+
     that.setRate=function(viewModel, event){
         if (event.charCode == 13) {
             //console.log(this.grade)
@@ -325,6 +360,7 @@ function ViewModel() {
                     if(response.result=='success'){
                        alert('Оценка успешно выставлена')
                     }
+                    that.rateStudent(false)
                 },
                 error: function (xhr) {
                     alert('1');
@@ -342,7 +378,7 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
-            if(response.result!='Нет'){
+            if(response.result!='Нет'&&response.result){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
             response.result=response.result.slice(12, 17);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
@@ -400,7 +436,8 @@ function ViewModel() {
                         homework = {};
                         homework.link = url + 'public/users_files/homework/' + response[i].link;
                         homework.name = response[i].name + ' ' + response[i].surname;
-                        homework.grade = response[i].grade;
+                        debugger;
+                        homework.grade = ko.observable(response[i].grade);
                         homework.teacher=response[i].teacher;
                         homework.id=response[i].id;
                         that.homeWork.push(homework);
@@ -438,7 +475,9 @@ function toFormatL(number){
 }
 var viewModel = new ViewModel();
 viewModel.activate();
+function update () {
+    lastVisit(viewModel.id());
+    setTimeout(update, 60000);
+}
 ko.applyBindings(viewModel);
-//setInterval(function () {
-//    lastVisit(viewModel.id())
-//}, 1000);
+update();

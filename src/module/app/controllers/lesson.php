@@ -117,14 +117,14 @@ class Lesson extends Controller {
 
     }
     function setLastVisit(){
-        $date = $_POST['date'];
+        $date = strtotime($_POST['date']);
         $user_id = Session::get('id');
         $lesson_id = $_POST['lesson_id'];
         $this->model=$this->loadModel("lesson");
         $result = $this->model->setLastVisit($user_id,$lesson_id,$date);
         $this->view->renderJson($result);
     }
-    public function unreadedMessages(){
+    public function allLessons(){
         $this->model=$this->loadModel("user");
         $userInfo=$this->model->getCurrentUserInfo();
         $this->model=$this->loadModel("lesson");
@@ -140,6 +140,31 @@ class Lesson extends Controller {
         $this->view->renderJson(Array('result'=>'success'));
     }
 
+    public function saveMess(){
+        $post = $_POST;
+        $lesson_id = $post['lesson_id'];
+        $user_id  = Session::get('id');
+        $date = $post['date'];
+        $text = $post['text'];
+        $this->model=$this->loadModel("lesson");
+        $res=$this->model->saveMess($lesson_id,$user_id,$date,$text);
+        $this->view->renderJson($res);
+    }
 
+    public function getAllCommentsForLesson(){
+        $get = $_GET;
+        $lesson_id = $get['lesson_id'];
+        $since = $get['since'];
+        $this->model=$this->loadModel("lesson");
+        $res=$this->model->getAllCommentsForLesson($lesson_id, $since);
+        $this->view->renderJson($res);
+    }
 
+    public function unreaded(){
+        $this->model=$this->loadModel("user");
+        $userInfo=$this->model->getCurrentUserInfo();
+        $this->model=$this->loadModel("lesson");
+        $result = $this->model->allUnreaded($userInfo);
+        $this->view->renderJson($result);
+    }
 }

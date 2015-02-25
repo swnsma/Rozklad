@@ -13,7 +13,7 @@ function ViewModel(){
                for(var i=0; i< that.groups().length; i++){
                    if(that.groups()[i].groupId==groupId){
                        $(elem).parent().parent().parent().addClass('out');
-                       setInterval(function(){
+                       setTimeout(function(){
                        that.groups.destroy(that.groups()[i]);
                        }, 600);
                        break;
@@ -35,7 +35,7 @@ function ViewModel(){
             }
             that.groups.reverse();
             that.loadScr("out");
-            setInterval(function(){
+            setTimeout(function(){
                 that.loadScr("no");
             }, 300)
         })

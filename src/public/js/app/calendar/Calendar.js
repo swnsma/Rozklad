@@ -345,13 +345,14 @@ function Calendar(){
                     }
                     return ret;
                 };
-                var deadlinePrint = year()+'-'+month+'-'+day+' '+deadline.substr(deadline.length-5);
-                deadline = new Date(deadlinePrint);
+                var deadlinePrint = year()+'/'+month+'/'+day+' '+deadline.substr(deadline.length-5);
+                deadline =  Date.parse(deadlinePrint);
                 var r = deadline-currentData;
                 if(r>0) {
                     var $var = $('<span>');
                     $var.addClass('deadline-events-conteiner');
                     $var.appendTo($(element));
+
                 }
                 else{
                     var $var = $('<span>');

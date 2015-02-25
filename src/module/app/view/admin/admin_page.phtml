@@ -15,6 +15,15 @@
             <!-- ko if: confirmed -->
             <div class="confirm-status" data-bind="click: $parent.unConfirm">Статус потвержден. Отменить...</div>
             <!-- /ko -->
+
+            <!-- ko ifnot: deleted -->
+            <div class="confirm-status" data-bind="click: $parent.deleteUser">Уничтожить</div>
+            <!-- /ko -->
+
+            <!-- ko if: deleted -->
+            <div class="confirm-status" data-bind="click: $parent.recoverUser">Восстановить</div>
+            <!-- /ko -->
+
             <div class="clear-both"></div>
         </div>
     </li>

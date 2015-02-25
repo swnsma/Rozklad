@@ -3,9 +3,6 @@ function load(){
         var self = this;
         self.users = ko.observableArray([]);
         getTeachers(self);
-        //var realTimeUpdate = window.setInterval(function(){
-        //    loadUsers(self);
-        //},500);
 
         self.confirm = function (user){
             $.ajax({
@@ -38,6 +35,31 @@ function load(){
             });
         }
 
+        self.deleteUser = function (user){
+            $.ajax({
+                url: url+"app/admin/deleteUser/"+user.id,
+                success: function(response){
+                    user.deleted(true);
+                },
+                error: function(er) {
+                    console.dir(er);
+                }
+            });
+        }
+
+        self.recoverUser = function (user){
+            $.ajax({
+                url: url+"app/admin/recoverUser/"+user.id,
+                success: function(response){
+                    user.deleted(false);
+                },
+                error: function(er) {
+                    console.dir(er);
+                }
+            });
+        }
+
+
         function loadUsers(self){
             $.ajax({
                 url: url+"app/admin/getTeachers",
@@ -45,7 +67,7 @@ function load(){
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?width=150&height=150";
+                        user.photo = response[i].photo;
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(false);
@@ -101,10 +123,11 @@ function load(){
                     for(var i in response){
                         var user = {};
                         user.name = response[i].name+' '+response[i].surname;
-                        user.photo = "http://graph.facebook.com/"+response[i]['fb_id']+"/picture?width=150&height=150";
+                        user.photo = response[i].photo;
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(true);
+                        user.deleted = ko.observable(false);
                         if(response[i].unc_id){
                             user.confirmed(false);
                         }
@@ -114,7 +137,6 @@ function load(){
                 error: function(er) {
                     console.dir(er);
                 }
-
             });
         }
     }

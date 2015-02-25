@@ -103,7 +103,7 @@ TANIA;
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
                 for($i=0;$i<count($var);++$i){
                     $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-                    $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
+//                    $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
                 }
             }else{
                 $res = "select l.id,
@@ -259,7 +259,7 @@ BORIA;
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
                 $lesson_id=$var[$i]['id'];
                 $res = "select * from 'result' as r where r.owner='$id' AND r.lesson_id='$lesson_id'";
-                $var[$i]['estimate'] = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+//                $var[$i]['estimate'] = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
 
             }
             $result = array_unique($var,SORT_REGULAR);
@@ -300,7 +300,7 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
             $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-                $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
+//                $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
             }
 
             $result = array_unique($var,SORT_REGULAR);
@@ -518,6 +518,7 @@ SQL;
         }
         return $list;
     }
+
     function setLastVisit($user_id,$lesson_id,$date){
         try {
             $db=$this->db->prepare("Select * from last_time_visit where user_id=:user_id and lesson_id=:lesson_id");
@@ -537,9 +538,17 @@ SQL;
             return null;
         }
     }
-    public function  unreadedMessages($userinfo){
+
+    public function allUnreaded($userinfo){
+        $allLessons = $this->allLessons($userinfo);
+//        return $allLessons;
+        for($i=0;$i<count($allLessons);$i++){
+            $allLessons[$i]['mess'] =$this->getAllCommentsForLesson($allLessons[$i]['id'],$allLessons[$i]['last_visit']);
+        }
+        return $allLessons;
+    }
+    public function  allLessons($userinfo){
         try {
-//            print_r($userinfo);
             $id = $userinfo['id'];
             if($userinfo['title']==='teacher') {
                 $res = "select l.id, l.title, l.start,
@@ -571,6 +580,29 @@ SQL;
 //            print_r($result);
             return $result;
         } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function saveMess($lesson_id,$user_id,$date,$text){
+        try{
+            $date = strtotime($date);
+            $db=$this->db->prepare("INSERT INTO comment (lesson_id,user_id,date,text) VALUES (:lesson_id,:user_id,:date,:text)");
+            $db->execute(array('date'=>$date,'user_id'=>$user_id,'lesson_id'=>$lesson_id,'text'=>$text));
+            return "success";
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
+
+    public function getAllCommentsForLesson($lesson_id,$since){
+        try{
+            $db=$this->db->prepare("SELECT date FROM comment WHERE date >= :since AND lesson_id = :lesson_id");
+            $db->execute(array('since'=>$since, 'lesson_id'=>$lesson_id));
+            return $db->fetchAll();
+        }catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
