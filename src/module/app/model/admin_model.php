@@ -45,6 +45,12 @@ class AdminModel extends Model {
         }
     }
 
+    public function deleteUser($id){
+        $query = "select * from user where user.id=$id;";
+        $res = $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($res);
+    }
+
     public function getUnconfirmedUsers(){
         try {
             $sql = <<<SQL

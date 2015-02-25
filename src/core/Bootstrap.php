@@ -32,7 +32,7 @@ class Bootstrap extends Controller{
     private function initSes($time,$ses){
         Session::init($time,$ses);
     }
-    private  function dispatcher($controller,$action){
+    private function dispatcher($controller,$action){
         $this->setLogoutLink();
         $this->checkLogout($controller);
         $this->checkUnconf();
@@ -47,7 +47,7 @@ class Bootstrap extends Controller{
 //            $controller=='admin'||
             $controller=='groups';
     }
-    private  function checkStatus(){
+    private function checkStatus(){
         if(!Session::has('status')){
             Session::set("status",'not');
         }
@@ -66,7 +66,7 @@ class Bootstrap extends Controller{
         $this->logout();
         header("Location:".URL);
     }
-    private  function checkUnconf(){
+    private function checkUnconf(){
         if(Session::has('status')&&Session::get('status')!="not"&&(Session::has('id'))){
             $this->model=$this->loadModel('user');
 
@@ -78,7 +78,7 @@ class Bootstrap extends Controller{
             }
         }
     }
-    private  function changeLocation($location = ''){
+    private function changeLocation($location = ''){
         header("Location:".URL.$location);
         exit;
     }

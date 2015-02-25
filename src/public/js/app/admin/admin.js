@@ -3,9 +3,6 @@ function load(){
         var self = this;
         self.users = ko.observableArray([]);
         getTeachers(self);
-        //var realTimeUpdate = window.setInterval(function(){
-        //    loadUsers(self);
-        //},500);
 
         self.confirm = function (user){
             $.ajax({
@@ -35,6 +32,21 @@ function load(){
                     }
                 }
 
+            });
+        }
+
+        self.deleteUser = function (user){
+            $.ajax({
+                url: url+"app/admin/deleteUser/"+user.id,
+                success: function(response){
+                    user.deleted(true);
+                },
+                error: function(er) {
+                    console.dir(er);
+                    if (er.status==200) {
+                        user.confirmed(true);
+                    }
+                }
             });
         }
 
@@ -105,6 +117,7 @@ function load(){
                         user.role = response[i].title;
                         user.id = response[i].id;
                         user.confirmed = ko.observable(true);
+                        user.deleted = ko.observable(false);
                         if(response[i].unc_id){
                             user.confirmed(false);
                         }
