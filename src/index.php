@@ -23,10 +23,10 @@ if (DEBUG) {
     ini_set('display_errors', 0);
 }
 Base_Install::Run();
-LessonModel::realDeletedLesson();
+//LessonModel::realDeletedLesson();
 //Base_Install::LoadDummy();
 
 $app = new Bootstrap();
-PeddingOperation::run();
+//PeddingOperation::run();
 
 ?>
