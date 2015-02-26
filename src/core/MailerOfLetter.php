@@ -77,15 +77,13 @@ HERE;
                 $data = $data[0];
                 $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_background.png', 'mail_background');
                 $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
-                $b = $this->mail->getTemplate('invitationToLesson', array(
+                return $this->mail->getTemplate('invitationToLesson', array(
                     'lessonTitle' => $data['title'],
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
                     'url' => URL . 'app/lesson/id' . $data['l_id'],
                     'mail_background' => 'mail_background',
                     'mail_sep' => 'mail_sep'
                 ));
-                print $b;
-                return $b;
             }
         } catch(PDOException $e) {}
         return null;
@@ -111,13 +109,12 @@ HERE;
             $emails = $this->getUniqueValuesFromKey($emails, 'email');
             if ($this->mail->send($emails, 'Приглашение', $templates[$group['lesson_id']])) {
                 $this->mailAlreadySend($group['group_id'], $group['lesson_id']);
-                echo 'Письма отправленные';
-                print_r($emails);
+                echo 'Письма отправленные на ', implode(', ', $emails);
             } else {
-                echo 'Письма не отправленые' . $this->mail->getErrorInfo();
+                echo 'Письма не отправленые. Ошибка: ' . $this->mail->getErrorInfo();
                 break;
             }
-            echo '<hr/>';
+            echo str_repeat('-', 20);
             $this->mail->clear();
         }
     }
