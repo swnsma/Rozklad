@@ -19,7 +19,6 @@ if (DEBUG) {
     error_reporting(0);
     ini_set('display_errors', 0);
 }
-$base = new Base_Install();
-LessonModel::realDeletedLesson();
+
 
 $app = new Bootstrap();

@@ -5,6 +5,8 @@ class Bootstrap extends Controller{
     function __construct() {
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
+        $base = new Base_Install();
+        LessonModel::realDeletedLesson();
         $this->model=$this->loadModel('user');
         require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
