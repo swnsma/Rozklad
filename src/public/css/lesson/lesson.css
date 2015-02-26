@@ -19,15 +19,14 @@ nav
 {
     display: inline-block;
     width: 49.8%;
-
     font-size: 16px;
     margin: 0;
     padding: 5px;
-    background-color: #ffffff;
+    background-color: #eee;
     cursor: pointer;
 }
 .activeTab{
-    background-color: #eee;
+    background-color: #ffffff;
 }
  section.main-content a{
     color: blue!important;

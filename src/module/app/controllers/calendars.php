@@ -93,7 +93,7 @@ class Calendars extends Controller {
                     echo 'Ошибка';
                 } else {
                     if (isset($_POST['group'])) {
-                        $this->addGroupsToLesson($id, $_POST['group']);
+                        $this->model->addGroupsToLesson($id, $_POST['group']);
                     }
                     $this->view->renderJson(array('id' => $id));
                 }
