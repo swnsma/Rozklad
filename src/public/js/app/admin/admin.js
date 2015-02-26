@@ -43,12 +43,22 @@ function load(){
                 },
                 error: function(er) {
                     console.dir(er);
-                    if (er.status==200) {
-                        user.confirmed(true);
-                    }
                 }
             });
         }
+
+        self.recoverUser = function (user){
+            $.ajax({
+                url: url+"app/admin/recoverUser/"+user.id,
+                success: function(response){
+                    user.deleted(false);
+                },
+                error: function(er) {
+                    console.dir(er);
+                }
+            });
+        }
+
 
         function loadUsers(self){
             $.ajax({

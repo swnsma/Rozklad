@@ -63,7 +63,6 @@ ko.bindingHandlers.uploadHomework = {
             .attr('enctype', 'multipart/form-data')
             .hide()
             .on('change', function (e) {
-                $(element).hide();
                 if (e.target.files[0].size < 20971520) {
                     console.log(value.userInfo());
                     $('.fileValid').show();
@@ -74,9 +73,17 @@ ko.bindingHandlers.uploadHomework = {
                        contentType: false,
                        data: new FormData(form.get(0)),
                        success: function (response) {
-                           console.log(response);
-                           value.homeWork(response.newName);
-                         alert('Домашка загружена успешно')
+                           var obj = {};
+                           obj.link  = ko.observable(url + 'public/users_files/homework/' +response.newName);
+                           obj.grade = "решение еще не проверено.";
+                           console.log(value.homeWork().length);
+                           if(value.homeWork().length==0)
+                           value.homeWork.push(obj);
+                           else{
+                               value.homeWork(obj);
+                           }
+                           viewModel.selfHomeWork(true);
+                           viewModel.haveGrade(false);
                        },
                        error: function (xhr) {
                            alert('Чтото пошло не так. Повторите, пожалуйста загрузку файла!');
@@ -216,6 +223,7 @@ function ViewModel() {
     that.homeWork = ko.observableArray([]);
     that.userInfo=ko.observableArray([]);
     that.selfHomeWork=ko.observable(false);
+    that.haveGrade = ko.observable(false);
     that.deadLineErrorMessage= ko.observable("");
     that.deadLineError = ko.observable(false);
     that.day = ko.observable("");
@@ -237,6 +245,7 @@ function ViewModel() {
     that.descriptionEdit = ko.observable(false);
     that.linkToAdd = ko.observable('');
     that.deadLine = ko.observable(false);
+    that.rateStudent=ko.observable(false);
     //editing functions
     that.startEdit = function () {
         that.edit(true)
@@ -255,7 +264,9 @@ function ViewModel() {
             that.makeArray();
         }
     };
-
+    that.showInput=function(){
+        that.rateStudent(true)
+    };
     that.saveLink = function (viewModel, event) {
         if (event.charCode == 13) {
             if (that.linkToAdd().length) {
@@ -339,6 +350,7 @@ function ViewModel() {
         }
         sendData()
     };
+
     that.setRate=function(viewModel, event){
         if (event.charCode == 13) {
             //console.log(this.grade)
@@ -356,6 +368,7 @@ function ViewModel() {
                     if(response.result=='success'){
                        alert('Оценка успешно выставлена')
                     }
+                    that.rateStudent(false)
                 },
                 error: function (xhr) {
                     alert('1');
@@ -419,9 +432,19 @@ function ViewModel() {
                     for (var i = 0; i < response.length; i++){
                         if(response[i].name+' '+response[i].surname==that.userInfo()[0]){
                             that.selfHomeWork(true);
+                            console.log(response);
                             var homework = {};
-                            homework.link = url + 'public/users_files/homework/' + response[i].link;
+                            homework.link = ko.observable( url + 'public/users_files/homework/' + response[i].link);
                             homework.name = response[i].name + ' ' + response[i].surname;
+                            if(response[i].grade){
+                            homework.grade = response[i].grade;
+                                that.haveGrade(true);
+                                homework.teacher = response[i].teacher;
+                                homework.time = response[i].time;
+                            }else{
+                                homework.grade="решение еще не проверено."
+                            }
+
                             that.homeWork(homework);
                         }
                     }
@@ -431,7 +454,8 @@ function ViewModel() {
                         homework = {};
                         homework.link = url + 'public/users_files/homework/' + response[i].link;
                         homework.name = response[i].name + ' ' + response[i].surname;
-                        homework.grade = response[i].grade;
+                        debugger;
+                        homework.grade = ko.observable(response[i].grade);
                         homework.teacher=response[i].teacher;
                         homework.id=response[i].id;
                         that.homeWork.push(homework);

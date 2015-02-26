@@ -13,13 +13,13 @@ nav
 {
     width: 900px;
     margin: auto;
-
+    border-bottom: 2px solid grey;
 }
 .tabButton
 {
     display: inline-block;
-    width: 49.9%;
-    border-bottom: 2px solid grey;
+    width: 49.8%;
+
     font-size: 16px;
     margin: 0;
     padding: 5px;
@@ -27,17 +27,39 @@ nav
     cursor: pointer;
 }
 .activeTab{
-    border: 2px solid grey;
-    border-bottom: 0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #ffffff;
+    background-color: #eee;
 }
 [type='tel']{
     width: 20px;
     border: none;
     background: #fcfcfc;
     outline: none;
+}
+.load-btn{
+    float: left;
+}
+.stud{
+    background-color: #eeeeee;
+}
+.cont{
+    margin-top: 20px;
+}
+.cont button{
+    border: 1px solid #bfc4c4;
+    color: #000000;
+    text-align: center;
+    background-color: #eeeeee;
+    outline: none;
+}
+.cont button:hover{
+    text-decoration: none;
+    border:1px solid #bfc4c4;
+    background-color: #d9dddd; background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
+    background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
 }
 #year{
     width: 30px;
@@ -128,3 +150,8 @@ body{
     width: 900px;
     margin: auto;
 }
+.homeWorkList{
+    margin-top: 10px;
+    word-break: break-all;
+}
+
