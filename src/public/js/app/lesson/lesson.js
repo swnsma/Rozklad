@@ -387,8 +387,10 @@ function ViewModel() {
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
             if(response.result!='Нет'&&response.result){
+                console.log(response.result);
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
-            response.result=response.result.slice(12, 17);
+            response.result=response.result.slice(11, 16);
+                console.log(response.result);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
             date = date.split("/");
             time = time.split("/");
@@ -397,9 +399,8 @@ function ViewModel() {
             that.year(date[2]);
             that.hour(time[0]);
             that.minute(time[1]);
-            var deadLineTime=Date.parse(that.deadLine().substring(3,5)+'/'+that.deadLine().substring(0,2)+'/'+that.deadLine().substring(6,10)+'/'+that.deadLine().substring(12,14)+':'+that.deadLine().substring(15,17));
-            var today=new Date().toString();
-            that.deadLinePass(deadLineTime<Date.parse(today));
+            var deadLineTime= new Date(date[2], date[1]-1, date[0], time[0], time[1]);
+            that.deadLinePass(Date.parse(deadLineTime)<Date.parse(new Date()));
             }
 
         },function(){
