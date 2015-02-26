@@ -1,7 +1,5 @@
 <?php
 
-define('INCLUDE_PATH', '/var/www/vhosts/rozklad_test/public_html/');
-
 define('MAIL_HOST', 'smtp.yandex.ua');
 define('MAIL_SMTP_SECURE', 'ssl');
 define('MAIL_PORT', 465);
