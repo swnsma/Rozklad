@@ -397,7 +397,7 @@ function ViewModel() {
             that.year(date[2]);
             that.hour(time[0]);
             that.minute(time[1]);
-            var deadLineTime=Date.parse(that.deadLine().substring(3,5)+'/'+that.deadLine().substring(0,2)+'/'+that.deadLine().substring(6,10)+'/'+that.deadLine().substring(12,14)+':'+that.deadLine().substring(15,17));
+            var deadLineTime= Date.parse(that.deadLine().substring(3,5)+'/'+that.deadLine().substring(0,2)+'/'+that.deadLine().substring(6,10)+'/'+that.deadLine().substring(11,13)+':'+that.deadLine().substring(14,16));
             var today=new Date().toString();
             that.deadLinePass(deadLineTime<Date.parse(today));
             }
