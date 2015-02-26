@@ -1,6 +1,7 @@
 <?php
 
 require_once 'conf/conf.php';
+require_once 'conf/mail_conf.php';
 require_once 'core/DataBase.php';
 require_once 'core/Controller.php';
 require_once 'core/Bootstrap.php';
