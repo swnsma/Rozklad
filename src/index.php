@@ -1,9 +1,7 @@
 <?php
-require_once(__DIR__ . '/lib/mail/class.phpmailer.php');
-require_once(__DIR__ . '/lib/mail/class.smtp.php');
-require_once(__DIR__ . '/conf/conf.php');
-require_once(__DIR__ . '/core/Mail.php');
+
 require_once 'conf/conf.php';
+require_once 'conf/mail_conf.php';
 require_once 'core/DataBase.php';
 require_once 'core/Controller.php';
 require_once 'core/Bootstrap.php';
@@ -12,7 +10,6 @@ require_once 'core/View.php';
 require_once 'core/BaseInstall.php';
 require_once 'core/Request.php';
 require_once 'core/Session.php';
-require_once 'core/PeddingOperation/PeddingOperation.php';
 require_once 'module/app/model/lesson_model.php';
 
 if (DEBUG) {
@@ -27,6 +24,3 @@ LessonModel::realDeletedLesson();
 //Base_Install::LoadDummy();
 
 $app = new Bootstrap();
-PeddingOperation::run();
-
-?>
