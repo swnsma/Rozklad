@@ -22,7 +22,11 @@
 <script src='<?php print URL; ?>public/js/app/common.js'></script>
 <?php if ($data['status'] == 'teacher'): ?>
 
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/customselect/customselect.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/setselect.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/vendor/jQuery/jquery.mask.js'></script>
     <script src='<?php print URL; ?>public/js/app/calendars/teacher.js'></script>
+    <script type='text/javascript' src='<?php print URL; ?>public/js/app/calendar/tcal/tcal.js'></script>
 <?php else: ?>
     <script src='<?php print URL; ?>public/js/app/calendars/student.js'></script>
 <?php endif; ?>

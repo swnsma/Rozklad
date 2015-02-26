@@ -238,6 +238,11 @@
 .mess-date{
     margin-left: 5px;
     font-size:10px;
+    float:left;
+}
+.mess-last-mess{
+    margin-right: 10px;
+    float:right;
 }
 .wrap:after {
     content: '';
@@ -262,6 +267,8 @@
 
 .message-count{
     float:right;
+    display: none;
+    color:white;
     margin-top: 5px;
     margin-right: 5px;
     height:20px;
@@ -269,5 +276,5 @@
     font-size:15px;
     text-align:center;
     border-radius: 20px;
-    background-color:yellow;
+    background-color:red;
 }

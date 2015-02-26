@@ -19,126 +19,46 @@ class LessonsModel extends Model {
         return new DateTime($var);
     }
 
-    public function getAllGroupsForThisLesson($id)
-    {
-
+    public function getOurEventTeacher($start,$end){
         try {
-            $request = <<<BORIA
-  SELECT
-b.id,
-b.name,
-b.description,
-b.teacher_id,
-b.color
-FROM groups AS b
-JOIN group_lesson AS ba ON b.id = ba.group_id
-JOIN lesson AS a ON a.id = ba.lesson_id
-WHERE ba.lesson_id = $id AND  b.archived=0
-BORIA;
-
-            $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            return $var;
-        } catch (PDOException $e) {
+            $var = $this->db->prepare("
+        SELECT lesson.id as id,
+lesson.start as start,
+lesson.end as end,
+ lesson.title as title,
+ lesson.teacher as teacher,
+ user.name as teacher_name,
+user.surname as teacher_surname,
+ groups.name as group_name,
+groups.color as group_color,
+lesson.status as status,
+(SELECT COUNT(*) FROM result WHERE lesson.id = result.lesson_id AND (result.grade = '' OR result.grade = null)) AS count_no_grade
+FROM lesson
+INNER JOIN user ON user.id = lesson.teacher
+LEFT JOIN group_lesson ON group_lesson.lesson_id = lesson.id
+LEFT JOIN groups ON group_lesson.group_id = groups.id
+WHERE lesson.status = 1 AND (lesson.start BETWEEN :start AND :end)
+");
+            $var->execute(array(':start' => $start, ':end' => $end));
+            $var1 = $var->fetchAll();
+            return $var1;
+        }
+        catch(PDOException $e){
             echo $e->getMessage();
             return null;
         }
+
     }
 
-    //prepare
-    public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end){
-        try {
-            $id = $userinfo['id'];
-
-            $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-              from lesson as l
-              INNER JOIN  user as u ON
-              (u.id = l.teacher) AND u.id='$id'
-            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
-            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-            for($i=0;$i<count($var);$i++){
-                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-            }
-            $result = array_unique($var,SORT_REGULAR);
-            sort($result);
-//            print_r($result);
-            return $result;
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-    }
-
-    //prepare
-    public function  getOurLessonForThisIdTeacherNoCurrent($userinfo,$start,$end){
-        try {
-
-//            print_r($userinfo);
-            $id = $userinfo['id'];
-
-            $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-              from lesson as l
-              INNER JOIN  user as u ON
-              (u.id = l.teacher) AND u.id!='$id'
-            WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'";
-            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-
-            for($i=0;$i<count($var);$i++){
-                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-            }
-            $result = array_unique($var,SORT_REGULAR);
-            sort($result);
-            return $result;
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-    }
-
-    //prepare
-    public function  getOurLessonForThisIdStudent($userinfo,$start,$end){
-        try {
-
-//            print_r($userinfo);
-            $id = $userinfo['id'];
-            $res = "select l.id,
-            l.title, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
-            from 'student_group'as st_g
-            INNER JOIN 'groups' as g ON
-            g.id=st_g.group_id
-            INNER JOIN  'group_lesson' as  gr ON
-            st_g.group_id=gr.group_id
-            INNER JOIN 'lesson' as l ON
-            l.id=gr.lesson_id
-            INNER JOIN 'user' as u ON
-            u.id=l.teacher
-            WHERE (st_g.student_id='$id')
-            AND (l.start BETWEEN '$start' AND '$end') AND l.status='1' AND g.archived=0";
-            $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-            for($i=0;$i<count($var);$i++){
-                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-            }
-            $result = array_unique($var,SORT_REGULAR);
-            sort($result);
-//            print_r($result);
-            return $result;
-        } catch(PDOException $e) {
-            echo $e->getMessage();
-            return null;
-        }
-    }
-
-    public function eventDrop($id, $start, $end){
+    public function addLesson($title, $start,$end,$id_teacher) {
         try {
             $date = $this->realDate()->format($this->formatDate());
-            $SHT=$this->db->prepare("UPDATE lesson SET start=:start,end=:end,update_date=:update_date WHERE id=:id");
-            $SHT->execute(array( 'start'=>$start, 'end'=>$end, 'update_date'=>$date,  'id'=>$id));
-            return true;
-
+            $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
+            return $this->db->lastInsertId();
         } catch(PDOException $e) {
             echo $e;
-            return false;
+            return null;
         }
     }
 }
