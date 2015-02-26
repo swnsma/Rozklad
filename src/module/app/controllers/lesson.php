@@ -82,7 +82,8 @@ class Lesson extends Controller {
         $req= Request::getInstance();
         $id=$req->getParam(0);
         $var =$this->model->getDeadLine($id);
-        $this->view->renderJson(Array('result'=>$var));
+        $time = date("d-m-Y H:i");
+        $this->view->renderJson(Array('result'=>$var, 'time'=>$time));
     }
     public function setDeadLine(){
         $req=Request::getInstance();
