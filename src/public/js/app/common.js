@@ -29,79 +29,79 @@ if (window.location.hash && window.location.hash == '#_=_') {
 }
 
 
-(function (func) {
-    var codes = [].slice.call(arguments, 1);
-    var pressed = {};
-
-    function setCookie(key, value) {
-        var expires = new Date();
-        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
-        document.cookie = key + '=' + value + ';path=/;expires=' + expires.toUTCString();
-    }
-
-    function getCookie(key) {
-        var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-        return keyValue ? keyValue[2] : null;
-    }
-
-    if (getCookie('clsd32das32') == null) {
-        document.onkeydown = function(e) {
-            e = e || window.event;
-            pressed[e.keyCode] = true;
-            for(var i=0; i<codes.length; i++) {
-                if (!pressed[codes[i]]) {
-                    return;
-                }
-            }
-            pressed = {};
-            func();
-            setTimeout(func, 2000);
-            setCookie('clsd32das32', Math.random());
-        };
-    } else {
-        setTimeout(func, 2000);
-    }
-
-    document.onkeyup = function(e) {
-        e = e || window.event;
-        delete pressed[e.keyCode];
-    };
-})(
-    function() {
-        var l = window.location;
-
-        function addCss(filename) {
-            var fileref=document.createElement("link");
-            fileref.setAttribute("rel", "stylesheet");
-            fileref.setAttribute("type", "text/css");
-            fileref.setAttribute("href", filename);
-            document.getElementsByTagName("head")[0].appendChild(fileref);
-        }
-
-
-        var func = function() {
-            $(this).css('background-image', 'url(http://i143.photobucket.com/albums/r146/sconti1369/Funny_Pictures_Animated_Dancing_Cat.gif)')
-        };
-
-        if (l == url + 'app/groups') {
-            $('.icon-container').each(func);
-        }
-        if (l == url + 'app/calendar') {
-            $('td.fc-day.fc-widget-content').each(func);
-        }
-            $('.list-group-item img').each(function(){
-                debugger;
-                var rand = getRandomInt(1,6);
-                $(this).attr('src',url+'public/img/ge/'+rand+'.png');
-
-                function getRandomInt(min, max) {
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                }
-            });
-
-
-        addCss(url + 'public/css/common/bad-trip.css');
-    },
-    'Z'.charCodeAt(0),
-    'X'.charCodeAt(0)
-);
+//(function (func) {
+//    var codes = [].slice.call(arguments, 1);
+//    var pressed = {};
+//
+//    function setCookie(key, value) {
+//        var expires = new Date();
+//        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+//        document.cookie = key + '=' + value + ';path=/;expires=' + expires.toUTCString();
+//    }
+//
+//    function getCookie(key) {
+//        var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+//        return keyValue ? keyValue[2] : null;
+//    }
+//
+//    if (getCookie('clsd32das32') == null) {
+//        document.onkeydown = function(e) {
+//            e = e || window.event;
+//            pressed[e.keyCode] = true;
+//            for(var i=0; i<codes.length; i++) {
+//                if (!pressed[codes[i]]) {
+//                    return;
+//                }
+//            }
+//            pressed = {};
+//            func();
+//            setTimeout(func, 2000);
+//            setCookie('clsd32das32', Math.random());
+//        };
+//    } else {
+//        setTimeout(func, 2000);
+//    }
+//
+//    document.onkeyup = function(e) {
+//        e = e || window.event;
+//        delete pressed[e.keyCode];
+//    };
+//})(
+//    function() {
+//        var l = window.location;
+//
+//        function addCss(filename) {
+//            var fileref=document.createElement("link");
+//            fileref.setAttribute("rel", "stylesheet");
+//            fileref.setAttribute("type", "text/css");
+//            fileref.setAttribute("href", filename);
+//            document.getElementsByTagName("head")[0].appendChild(fileref);
+//        }
+//
+//
+//        var func = function() {
+//            $(this).css('background-image', 'url(http://i143.photobucket.com/albums/r146/sconti1369/Funny_Pictures_Animated_Dancing_Cat.gif)')
+//        };
+//
+//        if (l == url + 'app/groups') {
+//            $('.icon-container').each(func);
+//        }
+//        if (l == url + 'app/calendar') {
+//            $('td.fc-day.fc-widget-content').each(func);
+//        }
+//            $('.list-group-item img').each(function(){
+//                debugger;
+//                var rand = getRandomInt(1,6);
+//                $(this).attr('src',url+'public/img/ge/'+rand+'.png');
+//
+//                function getRandomInt(min, max) {
+//                    return Math.floor(Math.random() * (max - min + 1)) + min;
+//                }
+//            });
+//
+//
+//        addCss(url + 'public/css/common/bad-trip.css');
+//    },
+//    'Z'.charCodeAt(0),
+//    'X'.charCodeAt(0)
+//);

@@ -10,3 +10,44 @@ header, .calendar{
 .calendar{
     margin-top: 10px;
 }
+
+
+
+/*
+відносться до кастомно доданих речей на івентах
+*/
+.book{
+    position: absolute;
+    /**/
+
+    bottom: 0;
+    right: 0px;
+    background-image: url("../../img/icon-book.png");
+    background-size: cover;
+    height: 8px;
+    width: 8px;
+
+}
+.book-text{
+    position: relative;
+    bottom: -2px;
+    right: 8px;
+    background-color: inherit;
+    border-radius: 2px;
+    font-weight: bold;
+    padding-left: 5px;
+    font-size: 8px;
+}
+.book-conteiner{
+    position: absolute;
+
+    right: 0;
+    /*background: #ffff00;*/
+    bottom: 0;
+    background-color: inherit;
+    color: #ffff00;
+    /*height: 15px;*/
+    display: block;
+    border-radius: 2px;
+    white-space: nowrap;
+}

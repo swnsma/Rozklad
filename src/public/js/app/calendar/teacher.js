@@ -977,7 +977,6 @@ function Calendar_teacher(){
             delPopup();
             return 0;
         });
-
     }
 
     function getCaretPos(input) {

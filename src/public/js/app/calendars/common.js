@@ -56,3 +56,40 @@ function loudLesson(start,end,callback,url){
             end:end1
         })
 }
+
+//добавлення до івента вчителя та групи
+function showTacherAndGroupsToLesson(event, element){
+    if (event.groups) {
+        for (var i = 0; i < event.groups.length; ++i) {
+            var $var = $('<span>');
+            $var.text(event.groups[i].name[0]);
+            $var.css({
+                'display': 'inline-block',
+                'width': '10px',
+                'height': '10px',
+                'fontSize': '8px',
+                'textAlign': 'center',
+                'marginLeft': '2px',
+                'marginRight':'2px',
+                'borderRadius': '2px',
+                'verticalAlign': 'baseline',
+                'backgroundColor': event.groups[i].color,
+                'fontWeight': 'normal',
+                'verticalAlign':'middle',
+                'color':'white'
+            });
+            $(element)/*.find('.fc-time')*/.append($var);
+
+        }
+    }
+    if (event.teacher) {
+        var $var = $('<span>');
+        debugger;
+        $var.text(event.teacher_name[0] + '.' + event.teacher_surname);
+        $var.css({
+            'fontSize': '10px',
+            'display': 'inline-block'
+        });
+        $var.appendTo($(element));
+    }
+}
