@@ -3,9 +3,21 @@
     var months = ['января', 'февраля', 'марта', 'апреля',
         'мая', 'июня', 'июля', 'августа',
         'сентября', 'октября', 'ноября', 'декабря'];
+
+    var seconds = ["секунд","секунды","секунду"];
+    var minutes = ["минут","минуты","минуту"];
+    var hours = ["часов","часа","час"];
+    var days = ["дней","дня","день"];
+    var weeks = ["недель","недели","неделю"];
+    var month = ["месяцев","месяца","месяц"];
+    var years = ["год","года","год"];
+    massOfDate = [seconds,minutes,hours,days,weeks,month,years];
+
     var objects = {};
 
-    var countMess =0;
+    var countMess = 0;
+    var currentCoef = 1;
+
     function loadMessages($) {
         universalAPI(
             url + "app/lesson/unreaded",
@@ -31,21 +43,37 @@
         }
     }
 
+    function getMaxOfArray(numArray) {
+        return Math.max.apply(null, numArray);
+    }
+
     function getAllCommentsForLesson(lesson,$) {
                 var res = lesson.mess;
                 if(res&&res.length){
                     var noneCom = objects.wraper.children("#none-comments");
                     if(noneCom&&noneCom.length){
                         objects.wraper.empty();
+                        objects.count.css("display","block");
                     }
-
                     var len = res.length;
                     countMess+=len;
+                    var countToStringLen=countMess.toString().length;
+                    if(countToStringLen>currentCoef){
+                        currentCoef=countToStringLen;
+                        objects.count.width(objects.count.width()*currentCoef*0.6);
+                    }
                     objects.count.html(countMess);
+
+                    var maxDate = getMaxOfArray(res.map(function(item){
+                        return item[0];
+                    }));
+                    debugger;
+                    humanFriendly(maxDate);
                     var item =  $(
                         "<div class='item-wrap'>"
                         +"<p class='mess-count'>"+"<b>"+len+"</b>"+getRightForm(len)+"<b>"+'"'+lesson.title+'"'+"</b>"+"</p>"
                         +"<p class='mess-date'>"+"Дата проведения: "+"<b>"+getFormDate(lesson.start)+"</b>"+"</p>"
+                        +"<p class='mess-last-mess'>"+humanFriendly(maxDate)+"</p>"
                         +"</div>").attr("link",url+"app/lesson/id"+lesson.id);
                     objects.wraper.append(
                         item
@@ -145,7 +173,63 @@
             count:$(".message-count")
         }
     }
+
+    function getDateNow(){
+        return Date.now() / 1000 | 0;
+    }
+    function humanFriendly(date){
+        var delta = getDateNow()-date;
+        if(delta<60&&delta>0){
+            return getRightFormat(delta,0);
+        }
+        else if(delta>=60&&delta<3600){
+            return getRightFormat(Math.floor(delta/60),1);
+        }
+        else if(delta>=3600&&delta<86400){
+            return getRightFormat(Math.floor(delta/3600),2);
+        }
+        else if(delta>=86400&&delta<604800){
+            return getRightFormat(Math.floor(delta/86400),3);
+        }
+        else if(delta>=604800&&delta<2419200){
+            return getRightFormat(Math.floor(delta/604800),4);
+        }
+        else if(delta>=2419200&&delta<29030400){
+            return getRightFormat(Math.floor(delta/2419200),5);
+        }
+        else if(delta>=29030400){
+            return getRightFormat(Math.floor(delta/29030400),6);
+        }
+    }
+
+    function getRightFormat(dat,coef){
+        var date = dat.toString();
+        var ln= date.length;
+        var firstDigit = parseInt(date[ln-1]);
+        var secondDigit = parseInt(date[ln-2]);
+
+        switch (firstDigit){
+            case 1:
+                if(secondDigit===1){
+                    return date+" "+massOfDate[coef][0]+" "+"назад";
+                }
+                return date+" "+massOfDate[coef][2]+" "+"назад";
+
+                break;
+            case 2:
+            case 3:
+            case 4:
+                return date+" "+massOfDate[coef][1]+" "+"назад";
+                break;
+            default:
+                return date+" "+massOfDate[coef][0]+" "+"назад";
+                break;
+        }
+
+    }
+
     var main = function($){
+
         objects=init();
         objects.wraper.append(
             $("<p class='none-comments' id='none-comments'>Нет новых комментариев</p>")
@@ -156,17 +240,26 @@
         objects.icon.click(function(){
             iconClick($,this);
         });
+
         $(window).resize(function(){
             setWrapPos(jQuery(".message-icon"),$);
         });
+
         $("body").on("click",function(e){
             var targ = e.target;
             var wrap = document.getElementById("wrap");
             var icon = document.getElementById("message-icon");
-            if(targ!==wrap&&targ!==icon){
-                if(!$(wrap).hasClass("display-none"))
-                    $(wrap).addClass("display-none");
+            if(targ===wrap||targ===icon){
+                return false;
             }
+            while(targ!==this){
+                if(targ===wrap){
+                    return false;
+                }
+                targ=targ.parentNode;
+            }
+            if(!$(wrap).hasClass("display-none"))
+                $(wrap).addClass("display-none");
         });
     };
 
