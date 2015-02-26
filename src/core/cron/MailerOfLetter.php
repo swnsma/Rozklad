@@ -1,6 +1,6 @@
 <?php
 
-require_once DOC_ROOT . 'core/Mail.php';
+require_once 'core/Mail.php';
 
 class MailerOfLetter {
     private static $instance = null;
