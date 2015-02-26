@@ -29,7 +29,7 @@ nav
 .activeTab{
     background-color: #eee;
 }
-a{
+ section.main-content a{
     color: blue!important;
 }
 [type='tel']{
