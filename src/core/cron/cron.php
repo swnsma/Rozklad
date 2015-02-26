@@ -1,9 +1,9 @@
 <?php
 
-set_include_path('/var/www/vhosts/rozklad_test/public_html/');
+set_include_path(INCLUDE_PATH);
 
-require_once 'conf/conf.php';
-require_once 'core/DataBase.php';
+require_once 'conf/mail_conf.php';
+require_once 'core/cron/database.php';
 require_once 'core/MailerOfLetter.php';
 //require_once 'module/app/controllers/sendermail.php';
 
