@@ -1,14 +1,141 @@
 .popup{
-    padding: 16px 0 0 0;
     box-shadow: 2px 2px 0 rgba(0,0,0,.7);
     border: 1px solid #666;
     position: absolute;
     background: #fff;
     z-index: 1000;
     width: 380px;
+    display: none;
     padding: 10px;
-    min-height: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.popup .create-lesson{
+    display: table;
+    width: 360px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.popup .create-lesson .tr-create-lesson{
+    display: table-row;
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+    line-height: 25px;
+}
+.popup .create-lesson .tr-create-lesson{
+    display: table-row;
+    width: 100%;
+    line-height: 25px;
+}
+.popup .create-lesson .tr-create-lesson .cell-create-lesson{
+    display: table-cell;
+}
+.popup .create-lesson .tr-create-lesson .cell-first-create-lesson{
+    width: 30%;
+    text-align: right;
+}
+.popup .create-lesson .tr-create-lesson .cell-two-create-lesson{
+    /*width: 70%;*/
+    padding-left: 5px;
+}
+.popup .input-create-lesson{
+    width: 100%;
+}
+.popup .input-none{
+    outline: none;
+    border: none;
+}
+.popup .bold{
+    font-weight: bold;
+}
+.popup .numder2{
+    width: 17px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.popup .numder4{
+    width: 43px;
+    text-align: center;
+}
+.popup .data{
+    display: inline;
+}
+.popup .select-teacher{
+    width: 100%;
+}
+.list-groups>div{
+    border-bottom: 1px solid #eeeeee;
+}
 
+.popup .tr-create-lesson .submit{
+
+    /*width: 69%;*/
+    /*width: 57%;*/
+    margin-left: 1%;
+
+}
+.popup .tr-create-lesson .submit,.popup .tr-create-lesson .reset{
+    padding: 5px 0;
+    /*width: 33%;*/
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border:1px solid #bfc4c4;
+    color: #000000;
+    text-align: center;
+    width: 100%;
+    line-height: 20px;
+}
+.popup .tr-create-lesson .submit:hover,.popup .tr-create-lesson .reset:hover {
+    border:1px solid #bfc4c4;
+    background-color: #d9dddd; background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
+    background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
+}
+.popup .tr-create-lesson .reset{
+    background-color: #eeeeee;
+}
+.deletedEvent:hover{
+    text-decoration: underline;
+}
+.text-align-center{
+    text-align: center;
+}
+.popup .gotoLesson,
+.popup .resetEdit,
+.popup .submitEdit{
+    /*text-align: right;*/
+    cursor: pointer;
+    font-weight: bold;
+    /*font-size: 10px;*/
+    margin: 0;
+    padding: 0;
+    color: #222;
+}
+.popup .gotoLesson:hover,
+.popup .resetEdit:hover,
+.popup .submitEdit:hover{
+    text-decoration: underline;
+    color: #000;
+}
+.popup .gotoLesson{
+    font-size: 12px;
+    color: #111;
+    /*font-style: italic;*/
+    /*text-decoration: underline;*/
+}
+.popup .resetEdit,
+.popup .submitEdit{
+    font-size: 15px;
+}
+.popup .button{
+    text-align: center;
+}
+
+.text-align-right{
+    text-align: right;
+}

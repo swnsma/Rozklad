@@ -110,30 +110,36 @@
 
 
 <section class='main-content'>
-    <div>
+    <div class="cont">
         <?php if ($data['status'] == 'student'): ?>
-            <!-- ko ifnot: deadLinePass-->
-            <!-- ko ifnot: selfHomeWork-->
-            <h4>Загрузка домашнего задания</h4>
-            <button data-bind="uploadHomework{userInfo:userInfo, homeWork:homeWork, id:id} ">Загрузить
-                файл
-            </button>
-            <!--/ko-->
-            <!--/ko-->
-            <!-- ko if: deadLinePass-->
-            <!-- ko ifnot: selfHomeWork-->
-            <h4>Загрузка домашнего задания</h4>
-            <div><span>Дедлайн прошел. Отправка домашнего задания невозможна</span></div>
-            <!--/ko-->
-            <!--/ko-->
+           <div data-bind="ifnot: selfHomeWork">
 
-            <!-- ko if: selfHomeWork-->
-            <div data-bind="foreach: homeWork">
-                <br><span>Вы уже загрузили домашнее задание</span> <a download=""
-                                                                      data-bind="attr:{ href:link}">Скачать</a>
+               <div data-bind="if:deadLinePass">
+                   <span>Дедлайн прошел. Отправка решения не возможна.</span>
+               </div>
+               <div data-bind="ifnot: deadLinePass">
+                   <button data-bind="uploadHomework{userInfo:userInfo, homeWork:homeWork, id:id} ">Загрузить решение</button>
+               </div>
+           </div>
+            <div data-bind="if: selfHomeWork">
+                <div class="stud col-lg-7">
+                <div data-bind="foreach:homeWork">
+                    <span><strong>Ваше решение загружено.</strong></span><br/>
+                    <span><strong>Оценка: </strong><span data-bind="text:grade"></span></span><br/>
+                    <!-- ko if: $parent.haveGrade-->
+                    <span><strong>Проверил: </strong><span data-bind="text: teacher"></span> в <span data-bind="text: time"></span></span><br/>
+                    <!--/ko-->
+                    <a download="" data-bind="attr:{ href:link}">Загрузить присланное решение.</a><br>
+                    <!-- ko ifnot: $parent.haveGrade-->
+                        <!-- ko ifnot: $parent.deadLinePass-->
+                        <span><strong>Также Вы можете:</strong></span>
+                    <button class="load-btn" data-bind="uploadHomework{userInfo:$root.userInfo, homeWork:$root.homeWork, id:$root.id} ">Загрузить новое решение</button>
+                        <!--/ko-->
+                    <!--/ko-->
+                </div>
+                    <div class="col-lg-5"></div>
+                </div>
             </div>
-            <!--/ko-->
-
         <?php endif ?>
     </div>
 </section>
@@ -171,70 +177,7 @@
 
 <!--/ko-->
 
-<section class="main-content">
-    <?php
 
-$data = array(
-    "id" => $data['id'],
-    "username" => $data['name'],
-    "email" => $data['email']
-);
-function dsq_hmacsha1($data, $key) {
-    $blocksize=64;
-    $hashfunc='sha1';
-    if (strlen($key)>$blocksize)
-        $key=pack('H*', $hashfunc($key));
-    $key=str_pad($key,$blocksize,chr(0x00));
-    $ipad=str_repeat(chr(0x36),$blocksize);
-    $opad=str_repeat(chr(0x5c),$blocksize);
-    $hmac = pack(
-        'H*',$hashfunc(
-            ($key^$opad).pack(
-                'H*',$hashfunc(
-                    ($key^$ipad) . $data
-                )
-            )
-        )
-    );
-    return bin2hex($hmac);
-}
-$message = base64_encode(json_encode($data));
-$timestamp = time();
-$hmac = dsq_hmacsha1($message . ' ' . $timestamp, DISQUS_SECRET_KEY);
-?>
-
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'schedule'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    var disqus_config = function() {
-        this.page.remote_auth_s3 = "<?php echo "$message $hmac $timestamp"; ?>";
-        this.page.api_key = "<?php echo DISQUS_PUBLIC_KEY; ?>";
-        this.callbacks.onNewComment = [function(comment) {
-            console.log(comment);
-            var d = new Date();
-            var n = d.toISOString();
-            $.post(url+"app/lesson/saveMess", {
-                id: comment.id,
-                text: comment.text,
-                date:n,
-                lesson_id:viewModel.id()
-            }, function(result){
-                console.log(result);
-            });
-        }];
-    };
-</script>
-
-</section>
-<!--/ko-->
 
 
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>

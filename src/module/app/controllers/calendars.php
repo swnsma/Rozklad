@@ -36,31 +36,40 @@ class Calendars extends Controller {
             array('groups/groups.css'));*/
         $this->view->renderHtml('common/head',$data);
         $this->view->renderHtml('common/header', $data);
+        if($this->userInfo['title']==='teacher') {
+            $this->view->renderHtml('calendars/popup', $data);
+        }
         $this->view->renderHtml('calendars/index', $data);
 //        $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
 
     }
 
-    public function getUserInformationAndOurGroups(){
-       if($this->userInfo['title']==='teacher') {
-           $this->model = $this->loadModel('groups');
-           $returns['group'] = $this->model->getOurGroups();
-           $returns['user'] = $this->userInfo;
-           $returns['status'] = 'ok';
-           $this->view->renderJson($returns);
-       }else{
-           $returns['status'] = 'noteacher';
-           $this->view->renderJson($returns);
-       }
+    public function getOurInfForTeacher(){
+        if($this->userInfo['title']==='teacher') {
+            $this->model = $this->loadModel('groups');
+            $returns['group'] = $this->model->getOurGroups();
+            $returns['user'] = $this->userInfo;
+            $this->model = $this->loadModel('user');
+            $returns['teacher'] = $this->model->getOurTeacher();
+            $returns['status'] = 'ok';
+            $this->view->renderJson($returns);
+        }else{
+            $returns['status'] = 'noteacher';
+            $this->view->renderJson($returns);
+        }
     }
 
-    public function getOurLessonForThisIdTeacherCurrent(){
+    public function getOurEventTeacher(){
         if($this->userInfo['title']==='teacher') {
             if(isset($_POST['start'])&&isset($_POST['end'])) {
                 $this->model = $this->loadModel('lessons');
-                $returns['data'] = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo,$_POST['start'],$_POST['end']);
+                $returns['data'] = $this->model->getOurEventTeacher($_POST['start'],$_POST['end']);
                 $returns['status'] = 'ok';
+                $this->view->renderJson($returns);
+            }
+            else{
+                $returns['status'] = 'notPost';
                 $this->view->renderJson($returns);
             }
         }else{
@@ -69,57 +78,28 @@ class Calendars extends Controller {
         }
     }
 
-    public function getOurLessonForThisIdTeacherNoCurrent(){
+    public function addEvent()
+    {
         if($this->userInfo['title']==='teacher') {
-            if(isset($_POST['start'])&&isset($_POST['end'])) {
+            if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['teacher'])) {
                 $this->model = $this->loadModel('lessons');
-                $returns['data'] = $this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo,$_POST['start'],$_POST['end']);
-                $returns['status'] = 'ok';
-                $this->view->renderJson($returns);
-            }
-        }else{
-            $returns['status'] = 'noteacher';
-            $this->view->renderJson($returns);
-        }
-    }
-
-    public function getOurLessonForThisIdStudent(){
-        if(isset($_POST['start'])&&$_POST['end']) {
-            $this->model = $this->loadModel('lessons');
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $id['data'] = $this->model->getOurLessonForThisIdStudent($this->userInfo, $start, $end);
-            $id['status']='ok';
-            $this->view->renderJson($id);
-        }
-    }
-
-    public function eventDrop(){
-
-        if($this->userInfo['title']==='teacher'){
-
-            if(isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])){
+//            print_r($_POST);
+                $title = $_POST['title'];
                 $start = $_POST['start'];
                 $end = $_POST['end'];
-                $idlesson = $_POST['id'];
-                $this->model = $this->loadModel('lessons');
-
-
-                if($this->model->eventDrop($idlesson, $start, $end)){
-                    $id['status']='ok';
-                    $this->view->renderJson($id);
-                }else{
-                    $id['status']='notOk';
-                    $this->view->renderJson($id);
+                $teacher = $_POST['teacher'];
+                $id = $this->model->addLesson($title, $start, $end, $teacher);
+                if ($id == null) {
+                    echo 'Ошибка';
+                } else {
+                    if (isset($_POST['group'])) {
+                        $this->model->addGroupsToLesson($id, $_POST['group']);
+                    }
+                    $this->view->renderJson(array('id' => $id));
                 }
-
-            }else{
-                $returns['status'] = 'problem';
-                $this->view->renderJson($returns);
             }
         }else{
-            $returns['status'] = 'noteacher';
-            $this->view->renderJson($returns);
+            $this->view->renderJson(array('status' => 'noteacher'));
         }
     }
 

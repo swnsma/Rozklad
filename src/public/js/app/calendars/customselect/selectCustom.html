@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="customselect.js"></script>
+    <script src="../../../vendor/jQuery/jquery-2.1.1.js"></script>
+    <script src="../setselect.js"></script>
+    <link rel="stylesheet" href="customselect.css"/>
+
+    <style>
+    </style>
+</head>
+<body>
+<div id="animal-select" class="custom-select">
+    <span class="custom-select-title"></span>
+    <span id="value"></span>
+    <ul class="custom-select-options">
+        <li data-value="1">Вал1</li>
+        <li data-value="2">Вал2</li>
+        <li data-value="3">вал2</li>
+        <li data-value="4">Вал3</li>
+        <li data-value="5">Вал4</li>
+    </ul>
+
+    <span id="result"></span>
+    <script>
+//        var animalSelect = new CustomSelect({
+//            elem: $('#animal-select')
+//        });
+
+//        $([animalSelect]).on('select', function (event) {
+//            $('#result').html(event.value)
+//        });
+
+
+    </script>
+</div>
+<div id="test">
+
+</div>
+<script>
+    var select = new SetSelect({
+        element:'#test',
+        masGroups:[
+            {
+                id:'1',
+                name:'Name1',
+                color:'#111'
+            },
+            {
+                id: '2',
+                name: 'Name2',
+                color: '#222'
+            },
+            {
+                id:'3',
+                name:'Name3',
+                color:'#333'
+            },
+            {
+                id:'4',
+                name:'Name4',
+                color:'#444'
+            }
+        ],
+        selectElement:[
+            {
+                id:'1',
+                name:'Name1',
+                color:'#111'
+            },
+            {
+                id: '2',
+                name: 'Name2',
+                color: '#222'
+            }
+        ]
+    })
+</script>
+</body>
+</html>

@@ -237,10 +237,23 @@ HERE;
 
     public function saveTask($studentId, $name, $lessonId)
     {
+        try {
+        $r = <<<CHECKING
+        SELECT * FROM `result` WHERE `result`.`owner`=$studentId AND `result`.`lesson_id`=$lessonId;
+CHECKING;
+            $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($request[0]['link'])){
+                unlink(HOMEWORK_FOLDER.'/'.$request[0]['link']);
+                $r=<<<DELETE
+                UPDATE `result` SET `link`="$name" WHERE `result`.`owner`=$studentId AND `result`.`lesson_id`=$lessonId;
+DELETE;
+               $this->db->query($r);
+                return $request;
+            }
         $r = <<<HERE
         INSERT INTO `result` (owner, link,lesson_id) VALUES ($studentId,'$name',$lessonId);
 HERE;
-        try {
+
             $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
             return $request;
         } catch (PDOException $e) {
@@ -256,6 +269,7 @@ SELECT
             `result`.`grade` as grade,
             `result`.`link` as link,
             `result`.`appraiser` as teacher,
+            `result`.`apprais_time` as time,
             `result`.`id` as id,
              `user`.`name` as name,
              `user`.`surname` as surname
