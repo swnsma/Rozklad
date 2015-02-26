@@ -29,6 +29,9 @@ nav
 .activeTab{
     background-color: #eee;
 }
+a{
+    color: blue!important;
+}
 [type='tel']{
     width: 20px;
     border: none;
