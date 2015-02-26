@@ -61,4 +61,6 @@ WHERE lesson.status = 1 AND (lesson.start BETWEEN :start AND :end)
             return null;
         }
     }
+
+
 }
