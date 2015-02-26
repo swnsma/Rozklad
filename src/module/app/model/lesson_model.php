@@ -36,7 +36,7 @@ TANIA;
 //
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
-//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
             return $var;
         } catch(PDOException $e) {
@@ -102,8 +102,8 @@ TANIA;
             WHERE  (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
                 for($i=0;$i<count($var);++$i){
-//                    $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-//                    $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
+                    $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                    $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
                 }
             }else{
                 $res = "select l.id,
@@ -120,7 +120,7 @@ TANIA;
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             }
             for($i=0;$i<count($var);++$i){
-//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
@@ -166,7 +166,7 @@ TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
-//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
 
 //            echo $var;
@@ -256,10 +256,10 @@ BORIA;
               ORDER BY l.deadline ASC ";
             $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
-//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
                 $lesson_id=$var[$i]['id'];
                 $res = "select * from 'result' as r where r.owner='$id' AND r.lesson_id='$lesson_id'";
-//                $var[$i]['estimate'] = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
+                $var[$i]['estimate'] = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
 
             }
             $result = array_unique($var,SORT_REGULAR);
@@ -299,8 +299,8 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
             WHERE  (l.start BETWEEN '$start' AND '$end') AND l.status='1'" ;
             $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
             for($i=0;$i<count($var);$i++){
-//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
-//                $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
             }
 
             $result = array_unique($var,SORT_REGULAR);
@@ -327,7 +327,7 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
             $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
 
             for($i=0;$i<count($var);$i++){
-//                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
+                $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);

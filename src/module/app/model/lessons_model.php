@@ -50,5 +50,15 @@ WHERE lesson.status = 1 AND (lesson.start BETWEEN :start AND :end)
 
     }
 
-
+    public function addLesson($title, $start,$end,$id_teacher) {
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+            $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
+            return $this->db->lastInsertId();
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
 }
