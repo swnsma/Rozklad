@@ -27,6 +27,6 @@ LessonModel::realDeletedLesson();
 //Base_Install::LoadDummy();
 
 $app = new Bootstrap();
-PeddingOperation::run();
+//PeddingOperation::run();
 
 ?>
