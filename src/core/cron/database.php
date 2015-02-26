@@ -6,7 +6,7 @@ class DataBase {
 
     private function __construct() {
         try {
-            self::$instance = new PDO('sqlite:' . INCLUDE_PATH . 'SQL/data/rozklad.sqlite');
+            self::$instance = new PDO('sqlite:SQL/data/rozklad.sqlite');
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e){
             exit;

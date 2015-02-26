@@ -1,7 +1,5 @@
 <?php
 
-set_include_path(INCLUDE_PATH);
-
 require_once 'conf/mail_conf.php';
 require_once 'core/cron/database.php';
 require_once 'core/MailerOfLetter.php';
