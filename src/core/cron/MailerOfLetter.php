@@ -74,6 +74,7 @@ HERE;
             $request->bindParam(':id', $id, PDO::PARAM_INT);
             if ($request->execute()) {
                 $data = $request->fetchAll(PDO::FETCH_ASSOC);
+                if (count($data) == 0) return null;
                 $data = $data[0];
                 $this->mail->addFileToHtml(get_include_path() . 'public/img/mail_background.png', 'mail_background');
                 $this->mail->addFileToHtml(get_include_path() . 'public/img/mail_sep.png', 'mail_sep');
