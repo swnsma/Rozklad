@@ -239,6 +239,11 @@
 .mess-date{
     margin-left: 5px;
     font-size:10px;
+    float:left;
+}
+.mess-last-mess{
+    margin-right: 10px;
+    float:right;
 }
 .wrap:after {
     content: '';
@@ -262,28 +267,15 @@
 }
 
 .message-count{
-    /*float:right;*/
-    /*margin-top: 5px;*/
-    /*margin-right: 5px;*/
-    /*height:20px;*/
-    /*width:20px;*/
-    /*font-size:15px;*/
-    /*text-align:center;*/
-    /*border-radius: 20px;*/
-    /*background-color:yellow;*/
-    float: right;
-    margin-top: 7px;
+    float:right;
+    display: none;
+    color:white;
+    margin-top: 5px;
     margin-right: 5px;
-    height: 17px;
-    padding: 0 5px;
-    line-height: 17px;
-    font-size: 15px;
-    text-align: center;
-    border-radius: 6px;
-    background-color: #dc0d17;
-    background-image: -webkit-gradient(linear, center top, center bottom, from(#fa3c45), to(#dc0d17));
-    background-image: -webkit-linear-gradient(#fa3c45, #dc0d17);
-    color: #fff;
-    min-height: 13px;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, .4);
+    height:20px;
+    width:20px;
+    font-size:15px;
+    text-align:center;
+    border-radius: 20px;
+    background-color:red;
 }

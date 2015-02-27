@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/css/common/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="<?php echo URL ?>public/js/vendor/tcal/tcal.css">
 
-
+<div data-bind="attr:{class:loadScr}" id="loadScreen"><img src="<?php echo URL?>public/img/load.gif"></div>
 <?php if ($data['status'] == 'teacher'): ?>
     <nav>
         <div class="tabButton taskButton activeTab"
@@ -181,6 +181,7 @@
 
 
 <script src="<?php print URL; ?>public/js/vendor/jQuery/jquery-2.1.1.js"></script>
+<script src="<?php echo URL; ?>public/js/vendor/somelibrary.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/common.js"></script>
 <script src="<?php echo URL; ?>public/js/vendor/knockout-3.2.0.js"></script>
 <script type="text/javascript" src="<?php echo URL ?>public/js/app/lesson/lesson.js"></script>

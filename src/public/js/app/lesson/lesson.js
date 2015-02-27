@@ -231,7 +231,7 @@ function ViewModel() {
     that.year = ko.observable("");
     that.hour = ko.observable("");
     that.minute = ko.observable("");
-
+    that.loadScr = ko.observable("load-screen");
 
     that.descriptionTab=ko.observable(true);
 
@@ -388,8 +388,13 @@ function ViewModel() {
             that.deadLine(response.result);
             if(response.result!='Нет'&&response.result){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
-            response.result=response.result.slice(12, 17);
+            response.result=response.result.slice(11, 16);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
+            var curDate = response.time.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
+            response.time = response.time.slice(11, 16);
+            var curTime = response.time.replace(/([0-9]*):([0-9]*)/, "$1/$2");
+            curTime = curTime.split("/");
+            curDate = curDate.split("/");
             date = date.split("/");
             time = time.split("/");
             that.day(date[0]);
@@ -397,8 +402,8 @@ function ViewModel() {
             that.year(date[2]);
             that.hour(time[0]);
             that.minute(time[1]);
-            var deadLineTime= Date.parse(that.deadLine().substring(3,5)+'/'+that.deadLine().substring(0,2)+'/'+that.deadLine().substring(6,10)+'/'+that.deadLine().substring(11,13)+':'+that.deadLine().substring(14,16));
-            var today=new Date().toString();
+            var today = new Date(curDate[2], curDate[1]-1, curDate[0], curTime[0]-1, curTime[1]);
+            var deadLineTime= new Date( date[2], date[1]-1, date[0], time[0], time[1]);
             that.deadLinePass(deadLineTime<Date.parse(today));
             }
 
@@ -444,7 +449,6 @@ function ViewModel() {
                             }else{
                                 homework.grade="решение еще не проверено."
                             }
-
                             that.homeWork(homework);
                         }
                     }
@@ -461,6 +465,10 @@ function ViewModel() {
                         that.homeWork.push(homework);
                     }
                 }
+                that.loadScr('out');
+                setTimeout(function(){
+                    that.loadScr('no')
+                }, 500);
             },
             error: function (xhr) {
                 fail(xhr);

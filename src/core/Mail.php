@@ -1,7 +1,7 @@
 <?php
 
-require_once DOC_ROOT . '/lib/mail/class.phpmailer.php';
-require_once DOC_ROOT . '/lib/mail/class.smtp.php';
+require_once '/lib/mail/class.phpmailer.php';
+require_once '/lib/mail/class.smtp.php';
 
 class Mail {
     private $mail;

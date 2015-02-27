@@ -1,7 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Саша
- * Date: 26.02.2015
- * Time: 11:23
- */ 
+
+set_include_path('/var/www/vhosts/rozklad_test/public_html/');
+
+require_once 'conf/mail_conf.php';
+require_once 'core/cron/database.php';
+require_once 'core/cron/MailerOfLetter.php';
+
+$m = MailerOfLetter::getInstance();
+$m->sendInvitationToLesson();
+
+?>
