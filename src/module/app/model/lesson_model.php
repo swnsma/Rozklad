@@ -541,14 +541,18 @@ SQL;
         }
     }
 
-    public function allUnreaded($userinfo){
+    public function allUnreaded($userinfo,$since=NULL){
         $allLessons = $this->allLessons($userinfo);
-//        return $allLessons;
         for($i=0;$i<count($allLessons);$i++){
-            $allLessons[$i]['mess'] =$this->getAllCommentsForLesson($allLessons[$i]['id'],$allLessons[$i]['last_visit']);
+            $lastTime = $lastTime = $allLessons[$i]['last_visit'];
+            if(isset($since)&&!empty($since)){
+                $lastTime=$since;
+            }
+            $allLessons[$i]['mess'] =$this->getAllCommentsForLesson($allLessons[$i]['id'],$lastTime);
         }
         return $allLessons;
     }
+
     public function  allLessons($userinfo){
         try {
             $id = $userinfo['id'];
