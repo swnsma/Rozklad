@@ -193,6 +193,7 @@
     height:20px;
     width:20px;
     background: url("../../../img/message1.png");
+    background-size: cover;
 }
 .message-icon:hover{
     cursor:pointer;
