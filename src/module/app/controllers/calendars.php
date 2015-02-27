@@ -93,6 +93,7 @@ class Calendars extends Controller {
                     echo 'Ошибка';
                 } else {
                     if (isset($_POST['group'])) {
+                        $this->model = $this->loadModel('grouplesson');
                         $this->model->addGroupsToLesson($id, $_POST['group']);
                     }
                     $this->view->renderJson(array('id' => $id));
@@ -102,6 +103,61 @@ class Calendars extends Controller {
             $this->view->renderJson(array('status' => 'noteacher'));
         }
     }
+
+
+    public function updateEvent()
+    {
+        if($this->userInfo['title']==='teacher') {
+            if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['id']) && isset($_POST['teacher'])) {
+                $this->model = $this->loadModel('lessons');
+                $title = $_POST['title'];
+                $start = $_POST['start'];
+                $end = $_POST['end'];
+                $id = $_POST['id'];
+                $teacherId = $_POST['teacher'];
+                $this->model->updateLesson($title, $start, $end, $id, $teacherId);
+                if (isset($_POST['group'])) {
+                    if (isset($_POST['group']['del'])) {
+//                    print $_POST['group']['del'];
+                        $this->model = $this->loadModel('grouplesson');
+                        $this->deleteGroupFromLesson($id, $_POST['group']['del']);
+                    }
+                    if (isset($_POST['group']['add'])) {
+                        $this->addGroupsToLesson($id, $_POST['group']['add']);
+                    }
+                }
+                $this->view->renderJson("succeess");
+            }
+        }
+    }
+
+   /* public function updateEvent()
+    {
+        if($this->userInfo['title']==='teacher') {
+            if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['id']) && isset($_POST['teacher'])) {
+                $this->model = $this->loadModel('lesson');
+                $title = $_POST['title'];
+                $start = $_POST['start'];
+                $end = $_POST['end'];
+                $id = $_POST['id'];
+                $teacherId = $_POST['teacher'];
+                $this->model->updateLesson($title, $start, $end, $id, $teacherId);
+                if (isset($_POST['group'])) {
+                    if (isset($_POST['group']['del'])) {
+//                    print $_POST['group']['del'];
+                        $this->deleteGroupFromLesson($id, $_POST['group']['del']);
+                    }
+                    if (isset($_POST['group']['add'])) {
+                        $this->addGroupsToLesson($id, $_POST['group']['add']);
+                    }
+                }
+                $this->view->renderJson("succeess");
+            }
+        }
+        else{
+            $this->view->renderJson(Array("status"=>'noteacher'));
+        }
+    }*/
 
 
 }

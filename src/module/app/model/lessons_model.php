@@ -31,6 +31,7 @@ lesson.end as end,
 user.surname as teacher_surname,
  groups.name as group_name,
 groups.color as group_color,
+groups.id  as group_id,
 lesson.status as status,
 (SELECT COUNT(*) FROM result WHERE lesson.id = result.lesson_id AND (result.grade = '' OR result.grade = null)) AS count_no_grade
 FROM lesson
@@ -56,6 +57,18 @@ WHERE lesson.status = 1 AND (lesson.start BETWEEN :start AND :end)
             $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
             $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
             return $this->db->lastInsertId();
+        } catch(PDOException $e) {
+            echo $e;
+            return null;
+        }
+    }
+
+    public function updateLesson($title, $start,$end,$id,$teacherId) {
+        try {
+            $date = $this->realDate()->format($this->formatDate());
+            $SHT=$this->db->prepare("UPDATE lesson SET title=:title, start=:start,end=:end,update_date=:update_date,teacher=:teacher WHERE id=:id");
+            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'update_date'=>$date, 'teacher'=>$teacherId, 'id'=>$id));
+
         } catch(PDOException $e) {
             echo $e;
             return null;
