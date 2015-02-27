@@ -231,7 +231,7 @@ function ViewModel() {
     that.year = ko.observable("");
     that.hour = ko.observable("");
     that.minute = ko.observable("");
-
+    that.loadScr = ko.observable("load-screen");
 
     that.descriptionTab=ko.observable(true);
 
@@ -449,7 +449,6 @@ function ViewModel() {
                             }else{
                                 homework.grade="решение еще не проверено."
                             }
-
                             that.homeWork(homework);
                         }
                     }
@@ -466,6 +465,10 @@ function ViewModel() {
                         that.homeWork.push(homework);
                     }
                 }
+                that.loadScr('out');
+                setTimeout(function(){
+                    that.loadScr('no')
+                }, 500);
             },
             error: function (xhr) {
                 fail(xhr);

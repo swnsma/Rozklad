@@ -1,7 +1,7 @@
 <?php
 
-require_once '/lib/mail/class.phpmailer.php';
-require_once '/lib/mail/class.smtp.php';
+require_once 'lib/mail/class.phpmailer.php';
+require_once 'lib/mail/class.smtp.php';
 
 class Mail {
     private $mail;
@@ -50,8 +50,12 @@ class Mail {
     }
 
     public function getTemplate($name, $data) {
-        $file = DOC_ROOT . 'public/mail_templates/' . $name . '.html';
-        if (file_exists($file)) {
+	if (isset($_SERVER['SERVER_NAME'])) {
+       		$file = DOC_ROOT . 'public/mail_templates/' . $name . '.html';
+	} else {
+		$file = get_include_path() . 'public/mail_templates/' . $name . '.html';
+	}        
+	if (file_exists($file)) {
             $content = file_get_contents($file);
             $keys = array_keys($data);
             foreach($keys as $key) {

@@ -5,3 +5,7 @@ DROP TABLE IF EXISTS "role";
 DROP TABLE IF EXISTS "student_group";
 DROP TABLE IF EXISTS "user";
 DROP TABLE IF EXISTS "result";
+DROP TABLE IF EXISTS "delete_user";
+DROP TABLE IF EXISTS "unconfirmed_user";
+DROP TABLE IF EXISTS "exported_events";
+DROP TABLE IF EXISTS "last_time_visit";

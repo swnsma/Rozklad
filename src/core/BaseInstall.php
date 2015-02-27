@@ -1,27 +1,16 @@
 <?php
-
-class Base_Install{
-    private function  __construct(){
-    }
-    public static function DesolationBase(){
-        $f= fopen("SQL/install/drop.sql", "r");
-        $DBH=DataBase::getInstance()->DB();
-        do{
-            $query=fgets($f, 10000);
-            $DBH->query($query);
-        }while($query);
-    }
-    public static function Run(){
+class Base_Install extends Model{
+    public function __construct(){
+        parent::__construct();
+        $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, 0);
         $buff="0";
         $path='SQL/install';
         $version=0;
-        $query="";
         if(file_exists($path."/version.txt")){
-            $file=fopen($path."/version.txt", 'r+');
-            $buff=fgets($file, 10);
-            fclose($file);
+            $buff = file_get_contents($path."/version.txt");
         }else{
-            Base_Install::DesolationBase();
+            $query = file_get_contents("SQL/install/drop.sql");
+            $this->db->exec($query);
         }
         $dir = opendir($path);
         while( $files=readdir($dir))
@@ -36,30 +25,17 @@ class Base_Install{
         $buff2=$version;
         if($buff<$buff2){
             try{
-                $DBH=DataBase::getInstance()->DB();
                 do{
                     $buff++;
-                    $file=fopen($path.'/install_'.$buff.'.sql', 'r');
-                    while($buff_query=fgets($file, 10000)){
-                        $DBH->query($buff_query);
-                    }
-                    fclose($file);
-                }while($buff!=$buff2);
-                $file=fopen($path."/version.txt", "w");
-                fputs($file, $buff2);
-                fclose($file);
-            }
-            catch(PDOException $e) {
-                print 'Error';
-            }
+                    $query = file_get_contents($path.'/install_'.$buff.'.sql');
+                    $this->db->exec($query);
+        }while($buff!=$buff2);
+         file_put_contents($path."/version.txt",$buff2 );
         }
-    }
-    public static function LoadDummy(){
-        $f= fopen("SQL/install/dummy_data.sql", "r");
-        $DBH=DataBase::getInstance()->DB();
-        do{
-            $query=fgets($f, 10000);
-            $DBH->query($query);
-        }while($query);
+         catch(PDOException $e) {
+             print 'Error';
+         }
+     }
+    $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
     }
 }
