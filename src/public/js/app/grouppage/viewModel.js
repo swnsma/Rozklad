@@ -5,53 +5,21 @@ function ViewModel() {
     that.description = ko.observable('');
     that.students = ko.observableArray([]);
     that.editGroupName= ko.observable(false);
-    that.editDescription= ko.observable(false);
     that.havePicture=ko.observable(false);
     that.id= ko.observable("");
     that.code= ko.observable("");
     that.imgSrc = ko.observable("");
-    that.buffDesc="";
     that.buffTitle="";
-    that.errorDesc=ko.observable("0");
     that.errorTitle= ko.observable("0");
     that.loadScr=ko.observable("load-screen");
-    that.focusDesc=function(){
-        focusElement("descInput");
-    };
     that.focusTitle=function(){
-        focusElement("descInput");
-    };
-    that.editDescOpen=function(){
-        that.editDescription(true);
-        that.focusDesc();
+        focusElement("titleInput");
     };
     that.editTitleOpen= function(){
         that.editGroupName(true);
         that.focusTitle();
     };
-    that.saveDesc=function(){
-      var buff= that.description().trim();
-        if(buff){
-            if(buff!=that.buffDesc){
-            api.editDesription(that.id(), buff, function(response){
-                if(response){
-                    that.editDescription(false);
-                }
-                else {
-                    that.errorDesc("2");
-                }
-            });
-                that.buffDesc=buff;
-            }
-            else{
-                that.editDescription(false);
-            }
-            that.errorDesc("0");
-        }
-        else {
-            that.errorDesc("1");
-        }
-        };
+
     that.saveTitle=function(){
         var buff= that.groupName().trim();
         if(buff){
@@ -91,16 +59,6 @@ function ViewModel() {
             }
         });
     };
-    that.errorDescMessage = ko.computed(function(){
-        switch(that.errorDesc()){
-            case "1":
-                return "Поле не может быть пустым";
-            case "2":
-                return "Ошибка соединения с сервером";
-            default:
-                return "";
-        }
-    });
     that.errorTitleMessage = ko.computed(function(){
         switch(that.errorTitle()){
             case "1":
@@ -136,17 +94,17 @@ function ViewModel() {
         groupId= +groupId.substr(pos+2, 2);
         that.id(groupId);
         that.loadScr('out');
-        api.getGroupInfo(groupId, function (response) {
+        universalAPI(url + 'app/grouppage/sendGroupInfo/'+that.id()+'/', "GET", function(resp){
+            var response = resp.info;
             that.groupName(response.name);
             var img = response.img_src ? url + 'public/users_files/images/groups_photo/small_' + response.img_src : url + 'public/users_files/images/default/small_default_group_photo.jpg';
             that.imgSrc(img);
             that.havePicture(true);
             that.teacher(response.teacher);
-            that.description(response.description);
             that.buffDesc=response.description;
             that.buffTitle=response.name;
-        });
-        api.getUsers(groupId, function (response) {
+            that.code(resp.code);
+            response = resp.users;
             for (var i = 0; i < response.length; i++) {
                 var student = new Student(response[i]);
                 student.notDeleted=ko.observable(true);
@@ -158,12 +116,27 @@ function ViewModel() {
                 that.loadScr('no')
             }, 300);
         });
-        api.loadCode(groupId, function (response){
-            that.code(response.code);
-
-        });
     }
 }
+var Student=function(obj){
+    this.name=obj.name;
+
+    if(obj.fb_id) {
+        this.fb_account = 'https://www.facebook.com/' + obj.fb_id;
+        this.fb_photo = 'http://graph.facebook.com/' + obj.fb_id + '/picture?type(square)';
+    }
+    else{
+        this.fb_account=null;
+    }
+    this.id=obj.id;
+    if(obj.gm_id&&!this.fb_account){
+        this.gm_account='https://plus.google.com/u/0/'+obj.gm_id+'/posts';
+    }
+    else{
+        this.gm_account=null;
+    }
+
+};
 var viewModel = new ViewModel();
 viewModel.activate();
 function focusElement(id){
