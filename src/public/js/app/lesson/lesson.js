@@ -384,7 +384,8 @@ function ViewModel() {
         var pos = lessonId.search(/id[0-9]+/);
         lessonId = +lessonId.substr(pos + 2, lessonId.length - pos - 2);
         that.id(lessonId);
-        universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
+        universalAPI(url+'app/lesson/getAll/'+that.id(), 'GET', function(resp){
+            var response = resp.deadLine;
             that.deadLine(response.result);
             if(response.result!='Нет'&&response.result.length){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
@@ -409,76 +410,66 @@ function ViewModel() {
             else{
                 that.deadLinePass(false);
             }
-
-        },function(){
-            console.log("Something going wrong");
-        });
-        universalAPI(url + 'app/lesson/getLessonInfo/' + that.id(), 'GET', function (response) {
+            response= resp.lessonInfo;
             var incomingData = JSON.parse(response[0].lesson_info);
             if(incomingData!=null){
                 that.homeWorkDescription(incomingData.description);
 
-            for(var i=0; i<incomingData.links.length; i++){
-                if(incomingData.links[i].name.length>30){
-                    incomingData.links[i].nameLink=incomingData.links[i].name.substr(0, 29)+'…';
-                }else{
-                    incomingData.links[i].nameLink=incomingData.links[i].name;
-                }
-            }
-            that.links(incomingData.links);
-            for(var i=0; i<incomingData.files.length; i++){
-                if(incomingData.files[i].oldName.length>30){
-                    incomingData.files[i].oldName = incomingData.files[i].oldName.substr(0, 29)+'…';
-                }
-            }
-            that.files(incomingData.files);
-            }
-        });
-        $.ajax({
-            url: url + 'app/lesson/getTasks/' + that.id(),
-            type: 'GET',
-            success: function (response) {
-                console.log(response);
-                if(that.userInfo()[1]=='student'){
-                    for (var i = 0; i < response.length; i++){
-                        if(response[i].name+' '+response[i].surname==that.userInfo()[0]){
-                            that.selfHomeWork(true);
-                            console.log(response);
-                            var homework = {};
-                            homework.link = ko.observable( url + 'public/users_files/homework/' + response[i].link);
-                            homework.name = response[i].name + ' ' + response[i].surname;
-                            if(response[i].grade){
-                            homework.grade = response[i].grade;
-                                that.haveGrade(true);
-                                homework.teacher = response[i].teacher;
-                                homework.time = response[i].time;
-                            }else{
-                                homework.grade="решение еще не проверено."
-                            }
-                            that.homeWork(homework);
-                        }
+                for(var i=0; i<incomingData.links.length; i++){
+                    if(incomingData.links[i].name.length>30){
+                        incomingData.links[i].nameLink=incomingData.links[i].name.substr(0, 29)+'…';
+                    }else{
+                        incomingData.links[i].nameLink=incomingData.links[i].name;
                     }
                 }
-                if(that.userInfo()[1]=='teacher') {
-                    for (var i = 0; i < response.length; i++) {
-                        homework = {};
-                        homework.link = url + 'public/users_files/homework/' + response[i].link;
+                that.links(incomingData.links);
+                for(var i=0; i<incomingData.files.length; i++){
+                    if(incomingData.files[i].oldName.length>30){
+                        incomingData.files[i].oldName = incomingData.files[i].oldName.substr(0, 29)+'…';
+                    }
+                }
+                that.files(incomingData.files);
+            }
+            response = resp.tasks;
+            if(that.userInfo()[1]=='student'){
+                for (var i = 0; i < response.length; i++){
+                    if(response[i].name+' '+response[i].surname==that.userInfo()[0]){
+                        that.selfHomeWork(true);
+                        console.log(response);
+                        var homework = {};
+                        homework.link = ko.observable( url + 'public/users_files/homework/' + response[i].link);
                         homework.name = response[i].name + ' ' + response[i].surname;
-                        debugger;
-                        homework.grade = ko.observable(response[i].grade);
-                        homework.teacher=response[i].teacher;
-                        homework.id=response[i].id;
-                        that.homeWork.push(homework);
+                        if(response[i].grade){
+                            homework.grade = response[i].grade;
+                            that.haveGrade(true);
+                            homework.teacher = response[i].teacher;
+                            homework.time = response[i].time;
+                        }else{
+                            homework.grade="решение еще не проверено."
+                        }
+                        that.homeWork(homework);
                     }
                 }
-                that.loadScr('out');
-                setTimeout(function(){
-                    that.loadScr('no')
-                }, 500);
-            },
-            error: function (xhr) {
-                fail(xhr);
             }
+            if(that.userInfo()[1]=='teacher') {
+                for (var i = 0; i < response.length; i++) {
+                    homework = {};
+                    homework.link = url + 'public/users_files/homework/' + response[i].link;
+                    homework.name = response[i].name + ' ' + response[i].surname;
+                    debugger;
+                    homework.grade = ko.observable(response[i].grade);
+                    homework.teacher=response[i].teacher;
+                    homework.id=response[i].id;
+                    that.homeWork.push(homework);
+                }
+            }
+            that.loadScr('out');
+            setTimeout(function(){
+                that.loadScr('no')
+            }, 500);
+
+        },function(){
+            console.log("Something going wrong");
         });
     };
 }
