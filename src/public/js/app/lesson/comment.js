@@ -130,9 +130,10 @@ var mod=(function(mod){
             //this.fb_account = 'https://www.facebook.com/' + obj.fb_id;
             self.photo('http://graph.facebook.com/' + comment.fb_id + '/picture?type(square)');
         }
-        else {
-            self.photo("http://a.disquscdn.com/uploads/users/14338/9498/avatar92.jpg?1423742151");
+        else{
+            self.photo(comment.gm_photo);
         }
+
         self.remove=function(data){
             removeComment(data,
                 function(response){
@@ -203,7 +204,9 @@ var mod=(function(mod){
         mod.ajax(
             url+"app/comment/tree",
             function(response){
+                debugger;
                 viewModel.treeRoot.init(mod.addNewTree(response));
+
                 $("textarea").autogrow();
             },
             {

@@ -37,6 +37,10 @@ Q;
                     $children=NULL;
                 }
                 $arr[$i]['CHILDREN']=$children;
+                if($arr[$i]["gm_id"]){
+                    $arr[$i]["gm_photo"]=$this->getGooglePhotoByGId($arr[$i]["gm_id"]);
+                }
+
             }
             return $arr;
         }
@@ -45,6 +49,15 @@ Q;
             return null;
         }
     }
+
+    private function getGooglePhotoByGId($g_id){
+        $apiKey = "AIzaSyBZxhxAn-PyWms-8yYb33kiRgO4cFi8o1Y";
+        $url = "https://www.googleapis.com/plus/v1/people/$g_id?fields=image%2Furl&key=$apiKey";
+        $res =file_get_contents($url);
+        $link = json_decode($res)->image->url;
+        return $link;
+    }
+
     public function addComment($data){
 
         $pid=$data['pid'];
