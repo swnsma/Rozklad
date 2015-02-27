@@ -74,13 +74,16 @@ class GroupPage extends Controller {
         $this->model->createInviteCode($id);
         $this->view->renderJson(Array('code'=>$this->model->getInviteCode()));
     }
-    public function sendUsers(){
+
+    public function sendGroupInfo(){
         $req=Request::getInstance();
         $id=$req->getParam(0);
-        $var=$this->model->loadUsers($id);
-
+        $var = array();
+        $var['info']=$this->model->loadData($id);
+        $var['users']=$this->model->loadUsers($id);
+        $var['code']=$this->model->loadCode($id);
         $this->view->renderJson($var);
-    }
+}
     public function changeImage(){
         $req = Request::getInstance();
         $id = $req->getParam(0);
@@ -111,24 +114,7 @@ class GroupPage extends Controller {
 
 
     }
-    public function sendGroupInfo(){
-        $req=Request::getInstance();
-        $id=$req->getParam(0);
-        $var=$this->model->getGroupInfo();
-        if(!isset($var)){
-            $var=$this->model->loadData($id);
-        }
-        $this->view->renderJson($var);
-    }
-    public function sendCode(){
-        $req=Request::getInstance();
-        $id=$req->getParam(0);
-        $var=$this->model->getInviteCode($id);
-        if(!isset($var)){
-            $var=$this->model->loadCode($id);
-        }
-        $this->view->renderJson(Array('code'=>$var));
-    }
+
     public function inviteUser(){
         $model = $this->loadModel('user');
         $r='<div style="text-align:center">';
