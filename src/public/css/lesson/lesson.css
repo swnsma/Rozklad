@@ -40,11 +40,14 @@ nav
 .load-btn{
     float: left;
 }
-.stud{
-    background-color: #eeeeee;
-}
 .cont{
     margin-top: 20px;
+    background-color: #eeeeee;
+    color: #000000;
+    padding: 10px 0 ;
+}
+.sad{
+    color: red;
 }
 .cont button{
     border: 1px solid #bfc4c4;

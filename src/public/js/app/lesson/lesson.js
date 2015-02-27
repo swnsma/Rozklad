@@ -386,7 +386,7 @@ function ViewModel() {
         that.id(lessonId);
         universalAPI(url+'app/lesson/getDeadLine/'+that.id(), 'GET', function(response){
             that.deadLine(response.result);
-            if(response.result!='Нет'&&response.result){
+            if(response.result!='Нет'&&response.result.length){
             var date = response.result.replace(/([0-9]*)-([0-9]*)-([0-9]*)/, "$1/$2/$3/");
             response.result=response.result.slice(11, 16);
             var time = response.result.replace(/([0-9]*):([0-9]*)/, "$1/$2");
@@ -406,13 +406,18 @@ function ViewModel() {
             var deadLineTime= new Date( date[2], date[1]-1, date[0], time[0], time[1]);
             that.deadLinePass(deadLineTime<Date.parse(today));
             }
+            else{
+                that.deadLinePass(false);
+            }
 
         },function(){
             console.log("Something going wrong");
         });
         universalAPI(url + 'app/lesson/getLessonInfo/' + that.id(), 'GET', function (response) {
             var incomingData = JSON.parse(response[0].lesson_info);
-            that.homeWorkDescription(incomingData.description);
+            if(incomingData!=null){
+                that.homeWorkDescription(incomingData.description);
+
             for(var i=0; i<incomingData.links.length; i++){
                 if(incomingData.links[i].name.length>30){
                     incomingData.links[i].nameLink=incomingData.links[i].name.substr(0, 29)+'…';
@@ -427,6 +432,7 @@ function ViewModel() {
                 }
             }
             that.files(incomingData.files);
+            }
         });
         $.ajax({
             url: url + 'app/lesson/getTasks/' + that.id(),

@@ -110,38 +110,41 @@
 
 
 <section class='main-content'>
-    <div class="cont">
+
         <?php if ($data['status'] == 'student'): ?>
+    <div class="cont col-lg-7 ">
            <div data-bind="ifnot: selfHomeWork">
 
                <div data-bind="if:deadLinePass">
-                   <span>Дедлайн прошел. Отправка решения не возможна.</span>
+                   <span class="sad">Дедлайн прошел. Отправка решения не возможна.</span>
                </div>
                <div data-bind="ifnot: deadLinePass">
+                   <span>Вы еще не загрузили свое решение.</span>
                    <button data-bind="uploadHomework{userInfo:userInfo, homeWork:homeWork, id:id} ">Загрузить решение</button>
                </div>
            </div>
             <div data-bind="if: selfHomeWork">
-                <div class="stud col-lg-7">
+                <div class="stud ">
                 <div data-bind="foreach:homeWork">
-                    <span><strong>Ваше решение загружено.</strong></span><br/>
-                    <span><strong>Оценка: </strong><span data-bind="text:grade"></span></span><br/>
+                        <span><strong>Ваше решение загружено.</strong></span><br/>
+                        <span><strong>Оценка: </strong><span data-bind="text:grade"></span></span><br/>
                     <!-- ko if: $parent.haveGrade-->
-                    <span><strong>Проверил: </strong><span data-bind="text: teacher"></span> в <span data-bind="text: time"></span></span><br/>
+                        <span><strong>Проверил: </strong><span data-bind="text: teacher"></span> в <span data-bind="text: time"></span></span><br/>
                     <!--/ko-->
-                    <a download="" data-bind="attr:{ href:link}">Загрузить присланное решение.</a><br>
+                        <a download="" data-bind="attr:{ href:link}">Загрузить присланное решение.</a><br>
                     <!-- ko ifnot: $parent.haveGrade-->
                         <!-- ko ifnot: $parent.deadLinePass-->
                         <span><strong>Также Вы можете:</strong></span>
-                    <button class="load-btn" data-bind="uploadHomework{userInfo:$root.userInfo, homeWork:$root.homeWork, id:$root.id} ">Загрузить новое решение</button>
+                        <button class="load-btn" data-bind="uploadHomework{userInfo:$root.userInfo, homeWork:$root.homeWork, id:$root.id} ">Загрузить новое решение</button>
                         <!--/ko-->
                     <!--/ko-->
                 </div>
-                    <div class="col-lg-5"></div>
+
                 </div>
             </div>
-        <?php endif ?>
     </div>
+            <div class="col-lg-5"></div>
+        <?php endif ?>
 </section>
 
 <!-- ko ifnot: descriptionTab-->
