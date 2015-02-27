@@ -40,11 +40,14 @@ nav
 .load-btn{
     float: left;
 }
-.stud{
-    background-color: #eeeeee;
-}
 .cont{
     margin-top: 20px;
+    background-color: #eeeeee;
+    color: #000000;
+    padding: 10px 0 ;
+}
+.sad{
+    color: red;
 }
 .cont button{
     border: 1px solid #bfc4c4;
@@ -155,5 +158,14 @@ body{
 .homeWorkList{
     margin-top: 10px;
     word-break: break-all;
+}
+.task{
+    height: 200px;
+    border: 1px solid black;
+    margin-left: 60px;
+}
+.ownerPic{
+    border-radius: 50%;
+    margin-top: 20px;
 }
 

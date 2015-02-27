@@ -84,7 +84,6 @@ function showTacherAndGroupsToLesson(event, element){
     }
     if (event.teacher) {
         var $var = $('<span>');
-        debugger;
         $var.text(event.teacher_name[0] + '.' + event.teacher_surname);
         $var.css({
             'fontSize': '10px',

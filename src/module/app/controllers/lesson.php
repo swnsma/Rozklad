@@ -94,7 +94,6 @@ class Lesson extends Controller {
         $this->model->newInfo($lessonId,$value);
         $this->view->renderJson(Array('result'=>"success"));
     }
-
     public function uploadTask(){
         $file=$_FILES["file"]["name"];
         if(isset ($file)) {
@@ -120,8 +119,23 @@ class Lesson extends Controller {
         $id=$req->getParam(0);
         $var =$this->model->getDeadLine($id);
         $time = date("d-m-Y H:i");
-        $this->view->renderJson(Array('result'=>$var, 'time'=>$time));
+        $var['deadLine']=Array('result'=>$dead, 'time'=>$time);
+        $var['lessonInfo'] = $this->model->getInfo($lessonId);
+        $this->view->renderJson($var);
     }
+
+    public function getAll(){
+        $req = Request::getInstance();
+        $lessonId= $req->getParam(0);
+        $var= array();
+        $var['tasks']=$this->model->loadTasks($lessonId);
+        $dead =$this->model->getDeadLine($lessonId);
+        $time = date("d-m-Y H:i");
+        $var['deadLine']=Array('result'=>$dead, 'time'=>$time);
+        $var['lessonInfo'] = $this->model->getInfo($lessonId);
+        $this->view->renderJson($var);
+    }
+    
 
     public function setDeadLine(){
         $req=Request::getInstance();
