@@ -152,6 +152,22 @@
 
     <?php if ($data['status'] == 'teacher'): ?>
         <div class="homeWorkList " data-bind="foreach: homeWork">
+
+        <div class="col-lg-3 task">
+            <img height="50" width="50" class="ownerPic" data-bind="attr:{src:userPicture}">
+            <span data-bind="text:name"></span>'
+
+
+
+
+            <button><img width="20"height="20" src="<?php echo URL ?>public/img/dearchive.png"></button>
+
+
+        </div>
+
+
+
+<!--
                <div class="list-group-item clearfix">
                 <div class="col-lg-5">
                     <span data-bind="text:name"></span>
@@ -166,11 +182,12 @@
                 <div class="col-lg-2">
                     <button data-bind="click: $parent.showInput">Оценить</button>
                 </div>
-                <!-- ko if: $root.rateStudent-->
+                <!-- ko if: $data.rateStudent-->
+            <!--
                 <input type="text" class="col-lg-12"
                        data-bind="value:grade, valueUpdate:'keypress', event: { keypress: $parent.setRate },hasFocus:true" placeholder="Введите оценку и нажмите enter">
                 <!--/ko-->
-            </div>
+         <!--   </div> -->
 
 
         </div>

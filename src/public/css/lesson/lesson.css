@@ -159,4 +159,13 @@ body{
     margin-top: 10px;
     word-break: break-all;
 }
+.task{
+    height: 200px;
+    border: 1px solid black;
+    margin-left: 60px;
+}
+.ownerPic{
+    border-radius: 50%;
+    margin-top: 20px;
+}
 

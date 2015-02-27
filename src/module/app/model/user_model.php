@@ -272,7 +272,9 @@ SELECT
             `result`.`apprais_time` as time,
             `result`.`id` as id,
              `user`.`name` as name,
-             `user`.`surname` as surname
+             `user`.`surname` as surname,
+             `user`.`fb_id` as fb_id,
+             `user`.`gm_id` as gm_id
 from `user`, `result`
         WHERE `result`.`owner`=`user`.`id` AND `result`.`lesson_id` = $lessonId
 

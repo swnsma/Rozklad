@@ -451,16 +451,24 @@ function ViewModel() {
                     }
                 }
             }
-            if(that.userInfo()[1]=='teacher') {
+            if(that.userInfo()[1]=='teacher') {console.log(response)
                 for (var i = 0; i < response.length; i++) {
                     homework = {};
+                    if(response[i].fb_id){
+                        homework.userPicture='http://graph.facebook.com/' + response[i].fb_id + '/picture?type(square)'
+                    }
+                    else{
+                        homework.userPicture="https://lh5.googleusercontent.com/-qWNMqcca81Y/AAAAAAAAAAI/AAAAAAAAAAA/g6oiN_9k82A/s120-c/photo.jpg"
+                    }
+
+
                     homework.link = url + 'public/users_files/homework/' + response[i].link;
                     homework.name = response[i].name + ' ' + response[i].surname;
-                    debugger;
                     homework.grade = ko.observable(response[i].grade);
                     homework.teacher=response[i].teacher;
                     homework.id=response[i].id;
                     that.homeWork.push(homework);
+                    console.log(homework)
                 }
             }
             that.loadScr('out');
