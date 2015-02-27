@@ -83,7 +83,7 @@ HERE;
                 return $this->mail->getTemplate('invitationToLesson', array(
                     'lessonTitle' => $data['title'],
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
-                    'url' => 'http://test-rozklad.z-tech.com.ua/app/lesson/id' . $data['l_id'],
+                    'url' => $_SERVER['SERVER_NAME'] . '/app/lesson/id' . $data['l_id'],
                     'mail_background' => 'mail_background',
                     'mail_sep' => 'mail_sep',
                     'date' => $data['s']
