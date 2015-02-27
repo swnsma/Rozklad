@@ -54,7 +54,7 @@
 .comment-remove,.comment-reply{
     cursor:pointer;
 }
-.comment-footer{
+.comment-footer span{
     bottom:0;
     font-weight: 600;
 }
@@ -63,6 +63,7 @@
     font-size: 15px;
     font-weight: 400;
     line-height: 16px;
+    margin: 3px 0 3px 0;
 }
 .comment-form{
     width:100%;
