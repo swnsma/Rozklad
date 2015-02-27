@@ -6,12 +6,115 @@ function Calendar_teacher(jquery_full_calendar,data){
     Calendar.call(this);
     var self = this;
 
+    this.option.editable=true;
+    this.option.dragOpacity=0.8;
+    this.option.eventDragStart=function(){
+        delPopup();
+    };
+
+
+    this.option.eventClick=function(calEvent, jsEvent, view) {
+        if(delPopup()){
+            return;
+        }
+        lastEvent=$(this);
+        /*if(calEvent.deleted){
+            if(jsEvent.target.className==="deletedEvent") {
+                var data={
+                    id:calEvent.id
+                };
+                function success(date){
+                    if (date[0].teacher === self.currentUser.id) {
+                        date[0].color = masColor.myEvents.color;
+                        date[0].textColor = masColor.myEvents.textColor;
+                    } else {
+                        date[0].color = masColor.otherEvents.color;
+                        date[0].textColor= masColor.otherEvents.textColor;
+                        date[0].textColor= masColor.otherEvents.textColor;
+                    }
+                    calEvent.deleted = false;
+                    jquery_full_calendar.calendar.fullCalendar('removeEvents', calEvent.id);
+                    jquery_full_calendar.calendar.fullCalendar('renderEvent', date[0]);
+                }
+                ajax.restoreEvent(data,success);
+                universalAPI(
+                    url + 'app/calendar/restore',
+                    'post',
+                    success,
+                    function(){
+                        alert('Відновилось');
+                    },
+                    data
+                )
+            }
+            return;
+        }*/
+        var teacher =  new AddTeacherToList(jquery_full_calendar.popupEdit.selectTeacher,{
+            id:calEvent.teacher
+        },calEvent);
+        lastEventColor = $(this).css('backgroundColor');
+        originalEvent=calEvent;
+
+        $(this).css({  'backgroundColor':'#07375E' });
+
+        var hourStart = calEvent.start._d.getHours();
+        hourStart=toFormat(hourStart);
+        var minutesStart = calEvent.start._d.getMinutes();
+        minutesStart=toFormat(minutesStart);
+
+
+        var hourEnd =calEvent.end._d.getHours();
+        hourEnd=toFormat(hourEnd);
+
+
+        var minutesEnd = calEvent.end._d.getMinutes();
+        minutesEnd=toFormat(minutesEnd);
+
+        var popupEdit =  jquery_full_calendar.popupEdit;
+        popupEdit.listGroup.empty();
+        popupEdit.tcalInput.val(calEvent.start._d.getDate()+'-'+ (calEvent.start._d.getMonth()+1)+'-'+calEvent.start._d.getFullYear());
+        popupEdit.day.day.val(toFormat(calEvent.start._d.getDate()));
+        popupEdit.day.month.val(toFormat(calEvent.start._d.getMonth()+1));
+        popupEdit.day.year.val(calEvent.start._d.getFullYear());
+        popupEdit.popupEdit.show();
+        popupEdit.titleEvent.val(calEvent.title);
+        popupEdit.start.hour.val(hourStart);
+        popupEdit.start.minutes.val(minutesStart);
+        popupEdit.end.hour.val(hourEnd);
+        popupEdit.end.minutes.val(minutesEnd);
+        popupEdit.goToLesson.on('click',function(){
+            window.location=url+'app/lesson/id'+calEvent.id;
+        });
+
+
+
+        //idUpdate=calEvent.id;
+
+        //orig2=calEvent;
+        posPopup(jsEvent);
+        var mas=[];
+        debugger;
+        for(var i =0;i<originalEvent.groups.length;++i){
+            mas.push(originalEvent.groups[i]);
+        }
+
+        selectGroups = new SetSelect({
+            element:jquery_full_calendar.popupEdit.listGroup,
+            masGroups:my_date.groups,
+            selectElement: mas
+        });
+
+
+    };
+
     //масив всіх даних
     var my_date = {
         user:data.user,
         groups:data.group,
         teacher:data.teacher
     };
+
+    var originalEvent='';
     var lastteacer='';
     var titleEvent = 'Новое событие ';
     var firstLoud=false;
@@ -63,9 +166,11 @@ function Calendar_teacher(jquery_full_calendar,data){
                             var data = doc.data;
                             function render(events,data){
                                 if(events.length!==0&&events[events.length-1].id===data.id) {
+                                    debugger;
                                     events[events.length-1].groups.push({
                                         name:data.group_name,
-                                        color:data.group_color
+                                        color:data.group_color,
+                                        id:data.group_id
                                     });
                                 }
                                 else{
@@ -74,7 +179,8 @@ function Calendar_teacher(jquery_full_calendar,data){
                                     if (groups) {
                                         data.groups.push({
                                             name:data.group_name,
-                                            color:data.group_color
+                                            color:data.group_color,
+                                            id:data.group_id
                                         });
                                     }
                                     events.push(data);
@@ -167,7 +273,6 @@ function Calendar_teacher(jquery_full_calendar,data){
         var yminus = y-allDay.clientY;
         var height=document.documentElement.clientHeight;
         var width=document.documentElement.clientWidth;
-        debugger;
         var widthPopup=jquery_full_calendar.popup.popup.css('width').slice(0,jquery_full_calendar.popup.popup.css('width').length-2);
         var heightPopup=jquery_full_calendar.popup.popup.css('height').slice(0,jquery_full_calendar.popup.popup.css('height').length-2);
 
@@ -200,7 +305,7 @@ function Calendar_teacher(jquery_full_calendar,data){
 
             return;
         }
-       var teacherSelect = new AddTeacherToList( jquery_full_calendar.popup.selectTeacher,my_date.user,my_date.user);
+       var teacherSelect = new AddTeacherToList(jquery_full_calendar.popup.selectTeacher,my_date.user,my_date.user);
 
         jquery_full_calendar.popup.tcalInput.val(date._d.getDate()+'-'+ (date._d.getMonth()+1)+'-'+date._d.getFullYear());
         jquery_full_calendar.popup.day.day.val(toFormat(date._d.getDate()));
@@ -212,6 +317,8 @@ function Calendar_teacher(jquery_full_calendar,data){
         jquery_full_calendar.popup.start.minutes.val('00');
         jquery_full_calendar.popup.end.hour.val('16');
         jquery_full_calendar.popup.end.minutes.val('00');
+
+
 
 
         selectGroups = new SetSelect({
@@ -552,6 +659,7 @@ function Calendar_teacher(jquery_full_calendar,data){
     }
 
     this.addLesson=function(){
+
         var newDate = new Date();
         var jqueryObjectPopup  = jquery_full_calendar.popup;
         jqueryObjectPopup.button.submit.on('click',function(){
@@ -565,6 +673,11 @@ function Calendar_teacher(jquery_full_calendar,data){
             var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
+            if(jqueryObjectPopup.typePopup.val().length>1000){
+                alert('Cлишком много текста:(');
+                jqueryObjectPopup.typePopup.val("Новое событие");
+                return false;
+            }
             if(! /\S/.test( title )){
                 title="Новое событие";
             }
@@ -673,7 +786,202 @@ function Calendar_teacher(jquery_full_calendar,data){
         });
     };
 
+    function editGroups(originalGroup,addGrops){
 
+        var myAddGroups=[];
+        var myDelGroups=[];
+
+        var r={
+
+        }
+        if(!originalGroup) {
+            originalGroup=[];
+        }
+
+        if(originalGroup.length!==0&&addGrops.length!==0){
+            for(var i=0;i<addGrops.length;++i){
+                for(var j=0;j<originalGroup.length;++j){
+                    if(addGrops[i].id===originalGroup[j].id){
+                        break;
+                    }
+                    if(j===originalGroup.length-1){
+                        if(addGrops[i].id!=='0') {
+                            myAddGroups.push(addGrops[i].id);
+                        }
+                    }
+                }
+            }
+            for(var i=0;i<originalGroup.length;++i){
+                for(var j=0;j<addGrops.length;++j){
+                    if(addGrops[j].id===originalGroup[i].id){
+                        break;
+                    }
+                    if(j===addGrops.length-1){
+                        myDelGroups.push(originalGroup[i].id);
+                    }
+                }
+            }
+        }
+
+        if(originalGroup.length===0){
+            for(var i=0;i<addGrops.length;++i){
+                if(addGrops[i].id!=='0') {
+                    myAddGroups.push(addGrops[i].id);
+                }
+            }
+        }
+        if(addGrops.length===0){
+            for(var i=0;i<originalGroup.length;++i){
+                myDelGroups.push(originalGroup[i].id);
+            }
+        }
+
+
+        if(myAddGroups.length===0&&myDelGroups.length===0){
+            return;
+        }
+        if(myAddGroups.length!==0){
+            var myget=[];
+            for(var i=0;i<myAddGroups.length;++i){
+                myget.push(myAddGroups[i]);
+            }
+            r.add=myget;
+
+        }
+        if(myDelGroups.length!==0){
+            var myget=[];
+            for(var i=0;i<myDelGroups.length;++i){
+                myget.push(myDelGroups[i]);
+            }
+            r.del=myget;
+        }
+        return r;
+    }
+
+
+    this.editLesson= function(){
+        var newDate = new Date();
+        var jqueryObjectPopup  = jquery_full_calendar.popupEdit;
+        jqueryObjectPopup.button.submit.on('click',function(){
+            var idUpdate = originalEvent.id;
+            //константи
+            var title= (jqueryObjectPopup.titleEvent.val()||'Новое событие');
+            var year=(jqueryObjectPopup.day.year.val()||newDate.getFullYear());
+            var month=(jqueryObjectPopup.day.month.val()||newDate.getMonth()+1);
+            var day=(jqueryObjectPopup.day.day.val()||newDate.getDate());
+            var hourBegin=(jqueryObjectPopup.start.hour.val()||'14');
+            var minutesBegin=(jqueryObjectPopup.start.minutes.val()||'00');
+            var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
+            var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
+
+            if(! /\S/.test( title )){
+                title="Новое событие";
+            };
+            if(+hourEnd<=+hourBegin){
+                hourEnd=hourBegin;
+                if(+minutesEnd<=+minutesBegin){
+                    minutesEnd=+minutesBegin+1;
+                    if(+minutesEnd>=60){
+                        minutesEnd=0;
+                        hourEnd=+hourEnd+1;
+                        if(+hourEnd>23){
+                            hourBegin=22;
+                            hourEnd=23;
+                        }
+                    }
+                }
+            }
+
+            function lentghtCom(string){
+                if(string.length!=2){
+                    return '0'+string;
+                }else{
+                    return string;
+                }
+            }
+
+            hourBegin=lentghtCom(hourBegin);
+            minutesBegin=lentghtCom(minutesBegin);
+            hourEnd=lentghtCom(hourEnd);
+            minutesEnd=lentghtCom(minutesEnd);
+            var startFun = function(){
+                if(month.length!=2){
+                    month='0'+month;
+                }
+                if(day.length!=2){
+                    day='0'+day;
+                }
+                return year+'-'+month+'-'+day+' '+hourBegin+':'+minutesBegin+':00';
+            };
+            var endFun = function(){
+                if(month.length!=2){
+                    month='0'+month;
+                }
+                if(day.length!=2){
+                    day='0'+day;
+                }
+                return year+'-'+month+'-'+day+' '+hourEnd+':'+minutesEnd+':00';
+            };
+            var urls=0;
+
+            var teacher  = jquery_full_calendar.popupEdit.selectTeacher.val();
+            urls=url + 'app/calendar/updateEvent/';
+
+            var nameteacher = '';
+            var surnameTeacher = '';
+            for(var i=0;i<my_date.teacher.length;++i){
+                if(teacher===my_date.teacher[i].id){
+                    nameteacher=my_date.teacher[i].name;
+                    surnameTeacher=my_date.teacher[i].surname;
+                }
+            }
+            var color =masColor.myEvents.color;
+            var textColor = masColor.myEvents.textColor
+            if(teacher!=my_date.user.id){
+                color=masColor.otherEvents.color;
+                textColor = masColor.otherEvents.textColor
+            }
+            var originalEventGroup = originalEvent.groups;
+            if(lastteacer===''){
+                lastteacer=originalEvent.teacher;
+            }
+            var group =editGroups(originalEventGroup,toNormFormGroup());
+            var data = {
+                title:title,
+                start:startFun(),
+                end:endFun(),
+                id:+idUpdate,
+                teacher:lastteacer,
+                group:group
+            }
+            function success(id){
+                originalEvent.id=idUpdate;
+                originalEvent.title=title;
+                originalEvent.start=startFun();
+                originalEvent.end=endFun();
+                originalEvent.teacher=lastteacer;
+                originalEvent.surname=surnameTeacher;
+                originalEvent.name=nameteacher;
+                originalEvent.color=color;
+                originalEvent.groups=toNormFormGroup();
+                originalEvent.textColor = textColor;
+                jquery_full_calendar.calendar.fullCalendar('updateEvent', originalEvent);
+
+            }
+
+            universalAPI(
+                url + 'app/calendars/updateEvent/',
+                'post',
+                success,
+                function(){
+                    alert('Подія не була відредагована');
+                },
+                data
+            )
+            delPopup();
+            return false;
+        });
+    };
     //ініціалізація календаря
     jquery_full_calendar.calendar.fullCalendar(this.option);
 
@@ -744,7 +1052,9 @@ $(document).ready(function() {
         if(success.status==='ok'){
             var calendar = new Calendar_teacher(option,success);
             calendar.focusDeleted();
-            //calendar.editLesson();
+
+            calendar.editLesson();
+
             calendar.click_body();
             calendar.syncTcalInput();
             calendar.timeIvent();

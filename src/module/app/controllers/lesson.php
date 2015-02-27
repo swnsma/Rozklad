@@ -44,15 +44,6 @@ class Lesson extends Controller {
         }
 
     }
-    public function getLessonInfo(){
-        $req = Request::getInstance();
-        $lessonId= $req->getParam(0);
-        $var = $this->model->getInfo($lessonId);
-        if(isset($var)){
-
-            $this->view->renderJson($var);
-        }
-    }
     public function changeLessonInfo(){
         $req = Request::getInstance();
         $lessonId= $req->getParam(0);
@@ -78,12 +69,16 @@ class Lesson extends Controller {
         unlink ($pathAndName);
         $this->view->renderJson(Array('result'=>"success"));
     }
-    public function getDeadLine(){
-        $req= Request::getInstance();
-        $id=$req->getParam(0);
-        $var =$this->model->getDeadLine($id);
+    public function getAll(){
+        $req = Request::getInstance();
+        $lessonId= $req->getParam(0);
+        $var= array();
+        $var['tasks']=$this->model->loadTasks($lessonId);
+        $dead =$this->model->getDeadLine($lessonId);
         $time = date("d-m-Y H:i");
-        $this->view->renderJson(Array('result'=>$var, 'time'=>$time));
+        $var['deadLine']=Array('result'=>$dead, 'time'=>$time);
+        $var['lessonInfo'] = $this->model->getInfo($lessonId);
+        $this->view->renderJson($var);
     }
     public function setDeadLine(){
         $req=Request::getInstance();
@@ -108,15 +103,7 @@ class Lesson extends Controller {
         $this->view->renderJson(Array('newName'=>$name));
         }
     }
-    public function getTasks(){
-        $req = Request::getInstance();
-        $lessonId= $req->getParam(0);
-        $var=$this->model->loadTasks($lessonId);
-        if(isset($var)){
-            $this->view->renderJson($var);
-        }
 
-    }
     function setLastVisit(){
         $date = strtotime($_POST['date']);
         $user_id = Session::get('id');
