@@ -1,10 +1,6 @@
 <?php
-
-class SenderMail extends Controller {
-    public function __construct() {
-        parent::__construct();
-    }
-
+require_once DOC_ROOT."core/Mail.php";
+class SenderMail extends Controller{
     function index() {
         $model = $this->loadModel('index');
         $data = 'hi';
