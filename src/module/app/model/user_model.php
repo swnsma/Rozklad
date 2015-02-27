@@ -316,10 +316,12 @@ GETDEAD;
 
     function grade($teacherId, $lessonId, $grade)
     {
+        $time = date("d-m-Y H:i");
         $r = <<<SETGRADE
          UPDATE `result`
             SET `appraiser`='$teacherId',
-            `grade`='$grade'
+            `grade`='$grade',
+            appraise_time = $time
             WHERE `result`.`id`=$lessonId;
 SETGRADE;
         try {
