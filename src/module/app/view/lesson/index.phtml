@@ -219,9 +219,9 @@
                     <!-- ko if:$data.user_id()==$root.commentModel.currentUser().id -->
                        <span class="comment-remove" data-bind="click:function($data){
                                                 $parent.remove($data);
-                                        }">remove</span>
+                                        }">Удалить</span>
                     <!-- /ko -->
-                    <span class="comment-reply" data-bind="click:addNewItem">add</span>
+                    <span class="comment-reply" data-bind="click:addNewItem">Ответить</span>
                     <!-- ko if:$data.reply()-->
                     <div  class="comment-wrap" data-bind="template: { name: 'form', data:$data }"></div>
                     <!-- /ko -->
