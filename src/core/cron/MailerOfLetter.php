@@ -7,7 +7,7 @@ class MailerOfLetter {
     private $db, $mail;
 
     private function __construct() {
-        $this->db = DataBase::getInstance()->DB();
+        $this->db = DataBase::getInstance();
         $this->mail = Mail::getInstance();
     }
 
@@ -75,12 +75,12 @@ HERE;
             if ($request->execute()) {
                 $data = $request->fetchAll(PDO::FETCH_ASSOC);
                 $data = $data[0];
-                $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_background.png', 'mail_background');
-                $this->mail->addFileToHtml(DOC_ROOT . 'public/img/mail_sep.png', 'mail_sep');
+                $this->mail->addFileToHtml(get_include_path() . 'public/img/mail_background.png', 'mail_background');
+                $this->mail->addFileToHtml(get_include_path() . 'public/img/mail_sep.png', 'mail_sep');
                 return $this->mail->getTemplate('invitationToLesson', array(
                     'lessonTitle' => $data['title'],
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
-                    'url' => URL . 'app/lesson/id' . $data['l_id'],
+                    'url' => 'http://test-rozklad.z-tech.com.ua/app/lesson/id' . $data['l_id'],
                     'mail_background' => 'mail_background',
                     'mail_sep' => 'mail_sep'
                 ));
