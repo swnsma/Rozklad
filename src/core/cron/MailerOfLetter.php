@@ -7,7 +7,8 @@ class MailerOfLetter {
     private $db, $mail;
 
     private function __construct() {
-        $this->db = DataBase::getInstance();
+        $this->db = new PDO('sqlite:' . get_include_path() . 'SQL/data/rozklad.sqlite');
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->mail = Mail::getInstance();
     }
 
