@@ -93,7 +93,6 @@ function Calendar_teacher(jquery_full_calendar,data){
         //orig2=calEvent;
         posPopup(jsEvent);
         var mas=[];
-        debugger;
         for(var i =0;i<originalEvent.groups.length;++i){
             mas.push(originalEvent.groups[i]);
         }
@@ -121,6 +120,10 @@ function Calendar_teacher(jquery_full_calendar,data){
     var selectGroups;
 
     var lasSelecrDay, lastEvent,lastEventColor;
+
+
+    this.option.editable=true;
+    this.option.dragOpacity=0.8;
 
     function AddTeacherToList(jquery_element,selected_obj,event){
         jquery_element.empty();
@@ -166,7 +169,6 @@ function Calendar_teacher(jquery_full_calendar,data){
                             var data = doc.data;
                             function render(events,data){
                                 if(events.length!==0&&events[events.length-1].id===data.id) {
-                                    debugger;
                                     events[events.length-1].groups.push({
                                         name:data.group_name,
                                         color:data.group_color,
@@ -569,7 +571,6 @@ function Calendar_teacher(jquery_full_calendar,data){
         });
     };
 
-
     function getCaretPos(input) {
         if (input.createTextRange) {
             var range = document.selection.createRange.duplicate();
@@ -579,6 +580,7 @@ function Calendar_teacher(jquery_full_calendar,data){
             return input.selectionStart;
         }
     }
+
     function elementFocus(startElement,element,keyCode){
         startElement.on('keydown',function(e){
             if(e.keyCode===keyCode) {
@@ -954,6 +956,7 @@ function Calendar_teacher(jquery_full_calendar,data){
                 teacher:lastteacer,
                 group:group
             }
+            console.log(group);
             function success(id){
                 originalEvent.id=idUpdate;
                 originalEvent.title=title;
@@ -982,6 +985,8 @@ function Calendar_teacher(jquery_full_calendar,data){
             return false;
         });
     };
+
+
     //ініціалізація календаря
     jquery_full_calendar.calendar.fullCalendar(this.option);
 

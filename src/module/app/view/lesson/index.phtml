@@ -234,13 +234,11 @@
     </script>
     <script id="form" type="text/html">
         <div class="comment-form">
-            <div class="comment-form">
-                <div class="comment-textarea-container">
-                    <textarea data-bind="value:textForComment,handleTextareaAutogrow:$data.reply()"></textarea>
-                </div>
-                <div class="comment-answer-container">
-                    <div class="comment-answer-button" data-bind="click:sendNewComment">Опубликовать</div>
-                </div>
+            <div class="comment-textarea-container">
+                <textarea data-bind="value:textForComment,handleTextareaAutogrow:$data.reply()"></textarea>
+            </div>
+            <div class="comment-answer-container">
+                <div class="custom-button comment-answer-button" data-bind="click:sendNewComment">Опубликовать</div>
             </div>
         </div>
     </script>
