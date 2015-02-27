@@ -7,7 +7,8 @@ class MailerOfLetter {
     private $db, $mail;
 
     private function __construct() {
-        $this->db = DataBase::getInstance();
+        $this->db = new PDO('sqlite:' . get_include_path() . 'SQL/data/rozklad.sqlite');
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->mail = Mail::getInstance();
     }
 
@@ -63,6 +64,7 @@ HERE;
             SELECT
                 `lesson`.`id` as l_id,
                 `lesson`.`title` as title,
+                `lesson`.`start` as s,
                 `user`.`name` as t_name,
                 `user`.`surname` as t_surname
             FROM `lesson`, `user`
@@ -83,7 +85,8 @@ HERE;
                     'userNameTeacher' => $data['t_name'] . ' ' . $data['t_surname'],
                     'url' => 'http://test-rozklad.z-tech.com.ua/app/lesson/id' . $data['l_id'],
                     'mail_background' => 'mail_background',
-                    'mail_sep' => 'mail_sep'
+                    'mail_sep' => 'mail_sep',
+                    'date' => $data['s']
                 ));
             }
         } catch(PDOException $e) {}

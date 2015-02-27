@@ -127,7 +127,6 @@ var mod=(function(mod){
         self.photo=ko.observable("");
 
         if(comment.fb_id) {
-            //this.fb_account = 'https://www.facebook.com/' + obj.fb_id;
             self.photo('http://graph.facebook.com/' + comment.fb_id + '/picture?type(square)');
         }
         else{
