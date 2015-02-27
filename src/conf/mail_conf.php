@@ -9,4 +9,6 @@ define('MAIL_SET_FROM', 'myrozklad@yandex.ru');
 define('MAIL_SET_FROM_NAME', 'My Rozklad');
 define('MAIL_IS_SMTP_AUTH', true);
 
+define('SERVER_NAME', 'http://test-rozklad.z-tech.com.ua/');
+
 ?>

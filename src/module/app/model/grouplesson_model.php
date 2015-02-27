@@ -31,6 +31,14 @@ class GrouplessonModel extends Model {
         }
         return "ok";
     }
+
+    public function  deleteGroupsFromLesson($lessonId, $groupId){
+        $STH = $this->db->prepare("delete from group_lesson where group_id=:group_id AND lesson_id=:lesson_id");
+        for ($i = 0; $i < count($groupId); ++$i) {
+            $STH->execute(array('group_id'=>$groupId[$i], 'lesson_id'=>$lessonId));
+        }
+        return "ok";
+    }
 }
 
 
