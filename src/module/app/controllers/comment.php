@@ -15,7 +15,8 @@ class Comment extends Controller {
     }
 
     public function tree(){
-        $comments=$this->model->index();
+        $id=$_POST['id'];
+        $comments=$this->model->index($id);
         $this->view->renderJson($comments);
     }
 

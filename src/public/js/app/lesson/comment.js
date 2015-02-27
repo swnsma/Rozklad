@@ -1,75 +1,14 @@
 var mod=(function(mod){
 
     var humanFriendlyDate = new HumanFriendlyDate();
+    var lessonId = window.location.pathname;
+    var pos = lessonId.search(/id[0-9]+/);
+    lessonId = +lessonId.substr(pos + 2, lessonId.length - pos - 2);
 
-    function HumanFriendlyDate(){
-
-        var seconds = ["секунд","секунды","секунду"];
-        var minutes = ["минут","минуты","минуту"];
-        var hours = ["часов","часа","час"];
-        var days = ["дней","дня","день"];
-        var weeks = ["недель","недели","неделю"];
-        var month = ["месяцев","месяца","месяц"];
-        var years = ["год","года","год"];
-        var massOfDate = [seconds,minutes,hours,days,weeks,month,years];
-
-        this.getDateRus = function(date){
-            var delta = getDateNow()-date;
-            if(delta<60&&delta>0){
-                return getRightFormat(delta,0);
-            }
-            else if(delta>=60&&delta<3600){
-                return getRightFormat(Math.floor(delta/60),1);
-            }
-            else if(delta>=3600&&delta<86400){
-                return getRightFormat(Math.floor(delta/3600),2);
-            }
-            else if(delta>=86400&&delta<604800){
-                return getRightFormat(Math.floor(delta/86400),3);
-            }
-            else if(delta>=604800&&delta<2419200){
-                return getRightFormat(Math.floor(delta/604800),4);
-            }
-            else if(delta>=2419200&&delta<29030400){
-                return getRightFormat(Math.floor(delta/2419200),5);
-            }
-            else if(delta>=29030400){
-                return getRightFormat(Math.floor(delta/29030400),6);
-            }
-        };
-
-        function getRightFormat(dat,coef){
-            var date = dat.toString();
-            var ln= date.length;
-            var firstDigit = parseInt(date[ln-1]);
-            var secondDigit = parseInt(date[ln-2]);
-
-            switch (firstDigit){
-                case 1:
-                    if(secondDigit===1){
-                        return date+" "+massOfDate[coef][0]+" "+"назад";
-                    }
-                    return date+" "+massOfDate[coef][2]+" "+"назад";
-
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    if(secondDigit===1){
-                        return date+" "+massOfDate[coef][0]+" "+"назад";
-                    }
-                    return date+" "+massOfDate[coef][1]+" "+"назад";
-                    break;
-                default:
-                    return date+" "+massOfDate[coef][0]+" "+"назад";
-                    break;
-            }
-
-        }
-    }
     function getDateNow(){
         return Date.now() / 1000 | 0;
     }
+
     var viewModel = {
         currentUser:ko.observable(),
         treeRoot:getTreeObject(),
@@ -79,6 +18,7 @@ var mod=(function(mod){
             sendNewComment();
         }
     };
+
     mod.viewModel = viewModel;
 
     function TreeObject(){
@@ -159,22 +99,7 @@ var mod=(function(mod){
     }
 
 
-    mod.getCurrentUser=function(func){
-        mod.ajax(
-            url+"app/comment/getCurrentUser",
-            function(response){
-                viewModel.currentUser(response);
-                func();
-            },
-            {
-                contentType: 'application/json',
-                dataType: 'json',
-                error:function(e){
-                    console.log(e);
-                }
-            }
-        );
-    };
+
 
     var sendNewComment=function(){
         addCommentFirstLevel(viewModel,function(comment){
@@ -190,23 +115,39 @@ var mod=(function(mod){
                 self.children.push(new TreeElement(response,response.CHILDREN));
                 self.reply(false);
                 self.textForComment('');
-                setTimeout(function(){
-                    showData(date);
-                },2000);
+                //setTimeout(function(){
+                //    showData(date);
+                //},2000);
             }
         );
     };
-    mod.init=function(){
-      mod.getCurrentUser(mod.getTree);
-    };
+
     mod.getTree=function(){
         mod.ajax(
             url+"app/comment/tree",
             function(response){
-                debugger;
                 viewModel.treeRoot.init(mod.addNewTree(response));
-
                 $("textarea").autogrow();
+            },
+            {
+                //contentType: 'application/json',
+                //dataType: 'json',
+                type:"POST",
+                data:{
+                    id:lessonId
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            }
+        );
+    };
+    mod.getCurrentUser=function(){
+        mod.ajax(
+            url+"app/comment/getCurrentUser",
+            function(response){
+                viewModel.currentUser(response);
+                mod.getTree();
             },
             {
                 contentType: 'application/json',
@@ -218,6 +159,9 @@ var mod=(function(mod){
         );
     };
 
+    mod.init=function(){
+        mod.getCurrentUser();
+    };
     mod.addNewTree=function(comment){
         var array=[];
         if(comment&&comment.length){
@@ -246,7 +190,7 @@ var mod=(function(mod){
                 data:{
                     data:{
                         pid:self.id(),
-                        lesson_id:1,
+                        lesson_id:lessonId,
                         date:parseInt(getDateNow()),
                         text:self.textForComment()
                     }
@@ -264,7 +208,7 @@ var mod=(function(mod){
                 data:{
                     data:{
                         pid:0,
-                        lesson_id:1,
+                        lesson_id:lessonId,
                         date:parseInt(getDateNow()),
                         text:self.textForComment()
                     }

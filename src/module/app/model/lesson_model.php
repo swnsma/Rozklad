@@ -583,7 +583,6 @@ SQL;
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
-//            print_r($result);
             return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
@@ -605,8 +604,9 @@ SQL;
 
     public function getAllCommentsForLesson($lesson_id,$since){
         try{
-            $db=$this->db->prepare("SELECT date FROM comment WHERE date >= :since AND lesson_id = :lesson_id");
-            $db->execute(array('since'=>$since, 'lesson_id'=>$lesson_id));
+            $id = Session::get("id");
+            $db=$this->db->prepare("SELECT date,status FROM comment WHERE  date >= :since AND lesson_id = :lesson_id AND status = 1 AND user_id != :id ");
+            $db->execute(array('since'=>intval($since), 'lesson_id'=>$lesson_id, 'id'=>$id));
             return $db->fetchAll();
         }catch(PDOException $e) {
             echo $e->getMessage();
