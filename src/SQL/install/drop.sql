@@ -9,3 +9,4 @@ DROP TABLE IF EXISTS "delete_user";
 DROP TABLE IF EXISTS "unconfirmed_user";
 DROP TABLE IF EXISTS "exported_events";
 DROP TABLE IF EXISTS "last_time_visit";
+DROP TABLE IF EXISTS "comment";

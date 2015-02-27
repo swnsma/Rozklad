@@ -504,11 +504,20 @@ function toFormatL(number){
     }
     return number;
 }
+
 var viewModel = new ViewModel();
-viewModel.activate();
+var model = {
+    viewModel:viewModel,
+    commentModel:mod.viewModel
+};
 function update () {
     lastVisit(viewModel.id());
     setTimeout(update, 60000);
 }
-ko.applyBindings(viewModel);
-update();
+$(document).ready(function(){
+    viewModel.activate();
+    mod.getCurrentUser();
+    mod.init();
+    ko.applyBindings(model);
+    update();
+});
