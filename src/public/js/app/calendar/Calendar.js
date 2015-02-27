@@ -355,9 +355,11 @@ function Calendar(){
 
                 }
                 else{
-                    var $var = $('<span>');
-                    $var.addClass('deadline-events-skull');
-                    $var.appendTo($(element));
+                    if(r){
+                        var $var = $('<span>');
+                        $var.addClass('deadline-events-skull');
+                        $var.appendTo($(element));
+                    }
                 }
             }
             //if(!k){

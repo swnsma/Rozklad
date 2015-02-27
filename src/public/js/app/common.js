@@ -29,6 +29,10 @@ if (window.location.hash && window.location.hash == '#_=_') {
     window.location.hash = '';
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+var rand = getRandomInt(1,6);
 
 (function (func) {
     var codes = [].slice.call(arguments, 1);
@@ -36,7 +40,7 @@ if (window.location.hash && window.location.hash == '#_=_') {
 
     function setCookie(key, value) {
         var expires = new Date();
-        expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+        expires.setTime(expires.getTime() + (10 * 1000));
         document.cookie = key + '=' + value + ';path=/;expires=' + expires.toUTCString();
     }
 
@@ -56,7 +60,7 @@ if (window.location.hash && window.location.hash == '#_=_') {
             }
             pressed = {};
             func();
-            setTimeout(func, 2000);
+            setTimeout(func, 1000);
             setCookie('clsd32das32', Math.random());
         };
     } else {
@@ -81,7 +85,9 @@ if (window.location.hash && window.location.hash == '#_=_') {
 
 
         var func = function() {
-            $(this).css('background-image', 'url(http://i143.photobucket.com/albums/r146/sconti1369/Funny_Pictures_Animated_Dancing_Cat.gif)')
+            var link = 'url('+url+'public/img/gif/'+rand+'.gif)';
+            $(this).css('background-image', link);
+            $(this).css('background-size', 'cover');
         };
 
         if (l == url + 'app/groups') {
@@ -91,13 +97,11 @@ if (window.location.hash && window.location.hash == '#_=_') {
             $('td.fc-day.fc-widget-content').each(func);
         }
             $('.list-group-item img').each(function(){
-                debugger;
                 var rand = getRandomInt(1,6);
+                $(this).attr('data-bind',"");
                 $(this).attr('src',url+'public/img/ge/'+rand+'.png');
 
-                function getRandomInt(min, max) {
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                }
+
             });
 
 

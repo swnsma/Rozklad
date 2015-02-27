@@ -987,10 +987,20 @@ be a descendant of the grid when it is being dragged.
 	content: "=";
 }
 
-td.fc-day.fc-widget-content {
+
+/*td.fc-day.fc-widget-content {*/
 	/*background-image: url(http://go4share.in/wp-content/uploads/2013/07/animated-jpg.gif);*/
-	background-size: cover;
-}
+	/*background: url("../../../img/sad.png");*/
+	/*background-size: cover;*/
+	/*background-size: contain;*/
+/*}*/
+/*td.fc-day.fc-widget-content.fc-past,*/
+/*td.fc-day.fc-widget-content.fc-other-month.fc-past,*/
+/*td.fc-day.fc-widget-content.fc-other-month.fc-future{*/
+	/*background-size: cover;*/
+/*}*/
+
 div.fc-row.fc-week.fc-widget-content{
 	min-height: 110px;
 }
+
