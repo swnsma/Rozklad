@@ -64,7 +64,6 @@ HERE;
             SELECT
                 `lesson`.`id` as l_id,
                 `lesson`.`title` as title,
-                `lesson`.`date` as d,
                 `lesson`.`start` as s,
                 `user`.`name` as t_name,
                 `user`.`surname` as t_surname
@@ -87,7 +86,7 @@ HERE;
                     'url' => 'http://test-rozklad.z-tech.com.ua/app/lesson/id' . $data['l_id'],
                     'mail_background' => 'mail_background',
                     'mail_sep' => 'mail_sep',
-                    'date' => $data['d'] . ' ' . $data['s']
+                    'date' => $data['s']
                 ));
             }
         } catch(PDOException $e) {}
