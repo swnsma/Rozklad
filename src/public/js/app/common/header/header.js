@@ -143,9 +143,9 @@
                     updateLessons(response);
                     proccessLessons(lessons, $);
                     lastTimeUpdate = getDateNow();
-                    setTimeout(function(){
-                        realtimeUpdate($)
-                    },5000);
+                    //setTimeout(function(){
+                    //    realtimeUpdate($)
+                    //},5000);
                 }
             },
             function (error) {

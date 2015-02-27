@@ -79,12 +79,17 @@ select
  c.text,
  u.id as user_id,
  u.name,
- u.surname
+ u.surname,
+ u.fb_id,
+ u.gm_id
  from comment as c
  inner join user as u on c.user_id=u.id
   where c.id='$last' and status = 1
 Q;
             $arr=$this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+            if($arr[0]["gm_id"]){
+                $arr[0]["gm_photo"]=$this->getGooglePhotoByGId($arr[0]["gm_id"]);
+            }
             return $arr[0];
         }
         catch(PDOException $e) {
