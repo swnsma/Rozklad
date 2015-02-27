@@ -1,8 +1,15 @@
 /**
  * Created by Саша on 24.02.2015.
  */
-function showExportPopup(){
-    $("#exportPopup").show();
+var popupShown = false;
+function toggleExportPopup(){
+    if (popupShown){
+        $("#exportPopup").hide();
+        popupShown = !popupShown;
+    } else {
+        $("#exportPopup").show();
+        popupShown = !popupShown;
+    }
 }
 
 function loginGoogle(){
