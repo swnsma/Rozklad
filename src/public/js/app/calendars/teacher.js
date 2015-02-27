@@ -169,7 +169,8 @@ function Calendar_teacher(jquery_full_calendar,data){
                                     debugger;
                                     events[events.length-1].groups.push({
                                         name:data.group_name,
-                                        color:data.group_color
+                                        color:data.group_color,
+                                        id:data.group_id
                                     });
                                 }
                                 else{
@@ -178,7 +179,8 @@ function Calendar_teacher(jquery_full_calendar,data){
                                     if (groups) {
                                         data.groups.push({
                                             name:data.group_name,
-                                            color:data.group_color
+                                            color:data.group_color,
+                                            id:data.group_id
                                         });
                                     }
                                     events.push(data);
@@ -315,6 +317,8 @@ function Calendar_teacher(jquery_full_calendar,data){
         jquery_full_calendar.popup.start.minutes.val('00');
         jquery_full_calendar.popup.end.hour.val('16');
         jquery_full_calendar.popup.end.minutes.val('00');
+
+
 
 
         selectGroups = new SetSelect({
@@ -655,6 +659,7 @@ function Calendar_teacher(jquery_full_calendar,data){
     }
 
     this.addLesson=function(){
+
         var newDate = new Date();
         var jqueryObjectPopup  = jquery_full_calendar.popup;
         jqueryObjectPopup.button.submit.on('click',function(){
@@ -668,6 +673,11 @@ function Calendar_teacher(jquery_full_calendar,data){
             var hourEnd=(jqueryObjectPopup.end.hour.val()||'16');
             var minutesEnd=(jqueryObjectPopup.end.minutes.val()||'00');
 
+            if(jqueryObjectPopup.typePopup.val().length>1000){
+                alert('Cлишком много текста:(');
+                jqueryObjectPopup.typePopup.val("Новое событие");
+                return false;
+            }
             if(! /\S/.test( title )){
                 title="Новое событие";
             }
@@ -953,12 +963,21 @@ function Calendar_teacher(jquery_full_calendar,data){
                 originalEvent.surname=surnameTeacher;
                 originalEvent.name=nameteacher;
                 originalEvent.color=color;
-                originalEvent.group=toNormFormGroup();
+                originalEvent.groups=toNormFormGroup();
                 originalEvent.textColor = textColor;
-                self.jqueryObject.calendar.fullCalendar('updateEvent', originalEvent);
+                jquery_full_calendar.calendar.fullCalendar('updateEvent', originalEvent);
 
             }
-            ajax.updateEvent(data,success);
+
+            universalAPI(
+                url + 'app/calendars/updateEvent/',
+                'post',
+                success,
+                function(){
+                    alert('Подія не була відредагована');
+                },
+                data
+            )
             delPopup();
             return false;
         });
