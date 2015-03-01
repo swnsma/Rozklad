@@ -270,6 +270,7 @@ SELECT
             `result`.`link` as link,
             `result`.`appraiser` as teacher,
             `result`.`apprais_time` as time,
+            `result`.`recense` as recense,
             `result`.`id` as id,
              `user`.`name` as name,
              `user`.`surname` as surname,

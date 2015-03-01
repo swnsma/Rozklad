@@ -444,6 +444,12 @@ function ViewModel() {
                             that.haveGrade(true);
                             homework.teacher = response[i].teacher;
                             homework.time = response[i].time;
+                            if(response[i].recense){
+                                console.log(response[i].recense);
+                            homework.recense=response[i].recense;
+                            }else{
+                                homework.recense="Отсутствует.";
+                            }
                         }else{
                             homework.grade="решение еще не проверено."
                         }

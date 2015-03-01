@@ -132,6 +132,7 @@
                         <span><strong>Оценка: </strong><span data-bind="text:grade"></span></span><br/>
                     <!-- ko if: $parent.haveGrade-->
                         <span><strong>Проверил: </strong><span data-bind="text: teacher"></span> в <span data-bind="text: time"></span></span><br/>
+                        <span class="recen"><strong>Рецензия: </strong><span data-bind="text:recense"></span></span><br/>
                     <!--/ko-->
                         <a download="" data-bind="attr:{ href:link}">Загрузить присланное решение.</a><br>
                     <!-- ko ifnot: $parent.haveGrade-->
