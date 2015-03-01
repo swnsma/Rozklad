@@ -15,7 +15,9 @@ var mod=(function(mod){
         textForComment:ko.observable(),
         reply:ko.observable(true),
         sendNewComment:function(){
-            sendNewComment();
+            if(viewModel.textForComment()){
+                sendNewComment();
+            }
         }
     };
 
@@ -67,9 +69,12 @@ var mod=(function(mod){
         self.photo=ko.observable("");
 
         if(comment.fb_id) {
+            self.account = 'https://www.facebook.com/' + comment.fb_id;
             self.photo('http://graph.facebook.com/' + comment.fb_id + '/picture?type(square)');
         }
         else{
+            self.account = 'https://plus.google.com/u/0/'+comment.gm_id+'/posts';
+            self.account = 'https://plus.google.com/u/0/'+comment.gm_id+'/posts';
             self.photo(comment.gm_photo);
         }
 
@@ -90,7 +95,9 @@ var mod=(function(mod){
         };
 
         self.sendNewComment=function(){
-            sendNewCommentLevels(self);
+            if(self.textForComment()){
+                sendNewCommentLevels(self);
+            }
         }
     };
 
@@ -103,6 +110,7 @@ var mod=(function(mod){
 
     var sendNewComment=function(){
         addCommentFirstLevel(viewModel,function(comment){
+            debugger;
             viewModel.treeRoot.push(new TreeElement(comment,mod.addNewTree(comment.CHILDREN)));
             viewModel.textForComment('');
         });

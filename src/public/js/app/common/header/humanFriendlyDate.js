@@ -11,6 +11,9 @@ function HumanFriendlyDate(){
 
     this.getDateRus = function(date){
         var delta = getDateNow()-date;
+        if(delta ===0){
+            return "1 секунду назад";
+        }
         if(delta<60&&delta>0){
             return getRightFormat(delta,0);
         }

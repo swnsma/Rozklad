@@ -207,11 +207,11 @@
         <!-- ko if:$data.id -->
         <div class="comment-container">
             <div class="comment-container-img">
-                <img class="comment-img" data-bind="attr:{src:$data.photo}"/>
+                <a data-bind="attr:{href:$data.account}"><img class="comment-img" data-bind="attr:{src:$data.photo}"/></a>
             </div>
             <div class="comment-body">
                 <header>
-                    <span class="comment-name" data-bind="text: name"></span><span class="comment-date" data-bind="text: date"></span>
+                    <a data-bind ="attr:{href:$data.account}"><span class="comment-name" data-bind="text: name"></span></a><span class="comment-date" data-bind="text: date"></span>
                 </header>
                 <div class="comment-text" data-bind="text:text">
                 </div>
@@ -221,7 +221,10 @@
                                                 $parent.remove($data);
                                         }">Удалить</span>
                     <!-- /ko -->
+                    <!-- ko if:$data.pid()=== "0" -->
+                    <span class="bullet"></span>
                     <span class="comment-reply" data-bind="click:addNewItem">Ответить</span>
+                    <!-- /ko -->
                     <!-- ko if:$data.reply()-->
                     <div  class="comment-wrap" data-bind="template: { name: 'form', data:$data }"></div>
                     <!-- /ko -->
@@ -244,8 +247,8 @@
     <!--<div class="container-img">-->
     <!--    <img class="img" src="http://a.disquscdn.com/uploads/users/14338/9498/avatar92.jpg?1423742151"/>-->
     <!--</div>-->
-    <div  class="comment-wrap" data-bind="template: { name: 'form', data:$root.commentModel }"></div>
-    <div  class="comment-wrap" data-bind="template: { name: 'treeElement', foreach: $data.treeRoot }"></div>
+    <div  class="comment-wrap margin-not" data-bind="template: { name: 'form', data:$root.commentModel }"></div>
+    <div  class="comment-wrap margin-not" data-bind="template: { name: 'treeElement', foreach: $data.treeRoot }"></div>
 
     <!--/ko-->
 </section>
