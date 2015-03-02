@@ -1,41 +1,35 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Таня
- * Date: 25.01.2015
- * Time: 20:38
- */
-class LessonModel extends Model {
-    public function __construct() {
-        parent::__construct();
 
+class LessonModel extends Model
+{
+    public function __construct()
+    {
+        parent::__construct();
     }
-    //повертає DateTime
-    private function formatDate(){
+
+    private function formatDate()
+    {
         return "Y-m-d H:i:s";
     }
-    private function realDate(){
+
+    private function realDate()
+    {
         $var =date($this->formatDate());
         return new DateTime($var);
     }
 
-    //повертає з бази всі записи з проміжку часу [$start, $end]
-    private function getEventsInterval($start,$end,$fieldTime){
+    private function getEventsInterval($start,$end,$fieldTime)
+    {
         try {
-//            $request = <<<TANIA
-//select * from lesson
-//where (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
-//TANIA;
             $request = <<<TANIA
-select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
- u.name, u.surname from lesson as l
-INNER JOIN User as u ON
-l.teacher = u.id
-where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
+                select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
+                    u.name, u.surname from lesson as l
+                INNER JOIN User as u ON
+                l.teacher = u.id
+                where   (`$fieldTime` BETWEEN '$start' AND '$end') AND status='1'
 TANIA;
-//
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            for($i=0;$i<count($var);$i++){
+            for($i=0;$i<count($var);$i++) {
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
             return $var;
@@ -45,8 +39,8 @@ TANIA;
         }
     }
 
-    //додає ноаві події
-    public function addLesson($title, $start,$end,$id_teacher) {
+    public function addLesson($title, $start,$end,$id_teacher)
+    {
         try {
             $date = $this->realDate()->format($this->formatDate());
             $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
@@ -57,11 +51,11 @@ TANIA;
             return null;
         }
     }
-    public function updateLesson($title, $start,$end,$id,$teacherId) {
+
+    public function updateLesson($title, $start,$end,$id,$teacherId)
+    {
         try {
             $date = $this->realDate()->format($this->formatDate());
-
-//            UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
             $SHT=$this->db->prepare("UPDATE lesson SET title=:title, start=:start,end=:end,update_date=:update_date,teacher=:teacher WHERE id=:id");
             $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'update_date'=>$date, 'teacher'=>$teacherId, 'id'=>$id));
 
@@ -71,27 +65,20 @@ TANIA;
         }
     }
 
-    //повертає заняття для календаря на теперішній місяць
-    public function getAllEvent($start,$end){
+    public function getAllEvent($start,$end)
+    {
         return $this->getEventsInterval($start,$end,'start');
     }
 
-    //Реал Тайм Апдейт
-    public function getRealTimeUpdate($iteration,$userinfo){
+    public function getRealTimeUpdate($iteration,$userinfo)
+    {
         $end =$this->realDate();
         $start =$this->realDate();
         $myIteration = $iteration;
         $start=$start->modify("-$myIteration second");
         $start=$start->format($this->formatDate());
         $end=$end->format($this->formatDate());
-
-//        print $start;
-//        print $end;
-
-
         try {
-
-//            print_r($userinfo);
             $id = $userinfo['id'];
             if($userinfo['title']==='teacher') {
                 $res = "select l.id,
@@ -101,11 +88,11 @@ TANIA;
                l.teacher = u.id
             WHERE  (l.update_date BETWEEN '$start' AND '$end') ";
                 $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-                for($i=0;$i<count($var);++$i){
+                for($i=0;$i<count($var);++$i) {
                     $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
                     $var[$i]['newdz']=$this->getNewDZ($var[$i]["id"]);
                 }
-            }else{
+            } else {
                 $res = "select l.id,
             l.title, l.date,l.description, l.lesson_info, l.start, l.end,l.status,l.teacher,u.name,u.surname
             from 'student_group'as st_g
@@ -124,54 +111,44 @@ TANIA;
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
-//            print_r($result);
             return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
-
     }
 
-    public function delEvent($id){
+    public function delEvent($id)
+    {
         try {
             $date = $this->realDate()->format($this->formatDate());
             $SHT=$this->db->prepare("UPDATE lesson SET status='2',update_date=:update_date WHERE id=:id");
             $SHT->execute(array('update_date'=>$date, 'id'=>$id));
-//            $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
-//            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
-
-
         } catch(PDOException $e) {
             echo $e;
             return null;
         }
     }
-    public function restore($id){
+
+    public function restore($id)
+    {
         try {
             $date = $this->realDate()->format($this->formatDate());
             $STH = $this->db->prepare("UPDATE lesson SET status='1',update_date=:update_date WHERE id=:id");
             $STH->execute(array('update_date'=>$date,'id'=>$id));
-
-//  $SHT= $this->db->prepare("INSERT INTO lesson (title,start,end,date,update_date,status,teacher) VALUES (:title, :start, :end, :date , :update_date, 1, :teacher)");
-//            $SHT->execute(array('title'=>$title, 'start'=>$start, 'end'=>$end, 'date'=>$date , 'update_date'=>$date, 'teacher'=>$id_teacher));
-
             $request = <<<TANIA
-select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
- u.name, u.surname from lesson as l
-INNER JOIN User as u ON
-l.teacher = u.id
-where l.id=$id
+                select l.id, l.title, l.description, l.start, l.end, l.status, l.teacher,
+                u.name, u.surname from lesson as l
+                INNER JOIN User as u ON
+                l.teacher = u.id
+                where l.id=$id
 TANIA;
 
             $var =$this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-            for($i=0;$i<count($var);$i++){
+            for($i=0;$i<count($var);$i++) {
                 $var[$i]['group']=$this->getAllGroupsForThisLesson($var[$i]["id"]);
             }
-
-//            echo $var;
             return $var;
-
         } catch(PDOException $e) {
             echo $e;
             return null;
@@ -183,17 +160,16 @@ TANIA;
 
         try {
             $request = <<<BORIA
-  SELECT
-b.id,
-b.name,
-b.teacher_id,
-b.color
-FROM groups AS b
-JOIN group_lesson AS ba ON b.id = ba.group_id
-JOIN lesson AS a ON a.id = ba.lesson_id
-WHERE ba.lesson_id = $id AND  b.archived=0
+                SELECT
+                b.id,
+                b.name,
+                b.teacher_id,
+                b.color
+                FROM groups AS b
+                JOIN group_lesson AS ba ON b.id = ba.group_id
+                JOIN lesson AS a ON a.id = ba.lesson_id
+                WHERE ba.lesson_id = $id AND  b.archived=0
 BORIA;
-
             $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             return $var;
         } catch (PDOException $e) {
@@ -202,7 +178,8 @@ BORIA;
         }
     }
 
-    public function addGroupToLesson($lessonId,$groupId){
+    public function addGroupToLesson($lessonId,$groupId)
+    {
         try {
             $request = <<<BORIA
 
@@ -213,18 +190,16 @@ BORIA;
             $STH->execute(array('lesson_id'=>$lessonId,'group_id'=>$groupId));
 
             $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
-//            echo $var;
             return "ok";
-
         } catch(PDOException $e) {
             echo $e;
             return null;
         }
     }
-    public function deleteGroupFromLesson($lessonId,$groupId){
-        try {
 
-//            echo $var;
+    public function deleteGroupFromLesson($lessonId,$groupId)
+    {
+        try {
             $STH = $this->db->prepare("delete from group_lesson where group_id=:group_id AND lesson_id=:lesson_id");
             $STH->execute(array('lesson_id'=>$lessonId,'group_id'=>$groupId));
             return "ok";
@@ -234,10 +209,10 @@ BORIA;
             return null;
         }
     }
-    public function  getOurLessonForThisIdStudent($userinfo,$start,$end){
-        try {
 
-//            print_r($userinfo);
+    public function  getOurLessonForThisIdStudent($userinfo,$start,$end)
+    {
+        try {
             $id = $userinfo['id'];
             $res = "select l.id,
             l.title,l.deadline,l.lesson_info, l.date,l.description, l.start, l.end,l.status,l.teacher,u.name,u.surname
@@ -264,7 +239,6 @@ BORIA;
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
-//            print_r($result);
             return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
@@ -272,22 +246,21 @@ BORIA;
         }
     }
 
-    private function getNewDZ($idLesson){
+    private function getNewDZ($idLesson)
+    {
         try {
-
-
             $res = "select COUNT (*) as len FROM result
 WHERE result.lesson_id=$idLesson AND  result.grade=''";
             $var = $this->db->query($res)->fetchAll(PDO::FETCH_ASSOC);
-
-//            print_r($result);
             return $var;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
-    public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end){
+
+    public function  getOurLessonForThisIdTeacherCurrent($userinfo,$start,$end)
+    {
         try {
             $id = $userinfo['id'];
 
@@ -305,17 +278,16 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
 
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
-//            print_r($result);
             return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
-    public function  getOurLessonForThisIdTeacherNoCurrent($userinfo,$start,$end){
-        try {
 
-//            print_r($userinfo);
+    public function  getOurLessonForThisIdTeacherNoCurrent($userinfo,$start,$end)
+    {
+        try {
             $id = $userinfo['id'];
 
             $res = "select l.id,
@@ -331,18 +303,18 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
             }
             $result = array_unique($var,SORT_REGULAR);
             sort($result);
-//            print_r($result);
             return $result;
         } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
     }
-    static public function realDeletedLesson(){
+
+    static public function realDeletedLesson()
+    {
         $start = date("2014-01-01");
         $start = new DateTime($start);
         $start=$start->format('Y-m-d H:i:s');
-
 
         $var =date("Y-m-d H:i:s");
         $var1=new DateTime($var);
@@ -356,10 +328,10 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
             echo $e->getMessage();
             return null;
         }
-
     }
 
-    public function existLesson($id,$userInfo){
+    public function existLesson($id,$userInfo)
+    {
         try{
             if($userInfo['title']==='teacher') {
                 $var = $this->db->prepare("SELECT * FROM lesson where (id=:id and status=1)");
@@ -370,8 +342,7 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
                 } else {
                     return false;
                 }
-            }
-            else{
+            } else {
                 $var = $this->db->prepare("SELECT * FROM user as u
                                                INNER JOIN student_group as sg ON
                                                u.id=sg.student_id
@@ -388,15 +359,15 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
                     return false;
                 }
             }
-        }
-        catch(PDOException $e){
+        } catch(PDOException $e) {
             echo $e->getMessage();
             return null;
         }
 
     }
 
-    public function eventDrop($id, $start, $end){
+    public function eventDrop($id, $start, $end)
+    {
         try {
             $date = $this->realDate()->format($this->formatDate());
             $SHT=$this->db->prepare("UPDATE lesson SET start=:start,end=:end,update_date=:update_date WHERE id=:id");
@@ -409,7 +380,8 @@ WHERE result.lesson_id=$idLesson AND  result.grade=''";
         }
     }
 
-    public function exportEvent($lessonId, $userId, $calendarId, $eventId=null){
+    public function exportEvent($lessonId, $userId, $calendarId, $eventId=null)
+    {
         $client = new Google_Client();
         $client->setApplicationName("Rozklad");
         $client->setClientId(CLIENT_ID_GM);
@@ -435,7 +407,8 @@ SQL;
 
         $exported = wasExported($lessonId, $userId, $calendarId, $this->db);
 
-        function getLesson($lessonId, $db){
+        function getLesson($lessonId, $db)
+        {
             $request = <<<SQL
 select * from lesson
 where lesson.id = $lessonId;
@@ -489,7 +462,8 @@ SQL;
         }
     }
 
-    public function getGoogleCalendarList(){
+    public function getGoogleCalendarList()
+    {
         $client = new Google_Client();
         $client->setApplicationName("Rozklad");
         $client->setClientId(CLIENT_ID_GM);
@@ -521,16 +495,16 @@ SQL;
         return $list;
     }
 
-    function setLastVisit($user_id,$lesson_id,$date){
+    function setLastVisit($user_id,$lesson_id,$date)
+    {
         try {
             $db=$this->db->prepare("Select * from last_time_visit where user_id=:user_id and lesson_id=:lesson_id");
             $db->execute(array('user_id'=>$user_id, 'lesson_id'=>$lesson_id));
             $res=$db->fetchAll();
-            if($res){
+            if($res) {
                 $db1=$this->db->prepare("UPDATE last_time_visit SET last_visit=:date WHERE user_id=:user_id AND lesson_id=:lesson_id");
                 $db1->execute(array( 'date'=>$date, 'user_id'=>$user_id, 'lesson_id'=>$lesson_id));
-            }
-            else{
+            } else {
                 $db2=$this->db->prepare("INSERT INTO last_time_visit (user_id,lesson_id,last_visit) VALUES (:user_id,:lesson_id,:date)");
                 $db2->execute(array( 'date'=>$date, 'user_id'=>$user_id, 'lesson_id'=>$lesson_id));
             }
@@ -541,7 +515,8 @@ SQL;
         }
     }
 
-    public function allUnreaded($userinfo,$since=NULL){
+    public function allUnreaded($userinfo,$since=NULL)
+    {
         $allLessons = $this->allLessons($userinfo);
         for($i=0;$i<count($allLessons);$i++){
             $lastTime = $lastTime = $allLessons[$i]['last_visit'];
@@ -553,7 +528,8 @@ SQL;
         return $allLessons;
     }
 
-    public function  allLessons($userinfo){
+    public function  allLessons($userinfo)
+    {
         try {
             $id = $userinfo['id'];
             if($userinfo['title']==='teacher') {
@@ -590,7 +566,8 @@ SQL;
         }
     }
 
-    public function saveMess($lesson_id,$user_id,$date,$text){
+    public function saveMess($lesson_id,$user_id,$date,$text)
+    {
         try{
             $date = strtotime($date);
             $db=$this->db->prepare("INSERT INTO comment (lesson_id,user_id,date,text) VALUES (:lesson_id,:user_id,:date,:text)");
@@ -602,7 +579,8 @@ SQL;
         }
     }
 
-    public function getAllCommentsForLesson($lesson_id,$since){
+    public function getAllCommentsForLesson($lesson_id,$since)
+    {
         try{
             $id = Session::get("id");
             $db=$this->db->prepare("SELECT date,status FROM comment WHERE  date >= :since AND lesson_id = :lesson_id AND status = 1 AND user_id != :id ");

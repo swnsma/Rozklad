@@ -1,12 +1,14 @@
 <?php
 
-class GroupsModel extends Model {
-    public function __construct() {
+class GroupsModel extends Model
+{
+    public function __construct()
+    {
         parent::__construct();
-
     }
 
-    public function getList() {
+    public function getList()
+    {
         $r = <<<HERE
         SELECT
             `groups`.`id` as group_id,
@@ -31,7 +33,8 @@ HERE;
         }
     }
 
-    public function existsGroup($name) {
+    public function existsGroup($name)
+    {
         $r = $this->db->prepare('SELECT * FROM `groups` WHERE `name` = :n');
         $r->bindParam(':n', $name);
         if ($r->execute() && count($r->fetchAll()) == 0) {
@@ -41,7 +44,8 @@ HERE;
         }
     }
 
-    public function getArchive() {
+    public function getArchive()
+    {
         $r = <<<HERE
         SELECT
             `groups`.`id` as group_id,
@@ -65,7 +69,8 @@ HERE;
         }
     }
 
-    public function archive($groupId, $value){
+    public function archive($groupId, $value)
+    {
         try{
            $STH=$this->db->prepare("UPDATE groups SET archived = :value WHERE id=:groupId");
             $STH->execute(array('value'=>$value,'groupId'=>$groupId));
@@ -75,7 +80,8 @@ HERE;
         }
     }
 
-    private function createInviteCode() {
+    private function createInviteCode()
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -85,11 +91,13 @@ HERE;
         return $randomString;
     }
 
-    private function getRandomColor() {
+    private function getRandomColor()
+    {
         return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 
-    public function createGroup($teacher_id, $name, $image) {
+    public function createGroup($teacher_id, $name, $image)
+    {
         try {
             $query = <<<HERE
             INSERT INTO `groups`
@@ -118,7 +126,9 @@ HERE;
         }
         return null;
     }
-    public function getOurGroups(){
+
+    public function getOurGroups()
+    {
         try {
             $request = <<<TANIA
             select id,name,color from groups where archived=0
@@ -130,7 +140,9 @@ TANIA;
             return null;
         }
     }
-    public function getGroups($id){
+
+    public function getGroups($id)
+    {
         try {
             $request = <<<TANIA
             select id,name from groups where teacher_id='$id'
