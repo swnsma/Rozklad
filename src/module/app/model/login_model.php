@@ -1,36 +1,44 @@
 <?php
 
-class LoginModel extends Model {
-    function __construct() {
+class LoginModel extends Model
+{
+    function __construct()
+    {
         parent::__construct();
-
     }
 
-    public function checkName($name) {
+    public function checkName($name)
+    {
         return true;
     }
 
-    public function checkSurname($surname) {
+    public function checkSurname($surname)
+    {
         return true;
     }
 
-    public function checkEmail($email) {
+    public function checkEmail($email)
+    {
         return true;
     }
 
-    public function checkPhone($phone) {
+    public function checkPhone($phone)
+    {
         return true;
     }
 
-    public function checkToken($token) {
+    public function checkToken($token)
+    {
         return true;
     }
 
-    public function checkRoleId($token) {
+    public function checkRoleId($token)
+    {
         return true;
     }
 
-    public function getUserIdFromToken($token, $service) {
+    public function getUserIdFromToken($token, $service)
+    {
         try {
             if ($service == 'google') {
                 $r = $this->db->prepare('SELECT `id` FROM `user` WHERE `open_id_g` = :token');
@@ -47,7 +55,8 @@ class LoginModel extends Model {
         }
     }
 
-    public function login($id) {
+    public function login($id)
+    {
         try {
             $key = $this->generateKey();
             $r = $this->db->prepare('UPDATE `user` SET `key` = :key WHERE `id` = :id');
@@ -64,7 +73,8 @@ class LoginModel extends Model {
         }
     }
 
-    private function generateKey($length = 10) {
+    private function generateKey($length = 10)
+    {
         $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $l = strlen($chars);
         $key = '';
@@ -74,13 +84,14 @@ class LoginModel extends Model {
         return $key;
     }
 
-    public function register($name, $surname, $email, $phone, $token, $service) {
+    public function register($name, $surname, $email, $phone, $token, $service)
+    {
         if ($service == 'google') {
             $token_g = $token;
-            $token_f = ''; //null
+            $token_f = '';
         } else {
             $token_f = $token;
-            $token_g = ''; //null
+            $token_g = '';
         }
         $request =<<<HERE
             INSERT INTO `user` (
