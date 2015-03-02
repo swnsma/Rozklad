@@ -7,13 +7,15 @@ class Regist extends Controller
     {
         parent::__construct();
     }
-    public function index(){
+
+    public function index()
+    {
         header('Content-type: text/html; charset=utf-8');
         $this->view->renderHtml("regist/index");
     }
 
-    public function addUser(){
-
+    public function addUser()
+    {
         $data=$_POST['data'];
         $name =$data['name'];
         $surname =$data['surname'];
@@ -74,13 +76,13 @@ class Regist extends Controller
             }else{
                 $this->view->renderJson(array('result'=> "not_registed"));
             }
-        }
-        else{
+        } else{
             $this->view->renderJson(array('result'=> "has_user"));
         }
     }
 
-    public function getName(){
+    public function getName()
+    {
         $this->view->renderJson(
             [
                 'firstname'=>Session::get('firstname'),
@@ -88,10 +90,10 @@ class Regist extends Controller
             ]);
     }
 
-    public function getRoles(){
+    public function getRoles()
+    {
         $this->model=$this->loadModel("regist");
         $arr=$this->model->getRoles();
         $this->view->renderJson($arr);
     }
-
 }

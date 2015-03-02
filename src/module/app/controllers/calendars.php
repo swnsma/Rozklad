@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Таня
- * Date: 22.01.2015
- * Time: 17:55
- * */
 
-class Calendars extends Controller {
-
+class Calendars extends Controller
+{
     private $userInfo;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $id = $_SESSION['id'];
         if($id===null){
@@ -22,30 +17,27 @@ class Calendars extends Controller {
             $this->logout();
         }
     }
-    public function index() {
-        $this->model = $this->loadModel('lesson');
-//        $data =$this->userInfo;
 
+    public function index()
+    {
+        $this->model = $this->loadModel('lesson');
         $data['title'] = "Calendar|Rozklad";
         $data['groups'] = $this->model->getList();
         $data['name'] = $this->userInfo['name'] . ' ' . $this->userInfo['surname'];
         $data['status'] = $this->userInfo['title'];
         $data['photo']='http://graph.facebook.com/'. $this->userInfo['fb_id'] . '/picture?type=large';
-        /*$this->view->renderAllHTML('groups/index',
-            $data,
-            array('groups/groups.css'));*/
         $this->view->renderHtml('common/head',$data);
         $this->view->renderHtml('common/header', $data);
         if($this->userInfo['title']==='teacher') {
             $this->view->renderHtml('calendars/popup', $data);
         }
         $this->view->renderHtml('calendars/index', $data);
-//        $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
 
     }
 
-    public function getOurInfForTeacher(){
+    public function getOurInfForTeacher()
+    {
         if($this->userInfo['title']==='teacher') {
             $this->model = $this->loadModel('groups');
             $returns['group'] = $this->model->getOurGroups();
@@ -54,25 +46,25 @@ class Calendars extends Controller {
             $returns['teacher'] = $this->model->getOurTeacher();
             $returns['status'] = 'ok';
             $this->view->renderJson($returns);
-        }else{
+        } else {
             $returns['status'] = 'noteacher';
             $this->view->renderJson($returns);
         }
     }
 
-    public function getOurEventTeacher(){
+    public function getOurEventTeacher()
+    {
         if($this->userInfo['title']==='teacher') {
             if(isset($_POST['start'])&&isset($_POST['end'])) {
                 $this->model = $this->loadModel('lessons');
                 $returns['data'] = $this->model->getOurEventTeacher($_POST['start'],$_POST['end']);
                 $returns['status'] = 'ok';
                 $this->view->renderJson($returns);
-            }
-            else{
+            } else {
                 $returns['status'] = 'notPost';
                 $this->view->renderJson($returns);
             }
-        }else{
+        } else {
             $returns['status'] = 'noteacher';
             $this->view->renderJson($returns);
         }
@@ -83,7 +75,6 @@ class Calendars extends Controller {
         if($this->userInfo['title']==='teacher') {
             if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['teacher'])) {
                 $this->model = $this->loadModel('lessons');
-//            print_r($_POST);
                 $title = $_POST['title'];
                 $start = $_POST['start'];
                 $end = $_POST['end'];
@@ -99,7 +90,7 @@ class Calendars extends Controller {
                     $this->view->renderJson(array('id' => $id));
                 }
             }
-        }else{
+        } else {
             $this->view->renderJson(array('status' => 'noteacher'));
         }
     }
@@ -114,12 +105,9 @@ class Calendars extends Controller {
                 $end = $_POST['end'];
                 $id = $_POST['id'];
                 $teacherId = $_POST['teacher'];
-//                print_r($_POST['group']);
                 $this->model->updateLesson($title, $start, $end, $id, $teacherId);
                 if (isset($_POST['group'])) {
                     if (isset($_POST['group']['del'])) {
-//                    print_r( $_POST['group']['del']);
-//                       echo 'deleted';
                         $this->model = $this->loadModel('grouplesson');
                         $this->model->deleteGroupsFromLesson($id, $_POST['group']['del']);
                     }
@@ -128,15 +116,9 @@ class Calendars extends Controller {
                         $this->model->addGroupsToLesson($id, $_POST['group']['add']);
                     }
                 }
-//                $var=Array();
-//                $var['status']="ok";
-//                $this->view->renderJson($var);
             }
-        }else{
+        } else {
             $this->view->renderJson(Array("status"=>'noteacher'));
         }
     }
-
-
-
 }

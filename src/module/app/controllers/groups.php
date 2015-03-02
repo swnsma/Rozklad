@@ -2,15 +2,18 @@
 
 require_once DOC_ROOT . 'core/UploadImage.php';
 
-class Groups extends Controller {
-    public function __construct() {
+class Groups extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->model = $this->loadModel('groups');
         $this->user_model = $this->loadModel('user');
         $this->user_info = $this->user_model->getCurrentUserInfo(Session::get('id'));
     }
 
-    public function index() {
+    public function index()
+    {
         $data['title'] = 'Группы';
         $data['groups'] = $this->model->getList();
         $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
@@ -24,7 +27,9 @@ class Groups extends Controller {
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
     }
-    public function getGroupList(){
+
+    public function getGroupList()
+    {
         $var = $this->model->getList();
         if(isset($var)){
             $var[count($var)]=Session::get('id');
@@ -32,7 +37,8 @@ class Groups extends Controller {
         }
     }
 
-    public function create() {
+    public function create()
+    {
         $data['title'] = 'Создать группу';
         if ($this->user_info['title'] == 'teacher') { // ==
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
@@ -41,32 +47,27 @@ class Groups extends Controller {
             $data['status'] = 'teacher';
             $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
             $data['currentPage']=$this->getClassName();
-            /*$this->view->renderAllHTML('groups/creategroup',
-                $data,
-                array('groups/create_group.css'));*/
 
             $this->view->renderHtml('common/head');
             $this->view->renderHtml('common/header', $data);
             $this->view->renderHtml('groups/creategroup', $data);
             $this->view->renderHtml('common/footer');
             $this->view->renderHtml('common/foot');
-
         } else {
             $this->view->renderHtml('error/access');
         }
     }
-    public function archive() {
+
+    public function archive()
+    {
         $data['title'] = 'Архив групп';
-        if ($this->user_info['title'] == 'teacher') { // ==
+        if ($this->user_info['title'] == 'teacher') {
             $data['teacher_name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
             $data['name'] = $this->user_info['name'] . ' ' . $this->user_info['surname'];
             $data['status'] = $this->user_info['title'];
             $data['status'] = 'teacher';
             $data['photo']='http://graph.facebook.com/'. $this->user_info['fb_id'] . '/picture?type=large';
             $data['currentPage']=$this->getClassName();
-            /*$this->view->renderAllHTML('groups/creategroup',
-                $data,
-                array('groups/create_group.css'));*/
 
             $this->view->renderHtml('common/head');
             $this->view->renderHtml('common/header', $data);
@@ -78,7 +79,9 @@ class Groups extends Controller {
             $this->view->renderHtml('error/access');
         }
     }
-    public function moveToArchive(){
+
+    public function moveToArchive()
+    {
         $req = Request::getInstance();
         $groupId= $req->getParam(0);
         $value=$req->getParam(1);
@@ -95,8 +98,8 @@ class Groups extends Controller {
         }
     }
 
-    public function createNewGroup() {
-
+    public function createNewGroup()
+    {
         if (isset($_POST['name'])) {
             $name = $_POST['name'];
 

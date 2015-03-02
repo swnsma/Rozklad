@@ -2,17 +2,20 @@
 
 require_once 'core/Mail.php';
 
-class MailerOfLetter {
+class MailerOfLetter
+{
     private static $instance = null;
     private $db, $mail;
 
-    private function __construct() {
+    private function __construct()
+    {
         $this->db = new PDO('sqlite:' . get_include_path() . 'SQL/data/rozklad.sqlite');
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->mail = Mail::getInstance();
     }
 
-    private function getGroupsForInvitationToLesson() {
+    private function getGroupsForInvitationToLesson()
+    {
         $request = <<<HERE
             SELECT group_id, lesson_id FROM group_lesson WHERE mail = 0
 HERE;
@@ -23,7 +26,8 @@ HERE;
         return null;
     }
 
-    private function getEmailUsersGroups($id) {
+    private function getEmailUsersGroups($id)
+    {
         $request = <<<HERE
             SELECT
                 `user`.`email` as email
@@ -43,7 +47,8 @@ HERE;
         return null;
     }
 
-    private function mailAlreadySend($group_id, $lesson_id) {
+    private function mailAlreadySend($group_id, $lesson_id)
+    {
         $request = <<<HERE
         UPDATE group_lesson
         SET `mail` = 1
@@ -59,7 +64,8 @@ HERE;
         }
     }
 
-    private function getTemplateForInvitationToLesson($id) {
+    private function getTemplateForInvitationToLesson($id)
+    {
         $request = <<<HERE
             SELECT
                 `lesson`.`id` as l_id,
@@ -93,7 +99,8 @@ HERE;
         return null;
     }
 
-    private function getUniqueValuesFromKey($array, $key) {
+    private function getUniqueValuesFromKey($array, $key)
+    {
         $newArray = array();
         foreach($array as $value) {
             array_push($newArray, $value[$key]);
@@ -101,7 +108,8 @@ HERE;
         return array_unique($newArray);
     }
 
-    public function sendInvitationToLesson() {
+    public function sendInvitationToLesson()
+    {
         $groups = $this->getGroupsForInvitationToLesson();
         $uniqueLessonsId = $this->getUniqueValuesFromKey($groups, 'lesson_id');
         $templates = array();
@@ -123,7 +131,8 @@ HERE;
         }
     }
 
-    static public function getInstance() {
+    static public function getInstance()
+    {
         if(is_null(self::$instance)) {
             self::$instance = new self();
         }

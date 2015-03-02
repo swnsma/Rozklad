@@ -1,17 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Таня
- * Date: 12.02.2015
- * Time: 11:15
- */
-class Lesson extends Controller {
+
+class Lesson extends Controller
+{
     private $userInfo;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $id = Session::get('id');
-        if($id===null){
+        if($id===null) {
             $this->logout();
         }
         $this->model = $this->loadModel('user');
@@ -21,16 +18,17 @@ class Lesson extends Controller {
         }
     }
 
-    public function getUserInfo(){
+    public function getUserInfo()
+    {
         $this->view->renderJson($this->userInfo);
     }
 
-    public function index() {
+    public function index()
+    {
         $req =Request::getInstance();
         $lessonId= $req->getParam(0);
         $this->model = $this->loadModel('lesson');
         if($this->model->existLesson($lessonId,$this->userInfo)) {
-
             $data['title'] = "Lesson|Rozklad";
             $data['id']=$this->userInfo['id'];
             $data['email']=$this->userInfo['email'];
@@ -50,24 +48,24 @@ class Lesson extends Controller {
             $this->view->renderHtml('common/head', $data);
             $this->view->renderHtml('common/header', $data);
             $this->view->renderHtml('lesson/index',$data);
-        }else{
+        } else {
             $data['id']=$lessonId;
             $this->view->renderHtml('lesson/404',$data);
         }
-
     }
 
-    public function getLessonInfo(){
+    public function getLessonInfo()
+    {
         $req = Request::getInstance();
         $lessonId= $req->getParam(0);
         $var = $this->model->getInfo($lessonId);
         if(isset($var)){
-
             $this->view->renderJson($var);
         }
     }
 
-    private function dsq_hmacsha1($data, $key) {
+    private function dsq_hmacsha1($data, $key)
+    {
         $blocksize=64;
         $hashfunc='sha1';
         if (strlen($key)>$blocksize)
@@ -87,14 +85,17 @@ class Lesson extends Controller {
         return bin2hex($hmac);
     }
 
-    public function changeLessonInfo(){
+    public function changeLessonInfo()
+    {
         $req = Request::getInstance();
         $lessonId= $req->getParam(0);
         $value=$_POST['data'];
         $this->model->newInfo($lessonId,$value);
         $this->view->renderJson(Array('result'=>"success"));
     }
-    public function uploadTask(){
+
+    public function uploadTask()
+    {
         $file=$_FILES["file"]["name"];
         if(isset ($file)) {
             $fileName = $_FILES["file"]["name"];
@@ -107,7 +108,8 @@ class Lesson extends Controller {
         }
     }
 
-    public function deleteFile(){
+    public function deleteFile()
+    {
         $fileName=$_POST['data'];
         $pathAndName=TASKS_FOLDER.'/'.$fileName ;
         unlink ($pathAndName);
@@ -115,7 +117,8 @@ class Lesson extends Controller {
     }
 
 
-    public function getAll(){
+    public function getAll()
+    {
         $req = Request::getInstance();
         $lessonId= $req->getParam(0);
         $var= array();
@@ -126,9 +129,9 @@ class Lesson extends Controller {
         $var['lessonInfo'] = $this->model->getInfo($lessonId);
         $this->view->renderJson($var);
     }
-    
 
-    public function setDeadLine(){
+    public function setDeadLine()
+    {
         $req=Request::getInstance();
         $id=$req->getParam(0);
         $line = $_POST['deadline'];
@@ -136,7 +139,8 @@ class Lesson extends Controller {
         $this->view->renderJson(Array('result'=>$line, 'id'=>$id));
     }
 
-    public function uploadHomework(){
+    public function uploadHomework()
+    {
         $req = Request::getInstance();
         $studentId= $req->getParam(0);
         $lessonId=$req->getParam(1);
@@ -153,17 +157,20 @@ class Lesson extends Controller {
         }
     }
 
-    public function getTasks(){
+    public function getTasks()
+    {
         $req = Request::getInstance();
         $lessonId= $req->getParam(0);
         $var=$this->model->loadTasks($lessonId);
+
         if(isset($var)){
             $this->view->renderJson($var);
         }
 
     }
 
-    function setLastVisit(){
+    function setLastVisit()
+    {
         $date = strtotime($_POST['date']);
         $user_id = Session::get('id');
         $lesson_id = $_POST['lesson_id'];
@@ -172,7 +179,8 @@ class Lesson extends Controller {
         $this->view->renderJson($result);
     }
 
-    public function allLessons(){
+    public function allLessons()
+    {
         $this->model=$this->loadModel("user");
         $userInfo=$this->model->getCurrentUserInfo();
         $this->model=$this->loadModel("lesson");
@@ -180,7 +188,8 @@ class Lesson extends Controller {
         $this->view->renderJson($result);
     }
 
-    function setRate(){
+    function setRate()
+    {
         $value=$_POST;
         $grade=$value['data']['grade'];
         $lessonId=$value['data']['lessonId'];
@@ -189,7 +198,8 @@ class Lesson extends Controller {
         $this->view->renderJson(Array('result'=>'success'));
     }
 
-    public function saveMess(){
+    public function saveMess()
+    {
         $post = $_POST;
         $lesson_id = $post['lesson_id'];
         $user_id  = Session::get('id');
@@ -200,7 +210,8 @@ class Lesson extends Controller {
         $this->view->renderJson($res);
     }
 
-    public function getAllCommentsForLesson(){
+    public function getAllCommentsForLesson()
+    {
         $get = $_GET;
         $lesson_id = $get['lesson_id'];
         $since = $get['since'];
@@ -209,7 +220,8 @@ class Lesson extends Controller {
         $this->view->renderJson($res);
     }
 
-    public function unreaded(){
+    public function unreaded()
+    {
         $this->model=$this->loadModel("user");
         $userInfo=$this->model->getCurrentUserInfo();
         $this->model=$this->loadModel("lesson");
@@ -217,7 +229,8 @@ class Lesson extends Controller {
         $this->view->renderJson($result);
     }
 
-    public function realTimeUpdate(){
+    public function realTimeUpdate()
+    {
         $since = $_POST["since"];
         $this->model=$this->loadModel("user");
         $userInfo=$this->model->getCurrentUserInfo();

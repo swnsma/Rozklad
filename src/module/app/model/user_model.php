@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Таня
- * Date: 25.01.2015
- * Time: 20:38
- */
+
 class UserModel extends Model
 {
     public function __construct()
@@ -25,7 +20,8 @@ class UserModel extends Model
         }
     }
 
-    public function getUserInformation($id){
+    public function getUserInformation($id)
+    {
         $sql = <<<SQL
                 select
                     user.name,
@@ -54,15 +50,13 @@ SQL;
             $info['photo'] = $info['photoGM'];
         }
 
-        //if (GREEN_ELEPHANT){
-            $info['photo'] = URL.'public/img/ge/'.rand(1,6).'.png';
-        //}
 
         echo json_encode($info);
         return $info;
     }
 
-    public function getGooglePhotoByGId($g_id){
+    public function getGooglePhotoByGId($g_id)
+    {
         $apiKey = "AIzaSyBZxhxAn-PyWms-8yYb33kiRgO4cFi8o1Y";
         $url = "https://www.googleapis.com/plus/v1/people/$g_id?fields=image%2Furl&key=$apiKey";
         $res =file_get_contents($url);
@@ -70,7 +64,8 @@ SQL;
         return $link;
     }
 
-    public function getCurrentUserInfo(){
+    public function getCurrentUserInfo()
+    {
         $id = Session::get('id');
         $userInfo = Array();
         $sql = <<<SQL
@@ -100,8 +95,8 @@ SQL;
     {
         try {
             $request = <<<TANIA
-select * from user
-where fb_id='$fb_id'
+                select * from user
+                where fb_id='$fb_id'
 TANIA;
             $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             if (isset($var[0]))
@@ -133,8 +128,8 @@ TANIA;
     {
         try {
             $request = <<<TANIA
-select id from user
-where fb_id='$fb_id'
+                select id from user
+                where fb_id='$fb_id'
 TANIA;
             $var = $this->db->query($request)->fetchAll(PDO::FETCH_ASSOC);
             if (isset($var[0]['id'])) {
@@ -181,7 +176,6 @@ uu.id as uu
                     array_push($result, $date[$var]);
                 }
             }
-//            print_r($result);
             return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -207,11 +201,10 @@ sql;
     public function getInfo($lessonId)
     {
         $r = <<<HERE
-        SELECT
+            SELECT
             `lesson`.`lesson_info` as lesson_info
              from lesson
-        WHERE `lesson`.`id` = $lessonId
-
+            WHERE `lesson`.`id` = $lessonId
 HERE;
 
         try {
@@ -239,7 +232,7 @@ HERE;
     {
         try {
         $r = <<<CHECKING
-        SELECT * FROM `result` WHERE `result`.`owner`=$studentId AND `result`.`lesson_id`=$lessonId;
+            SELECT * FROM `result` WHERE `result`.`owner`=$studentId AND `result`.`lesson_id`=$lessonId;
 CHECKING;
             $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
             if(isset($request[0]['link'])){
@@ -251,7 +244,7 @@ DELETE;
                 return $request;
             }
         $r = <<<HERE
-        INSERT INTO `result` (owner, link,lesson_id) VALUES ($studentId,'$name',$lessonId);
+            INSERT INTO `result` (owner, link,lesson_id) VALUES ($studentId,'$name',$lessonId);
 HERE;
 
             $request = $this->db->query($r)->fetchAll(PDO::FETCH_ASSOC);
@@ -264,7 +257,7 @@ HERE;
     public function loadTasks($lessonId)
     {
         $r = <<<HERE
-SELECT
+            SELECT
             `result`.`link` as link,
             `result`.`grade` as grade,
             `result`.`link` as link,
@@ -276,9 +269,8 @@ SELECT
              `user`.`surname` as surname,
              `user`.`fb_id` as fb_id,
              `user`.`gm_id` as gm_id
-from `user`, `result`
-        WHERE `result`.`owner`=`user`.`id` AND `result`.`lesson_id` = $lessonId
-
+            from `user`, `result`
+            WHERE `result`.`owner`=`user`.`id` AND `result`.`lesson_id` = $lessonId
 HERE;
 
         try {
@@ -298,7 +290,6 @@ HERE;
             WHERE `lesson`.`id`=$id;
 SETDAD;
         $this->db->query($r);
-
     }
 
     function getDeadLine($id)
@@ -312,7 +303,6 @@ GETDEAD;
         if (!is_null($var[0]['deadline'])) {
             return $var[0]['deadline'];
         } else return "Нет";
-
     }
 
     function grade($teacherId, $lessonId, $grade)
@@ -333,8 +323,4 @@ SETGRADE;
         }
 
     }
-
-
-
-
 }

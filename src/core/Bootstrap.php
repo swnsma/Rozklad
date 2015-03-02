@@ -1,8 +1,9 @@
 <?php
 
-class Bootstrap extends Controller{
+class Bootstrap extends Controller
+{
     private $model;
-    function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
         $base = new Base_Install();
@@ -30,10 +31,13 @@ class Bootstrap extends Controller{
         $c->run($request->getAction());
     }
 
-    private function initSes($time,$ses){
+    private function initSes($time,$ses)
+    {
         Session::init($time,$ses);
     }
-    private function dispatcher($controller,$action){
+
+    private function dispatcher($controller,$action)
+    {
         $this->setLogoutLink();
         $this->checkLogout($controller);
         $this->checkUnconf();
@@ -41,91 +45,101 @@ class Bootstrap extends Controller{
         $this->checkId($controller);
         $this->checkRoute($controller,$action);
     }
-    private function checkController($controller){
+
+    private function checkController($controller)
+    {
         return
             $controller=='calendar'||
             $controller=='grouppage'||
 //            $controller=='admin'||
             $controller=='groups';
     }
-    private function checkStatus(){
-        if(!Session::has('status')){
+
+    private function checkStatus()
+    {
+        if(!Session::has('status')) {
             Session::set("status",'not');
         }
     }
-    private function checkLogout($controller){
-        if($controller=='logout'){
+
+    private function checkLogout($controller)
+    {
+        if($controller=='logout') {
             $this->logout_link();
         }
     }
-    private function setLogoutLink(){
-        if(!Session::has("logout_link")){
+
+    private function setLogoutLink()
+    {
+        if(!Session::has("logout_link")) {
             Session::set('logout_link',URL."app/logout");
         }
     }
-    private function logout_link(){
+
+    private function logout_link()
+    {
         $this->logout();
         header("Location:".URL);
     }
-    private function checkUnconf(){
-        if(Session::has('status')&&Session::get('status')!="not"&&(Session::has('id'))){
+
+    private function checkUnconf() {
+        if(Session::has('status') && Session::get('status')!="not" && (Session::has('id'))) {
             $this->model=$this->loadModel('user');
 
-            if(!$this->model->checkUnconfirmed(Session::get('id'))){
+            if(!$this->model->checkUnconfirmed(Session::get('id'))) {
                 Session::set('status','ok');
-            }
-            else{
+            } else{
                 Session::set('status','unconfirmed');
             }
         }
     }
-    private function changeLocation($location = ''){
+
+    private function changeLocation($location = '') {
         header("Location:".URL.$location);
         exit;
     }
-    private function checkId($controller){
-        if((Session::get('status')!='not')&&(Session::get('status')!='regist')&&$this->checkController($controller)) {
-            if (Session::has('id')){
+
+    private function checkId($controller) {
+        if((Session::get('status')!='not') && (Session::get('status')!='regist')&&$this->checkController($controller)) {
+            if (Session::has('id')) {
                 $userInfo = $this->model->getCurrentUserInfo(Session::get('id'));
                 if ($userInfo === null) {
                     $this->logout();
                 }
-            }
-            else {
+            } else {
                 $this->logout();
-
             }
         }
     }
-    private function checkRoute($controller,$action){
+
+    private function checkRoute($controller,$action)
+    {
         if(Session::has('status')){
             $status = Session::get('status');
             switch($status){
                 case 'not':
-                    if($this->checkController($controller)&& $controller != 'index')
-                    {
+                    if($this->checkController($controller)&& $controller != 'index') {
                         $this->changeLocation();
                     }
                     break;
                 case 'regist':
-                    if($controller!='regist'&&$controller!='sendermail'){
+                    if($controller!='regist'&&$controller!='sendermail') {
                         $this->changeLocation("app/regist");
                     }
                     break;
                 case 'unconfirmed':
-                    if($controller!="index"&&$controller!="logout"&&$controller!='sendermail'){
+                    if($controller!="index"&&$controller!="logout"&&$controller!='sendermail') {
                         $this->changeLocation();
                     }
                     break;
                 case 'ok':
-                    if($controller=='index'||$controller=='regist'){
+                    if($controller=='index'||$controller=='regist') {
                         $this->changeLocation("app/calendar");
                     }
                     break;
             }
-        }
-        else{
-            if($controller!="index" && $this->checkController($controller)){
+        } else {
+            if($controller!="index" && $this->checkController($controller)) {
                 header("Location:" . URL);
                 exit;
             }

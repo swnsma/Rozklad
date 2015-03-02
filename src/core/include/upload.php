@@ -1,15 +1,18 @@
 <?php
 
-abstract class Upload {
+abstract class Upload
+{
     protected $file = null,
         $error = null,
         $max_size = 4194304; // 4 mb
 
-    function __construct($files) {
+    public function __construct($files)
+    {
         $this->file = $files;
     }
 
-    public function checkFileError() {
+    public function checkFileError()
+    {
         try {
             switch ($this->file['error']) {
                 case UPLOAD_ERR_OK:
@@ -24,28 +27,32 @@ abstract class Upload {
             }
             return true;
         } catch(RuntimeException $e) {
-            $this->error = $e->getMessage();
             return false;
         }
     }
 
-    public function checkSize() {
+    public function checkSize()
+    {
         return $this->file['size'] > $this->max_size;
     }
 
-    public function getFile() {
+    public function getFile()
+    {
         return $this->file;
     }
 
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
-    public function getMaxSize() {
+    public function getMaxSize()
+    {
         return $this->max_size;
     }
 
-    public function setMaxSize($size) {
+    public function setMaxSize($size)
+    {
         $this->max_size = $size;
     }
 }

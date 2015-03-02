@@ -1,18 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 27.01.2015
- * Time: 22:34
- */
+
 class RegistModel extends Model{
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
+
     public function addUser($name,$surname,$phone,$role,$fb_id,$gm_id,$email)
     {
         try {
-//            $this->db->query("INSERT INTO user (name,surname,phone,role_id,fb_id,gm_id,email) VALUES ('$name','$surname','$phone','$role','$fb_id','$gm_id','$email')");
             $stm=$this->db->prepare("INSERT INTO user (name,surname,phone,role_id,fb_id,gm_id,email) VALUES (:name,:surname,:phone,:role_id,:fb_id,:gm_id,:email)");
 
             $stm->bindParam(":name",$name);
@@ -22,13 +18,6 @@ class RegistModel extends Model{
             $stm->bindParam(":fb_id",$fb_id);
             $stm->bindParam(":gm_id",$gm_id);
             $stm->bindParam(":email",$email);
-//            $stm->execute([
-//                ":name"=>$name,
-//                ":surname"=>$surname,
-//                ":phone"=>$phone,
-//                ":role_id"=>$role,
-//                ":fb_id"=>$fb_id,
-//                ":gm_id"=>$gm_id]);
             $stm->execute();
             $id=$this->db->query("select id from user where email='$email'")->fetchAll();
             $id=$id[0]['id'];
@@ -40,7 +29,9 @@ class RegistModel extends Model{
             return null;
         }
     }
-    public function checkUserFB($id){
+
+    public function checkUserFB($id)
+    {
         try {
             $arr= $this->db->query("SELECT fb_id FROM user WHERE fb_id='$id'")->fetchAll();
             return count($arr);
@@ -49,7 +40,9 @@ class RegistModel extends Model{
             return null;
         }
     }
-    public function addTeacher($id){
+
+    public function addTeacher($id)
+    {
         try {
             $this->db->query("INSERT INTO unconfirmed_user (id) VALUES ('$id')");
             return 1;
@@ -59,7 +52,9 @@ class RegistModel extends Model{
         }
 
     }
-    public function checkUserGM($id){
+
+    public function checkUserGM($id)
+    {
         try {
             $arr = $this->db->query("SELECT gm_id FROM user WHERE gm_id='$id'")->fetchAll();
             return count($arr);
@@ -68,7 +63,9 @@ class RegistModel extends Model{
             return null;
         }
     }
-    public function updateGM($gm_id,$email){
+
+    public function updateGM($gm_id,$email)
+    {
         try {
             $this->db->query("UPDATE user SET gm_id='$gm_id' where email='$email'")->fetchAll();
         } catch (PDOException $e) {
@@ -77,7 +74,8 @@ class RegistModel extends Model{
         }
     }
 
-    public function updateFB($fb_id,$email){
+    public function updateFB($fb_id,$email)
+    {
         try {
             $this->db->query("UPDATE user SET fb_id='$fb_id'  where email='$email'")->fetchAll();
         } catch (PDOException $e) {
@@ -85,7 +83,9 @@ class RegistModel extends Model{
             return null;
         }
     }
-    public function getRoles(){
+
+    public function getRoles()
+    {
         try {
             $arr=$this->db->query("select title as roleName from role")->fetchAll();
             return $arr;

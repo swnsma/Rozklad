@@ -1,21 +1,25 @@
 <?php
 
-class View{
+class View
+{
     public function __construct() {}
 
-    public function renderHtml($name, $data = null) {
+    public function renderHtml($name, $data = null)
+    {
         $path = DOC_ROOT . 'module/' . Request::getInstance()->getModule() . '/view/'. $name . '.phtml';
         if (file_exists($path)) {
             require_once $path;
         }
     }
 
-    public function renderJson($data) {
+    public function renderJson($data)
+    {
         header('Content-Type: application/json');
         print json_encode($data);
     }
 
-    function renderAllHTML($page, $data = null, $files = array()) {
+    function renderAllHTML($page, $data = null, $files = array())
+    {
         require_once DOC_ROOT . 'module/app/model/user_model.php';
         $user = (new UserModel)->getInfo(Session::get('idFB'))[0];
         $header_data['name'] = $user['name'] . ' ' . $user['surname'];

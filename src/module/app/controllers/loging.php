@@ -4,11 +4,14 @@ require_once DOC_ROOT .'lib/google/Google_Client.php';
 require_once DOC_ROOT .'lib/google/Google_Oauth2Service.php';
 
 
-class Loging extends Controller {
+class Loging extends Controller
+{
     public static $status;
     private $client;
     private $oauth2;
-    public function __construct() {
+
+    public function __construct()
+    {
         parent::__construct();
         Session::uns("fb_ID");
         $this->model = $this->loadModel('check');
@@ -28,11 +31,10 @@ class Loging extends Controller {
         $this->oauth2 = new Google_Oauth2Service($this->client);
     }
 
-    public function index() {
-//        $this->view->renderHtml('signin/index');
-    }
+    public function index() {}
 
-    public function login(){
+    public function login()
+    {
         if (isset($_GET['code'])) {
             $this->client->authenticate($_GET['code']);
             Session::set('token',$this->client->getAccessToken());
@@ -65,29 +67,27 @@ class Loging extends Controller {
         }
     }
 
-    public function checkUser(){
+    public function checkUser()
+    {
         $hasUser= $this->model->checkUserGM(Session::get("gm_ID"));
-
-        if($hasUser){
+        if($hasUser) {
             $this->model=$this->loadModel("user");
             $id=$this->model->getIdGM(Session::get("gm_ID"));
             Session::set('id',$id);
             Session::set('status',"ok");
             $link="app/calendar";
-            if(Session::has('unusedLink')){
+            if(Session::has('unusedLink')) {
                 $link = Session::get('unusedLink');
             }
             $isUnconf=$this->model->checkUnconfirmed($id);
-            if($isUnconf){
+            if($isUnconf) {
                 Session::set('status',"unconfirmed");
             }
             header("Location:".URL.$link);
             exit;
-        }
-        else {
+        } else {
             Session::set('status','regist');
             $this->model=$this->loadModel("check");
-
             if(Session::has('email')&&Session::get('email')!='') {
                 if ($this->model->checkEmail(Session::get('email'))) {
                     $this->model = $this->loadModel("regist");
@@ -107,14 +107,12 @@ class Loging extends Controller {
                     }
                     header("Location:" . URL . $link);
                     exit;
-                }
-                else{
+                } else {
                     header('Content-type: text/html; charset=utf-8');
                     header("Location:".URL."app/regist");
                     exit;
                 }
-            }
-            else{
+            } else {
                 header('Content-type: text/html; charset=utf-8');
                 header("Location:".URL."app/regist");
                 exit;
@@ -122,11 +120,14 @@ class Loging extends Controller {
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         session_destroy();
         header("Location:".URL);
     }
-    private function checkEmail($email){
+
+    private function checkEmail($email)
+    {
         $this->model=$this->loadModel("check");
         return $this->model->checkEmail($email);
     }

@@ -3,11 +3,13 @@
 require_once 'lib/mail/class.phpmailer.php';
 require_once 'lib/mail/class.smtp.php';
 
-class Mail {
+class Mail
+{
     private $mail;
     private static $instance = null;
 
-    private function __construct() {
+    private function __construct()
+    {
         $this->mail = new phpmailer();
         $this->mail->IsSendmail();
         $this->mail->Mailer = 'smtp';
@@ -24,7 +26,8 @@ class Mail {
         $this->mail->setFrom(MAIL_SET_FROM, MAIL_SET_FROM_NAME);
     }
 
-    public function send($address, $subject, $body) {
+    public function send($address, $subject, $body)
+    {
         foreach($address as $mail) {
             $this->mail->AddAddress($mail);
         }
@@ -37,25 +40,29 @@ class Mail {
         }
     }
 
-    public function addFile($file, $file_name) {
+    public function addFile($file, $file_name)
+    {
         $this->mail->AddAttachment($file, $file_name);
     }
 
-    public function addFileToHtml($file, $file_name) {
+    public function addFileToHtml($file, $file_name)
+    {
         $this->mail->AddEmbeddedImage($file, $file_name);
     }
 
-    public function getErrorInfo() {
+    public function getErrorInfo()
+    {
         return $this->mail->ErrorInfo;
     }
 
-    public function getTemplate($name, $data) {
-	if (isset($_SERVER['SERVER_NAME'])) {
+    public function getTemplate($name, $data)
+    {
+	    if (isset($_SERVER['SERVER_NAME'])) {
        		$file = DOC_ROOT . 'public/mail_templates/' . $name . '.html';
-	} else {
-		$file = get_include_path() . 'public/mail_templates/' . $name . '.html';
-	}        
-	if (file_exists($file)) {
+	    } else {
+		    $file = get_include_path() . 'public/mail_templates/' . $name . '.html';
+	    }
+	    if (file_exists($file)) {
             $content = file_get_contents($file);
             $keys = array_keys($data);
             foreach($keys as $key) {
@@ -66,13 +73,15 @@ class Mail {
         return null;
     }
 
-    public function clear() {
+    public function clear()
+    {
         $this->mail->ClearAllRecipients();
         $this->mail->ClearAttachments();
         $this->mail->ClearCustomHeaders();
     }
 
-    static public function getInstance() {
+    static public function getInstance()
+    {
         if(is_null(self::$instance)) {
             self::$instance = new self();
         }

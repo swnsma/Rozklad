@@ -11,7 +11,8 @@ class UploadImage extends Upload {
             'gif' => 'image/gif'
         );
 
-    function __construct($files) {
+    public function __construct($files)
+    {
         parent::__construct($files);
     }
 
@@ -27,7 +28,8 @@ class UploadImage extends Upload {
         imagejpeg($image, $source, $this->quality);
     }
 
-    private function crop($image, $r_image) {
+    private function crop($image, $r_image)
+    {
         list($w_i, $h_i, $type) = getimagesize($image);
         $types = array('', 'gif', 'jpeg', 'png');
         $ext = $types[$type];
@@ -47,7 +49,8 @@ class UploadImage extends Upload {
         return $func($img_o, $r_image);
     }
 
-    function resize($image, $w_o, $h_o) {
+    function resize($image, $w_o, $h_o)
+    {
         list($w_i, $h_i, $type) = getimagesize($image);
         if (!$w_i || !$h_i) {
             return false;
@@ -78,19 +81,23 @@ class UploadImage extends Upload {
     }
 
 
-    public function getQuality() {
+    public function getQuality()
+    {
         return $this->quality;
     }
 
-    public function setQuality($size) {
+    public function setQuality($size)
+    {
         $this->quality = $size;
     }
 
-    public function getMimeTypes() {
+    public function getMimeTypes()
+    {
         return $this->mime_types;
     }
 
-    public function upload() {
+    public function upload()
+    {
         try {
             if ($this->checkSize()) {
                 throw new RuntimeException('File is too big');
@@ -122,7 +129,8 @@ class UploadImage extends Upload {
         return false;
     }
 
-    public function getUploadFileName() {
+    public function getUploadFileName()
+    {
         return $this->upload_file_name;
     }
 }

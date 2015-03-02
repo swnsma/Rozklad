@@ -1,7 +1,8 @@
 <?php
 
-class ErrorModel extends Model {
-    function __construct() {
+class ErrorModel extends Model
+{
+    public function __construct() {
         parent::__construct();
     }
 

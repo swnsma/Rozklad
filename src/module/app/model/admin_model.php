@@ -1,34 +1,37 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sasha
- * Date: 27.01.2015
- * Time: 17:00
- */
-class AdminModel extends Model {
-    public function __construct() {
+
+class AdminModel extends Model
+{
+    public function __construct()
+    {
         parent::__construct();
 
     }
-    public function getAdminMail(){
+
+    public function getAdminMail()
+    {
         $filename=DOC_ROOT."module/app/view/admin/mail.txt";
-        if(file_exists($filename)){
+        if(file_exists($filename)) {
             $f=fopen($filename, "r");
             $s= fgets($f, 128);
             return $s;
+        } else {
+            return "";
         }
-        else return"";
     }
-    public function setAdminMail($email){
+
+    public function setAdminMail($email)
+    {
         $filename=DOC_ROOT."module/app/view/admin/mail.txt";
         $f = fopen($filename, "w");
         $email=htmlspecialchars($email);
         fputs($f, $email);
     }
-    public function confirmUser($id) {
+
+    public function confirmUser($id)
+    {
         try {
             $this->db->query("DELETE FROM unconfirmed_user WHERE id=$id;");
-            
         } catch(PDOException $e) {
             echo $e;
             return null;
@@ -45,7 +48,8 @@ class AdminModel extends Model {
         }
     }
 
-    public function getUnconfirmedUsers(){
+    public function getUnconfirmedUsers()
+    {
         try {
             $sql = <<<SQL
                 select
@@ -73,7 +77,8 @@ SQL;
         }
     }
 
-    public function getGooglePhotoByGId($g_id){
+    public function getGooglePhotoByGId($g_id)
+    {
         $apiKey = "AIzaSyBZxhxAn-PyWms-8yYb33kiRgO4cFi8o1Y";
         $url = "https://www.googleapis.com/plus/v1/people/$g_id?fields=image%2Furl&key=$apiKey";
         $res =file_get_contents($url);
@@ -81,7 +86,8 @@ SQL;
         return $link;
     }
 
-    public function getTeachers(){
+    public function getTeachers()
+    {
         try {
             $sql = <<<SQL
                 select
@@ -121,37 +127,38 @@ SQL;
         }
     }
 
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         $query = <<<SQL
-INSERT INTO deleted_user (id, name, surname, email, phone, role_id, gm_id, fb_id)
-SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
-FROM user
-WHERE user.id = $id;
+          INSERT INTO deleted_user (id, name, surname, email, phone, role_id, gm_id, fb_id)
+          SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
+          FROM user
+          WHERE user.id = $id;
 SQL;
         echo $query;
         $this->db->query($query);
-
         $query = <<<SQL
-DELETE FROM user
-WHERE user.id = $id;
+          DELETE FROM user
+          WHERE user.id = $id;
 SQL;
         echo $query;
         $this->db->query($query);
     }
 
-    public function recoverUser($id){
+    public function recoverUser($id)
+    {
         $query = <<<SQL
-INSERT INTO user (id, name, surname, email, phone, role_id, gm_id, fb_id)
-SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
-FROM deleted_user
-WHERE deleted_user.id = $id;
+          INSERT INTO user (id, name, surname, email, phone, role_id, gm_id, fb_id)
+          SELECT id, name, surname, email, phone, role_id, gm_id, fb_id
+          FROM deleted_user
+          WHERE deleted_user.id = $id;
 SQL;
         echo $query;
         $this->db->query($query);
 
         $query = <<<SQL
-DELETE FROM  deleted_user
-WHERE  deleted_user.id = $id;
+          DELETE FROM  deleted_user
+          WHERE  deleted_user.id = $id;
 SQL;
         echo $query;
         $this->db->query($query);
