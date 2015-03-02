@@ -444,6 +444,12 @@ function ViewModel() {
                             that.haveGrade(true);
                             homework.teacher = response[i].teacher;
                             homework.time = response[i].time;
+                            if(response[i].recense){
+                                console.log(response[i].recense);
+                            homework.recense=response[i].recense;
+                            }else{
+                                homework.recense="Отсутствует.";
+                            }
                         }else{
                             homework.grade="решение еще не проверено."
                         }
@@ -511,13 +517,18 @@ var model = {
     commentModel:mod.viewModel
 };
 function update () {
-    lastVisit(viewModel.id());
+    lastVisit(lessonId);
     setTimeout(update, 60000);
 }
+
+var lessonId = window.location.pathname;
+var pos = lessonId.search(/id[0-9]+/);
+lessonId = +lessonId.substr(pos + 2, lessonId.length - pos - 2);
+
+update();
 $(document).ready(function(){
     viewModel.activate();
     mod.getCurrentUser();
     mod.init();
     ko.applyBindings(model);
-    update();
 });

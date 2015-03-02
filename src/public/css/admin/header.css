@@ -10,9 +10,12 @@
 }
 #submit, #change{
     top:50%;
-    margin-top: -18px;
+    margin-top: -15px;
     right: 5px;
     width: 100px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
 }
 #mailInput{
     width: 300px;

@@ -270,6 +270,7 @@ SELECT
             `result`.`link` as link,
             `result`.`appraiser` as teacher,
             `result`.`apprais_time` as time,
+            `result`.`recense` as recense,
             `result`.`id` as id,
              `user`.`name` as name,
              `user`.`surname` as surname,
@@ -316,10 +317,12 @@ GETDEAD;
 
     function grade($teacherId, $lessonId, $grade)
     {
+        $time = date("d-m-Y H:i");
         $r = <<<SETGRADE
          UPDATE `result`
             SET `appraiser`='$teacherId',
-            `grade`='$grade'
+            `grade`='$grade',
+            appraise_time = $time
             WHERE `result`.`id`=$lessonId;
 SETGRADE;
         try {

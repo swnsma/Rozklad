@@ -8,7 +8,6 @@ class Bootstrap extends Controller{
         $base = new Base_Install();
         LessonModel::realDeletedLesson();
         $this->model=$this->loadModel('user');
-        require_once DOC_ROOT . 'module/app/controllers/regist.php';
         $request = Request::getInstance();
         $urla=$request->getUrl();
         if(preg_match('/grouppage/', $urla)||preg_match('/groups/', $urla)){

@@ -132,12 +132,12 @@
                         <span><strong>Оценка: </strong><span data-bind="text:grade"></span></span><br/>
                     <!-- ko if: $parent.haveGrade-->
                         <span><strong>Проверил: </strong><span data-bind="text: teacher"></span> в <span data-bind="text: time"></span></span><br/>
+                        <span class="recen"><strong>Рецензия: </strong><span data-bind="text:recense"></span></span><br/>
                     <!--/ko-->
                         <a download="" data-bind="attr:{ href:link}">Загрузить присланное решение.</a><br>
                     <!-- ko ifnot: $parent.haveGrade-->
                         <!-- ko ifnot: $parent.deadLinePass-->
                         <span><strong>Также Вы можете:</strong></span>
-                        <button class="load-btn" data-bind="uploadHomework{userInfo:$root.userInfo, homeWork:$root.homeWork, id:$root.id} ">Загрузить новое решение</button>
                     <button class="load-btn" data-bind="uploadHomework{userInfo:$root.viewModel.userInfo, homeWork:$root.viewModel.homeWork, id:$root.viewModel.id} ">Загрузить новое решение</button>
                         <!--/ko-->
                     <!--/ko-->
@@ -207,11 +207,11 @@
         <!-- ko if:$data.id -->
         <div class="comment-container">
             <div class="comment-container-img">
-                <img class="comment-img" data-bind="attr:{src:$data.photo}"/>
+                <a data-bind="attr:{href:$data.account}"><img class="comment-img" data-bind="attr:{src:$data.photo}"/></a>
             </div>
             <div class="comment-body">
                 <header>
-                    <span class="comment-name" data-bind="text: name"></span><span class="comment-date" data-bind="text: date"></span>
+                    <a data-bind ="attr:{href:$data.account}"><span class="comment-name" data-bind="text: name"></span></a><span class="comment-date" data-bind="text: date"></span>
                 </header>
                 <div class="comment-text" data-bind="text:text">
                 </div>
@@ -219,9 +219,12 @@
                     <!-- ko if:$data.user_id()==$root.commentModel.currentUser().id -->
                        <span class="comment-remove" data-bind="click:function($data){
                                                 $parent.remove($data);
-                                        }">remove</span>
+                                        }">Удалить</span>
                     <!-- /ko -->
-                    <span class="comment-reply" data-bind="click:addNewItem">add</span>
+                    <!-- ko if:$data.pid()=== "0" -->
+                    <span class="bullet"></span>
+                    <span class="comment-reply" data-bind="click:addNewItem">Ответить</span>
+                    <!-- /ko -->
                     <!-- ko if:$data.reply()-->
                     <div  class="comment-wrap" data-bind="template: { name: 'form', data:$data }"></div>
                     <!-- /ko -->
@@ -240,13 +243,12 @@
             <div class="comment-answer-container">
                 <div class="custom-button comment-answer-button" data-bind="click:sendNewComment">Опубликовать</div>
             </div>
-        </div>
     </script>
     <!--<div class="container-img">-->
     <!--    <img class="img" src="http://a.disquscdn.com/uploads/users/14338/9498/avatar92.jpg?1423742151"/>-->
     <!--</div>-->
-    <div  class="comment-wrap" data-bind="template: { name: 'form', data:$root.commentModel }"></div>
-    <div  class="comment-wrap" data-bind="template: { name: 'treeElement', foreach: $data.treeRoot }"></div>
+    <div  class="comment-wrap margin-not" data-bind="template: { name: 'form', data:$root.commentModel }"></div>
+    <div  class="comment-wrap margin-not" data-bind="template: { name: 'treeElement', foreach: $data.treeRoot }"></div>
 
     <!--/ko-->
 </section>

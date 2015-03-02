@@ -5,8 +5,8 @@ class CommentModel extends Model {
         parent::__construct();
     }
 
-    public function index(){
-        $arr=$this->selectTree(1,0);
+    public function index($id){
+        $arr=$this->selectTree($id,0);
         return $arr;
     }
 

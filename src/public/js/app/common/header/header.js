@@ -1,5 +1,28 @@
 (function () {
 
+    if (!Array.prototype.find) {
+        Array.prototype.find = function(predicate) {
+            if (this == null) {
+                throw new TypeError('Array.prototype.find called on null or undefined');
+            }
+            if (typeof predicate !== 'function') {
+                throw new TypeError('predicate must be a function');
+            }
+            var list = Object(this);
+            var length = list.length >>> 0;
+            var thisArg = arguments[1];
+            var value;
+
+            for (var i = 0; i < length; i++) {
+                value = list[i];
+                if (predicate.call(thisArg, value, i, list)) {
+                    return value;
+                }
+            }
+            return undefined;
+        };
+    }
+
     var months = ['января', 'февраля', 'марта', 'апреля',
         'мая', 'июня', 'июля', 'августа',
         'сентября', 'октября', 'ноября', 'декабря'];
@@ -9,72 +32,6 @@
     var lessons = [];
     var lastTimeUpdate = 0;
     var humanFriendlyDate = new HumanFriendlyDate();
-
-    function HumanFriendlyDate(){
-
-        var seconds = ["секунд","секунды","секунду"];
-        var minutes = ["минут","минуты","минуту"];
-        var hours = ["часов","часа","час"];
-        var days = ["дней","дня","день"];
-        var weeks = ["недель","недели","неделю"];
-        var month = ["месяцев","месяца","месяц"];
-        var years = ["год","года","год"];
-        var massOfDate = [seconds,minutes,hours,days,weeks,month,years];
-
-        this.getDateRus = function(date){
-            var delta = getDateNow()-date;
-            if(delta<60&&delta>0){
-                return getRightFormat(delta,0);
-            }
-            else if(delta>=60&&delta<3600){
-                return getRightFormat(Math.floor(delta/60),1);
-            }
-            else if(delta>=3600&&delta<86400){
-                return getRightFormat(Math.floor(delta/3600),2);
-            }
-            else if(delta>=86400&&delta<604800){
-                return getRightFormat(Math.floor(delta/86400),3);
-            }
-            else if(delta>=604800&&delta<2419200){
-                return getRightFormat(Math.floor(delta/604800),4);
-            }
-            else if(delta>=2419200&&delta<29030400){
-                return getRightFormat(Math.floor(delta/2419200),5);
-            }
-            else if(delta>=29030400){
-                return getRightFormat(Math.floor(delta/29030400),6);
-            }
-        };
-
-        function getRightFormat(dat,coef){
-            var date = dat.toString();
-            var ln= date.length;
-            var firstDigit = parseInt(date[ln-1]);
-            var secondDigit = parseInt(date[ln-2]);
-
-            switch (firstDigit){
-                case 1:
-                    if(secondDigit===1){
-                        return date+" "+massOfDate[coef][0]+" "+"назад";
-                    }
-                    return date+" "+massOfDate[coef][2]+" "+"назад";
-
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    if(secondDigit===1){
-                        return date+" "+massOfDate[coef][0]+" "+"назад";
-                    }
-                    return date+" "+massOfDate[coef][1]+" "+"назад";
-                    break;
-                default:
-                    return date+" "+massOfDate[coef][0]+" "+"назад";
-                    break;
-            }
-
-        }
-    }
 
     function getMaxOfArray(numArray) {
         return Math.max.apply(null, numArray);
@@ -123,7 +80,7 @@
                     lastTimeUpdate= getDateNow();
                     lessons = response;
                     proccessLessons(response, $);
-                    starRealTime($)
+                    //starRealTime($)
                 }
             },
             function (error) {
@@ -140,12 +97,13 @@
                 if(response&&response.length){
                     countMess=0;
                     objects.wraper.empty();
+                    checkLessonsBeforeUpdate(response);
                     updateLessons(response);
                     proccessLessons(lessons, $);
                     lastTimeUpdate = getDateNow();
-                    //setTimeout(function(){
-                    //    realtimeUpdate($)
-                    //},5000);
+                    setTimeout(function(){
+                        realtimeUpdate($)
+                    },5000);
                 }
             },
             function (error) {
@@ -159,7 +117,7 @@
 
     function proccessLessons(lessons, $) {
         for (var i=0;i<lessons.length;i++){
-            getAllCommentsForLesson(lessons[i],$);
+            getAllCommentsForLesson(lessons[i],$)
         }
     }
 
@@ -172,7 +130,17 @@
                         objects.count.css("display","block");
                     }
                     var len = res.length;
-                    countMess+=len;
+                    for(var i = 0;i<len;i++){
+                        if(res[i].status === "1"){
+                            countMess++;
+                        }
+                    }
+                    if(countMess===0){
+                        objects.count.css("display","none");
+                    }
+                    else{
+                        objects.count.css("display","block");
+                    }
                     var countToStringLen=countMess.toString().length;
                     if(countToStringLen>currentCoef){
                         currentCoef=countToStringLen;
@@ -186,7 +154,7 @@
 
                     var item =  $(
                         "<div class='item-wrap'>"
-                        +"<p class='mess-count'>"+"<b>"+len+"</b>"+getRightForm(len)+"<b>"+'"'+lesson.title+'"'+"</b>"+"</p>"
+                        +"<p class='mess-count'>"+"<b>"+countMess+"</b>"+getRightForm(countMess)+"<b>"+'"'+lesson.title+'"'+"</b>"+"</p>"
                         +"<p class='mess-date'>"+"Дата проведения: "+"<b>"+getFormDate(lesson.start)+"</b>"+"</p>"
                         +"<p class='mess-last-mess'>"+humanFriendlyDate.getDateRus(maxDate)+"</p>"
                         +"</div>").attr("link",url+"app/lesson/id"+lesson.id);
@@ -198,6 +166,22 @@
                 }
     }
 
+    function checkLessonsBeforeUpdate(response){
+        var len = response.length,
+            item = null;
+
+
+        for(var i = 0;i<len;i++){
+            var lenMes = response[i].mess.length;
+            while(item=response[i].mess.find(function(element,i,arr){
+                return element.status==="2";
+            })){
+                var ind = response[i].mess.indexOf(item);
+                response[i].mess.splice(ind,1);
+                lessons[i].mess.splice(ind,1);
+            }
+        }
+    }
     function updateLessons(response){
         var len = response.length;
         for(var i = 0;i<len;i++){

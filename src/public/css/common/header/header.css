@@ -237,6 +237,7 @@
     font-size: 13px;
 }
 .mess-date{
+    float:left;
     margin-left: 5px;
     font-size:10px;
 }
@@ -287,4 +288,9 @@
     color: #fff;
     min-height: 13px;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, .4);
+}
+
+.mess-last-mess{
+    float:right;
+    margin-right: 10px;
 }
