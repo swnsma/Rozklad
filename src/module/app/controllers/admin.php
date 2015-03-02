@@ -1,22 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sasha
- * Date: 27.01.2015
- * Time: 16:45
- */
 
-class Admin extends Controller {
+class Admin extends Controller
+{
     public static $role='teacher';
     public static $id=1;
     private $model;
-    public function __construct() {
+
+    public function __construct()
+    {
         parent::__construct();
         $this->model = $this->loadModel('admin');
         $this->userModel = $this->loadModel('user');
     }
 
-    public function index() {
+    public function index()
+    {
         $data = [];
         $data['database']=URL.'SQL/data/index.php?sqlite=&username=&db=rozklad.sqlite';
         $data['email']=$this->model->getAdminMail();
@@ -26,53 +24,61 @@ class Admin extends Controller {
         $this->view->renderHtml('common/footer');
         $this->view->renderHtml('common/foot');
     }
-    public function setMail(){
+
+    public function setMail()
+    {
         $mail = $_POST['mail'];
         $this->model->setAdminMail($mail);
     }
-    public function getMail(){
+
+    public function getMail()
+    {
         $r=$this->model->getAdminMail();
         $this->view->renderJson($r);
     }
-    public function getUnconfirmedUsers(){
+
+    public function getUnconfirmedUsers()
+    {
         $unconfirmedUsers=$this->model->getUnconfirmedUsers();
         $this->view->renderJson($unconfirmedUsers);
     }
 
-    public function getTeachers(){
+    public function getTeachers()
+    {
         $teachers=$this->model->getTeachers();
         $this->view->renderJson($teachers);
     }
 
-    public function confirmUser(){
+    public function confirmUser()
+    {
         $req=Request::getInstance();
         $id = $req->getParam(0);
         $this->model->confirmUser($id);
-        //Відправляємо листа вчитeлю
-
-
-        //
     }
 
-    public function unConfirmUser(){
+    public function unConfirmUser()
+    {
         $req=Request::getInstance();
         $id = $req->getParam(0);
         $this->model->unConfirmUser($id);
     }
 
-    public function deleteUser(){
+    public function deleteUser()
+    {
         $req = Request::getInstance();
         $id = $req->getParam(0);
         $this->model->deleteUser($id);
     }
 
-    public function recoverUser(){
+    public function recoverUser()
+    {
         $req = Request::getInstance();
         $id = $req->getParam(0);
         $this->model->recoverUser($id);
     }
 
-    public function getUserInformation(){
+    public function getUserInformation()
+    {
         $req=Request::getInstance();
         $id = $req->getParam(0);
         $this->userModel->getUserInformation($id);

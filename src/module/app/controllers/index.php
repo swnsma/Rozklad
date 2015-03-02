@@ -1,11 +1,14 @@
 <?php
 
-class Index extends Controller {
-    function __construct() {
+class Index extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    function index() {
+    function index()
+    {
         $this->view->renderHtml('index/index');
     }
 }

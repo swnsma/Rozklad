@@ -1,32 +1,38 @@
 <?php
 
 
-class Comment extends Controller {
+class Comment extends Controller
+{
     private $lessonId;
     private $model;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->model=$this->loadModel("comment");
     }
 
-    public function index() {
+    public function index()
+    {
         $this->view->renderHtml("comment/index");
     }
 
-    public function tree(){
+    public function tree()
+    {
         $id=$_POST['id'];
         $comments=$this->model->index($id);
         $this->view->renderJson($comments);
     }
 
-    public function addComment(){
+    public function addComment()
+    {
         $data=$_POST['data'];
         $resp=$this->model->addComment($data);
         $this->view->renderJson($resp);
     }
 
-    public function removeComment(){
+    public function removeComment()
+    {
         $id=$_POST['id'];
         $resp=$this->model->removeComment($id);
         if($resp){
@@ -37,7 +43,8 @@ class Comment extends Controller {
         exit;
     }
 
-    public function getCurrentUser(){
+    public function getCurrentUser()
+    {
         $this->model = $this->loadModel('user');
         $userInfo=$this->model->getCurrentUserInfo(Session::get('id'));
         $this->view->renderJson($userInfo);

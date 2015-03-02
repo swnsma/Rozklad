@@ -1,11 +1,14 @@
 <?php
 
-class Error extends Controller {
-    public function __construct() {
+class Error extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    function index() {
+    function index()
+    {
         $model = $this->loadModel('index');
         $data = 'hi';
 
