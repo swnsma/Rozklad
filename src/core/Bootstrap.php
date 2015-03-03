@@ -7,7 +7,6 @@ class Bootstrap extends Controller
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
         $base = new Base_Install();
-        LessonModel::realDeletedLesson();
         $this->model=$this->loadModel('user');
         $request = Request::getInstance();
         $urla=$request->getUrl();

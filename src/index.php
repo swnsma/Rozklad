@@ -10,7 +10,6 @@ require_once 'core/View.php';
 require_once 'core/BaseInstall.php';
 require_once 'core/Request.php';
 require_once 'core/Session.php';
-require_once 'module/app/model/lesson_model.php';
 
 if (DEBUG) {
     error_reporting(E_ALL);
