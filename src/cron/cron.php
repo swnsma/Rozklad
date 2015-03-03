@@ -4,12 +4,12 @@ set_include_path('./../');
 
 require_once 'conf/mail_conf.php';
 require_once 'cron/MailerOfLetter.php';
-require_once 'core/Model.php';
-require_once 'module/app/model/lesson_model.php';
+require_once 'cron/RealDelLesson.php';
 
 $m = MailerOfLetter::getInstance();
 $m->sendInvitationToLesson();
 
-LessonModel::realDeletedLesson();
+$l = RealDelLesson::getInstance();
+$l->run();
 
 ?>
