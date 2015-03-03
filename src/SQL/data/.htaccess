@@ -1,0 +1,12 @@
+Order Allow,Deny
+Deny from all
+
+SetEnvIfNoCase Request_URI "^/app/admin" SECURED
+
+AuthType Basic
+AuthName "Login"
+AuthUserFile /var/www/vhosts/rozklad/public_html/conf/.htpasswd
+Require valid-user
+Order allow,deny
+Allow from env=!SECURED
+Satisfy any
