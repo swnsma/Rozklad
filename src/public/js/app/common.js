@@ -1,4 +1,4 @@
-var url =window.location.origin +'/src/';
+var url =window.location.origin +'/';
 var disqusPublicKey="KDCo6JfYbQFJv9Dzk8c79JkR1KyhTfStAkhOSZMCfBEXu2n2h2zKOjQ10n4G3Hqc";
 var disqusSecretKey="OWXEOra8Y8VKldsvJuGqW1XaueQy5LKXG3G6bRO79XO29lQnDdstwUhSnYn3tHdR";
 var disqusShortname ="schedule";
