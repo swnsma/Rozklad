@@ -6,12 +6,12 @@ class Bootstrap extends Controller
     public function __construct() {
         parent::__construct();
         $this->initSes(3600*24, 'MYSES');
-        $base = new Base_Install();
+        new Base_Install();
         $this->model=$this->loadModel('user');
         $request = Request::getInstance();
-        $urla=$request->getUrl();
-        if(preg_match('/grouppage/', $urla)||preg_match('/groups/', $urla)){
-            Session::set('unusedLink',$urla);
+        $url = $request->getUrl();
+        if(preg_match('/grouppage/', $url)||preg_match('/groups/', $url)){
+            Session::set('unusedLink',$url);
         }
         $controller = $request->getController();
         $action=$request->getAction();
