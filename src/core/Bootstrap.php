@@ -15,7 +15,6 @@ class Bootstrap extends Controller
             Session::set('unusedLink', $urla);
         }
         $controller = $request->getController();
-        $action = $request->getAction();
         $module = $request->getModule();
 
         $this->model = $this->loadModel('user');
