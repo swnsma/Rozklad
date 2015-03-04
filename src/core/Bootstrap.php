@@ -3,11 +3,11 @@
 class Bootstrap extends Controller
 {
     private $model;
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        $this->initSes(3600*24, 'MYSES');
+        Session::init(3600 * 24, 'MYSES');
         new Base_Install();
-        $this->model=$this->loadModel('user');
         $request = Request::getInstance();
         $url = $request->getUrl();
         if(preg_match('/grouppage/', $url)||preg_match('/groups/', $url)){

@@ -323,4 +323,118 @@ SETGRADE;
         }
 
     }
+
+
+    // methods to dispatch URL
+    public function dispatcher($controller)
+    {
+        $this->setLogoutLink();
+        $this->checkLogout($controller);
+        $this->checkUnconf();
+        $this->checkStatus();
+        $this->checkId($controller);
+        $this->checkRoute($controller);
+    }
+
+    public function logout()
+    {
+        setcookie (session_id(), "", time() - 25*3600);
+        session_destroy();
+        session_write_close();
+        header("location:".URL);
+        exit;
+    }
+
+    private function checkController($controller)
+    {
+        return
+            $controller==='calendar'||
+            $controller==='grouppage'||
+            $controller==='groups'||
+            $controller==='lesson';
+    }
+
+    private function checkStatus()
+    {
+        if(!Session::has('status')) {
+            Session::set("status",'not');
+        }
+    }
+
+    private function checkLogout($controller)
+    {
+        if($controller=='logout') {
+            $this->logout();
+        }
+    }
+
+    private function setLogoutLink()
+    {
+        if(!Session::has("logout_link")) {
+            Session::set('logout_link',URL."app/logout");
+        }
+    }
+
+    private function checkUnconf()
+    {
+        if(Session::has('status') && Session::get('status')!="not" && (Session::has('id'))) {
+            if(!$this->checkUnconfirmed(Session::get('id'))) {
+                Session::set('status','ok');
+            } else{
+                Session::set('status','unconfirmed');
+            }
+        }
+    }
+
+    private function changeLocation($location = '') {
+        header("Location:".URL.$location);
+        exit;
+    }
+
+    private function checkId($controller) {
+        if((Session::get('status')!='not') && (Session::get('status')!='regist')&&$this->checkController($controller)) {
+            if (Session::has('id')) {
+                $userInfo = $this->getCurrentUserInfo(Session::get('id'));
+                if ($userInfo === null) {
+                    $this->logout();
+                }
+            } else {
+                $this->logout();
+            }
+        }
+    }
+
+    private function checkRoute($controller)
+    {
+        if(Session::has('status')){
+            $status = Session::get('status');
+            switch($status){
+                case 'not':
+                    if($this->checkController($controller)&& $controller != 'index') {
+                        $this->changeLocation();
+                    }
+                    break;
+                case 'regist':
+                    if($controller!='regist'&&$controller!='sendermail') {
+                        $this->changeLocation("app/regist");
+                    }
+                    break;
+                case 'unconfirmed':
+                    if($controller!="index"&&$controller!="logout"&&$controller!='sendermail') {
+                        $this->changeLocation();
+                    }
+                    break;
+                case 'ok':
+                    if($controller=='index'||$controller=='regist') {
+                        $this->changeLocation("app/calendar");
+                    }
+                    break;
+            }
+        } else {
+            if($controller!="index" && $this->checkController($controller)) {
+                header("Location:" . URL);
+                exit;
+            }
+        }
+    }
 }
