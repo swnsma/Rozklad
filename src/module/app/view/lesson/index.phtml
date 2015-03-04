@@ -244,7 +244,7 @@
                 <textarea data-bind="value:textForComment,handleTextareaAutogrow:$data.reply()"></textarea>
             </div>
             <div class="comment-answer-container">
-                <div class="custom-button comment-answer-button" data-bind="click:sendNewComment">Опубликовать</div>
+                <div class="custom-button comment-answer-button" data-bind="click:sendNewComment,enable:$data.success()">Опубликовать</div>
             </div>
     </script>
     <!--<div class="container-img">-->

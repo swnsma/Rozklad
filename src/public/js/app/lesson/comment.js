@@ -5,19 +5,21 @@ var mod=(function(mod){
     var pos = lessonId.search(/id[0-9]+/);
     lessonId = +lessonId.substr(pos + 2, lessonId.length - pos - 2);
 
-    function getDateNow(){
+    function getDateNow (){
         return Date.now() / 1000 | 0;
     }
 
     var viewModel = {
-        currentUser:ko.observable(),
-        treeRoot:getTreeObject(),
-        textForComment:ko.observable(),
-        reply:ko.observable(true),
-        sendNewComment:function(){
-            var mes =viewModel.textForComment()+"";
+        currentUser: ko.observable(),
+        treeRoot: getTreeObject(),
+        textForComment: ko.observable(),
+        reply: ko.observable(true),
+        success: ko.observable(true),
+        sendNewComment: function(){
+            var mes = viewModel.textForComment()+"";
             viewModel.textForComment(mes.trim());
-            if(viewModel.textForComment()){
+            if(viewModel.textForComment()&&viewModel.success()){
+                viewModel.success(false);
                 sendNewComment();
             }
         }
@@ -25,13 +27,13 @@ var mod=(function(mod){
 
     mod.viewModel = viewModel;
 
-    function TreeObject(){
+    function TreeObject (){
         var self=this;
         self.children = ko.observableArray();
-        self.remove=function(data){
+        self.remove = function(data){
             removeComment(data,
                 function(response){
-                    if(response==='ok'){
+                    if(response === 'ok'){
                         self.children.remove(function(item) {
                             return item.id() == data.id();
                         });
@@ -43,6 +45,7 @@ var mod=(function(mod){
         self.addNewItem=function(data){
             addComment(data,
                 function(response){
+                    self.success(true);
                     self.children.push(new TreeElement(response,response.CHILDREN));
                 }
             );
@@ -62,43 +65,49 @@ var mod=(function(mod){
         self.name = ko.observable(comment.name+" "+comment.surname);
         self.children = ko.observableArray(children);
         self.user_id = ko.observable(comment.user_id);
-        self.id=ko.observable(comment.com_id);
-        self.date=ko.observable(humanFriendlyDate.getDateRus(comment.date));
-        self.text=ko.observable(comment.text);
-        self.pid=ko.observable(comment.pid);
-        self.textForComment=ko.observable();
-        self.reply=ko.observable(false);
-        self.photo=ko.observable("");
-
+        self.id = ko.observable(comment.com_id);
+        self.date = ko.observable(humanFriendlyDate.getDateRus(comment.date));
+        self.text = ko.observable(comment.text);
+        self.pid = ko.observable(comment.pid);
+        self.textForComment = ko.observable();
+        self.reply = ko.observable(false);
+        self.photo = ko.observable("");
+        self.success = ko.observable(true);
         if(comment.fb_id) {
             self.account = 'https://www.facebook.com/' + comment.fb_id;
             self.photo('http://graph.facebook.com/' + comment.fb_id + '/picture?type(square)');
         }
         else{
             self.account = 'https://plus.google.com/u/0/'+comment.gm_id+'/posts';
-            self.account = 'https://plus.google.com/u/0/'+comment.gm_id+'/posts';
             self.photo(comment.gm_photo);
         }
 
         self.remove=function(data){
-            removeComment(data,
-                function(response){
-                    if(response==='ok'){
-                        self.children.remove(function(item) {
-                            return item.id() == data.id();
-                        });
+            if(self.success()) {
+                self.success(false);
+                removeComment(data,
+                    function (response) {
+                        self.success(true);
+                        if (response === 'ok') {
+                            self.children.remove(function (item) {
+                                return item.id() == data.id();
+                            });
+                        }
                     }
-                }
-            );
+                );
+            }
         };
 
         self.addNewItem=function(){
-            self.reply(!self.reply());
+            if(self.success()) {
+                self.reply(!self.reply());
+            }
         };
 
         self.sendNewComment=function(){
             self.textForComment(self.textForComment().trim());
-            if(self.textForComment()){
+            if(self.textForComment()&&self.success()){
+                self.success(false);
                 sendNewCommentLevels(self);
             }
         }
@@ -114,6 +123,7 @@ var mod=(function(mod){
     var sendNewComment=function(){
         addCommentFirstLevel(viewModel,function(comment){
             debugger;
+            viewModel.success(true);
             viewModel.treeRoot.push(new TreeElement(comment,mod.addNewTree(comment.CHILDREN)));
             viewModel.textForComment('');
         });
@@ -123,6 +133,7 @@ var mod=(function(mod){
         var date = new Date();
         addComment(self,
             function(response){
+                self.success(true);
                 self.children.push(new TreeElement(response,response.CHILDREN));
                 self.reply(false);
                 self.textForComment('');
