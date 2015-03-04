@@ -15,6 +15,8 @@ var mod=(function(mod){
         textForComment:ko.observable(),
         reply:ko.observable(true),
         sendNewComment:function(){
+            var mes =viewModel.textForComment()+"";
+            viewModel.textForComment(mes.trim());
             if(viewModel.textForComment()){
                 sendNewComment();
             }
@@ -95,6 +97,7 @@ var mod=(function(mod){
         };
 
         self.sendNewComment=function(){
+            self.textForComment(self.textForComment().trim());
             if(self.textForComment()){
                 sendNewCommentLevels(self);
             }
@@ -123,9 +126,6 @@ var mod=(function(mod){
                 self.children.push(new TreeElement(response,response.CHILDREN));
                 self.reply(false);
                 self.textForComment('');
-                //setTimeout(function(){
-                //    showData(date);
-                //},2000);
             }
         );
     };

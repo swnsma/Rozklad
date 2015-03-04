@@ -17,7 +17,7 @@ class Bootstrap extends Controller
         $action=$request->getAction();
         $module = $request->getModule();
 
-        $this->dispatcher($controller,$action);
+        $this->dispatcher($controller);
 
         $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
         if (file_exists($file)) {
@@ -35,23 +35,23 @@ class Bootstrap extends Controller
         Session::init($time,$ses);
     }
 
-    private function dispatcher($controller,$action)
+    private function dispatcher($controller)
     {
         $this->setLogoutLink();
         $this->checkLogout($controller);
         $this->checkUnconf();
         $this->checkStatus();
         $this->checkId($controller);
-        $this->checkRoute($controller,$action);
+        $this->checkRoute($controller);
     }
 
     private function checkController($controller)
     {
         return
-            $controller=='calendar'||
-            $controller=='grouppage'||
-//            $controller=='admin'||
-            $controller=='groups';
+            $controller==='calendar'||
+            $controller==='grouppage'||
+            $controller==='groups'||
+            $controller==='lesson';
     }
 
     private function checkStatus()
@@ -64,7 +64,7 @@ class Bootstrap extends Controller
     private function checkLogout($controller)
     {
         if($controller=='logout') {
-            $this->logout_link();
+            $this->logout();
         }
     }
 
@@ -73,12 +73,6 @@ class Bootstrap extends Controller
         if(!Session::has("logout_link")) {
             Session::set('logout_link',URL."app/logout");
         }
-    }
-
-    private function logout_link()
-    {
-        $this->logout();
-        header("Location:".URL);
     }
 
     private function checkUnconf() {
@@ -111,7 +105,7 @@ class Bootstrap extends Controller
         }
     }
 
-    private function checkRoute($controller,$action)
+    private function checkRoute($controller)
     {
         if(Session::has('status')){
             $status = Session::get('status');
