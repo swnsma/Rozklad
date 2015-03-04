@@ -25,7 +25,7 @@ abstract class Controller
 
     public function logout()
     {
-        setcookie (session_id(), "", time() - 3600);
+        setcookie (session_id(), "", time() - 25*3600);
         session_destroy();
         session_write_close();
         header("location:".URL);

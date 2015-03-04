@@ -203,6 +203,7 @@
 <!--/ko-->
 <section class="main-content">
     <!-- ko with:commentModel -->
+    <!-- ko if: $root.viewModel.descriptionTab-->
     <script id="treeElement" type="text/html">
         <!-- ko if:$data.id -->
         <div class="comment-container">
@@ -222,7 +223,9 @@
                                         }">Удалить</span>
                     <!-- /ko -->
                     <!-- ko if:$data.pid()=== "0" -->
+                    <!-- ko if:$data.user_id()==$root.commentModel.currentUser().id&&$data.pid()=== "0" -->
                     <span class="bullet"></span>
+                    <!-- /ko -->
                     <span class="comment-reply" data-bind="click:addNewItem">Ответить</span>
                     <!-- /ko -->
                     <!-- ko if:$data.reply()-->
@@ -241,7 +244,7 @@
                 <textarea data-bind="value:textForComment,handleTextareaAutogrow:$data.reply()"></textarea>
             </div>
             <div class="comment-answer-container">
-                <div class="custom-button comment-answer-button" data-bind="click:sendNewComment">Опубликовать</div>
+                <div class="custom-button comment-answer-button" data-bind="click:sendNewComment,enable:$data.success()">Опубликовать</div>
             </div>
     </script>
     <!--<div class="container-img">-->
@@ -250,6 +253,7 @@
     <div  class="comment-wrap margin-not" data-bind="template: { name: 'form', data:$root.commentModel }"></div>
     <div  class="comment-wrap margin-not" data-bind="template: { name: 'treeElement', foreach: $data.treeRoot }"></div>
 
+    <!--/ko-->
     <!--/ko-->
 </section>
 
