@@ -8,32 +8,27 @@ class Base_Install extends Model
         $currentVersion="0";
         $path=DOC_ROOT.'SQL/install';
         $version=0;
+        $query="";
         if(file_exists($path."/version.txt")) {
             $currentVersion = file_get_contents($path."/version.txt");
+            $version=$currentVersion;
         }else{
             $query = file_get_contents("SQL/install/drop.sql");
             $this->db->exec($query);
+            $query="";
         }
-        $dir = opendir($path);
-        while( $files=readdir($dir)) {
-            if(preg_match("/install_[0-9]*\.sql/", $files)) {
-                $lastVersion=preg_replace("/[^0-9]/", "", $files);
-                if($version<$lastVersion) {
-                    $version=$lastVersion;
-                }
+        foreach (glob($path.'/install_*.sql') as $filename){
+            if(preg_replace("/[^0-9]/", "", $filename)>$currentVersion){
+                $version++;
+                $query= $query.file_get_contents($filename);
             }
         }
-        $lastVersion=$version;
-        if($currentVersion<$lastVersion) {
-            try {
-                do {
-                    $currentVersion++;
-                    $query = file_get_contents($path.'/install_'.$currentVersion.'.sql');
-                    $this->db->exec($query);
-                } while($currentVersion!=$lastVersion);
-                file_put_contents($path."/version.txt",$lastVersion );
+        if($version!=$currentVersion){
+            try{
+            file_put_contents($path."/version.txt",$version);
+            $this->db->exec($query);
             } catch(PDOException $e) {
-                print 'Error';
+                echo 'Error';
             }
         }
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
