@@ -1,7 +1,7 @@
 <?php
 class Session
 {
-    public static function init($time,$ses)
+    public static function init($time, $ses)
     {
         session_set_cookie_params($time);
         session_name($ses);
@@ -20,7 +20,7 @@ class Session
 
     public static function get($key)
     {
-        if(isset($_SESSION[$key])) {
+        if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         } else {
             return null;
@@ -37,5 +37,3 @@ class Session
         session_destroy();
     }
 }
-
-?>

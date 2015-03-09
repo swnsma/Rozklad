@@ -107,5 +107,3 @@ class Request
         return self::$instance;
     }
 }
-
-?>

@@ -58,5 +58,3 @@ abstract class Magic_Object
         return $var;
     }
 }
-
-?>

@@ -9,12 +9,16 @@ class Loging extends Controller
     public static $status;
     private $client;
     private $oauth2;
+    private $modelCheck;
+    private $modelUser;
+    private $modelRegist;
 
     public function __construct()
     {
         parent::__construct();
         Session::uns("fb_ID");
-        $this->model = $this->loadModel('check');
+        $this->modelCheck = $this->loadModel('check');
+        $this->modelUser = $this->loadModel('user');
         $this->client = new Google_Client();
         $this->client->setApplicationName("Rozklad");
         $this->client->setClientId(CLIENT_ID_GM);
@@ -69,17 +73,16 @@ class Loging extends Controller
 
     public function checkUser()
     {
-        $hasUser= $this->model->checkUserGM(Session::get("gm_ID"));
+        $hasUser= $this->modelCheck->checkUserGM(Session::get("gm_ID"));
         if($hasUser) {
-            $this->model=$this->loadModel("user");
-            $id=$this->model->getIdGM(Session::get("gm_ID"));
+            $id=$this->modelUser->getIdGM(Session::get("gm_ID"));
             Session::set('id',$id);
             Session::set('status',"ok");
             $link="app/calendar";
             if(Session::has('unusedLink')) {
                 $link = Session::get('unusedLink');
             }
-            $isUnconf=$this->model->checkUnconfirmed($id);
+            $isUnconf=$this->modelUser->checkUnconfirmed($id);
             if($isUnconf) {
                 Session::set('status',"unconfirmed");
             }
@@ -87,13 +90,11 @@ class Loging extends Controller
             exit;
         } else {
             Session::set('status','regist');
-            $this->model=$this->loadModel("check");
             if(Session::has('email')&&Session::get('email')!='') {
-                if ($this->model->checkEmail(Session::get('email'))) {
-                    $this->model = $this->loadModel("regist");
-                    $this->model->updateGM(Session::get('gm_ID'), Session::get('email'));
-                    $this->model = $this->loadModel("user");
-                    $id = $this->model->getIdGM(Session::get("gm_ID"));
+                if ($this->modelCheck->checkEmail(Session::get('email'))) {
+                    $this->modelRegist = $this->loadModel('regist');
+                    $this->modelRegist->updateGM(Session::get('gm_ID'), Session::get('email'));
+                    $id = $this->modelUser->getIdGM(Session::get("gm_ID"));
                     Session::set('id', $id);
                     Session::set('status', "ok");
                     $link="app/calendar";
@@ -101,7 +102,7 @@ class Loging extends Controller
                         $link = Session::get('unusedLink');
                         Session::uns('unusedLink');
                     }
-                    $isUnconf=$this->model->checkUnconfirmed($id);
+                    $isUnconf=$this->modelUser->checkUnconfirmed($id);
                     if($isUnconf){
                         Session::set('status',"unconfirmed");
                     }
@@ -128,7 +129,6 @@ class Loging extends Controller
 
     private function checkEmail($email)
     {
-        $this->model=$this->loadModel("check");
-        return $this->model->checkEmail($email);
+        return $this->modelCheck->checkEmail($email);
     }
 }

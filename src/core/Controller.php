@@ -37,5 +37,3 @@ abstract class Controller
         return mb_strtolower(get_class($this));
     }
 }
-
-?>

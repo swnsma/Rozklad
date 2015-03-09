@@ -21,4 +21,3 @@ abstract class Response
         $this->string='';
     }
 }
-?>

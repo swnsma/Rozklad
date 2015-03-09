@@ -134,5 +134,3 @@ class UploadImage extends Upload {
         return $this->upload_file_name;
     }
 }
-
-?>

@@ -24,14 +24,17 @@ use Facebook\FacebookSession;
 
 class Loginf extends Controller
 {
-    private $model;
+    private $modelCheck;
+    private $modelRegist;
+    private $modelUser;
 
     public function __construct()
     {
         parent::__construct();
         Session::uns("gm_ID");
-        $this->model=$this->loadModel("check");
-        FacebookSession::setDefaultApplication( APP_ID_FB,APP_SECRET_FB );
+        $this->modelCheck = $this->loadModel('check');
+        $this->modelUser = $this->loadModel('user');
+        FacebookSession::setDefaultApplication(APP_ID_FB,APP_SECRET_FB);
     }
 
     public function login()
@@ -71,7 +74,6 @@ class Loginf extends Controller
                 Session::set('email',NULL);
             }
 
-
             $this->checkUser();
             exit;
 
@@ -85,16 +87,15 @@ class Loginf extends Controller
 
     public  function updateId($id)
     {
-        $this->model=$this->loadModel('regist');
-        $this->model->updateFB(Session::get('fb_ID'),$id);
+        $this->modelRegist->updateFB(Session::get('fb_ID'),$id);
     }
 
     public function checkUser()
     {
-        $check= $this->model->checkUserFB(Session::get('fb_ID'));
+        $check= $this->modelCheck->checkUserFB(Session::get('fb_ID'));
         if($check) {
-            $this->model=$this->loadModel("user");
-            $id=$this->model->getIdFB(Session::get("fb_ID"));
+
+            $id = $this->modelUser->getIdFB(Session::get("fb_ID"));
             Session::set('id',$id);
 
             Session::set('status',"ok");
@@ -103,7 +104,7 @@ class Loginf extends Controller
                 $link=Session::get('unusedLink');
                 Session::uns('unusedLink');
             }
-            $isUnconf=$this->model->checkUnconfirmed($id);
+            $isUnconf=$this->modelCheck->checkUnconfirmed($id);
             if($isUnconf) {
                 Session::set('status',"unconfirmed");
             }
@@ -111,21 +112,19 @@ class Loginf extends Controller
             exit;
         } else {
             Session::set('status','regist');
-            $this->model=$this->loadModel("check");
             if(Session::has('email')&&Session::get('email')!='') {
-                if ($this->model->checkEmail(Session::get('email'))) {
-                    $this->model = $this->loadModel("regist");
-                    $this->model->updateFB(Session::get('fb_ID'), Session::get('email'));
-                    $this->model = $this->loadModel("user");
-                    $id = $this->model->getIdFB(Session::get("fb_ID"));
+                if ($this->modelCheck->checkEmail(Session::get('email'))) {
+                    $this->modelRegist = $this->loadModel('regist');
+                    $this->modelRegist->updateFB(Session::get('fb_ID'), Session::get('email'));
+                    $id = $this->modelUser->getIdFB(Session::get("fb_ID"));
                     Session::set('id', $id);
                     Session::set('status', 'ok');
-                    $link="app/calendar";
+                    $link = "app/calendar";
                     if(Session::has('unusedLink')){
-                        $link=Session::get('unusedLink');
+                        $link = Session::get('unusedLink');
                         Session::uns('unusedLink');
                     }
-                    $isUnconf=$this->model->checkUnconfirmed($id);
+                    $isUnconf = $this->modelUser->checkUnconfirmed($id);
                     if($isUnconf){
                         Session::set('status',"unconfirmed");
                     }
