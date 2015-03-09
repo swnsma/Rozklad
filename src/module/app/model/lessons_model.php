@@ -2,11 +2,6 @@
 
 class LessonsModel extends Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     private function formatDate()
     {
         return "Y-m-d H:i:s";

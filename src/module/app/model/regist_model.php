@@ -1,11 +1,6 @@
 <?php
 
 class RegistModel extends Model{
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function addUser($name,$surname,$phone,$role,$fb_id,$gm_id,$email)
     {
         try {

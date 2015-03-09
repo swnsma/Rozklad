@@ -1,11 +1,6 @@
 <?php
 
 class GroupPageModel extends Model {
-   public function __construct()
-   {
-        parent::__construct();
-   }
-
    public function existGroup($id)
    {
        $r= <<<CHECKING

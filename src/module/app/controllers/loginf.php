@@ -34,8 +34,6 @@ class Loginf extends Controller
         FacebookSession::setDefaultApplication( APP_ID_FB,APP_SECRET_FB );
     }
 
-    public function index() {}
-
     public function login()
     {
         // login helper with redirect_uri
@@ -83,11 +81,6 @@ class Loginf extends Controller
             ));
             header("Location: ".$loginUrl);
         }
-    }
-
-    private function checkEmail($email)
-    {
-        return $this->model->checkEmail($email);
     }
 
     public  function updateId($id)

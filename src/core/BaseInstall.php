@@ -3,7 +3,6 @@ class Base_Install extends Model
 {
     public function __construct()
     {
-        parent::__construct();
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, 0);
         $currentVersion="0";
         $path=DOC_ROOT.'SQL/install';

@@ -2,10 +2,6 @@
 
 class GrouplessonModel extends Model
 {
-    public function __construct() {
-        parent::__construct();
-    }
-
     //видалити
     function addGroupToLesson($lessonId,$groupId)
     {

@@ -2,11 +2,6 @@
 
 class GroupsModel extends Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getList()
     {
         $r = <<<HERE

@@ -3,11 +3,6 @@
 
 class UserModel extends Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getUserInfo($id)
     {
         try {
@@ -323,7 +318,6 @@ SETGRADE;
         }
 
     }
-
 
     // methods to dispatch URL
     public function dispatcher($controller)

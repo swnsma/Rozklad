@@ -3,10 +3,19 @@ require_once DOC_ROOT . 'core/MagicObject.php';
 
 abstract class Model extends Magic_Object
 {
-    protected $db;
+    protected $data=[];
 
-    public function __construct()
-    {
-        $this->db = DataBase::getInstance()->DB();
+    public function __get($name){
+
+        if($name === "db"){
+
+            if(isset($this->data['db'])&&!empty($this->data['db'])){
+                return $this->data['db'];
+            }
+            else{
+                $this->data['db'] = DataBase::getInstance()->DB();
+                return $this->data['db'];
+            }
+        }
     }
 }

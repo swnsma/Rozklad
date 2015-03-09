@@ -2,11 +2,6 @@
 
 class LoginModel extends Model
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     public function checkName($name)
     {
         return true;
