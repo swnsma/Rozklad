@@ -19,22 +19,19 @@ class Comment extends Controller
 
     public function tree()
     {
-        $id=$_POST['id'];
-        $comments=$this->model->index($id);
+        $comments=$this->model->index( Request::getPost('id'));
         $this->view->renderJson($comments);
     }
 
     public function addComment()
     {
-        $data=$_POST['data'];
-        $resp=$this->model->addComment($data);
+        $resp=$this->model->addComment(Request::getPost('data'));
         $this->view->renderJson($resp);
     }
 
     public function removeComment()
     {
-        $id=$_POST['id'];
-        $resp=$this->model->removeComment($id);
+        $resp=$this->model->removeComment(Request::getPost('id'));
         if($resp){
             $this->view->renderJson("ok");
             exit;

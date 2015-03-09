@@ -16,7 +16,7 @@ class Regist extends Controller
 
     public function addUser()
     {
-        $data=$_POST['data'];
+        $data=Request::getPost('data');
         $name =$data['name'];
         $surname =$data['surname'];
         $phone =$data['phone'];

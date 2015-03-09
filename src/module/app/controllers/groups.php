@@ -100,9 +100,8 @@ class Groups extends Controller
 
     public function createNewGroup()
     {
-        if (isset($_POST['name'])) {
-            $name = $_POST['name'];
-
+        $name = Request::getPost('name');
+        if (isset($name)) {
             if (count($name)) {
 
                 if ($this->user_info['title'] == 'teacher') {

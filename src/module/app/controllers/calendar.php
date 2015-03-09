@@ -11,7 +11,7 @@ class Calendar extends Controller
     public function __construct()
     {
         parent::__construct();
-        $id = $_SESSION['id'];
+        $id = Session::get('id');
         if ($id === null) {
             $this->logout();
         }
@@ -36,8 +36,6 @@ class Calendar extends Controller
         $data['status'] = $this->userInfo['title'];
         $data['photo'] = 'http://graph.facebook.com/' . $this->userInfo['fb_id'] . '/picture?type=large';
         $data['currentPage']=$this->getClassName();
-
-        $this->model = $this->loadModel('lesson');
         if (Session::has('gm_ID')){
             $data['googleCalendars']=$this->model->getGoogleCalendarList();
         }
@@ -56,10 +54,10 @@ class Calendar extends Controller
 
     public function addFullEventDefault()
     {
-        if (isset($_POST['start']) && $_POST['end']) {
+        $start = Request::getPost('start');
+        $end = Request::getPost('end');
+        if (isset($start) && isset($end)) {
             $this->model = $this->loadModel('lesson');
-            $start = $_POST['start'];
-            $end = $_POST['end'];
             $id = $this->model->getOurLessonForThisIdStudent($this->userInfo, $start, $end);
             $this->view->renderJson($id);
         }
@@ -81,11 +79,11 @@ class Calendar extends Controller
 
     public function addFullEventTeacher()
     {
-        if (isset($_POST['start']) && isset($_POST['end'])) ;
+        $start = Request::getPost('start');
+        $end = Request::getPost('end');
+        if (isset($start) && isset($end)) ;
         {
             $this->model = $this->loadModel('lesson');
-            $start = $_POST['start'];
-            $end = $_POST['end'];
             $id['current'] = $this->model->getOurLessonForThisIdTeacherCurrent($this->userInfo, $start, $end);
             $id['no']=$this->model->getOurLessonForThisIdTeacherNoCurrent($this->userInfo, $start, $end);
             $this->view->renderJson($id);
@@ -94,9 +92,9 @@ class Calendar extends Controller
 
     public function restore()
     {
-        if (isset($_POST['id'])) {
+        $id = Request::getPost('id');
+        if (isset($id)) {
             $this->model = $this->loadModel('lesson');
-            $id = $_POST['id'];
             $date = $this->model->restore($id);
             $this->view->renderJson($date);
         }
@@ -122,21 +120,22 @@ class Calendar extends Controller
 
     public function updateEvent()
     {
-        if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['id']) && isset($_POST['teacher'])) {
+        $title = Request::getPost('title');
+        $start = Request::getPost('start');
+        $end = Request::getPost('end');
+        $id = Request::getPost('id');
+        $teacherId = Request::getPost('teacher');
+        if (isset($title) && isset($start) && isset($end) && isset($id) && isset($teacherId)) {
             $this->model = $this->loadModel('lesson');
-            $title = $_POST['title'];
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $id = $_POST['id'];
-            $teacherId = $_POST['teacher'];
             $this->model->updateLesson($title, $start, $end, $id, $teacherId);
-            if (isset($_POST['group'])) {
-                if (isset($_POST['group']['del'])) {
-//                    print $_POST['group']['del'];
-                    $this->deleteGroupFromLesson($id, $_POST['group']['del']);
+            $group = Request::getPost('group');
+            if (isset($group)) {
+                if (isset($group['del'])) {
+//                    print $group['del'];
+                    $this->deleteGroupFromLesson($id, $group['del']);
                 }
-                if (isset($_POST['group']['add'])) {
-                    $this->addGroupsToLesson($id, $_POST['group']['add']);
+                if (isset($group['add'])) {
+                    $this->addGroupsToLesson($id, $group['add']);
                 }
             }
             $this->view->renderJson("succeess");
@@ -145,20 +144,21 @@ class Calendar extends Controller
 
     public function addEvent()
     {
-        if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['teacher'])) {
+        $title = Request::getPost('title');
+        $start = Request::getPost('start');
+        $end = Request::getPost('end');
+        $teacher = Request::getPost('teacher');
+        if (isset($title) && isset($start) && isset($end) && isset($teacher)) {
             $this->model = $this->loadModel('lesson');
 //            print_r($_POST);
-            $title = $_POST['title'];
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $teacher = $_POST['teacher'];
             $id = $this->model->addLesson($title, $start, $end, $teacher);
 
             if ($id == null) {
                 echo 'Ошибка';
             } else {
-                if (isset($_POST['group'])) {
-                    $this->addGroupsToLesson($id, $_POST['group']);
+                $group = Request::getPost('group');
+                if (isset($group)) {
+                    $this->addGroupsToLesson($id, $group);
                 }
                 $this->view->renderJson(array('id' => $id));
             }
@@ -167,12 +167,10 @@ class Calendar extends Controller
 
     public function delEvent()
     {
-
-        if (isset($_POST['id'])) {
+        $id = Request::getPost('id');
+        if (isset($id)) {
             $this->model = $this->loadModel('lesson');
-            $id = $_POST['id'];
             $this->model->delEvent($id);
-
             $this->view->renderJson("success");
         }
     }
@@ -206,11 +204,11 @@ class Calendar extends Controller
     public function eventDrop()
     {
         if($this->userInfo['title']==='teacher') {
+            $start =  Request::getPost('start');
+            $end =  Request::getPost('end');
+            $idlesson =  Request::getPost('id');
+            if(isset($start)&&isset($end)&&isset($id)) {
 
-            if(isset($_POST['start'])&&isset($_POST['end'])&&isset($_POST['id'])) {
-                $start = $_POST['start'];
-                $end = $_POST['end'];
-                $idlesson = $_POST['id'];
                 $this->model = $this->loadModel('lesson');
 
 
@@ -275,7 +273,7 @@ class Calendar extends Controller
     public function exportEvent()
     {
         $this->model = $this->loadModel('lesson');
-        $this->model->exportEvent($_POST['lesson']['lessonId'],$_POST['lesson']['userId'],$_POST['calendarId']);
+        $this->model->exportEvent( Request::getPost('lesson')['lessonId'], Request::getPost('lesson')['userId'], Request::getPost('calendarId'));
     }
 
     public function getGoogleCalendarList()

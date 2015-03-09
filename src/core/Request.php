@@ -5,9 +5,9 @@ class Request
     private static $instance = null;
 
     private $data = array();
-    private $controller = 'index',
-        $action = 'index',
-        $module = 'app';
+    private $controller = 'index';
+    private $action = 'index';
+    private $module = 'app';
 
     private function __construct()
     {
@@ -16,13 +16,18 @@ class Request
 
     private function parseGet()
     {
-        if (isset($_GET['url'])) {
-            $url = explode('/', rtrim($_GET['url'], '/'));
+        $urlString = $this->getUrl();
+        if (isset($urlString))
+        {
+            $url = explode('/', rtrim($urlString, '/'));
             $this->module = $url[0];
-            if (isset($url[1])) {
+            if (isset($url[1]))
+            {
                 $this->controller = $url[1];
-                if (isset($url[2])) {
-                    if(!preg_match("/id[0-9]+/", $url[2])){
+                if (isset($url[2]))
+                {
+                    if(!preg_match("/id[0-9]+/", $url[2]))
+                    {
                         $this->action = $url[2];
                         $this->data = array_slice($url, 3);
                     }else{
@@ -79,6 +84,20 @@ class Request
     }
 
     private function  __clone() {}
+
+    public static function getPostArr()
+    {
+        return $_POST;
+    }
+
+    public static function getPost($name)
+    {
+        if(isset($_POST[$name]))
+        {
+            return $_POST[$name];
+        }
+        return NULL;
+    }
 
     public static function getInstance()
     {

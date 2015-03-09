@@ -15,11 +15,11 @@ class SenderMail extends Controller
         $adminMail=$model->getAdminMail();
         print_r($adminMail);
         if($adminMail) {
-            $data=$_POST['data'];
-            $name =$data['name'];
-            $surname =$data['surname'];
-            $phone =$data['phone'];
-            $email=Session::get('email');
+            $data = Request::getPost('data');
+            $name = Request::getPost('name');
+            $surname = Request::getPost('surname');
+            $phone = $data['phone'];
+            $email = Session::get('email');
             $m = Mail::getInstance();
             $template = $m->getTemplate('letterToAdmin2', array(
                 'userName' => $name.' '.$surname,

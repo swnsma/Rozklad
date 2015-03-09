@@ -63,8 +63,8 @@ class GroupPage extends Controller
     {
         $req=Request::getInstance();
         $id=$req->getParam(0);
-        if(isset($_POST['title'])&&$_POST['title']){
-        $title = $_POST['title'];
+        $title =  Request::getPost('title');
+        if(isset($title)&&$title){
         if($this->model->checkName($title)){
             $this->view->renderJson(array('errormess'=>"Группа с данным именем уже существует"));
             return;
@@ -97,8 +97,8 @@ class GroupPage extends Controller
     {
         $req = Request::getInstance();
         $id = $req->getParam(0);
-        if(isset($_POST['title'])&&$_POST['title']){
-        $title = $_POST['title'];
+        $title =  Request::getPost('title');
+        if(isset($title)&&$title){
             if($this->model->checkName($title)) {
                 $this->view->renderJson(array('errormess'=>"Группа с данным именем уже существует"));
                 return;
@@ -119,7 +119,7 @@ class GroupPage extends Controller
         }
         $this->model->deletePhoto($id);
         $this->model->changeImage($id, $image);
-        $this->view->renderJson(array("result"=>$image, "title"=>$_POST['title']));;
+        $this->view->renderJson(array("result"=>$image, "title"=>$title));;
 
 
     }

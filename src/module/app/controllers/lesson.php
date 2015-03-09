@@ -89,7 +89,7 @@ class Lesson extends Controller
     {
         $req = Request::getInstance();
         $lessonId= $req->getParam(0);
-        $value=$_POST['data'];
+        $value=Request::getPost('data');
         $this->model->newInfo($lessonId,$value);
         $this->view->renderJson(Array('result'=>"success"));
     }
@@ -110,7 +110,7 @@ class Lesson extends Controller
 
     public function deleteFile()
     {
-        $fileName=$_POST['data'];
+        $fileName=Request::getPost('data');
         $pathAndName=TASKS_FOLDER.'/'.$fileName ;
         unlink ($pathAndName);
         $this->view->renderJson(Array('result'=>"success"));
@@ -134,7 +134,7 @@ class Lesson extends Controller
     {
         $req=Request::getInstance();
         $id=$req->getParam(0);
-        $line = $_POST['deadline'];
+        $line = Request::getPost('deadline');
         $this->model->setDeadLine($id, $line);
         $this->view->renderJson(Array('result'=>$line, 'id'=>$id));
     }
@@ -171,9 +171,9 @@ class Lesson extends Controller
 
     function setLastVisit()
     {
-        $date = strtotime($_POST['date']);
+        $date = strtotime(Request::getPost('date'));
         $user_id = Session::get('id');
-        $lesson_id = $_POST['lesson_id'];
+        $lesson_id = Request::getPost('lesson_id');
         $this->model=$this->loadModel("lesson");
         $result = $this->model->setLastVisit($user_id,$lesson_id,$date);
         $this->view->renderJson($result);
@@ -190,7 +190,7 @@ class Lesson extends Controller
 
     function setRate()
     {
-        $value=$_POST;
+        $value=Request::getPostArr();
         $grade=$value['data']['grade'];
         $lessonId=$value['data']['lessonId'];
         $teacherName=$value['data']['teacherName'];
@@ -200,7 +200,7 @@ class Lesson extends Controller
 
     public function saveMess()
     {
-        $post = $_POST;
+        $post = Request::getPostArr();
         $lesson_id = $post['lesson_id'];
         $user_id  = Session::get('id');
         $date = $post['date'];
@@ -231,7 +231,7 @@ class Lesson extends Controller
 
     public function realTimeUpdate()
     {
-        $since = $_POST["since"];
+        $since = Request::getPost("since");
         $this->model=$this->loadModel("user");
         $userInfo=$this->model->getCurrentUserInfo();
         $this->model=$this->loadModel("lesson");

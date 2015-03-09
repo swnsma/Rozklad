@@ -27,7 +27,8 @@ class Admin extends Controller
 
     public function setMail()
     {
-        $mail = $_POST['mail'];
+        $req = Request::getInstance();
+        $mail = $req->getPost('mail');
         $this->model->setAdminMail($mail);
     }
 
