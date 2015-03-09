@@ -5,7 +5,7 @@ class AdminModel extends Model
 
     public function getAdminMail()
     {
-        $filename=DOC_ROOT."module/app/view/admin/mail.txt";
+        $filename=DOC_ROOT."app/view/admin/mail.txt";
         if(file_exists($filename)) {
             $f=fopen($filename, "r");
             $s= fgets($f, 128);
@@ -17,7 +17,7 @@ class AdminModel extends Model
 
     public function setAdminMail($email)
     {
-        $filename=DOC_ROOT."module/app/view/admin/mail.txt";
+        $filename=DOC_ROOT."app/view/admin/mail.txt";
         $f = fopen($filename, "w");
         $email=htmlspecialchars($email);
         fputs($f, $email);

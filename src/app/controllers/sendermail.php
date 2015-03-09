@@ -1,5 +1,5 @@
 <?php
-require_once DOC_ROOT."core/Mail.php";
+require_once DOC_ROOT . "core/Mail.php";
 
 class SenderMail extends Controller
 {

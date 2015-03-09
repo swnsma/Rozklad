@@ -21,12 +21,12 @@ class Bootstrap extends Controller
 
    private function runController($module, $controller, $action)
    {
-       $file = DOC_ROOT  . 'module/' . $module . '/controllers/' . $controller . '.php';
+       $file = DOC_ROOT . $module . '/controllers/' . $controller . '.php';
        if (file_exists($file)) {
            require_once $file;
            $c = new $controller;
        } else {
-           require_once  DOC_ROOT . 'module/app/controllers/error.php';
+           require_once DOC_ROOT . 'app/controllers/error.php';
            $c = new Error();
        }
        $c->run($action);

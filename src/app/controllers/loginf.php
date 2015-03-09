@@ -1,20 +1,20 @@
 <?php
 //require_once DOC_ROOT .'conf/setup.php';
-require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookHttpable.php' );
-require_once(DOC_ROOT . 'lib/facebook/Entities/AccessToken.php' );
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookHttpable.php');
+require_once(DOC_ROOT . 'lib/facebook/Entities/AccessToken.php');
 require_once(DOC_ROOT . 'lib/facebook/Entities/SignedRequest.php');
-require_once(DOC_ROOT . 'lib/facebook/FacebookSession.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookSession.php');
 require_once(DOC_ROOT . 'lib/facebook/FacebookSignedRequestFromInputHelper.php');
-require_once(DOC_ROOT . 'lib/facebook/FacebookRedirectLoginHelper.php' );
-require_once(DOC_ROOT . 'lib/facebook/FacebookRequest.php' );
-require_once(DOC_ROOT . 'lib/facebook/FacebookResponse.php' );
-require_once(DOC_ROOT . 'lib/facebook/FacebookSDKException.php' );
-require_once(DOC_ROOT . 'lib/facebook/FacebookRequestException.php' );
-require_once(DOC_ROOT . 'lib/facebook/FacebookOtherException.php' );
-require_once(DOC_ROOT . 'lib/facebook/FacebookAuthorizationException.php' );
-require_once(DOC_ROOT . 'lib/facebook/GraphObject.php' );
+require_once(DOC_ROOT . 'lib/facebook/FacebookRedirectLoginHelper.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookRequest.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookResponse.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookSDKException.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookRequestException.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookOtherException.php');
+require_once(DOC_ROOT . 'lib/facebook/FacebookAuthorizationException.php');
+require_once(DOC_ROOT . 'lib/facebook/GraphObject.php');
 require_once(DOC_ROOT . 'lib/facebook/GraphUser.php');
-require_once(DOC_ROOT . 'lib/facebook/GraphSessionInfo.php' );
+require_once(DOC_ROOT . 'lib/facebook/GraphSessionInfo.php');
 
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
