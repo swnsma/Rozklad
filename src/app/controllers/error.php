@@ -9,10 +9,16 @@ class Error extends Controller
 
     function index()
     {
-        $model = $this->loadModel('index');
-        $data = 'hi';
+        $this->view->renderHtml('error/index', array(
+            'error' => '403 Forbidden'
+        ));
+    }
 
-        $this->view->renderHtml('error/index', $data);
+    function error_404()
+    {
+        $this->view->renderHtml('error/index', array(
+            'error' => '404 Not Found'
+        ));
     }
 }
 

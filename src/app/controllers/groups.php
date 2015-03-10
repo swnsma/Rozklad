@@ -54,7 +54,9 @@ class Groups extends Controller
             $this->view->renderHtml('common/footer');
             $this->view->renderHtml('common/foot');
         } else {
-            $this->view->renderHtml('error/access');
+            $this->view->renderHtml('error/index', array(
+                'error' => '403 Forbidden'
+            ));
         }
     }
 
@@ -76,7 +78,9 @@ class Groups extends Controller
             $this->view->renderHtml('common/foot');
 
         } else {
-            $this->view->renderHtml('error/access');
+            $this->view->renderHtml('error/index', array(
+                'error' => '403 Forbidden'
+            ));
         }
     }
 

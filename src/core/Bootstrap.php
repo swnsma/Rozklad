@@ -14,9 +14,13 @@ class Bootstrap extends Controller
             Session::set('unusedLink',$url);
         }
 
-        $this->model=$this->loadModel("user");
-        $this->model->dispatcher($request->getController());
-        $this->runController($request->getModule(), $request->getController(), $request->getAction());
+        $this->model = $this->loadModel('user');
+        if (is_null($this->model)) {
+            $this->error();
+        } else {
+            $this->model->dispatcher($request->getController());
+            $this->runController($request->getModule(), $request->getController(), $request->getAction());
+        }
     }
 
    private function runController($module, $controller, $action)
@@ -25,11 +29,15 @@ class Bootstrap extends Controller
        if (file_exists($file)) {
            require_once $file;
            $c = new $controller;
-       } else {
-           require_once DOC_ROOT . 'app/controllers/error.php';
-           $c = new Error();
+           if ($c->run($action)) return;
        }
-       $c->run($action);
+       $this->error();
    }
+
+    private function error() {
+        require_once DOC_ROOT . 'app/controllers/error.php';
+        $c = new Error();
+        $c->run('error_404');
+    }
 
 }

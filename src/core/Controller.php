@@ -20,7 +20,11 @@ abstract class Controller
 
     public function run($actionName = 'index')
     {
-        $this->$actionName();
+        if (method_exists($this, $actionName)) {
+            $this->$actionName();
+            return true;
+        }
+        return false;
     }
 
     public function logout()
