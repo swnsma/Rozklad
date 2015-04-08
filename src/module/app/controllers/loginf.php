@@ -1,6 +1,7 @@
 <?php
 //require_once DOC_ROOT .'conf/setup.php';
 require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookHttpable.php' );
+require_once(DOC_ROOT . 'lib/facebook/HttpClients/FacebookCurlHttpClient.php' );
 require_once(DOC_ROOT . 'lib/facebook/Entities/AccessToken.php' );
 require_once(DOC_ROOT . 'lib/facebook/Entities/SignedRequest.php');
 require_once(DOC_ROOT . 'lib/facebook/FacebookSession.php' );
