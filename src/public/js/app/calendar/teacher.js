@@ -169,7 +169,7 @@ function Calendar_teacher() {
                     function (doc) {
                         self.masEvent = doc;
                         callback(self.masEvent['current']);
-                        if (sizeeeee === 1) {
+                        if (sizeeeee) {
                             self.jqueryObject.calendar.fullCalendar('addEventSource', {
                                 events: function (start, end, timezone, callback) {
                                     callback(self.masEvent['no']);
